@@ -39,4 +39,26 @@ java -jar build/jar/test.jar
 
 cd ../../
 
+echo 'run level 2 (include external libs)'
+
+cd ./level_2
+
+echo 'run include_libs_project who contains external library (jar)'
+cd ./include_libs_project
+javac -sourcepath ./src -d build/classes/ -cp ./lib/commons-lang3-3.12.0.jar src/ua/com/alevel/it/Info.java src/ua/com/alevel/Test.java
+java -cp build/classes/:./lib/commons-lang3-3.12.0.jar ua.com.alevel.Test
+
+cd ../
+
+echo 'run jar_project which contains external library (jar)'
+cd ./jar_project
+rm -rf lib/org
+rm -rf lib/META-INF
+javac -sourcepath ./src -d build/classes/ -cp ./lib/commons-lang3-3.12.0.jar src/ua/com/alevel/it/Info.java src/ua/com/alevel/Test.java
+cp -r lib/*.jar build/jar
+jar cvfm build/jar/project.jar resources/MANIFEST.MF -C build/classes .
+java -jar build/jar/project.jar
+
+cd ../../
+
 . ./remove-class.sh

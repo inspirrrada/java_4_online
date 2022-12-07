@@ -36,3 +36,7 @@ cd ./test_project_2
 javac -sourcepath ./src -d build/classes ./src/ua/com/alevel/Test.java
 jar cvfm build/jar/test.jar resources/MANIFEST.MF -C build/classes .
 java -jar build/jar/test.jar
+
+cd ../../
+
+. ./remove-class.sh

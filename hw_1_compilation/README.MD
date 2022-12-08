@@ -31,19 +31,19 @@
 
 
 ## Level 2 (with external libs) ##
-###go to /java/level_2/include_libs_project ###
+### go to /java/level_2/include_libs_project ###
 `javac -sourcepath ./src -d build/classes/ -cp ./lib/commons-lang3-3.12.0.jar src/ua/com/alevel/it/Info.java src/ua/com/alevel/Test.java`\
 `java -cp build/classes/:./lib/commons-lang3-3.12.0.jar ua.com.alevel.Test`
 
-###go to /java/level_2/jar_project ###
-####Run compile ####
+### go to /java/level_2/jar_project ###
+#### Run compile ####
 `javac -sourcepath ./src -d build/classes/ -cp ./lib/commons-lang3-3.12.0.jar src/ua/com/alevel/it/Info.java src/ua/com/alevel/Test.java`
 
-####copy lib jar ####
+#### Copy lib jar ####
 `cp -r lib/*.jar build/jar`
 
-####Create jar ####
+#### Create jar ####
 `jar cvfm build/jar/hello.jar resources/MANIFEST.MF -C build/classes .`
 
-####Run jar ####
+#### Run jar ####
 `java -jar build/jar/hello.jar`

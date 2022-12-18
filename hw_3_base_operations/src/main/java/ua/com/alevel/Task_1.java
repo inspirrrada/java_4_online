@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class Task_1 {
 
-private static String condition = "Task1\n" + "Реализуйте задачу, которая принимает строку с консоли и вычленяет все числа и находит их сумму.\n";
+private static String condition = "-----------------------Task_1-----------------------\n" + "Реализуйте задачу, которая принимает строку с консоли и вычленяет все числа и находит их сумму.\n";
 
     public void printCondition() {
         System.out.println(condition);
@@ -57,7 +57,7 @@ private static String condition = "Task1\n" + "Реализуйте задач
             String enteredString = reader.readLine();
 
             if (enteredString == null || enteredString.equals("")) {
-                System.out.println("Activate program exit. Good bye!");
+                System.out.println("Task_1. Activate program exit. Good bye!");
                 break;
             }
 

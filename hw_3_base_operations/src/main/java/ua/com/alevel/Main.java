@@ -10,5 +10,8 @@ public class Main {
 
         Task_2 task_2 = new Task_2();
         task_2.start();
+
+        Task_3 task_3 = new Task_3();
+        task_3.start();
     }
 }

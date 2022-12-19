@@ -35,9 +35,11 @@ public class PlayerStorage {
         Player player = null;
 
         for (int i = 0; i < playersArray.length; i++) {
-            if (playersArray[i].getEmail().equals(email)) {
-                player = playersArray[i];
-                break;
+            if (playersArray[i] != null) {
+                if (playersArray[i].getEmail().equals(email)) {
+                    player = playersArray[i];
+                    break;
+                }
             }
         }
 

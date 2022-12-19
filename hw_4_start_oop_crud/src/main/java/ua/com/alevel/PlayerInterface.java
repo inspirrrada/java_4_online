@@ -18,13 +18,7 @@ public class PlayerInterface {
         menu();
 
         while( (selectedOption = reader.readLine()) != null) {
-                    if (selectedOption.equals("3")) {
-                        updateCrud(reader, selectedOption);
-                    } else {
                         crud(reader, selectedOption);
-                    }
-
-
         }
 
     }
@@ -40,15 +34,15 @@ public class PlayerInterface {
         System.out.println("-----------------------------------------------------");
     }
 
-    private void subMenuOfUpdate() {
-        System.out.println("\n<><><><><><><><><><><><><><><><><><><><><><><><><>");
-        System.out.println("If you want to update age of player, please enter 7");
-        System.out.println("If you want to update nickname of player, please enter 8");
-        System.out.println("If you want to update level of player, please enter 9");
-        System.out.println("If you want to update guild of player, please enter 10");
-        System.out.println("If you want to return to the main menu, please enter 0");
-        System.out.println("<><><><><><><><><><><><><><><><><><><><><><><><><>");
-    }
+//    private void subMenuOfUpdate() {
+//        System.out.println("\n<><><><><><><><><><><><><><><><><><><><><><><><><>");
+//        System.out.println("If you want to update age of player, please enter 7");
+//        System.out.println("If you want to update nickname of player, please enter 8");
+//        System.out.println("If you want to update level of player, please enter 9");
+//        System.out.println("If you want to update guild of player, please enter 10");
+//        System.out.println("If you want to return to the main menu, please enter 0");
+//        System.out.println("<><><><><><><><><><><><><><><><><><><><><><><><><>");
+//    }
 
     private void crud(BufferedReader reader, String selectedOption) throws IOException {
         switch(selectedOption) {
@@ -58,7 +52,7 @@ public class PlayerInterface {
             case "2": findByEmail(reader);
             break;
 
-            case "3": updateCrud(reader, selectedOption);
+            case "3": updateByEmail(reader);
             break;
 
             case "4": deleteByEmail(reader);
@@ -73,37 +67,35 @@ public class PlayerInterface {
             default:
                 System.out.println("Wrong value! Select menu again.");
         }
-        if (!selectedOption.equals("3")) {
+
             menu();
-        }
-
 
     }
 
-    private void updateCrud(BufferedReader reader, String selectedOption) throws IOException {
-        switch(selectedOption) {
-            case "7": updateAge(reader);
-                break;
-
-            case "8": updateNickname(reader);
-                break;
-
-            case "9": updateLevel(reader);
-                break;
-
-            case "10": updateGuild(reader);
-                break;
-
-            case "0": menu();
-                break;
-
-            default:
-                System.out.println("Wrong value! Select update option again.");
-        }
-
-        subMenuOfUpdate();
-
-    }
+//    private void updateCrud(BufferedReader reader, String selectedOption) throws IOException {
+//        switch(selectedOption) {
+//            case "7": updateAge(reader);
+//                break;
+//
+//            case "8": updateNickname(reader);
+//                break;
+//
+//            case "9": updateLevel(reader);
+//                break;
+//
+//            case "10": updateGuild(reader);
+//                break;
+//
+//            case "0": menu();
+//                break;
+//
+//            default:
+//                System.out.println("Wrong value! Select update option again.");
+//        }
+//
+//        subMenuOfUpdate();
+//
+//    }
 
     private void create(BufferedReader reader) throws IOException {
         System.out.println("\nMenu 1. Create player");
@@ -126,7 +118,10 @@ public class PlayerInterface {
         if (age < 18) {
                 System.out.println("Grow up first and come later");
                 stop();
-            } else {
+            } else if (age > 100) {
+            System.out.println("Your age is fantastic! You're too good for this game");
+            stop();
+        } else {
             Player player = new Player();
             player.setAge(age);
 
@@ -195,101 +190,164 @@ public class PlayerInterface {
         if (player == null) {
             System.out.println("We don't have player with such email!");
         } else {
-            System.out.println("Great," + player.getGuild() + "! Please select update options below:");
-            subMenuOfUpdate();
-        }
-    }
+            System.out.println("Great," + player.getNickname() + "! Please update your details below.");
+            System.out.println("If you don't want to update some detail, press 0 and you go to the next.");
 
-    private void updateAge(BufferedReader reader) throws IOException {
-        System.out.println("\nSubmenu 3.1. Update age of player");
+            //update age
+            System.out.println("\nPlease enter new age:");
+            String ageS = reader.readLine();
 
-        System.out.println("Please enter your email");
-        String email = reader.readLine();
-        Player player = PlayerStorage.getPlayer(email);
+            if (!ageS.equals("0")) {
+                int age = Integer.parseInt(ageS);
 
-        if (player == null) {
-            System.out.println("We don't have player with such email!");
-        } else {
-            System.out.println("Please enter new age:");
-            int age = Integer.parseInt(reader.readLine());
-
-            if (age < 11) {
-                System.out.println("Age is too young for this game. Your changes weren't saved.");
+                if (age < 18) {
+                    System.out.println("Age is too young for this game. Your changes of age weren't saved.");
+                } else if (age > 100) {
+                    System.out.println("Age is too great for this game. Your changes of age weren't saved.");
+                } else {
+                    player.setAge(age);
+                    System.out.println("Dear " + player.getNickname() + ", age was updated successfully.");
+                }
             } else {
-                player.setAge(age);
-                System.out.println("Dear" + player + ", age was updated successfully.");
+                System.out.println("Your age remains the same.");
             }
-        }
 
-    }
-
-    private void updateNickname(BufferedReader reader) throws IOException {
-        System.out.println("\nSubmenu 3.2. Update nickname of player");
-
-        System.out.println("Please enter your email");
-        String email = reader.readLine();
-        Player player = PlayerStorage.getPlayer(email);
-
-        if (player == null) {
-            System.out.println("We don't have player with such email!");
-        } else {
-            System.out.println("Please enter new nickname:");
+            //update nickname
+            System.out.println("\nPlease enter new nickname:");
             String nickname = reader.readLine();
-            boolean correctNickname = player.setNickname(nickname);
 
-            if (!correctNickname) {
-                System.out.println("Something went wrong. Your changes weren't saved.");
+            if (!nickname.equals("0")) {
+                boolean correctNickname = player.setNickname(nickname);
+
+                if (!correctNickname) {
+                    System.out.println("Your changes of nickname weren't saved.");
+                } else {
+                    player.setNickname(nickname);
+                    System.out.println("Dear player, nickname was updated successfully to the" + nickname + ".");
+                }
             } else {
-                player.setNickname(nickname);
-                System.out.println("Dear player, nickname was updated successfully.");
-            }
-        }
-    }
-
-    private void updateLevel(BufferedReader reader) throws IOException {
-        System.out.println("\nSubmenu 3.3. Update level of player");
-
-        System.out.println("Please enter your email");
-        String email = reader.readLine();
-        Player player = PlayerStorage.getPlayer(email);
-
-        if (player == null) {
-            System.out.println("We don't have player with such email!");
-        } else {
-            System.out.println("Please enter new level:");
-            int level = Integer.parseInt(reader.readLine());
-            boolean correctLevel = player.setLevel(level);
-
-            if (!correctLevel) {
-                System.out.println("Something went wrong. Your changes weren't saved.");
-            } else {
-                player.setLevel(level);
-                System.out.println("Dear " + player.getNickname() +", level was updated successfully.");
+                System.out.println("Your nickname remains the same.");
             }
 
-        }
-    }
 
-    private void updateGuild(BufferedReader reader) throws IOException {
-        System.out.println("\nSubmenu 3.4. Update guild of player");
+            //update level
+            System.out.println("\nPlease enter new level:");
+            String levelS = reader.readLine();
 
-        System.out.println("Please enter your email");
-        String email = reader.readLine();
-        Player player = PlayerStorage.getPlayer(email);
+            if (!levelS.equals("0")) {
+                int level = Integer.parseInt(levelS);
+                boolean correctLevel = player.setLevel(level);
 
-        if (player == null) {
-            System.out.println("We don't have player with such email!");
-        } else {
-            System.out.println("Please enter new guild:");
+                if (!correctLevel) {
+                    System.out.println("Your changes of level weren't saved.");
+                } else {
+                    player.setLevel(level);
+                    System.out.println("Dear " + player.getNickname() +", level was updated successfully.");
+                }
+            } else {
+                System.out.println("Your level remains the same.");
+            }
+
+
+
+            //update guild
+            System.out.println("\nPlease enter new guild:");
             String guild = reader.readLine();
 
-            if (guild != null && !guild.equals("")) {
-                player.setGuild(guild);
-                System.out.println("Dear " + player.getNickname() +", guild was updated successfully.");
+            if (!guild.equals("0")) {
+                if (!guild.equals("")) {
+                    player.setGuild(guild);
+                    System.out.println("Dear " + player.getNickname() +", guild was updated successfully.");
+                }
+            } else {
+                System.out.println("Your guild remains the same.");
             }
 
         }
     }
+
+//    private void updateAge(BufferedReader reader) throws IOException {
+//        System.out.println("\nSubmenu 3.1. Update age of player");
+//
+//        System.out.println("Please enter your email");
+//        String email = reader.readLine();
+//        Player player = PlayerStorage.getPlayer(email);
+//
+//        if (player == null) {
+//            System.out.println("We don't have player with such email!");
+//        } else {
+//            System.out.println("Please enter new age:");
+//            int age = Integer.parseInt(reader.readLine());
+//
+//            if (age < 11) {
+//                System.out.println("Age is too young for this game. Your changes weren't saved.");
+//            } else {
+//                player.setAge(age);
+//                System.out.println("Dear" + player + ", age was updated successfully.");
+//            }
+//        }
+//
+//    }
+//
+//    private void updateNickname(BufferedReader reader) throws IOException {
+//        System.out.println("\nSubmenu 3.2. Update nickname of player");
+//
+//        System.out.println("Please enter your email");
+//        String email = reader.readLine();
+//        Player player = PlayerStorage.getPlayer(email);
+//
+//        if (player == null) {
+//            System.out.println("We don't have player with such email!");
+//        } else {
+//            System.out.println("Please enter new nickname:");
+//
+//        }
+//    }
+//
+//    private void updateLevel(BufferedReader reader) throws IOException {
+//        System.out.println("\nSubmenu 3.3. Update level of player");
+//
+//        System.out.println("Please enter your email");
+//        String email = reader.readLine();
+//        Player player = PlayerStorage.getPlayer(email);
+//
+//        if (player == null) {
+//            System.out.println("We don't have player with such email!");
+//        } else {
+//            System.out.println("Please enter new level:");
+//            int level = Integer.parseInt(reader.readLine());
+//            boolean correctLevel = player.setLevel(level);
+//
+//            if (!correctLevel) {
+//                System.out.println("Something went wrong. Your changes weren't saved.");
+//            } else {
+//                player.setLevel(level);
+//                System.out.println("Dear " + player.getNickname() +", level was updated successfully.");
+//            }
+//
+//        }
+//    }
+//
+//    private void updateGuild(BufferedReader reader) throws IOException {
+//        System.out.println("\nSubmenu 3.4. Update guild of player");
+//
+//        System.out.println("Please enter your email");
+//        String email = reader.readLine();
+//        Player player = PlayerStorage.getPlayer(email);
+//
+//        if (player == null) {
+//            System.out.println("We don't have player with such email!");
+//        } else {
+//            System.out.println("Please enter new guild:");
+//            String guild = reader.readLine();
+//
+//            if (guild != null && !guild.equals("")) {
+//                player.setGuild(guild);
+//                System.out.println("Dear " + player.getNickname() +", guild was updated successfully.");
+//            }
+//
+//        }
+//    }
 
     private void deleteByEmail(BufferedReader reader) throws IOException {
         System.out.println("\nMenu 4. Delete player by email");

@@ -42,52 +42,59 @@ public class PlayerStorage {
                 }
             }
         }
-
         return player;
     }
 
     //operations update from CRUD
-//    public static void updatePlayer(String email, String nickname, int age, String guild, int level) {
-//        for (int i = 0; i < playersArray.length; i++) {
-//            if (playersArray[i].getEmail().equals(email)) {
-//                playersArray[i].setNickname(nickname);
-//                playersArray[i].setAge(age);
-//                playersArray[i].setGuild(guild);
-//                playersArray[i].setLevel(level);
-//            }
-//        }
-//    }
-
     public static void updatePlayerNickName(String email, String nickname) {
         for (int i = 0; i < playersArray.length; i++) {
-            if (playersArray[i].getEmail().equals(email)) {
-                playersArray[i].setNickname(nickname);
+            if (playersArray[i] != null) {
+                if (playersArray[i].getEmail().equals(email)) {
+                    playersArray[i].setNickname(nickname);
+                }
             }
         }
     }
 
     public static void updatePlayerAge(String email, int age) {
-        for (int i = 0; i < playersArray.length; i++) {
-            if (playersArray[i].getEmail().equals(email)) {
-                playersArray[i].setAge(age);
+        if (age < 18) {
+            System.out.println("Age is too young for this game. Your changes of age weren't saved.");
+        } else if (age > 100) {
+            System.out.println("Age is too great for this game. Your changes of age weren't saved.");
+        } else {
+            for (int i = 0; i < playersArray.length; i++) {
+                if (playersArray[i] != null) {
+                    if (playersArray[i].getEmail().equals(email)) {
+                        playersArray[i].setAge(age);
+                    }
+                }
             }
         }
     }
 
-    public static void updatePlayerGuild(String email, String guild, int level) {
-        for (int i = 0; i < playersArray.length; i++) {
-            if (playersArray[i].getEmail().equals(email)) {
-                playersArray[i].setGuild(guild);
-                playersArray[i].setLevel(level);
+    public static void updatePlayerGuild(String email, String guild) {
+        if (!guild.equals("")) {
+            for (int i = 0; i < playersArray.length; i++) {
+                if (playersArray[i] != null) {
+                    if (playersArray[i].getEmail().equals(email)) {
+                        playersArray[i].setGuild(guild);
+                    }
+                }
             }
+        } else {
+            System.out.println("Please enter some name, we don't accept empty string.");
         }
+
     }
 
     public static void updatePlayerLevel(String email, int level) {
         for (int i = 0; i < playersArray.length; i++) {
-            if (playersArray[i].getEmail().equals(email)) {
-                playersArray[i].setLevel(level);
+            if (playersArray[i] != null) {
+                if (playersArray[i].getEmail().equals(email)) {
+                    playersArray[i].setLevel(level);
+                }
             }
+
         }
     }
 
@@ -96,10 +103,12 @@ public class PlayerStorage {
         boolean wasDeleted = false;
 
         for (int i = 0; i < playersArray.length; i++) {
-            if (playersArray[i].getEmail().equals(email)) {
-                playersArray[i] = null;
-                wasDeleted = true;
-                break;
+            if (playersArray[i] != null) {
+                if (playersArray[i].getEmail().equals(email)) {
+                    playersArray[i] = null;
+                    wasDeleted = true;
+                    break;
+                }
             }
         }
 

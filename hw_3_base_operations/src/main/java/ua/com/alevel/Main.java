@@ -1,6 +1,5 @@
 package ua.com.alevel;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class Main {

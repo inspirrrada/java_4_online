@@ -9,9 +9,6 @@ public class PlayerStorage {
 
     private PlayerStorage() { }
 
-    public static Player[] getPlayers() {
-        return playersArray;
-    }
 
     //operation create from CRUD
     public static void addPlayer(Player player) {
@@ -30,7 +27,7 @@ public class PlayerStorage {
         }
     }
 
-    //operation read from CRUD
+    //operations read from CRUD
     public static Player getPlayer(String email) {
         Player player = null;
 
@@ -43,6 +40,10 @@ public class PlayerStorage {
             }
         }
         return player;
+    }
+
+    public static Player[] getPlayers() {
+        return playersArray;
     }
 
     //operations update from CRUD

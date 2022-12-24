@@ -5,6 +5,7 @@ import ua.com.alevel.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class DbStorage {
@@ -44,18 +45,18 @@ public class DbStorage {
     }
 
     //operations create from CRUD
-    private static void addPlayer(Player player) {
+    public static void addPlayer(Player player) {
             player.setId(generatePlayerId());
             players.add(player);
     }
 
-    private static void addGame(Game game) {
+    public static void addGame(Game game) {
         game.setId(generateGameId());
         games.add(game);
     }
 
     //operations read from CRUD
-    private static Player getPlayer(String id) {
+    public static Player getPlayer(String id) {
         Player player = null;
 
         for (int i = 0; i < players.size(); i++) {
@@ -68,11 +69,11 @@ public class DbStorage {
         return player;
     }
 
-    private static List<Player> getAllPlayers() {
+    public static List<Player> getAllPlayers() {
         return players;
     }
 
-    private static Game getGame(String id) {
+    public static Game getGame(String id) {
         Game game = null;
 
         for (int i = 0; i < games.size(); i++) {
@@ -85,12 +86,12 @@ public class DbStorage {
         return game;
     }
 
-    private static List<Game> getAllGames() {
+    public static List<Game> getAllGames() {
         return games;
     }
 
     //operations update from CRUD
-    private static void updatePlayerAge(String id, int age) {
+    public static void updatePlayerAge(String id, int age) {
         if (age < 18) {
             System.out.println("Age is too young for this game. Your changes of age weren't saved.");
         } else if (age > 100) {
@@ -107,7 +108,7 @@ public class DbStorage {
         }
     }
 
-    private static void updatePlayerEmail(String id, String email) {
+    public static void updatePlayerEmail(String id, String email) {
         if (email.matches("^(.+)@(.+)$")) {
 
             for (int i = 0; i < players.size(); i++) {
@@ -122,7 +123,7 @@ public class DbStorage {
         }
     }
 
-    private static void updatePlayerNickname(String id, String nickname) {
+    public static void updatePlayerNickname(String id, String nickname) {
         if (nickname.matches("\\d+")) {
             System.out.println("Nickname can't contain only digits!");
         } else {
@@ -137,7 +138,7 @@ public class DbStorage {
         }
     }
 
-    private static void updateGameName(String id, String name) {
+    public static void updateGameName(String id, String name) {
         if (name.matches("\\d+")) {
             System.out.println("Game name can't contain only digits!");
         } else {
@@ -152,7 +153,7 @@ public class DbStorage {
         }
     }
 
-    private static void updateGameType(String id, boolean isCommandGame) {
+    public static void updateGameType(String id, boolean isCommandGame) {
 
             for (int i = 0; i < games.size(); i++) {
                 if (games.get(i).getId().equals(id)) {
@@ -163,7 +164,7 @@ public class DbStorage {
     }
 
     //operations delete from CRUD
-    private static void deletePlayer(String id) {
+    public static void deletePlayer(String id) {
 
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getId().equals(id)) {
@@ -173,7 +174,7 @@ public class DbStorage {
         }
     }
 
-    private static void deleteGame(String id) {
+    public static void deleteGame(String id) {
 
         for (int i = 0; i < games.size(); i++) {
             if (games.get(i).getId().equals(id)) {
@@ -184,8 +185,49 @@ public class DbStorage {
     }
 
     //relation operations create from CRUD
-    private static void addPlayerToGame(String playerId, String gameId) {
-
+    public static void addPlayerToGame(String playerId, String gameId) {
+        Game game = getGame(gameId);
+        Set<String> players = game.getPlayerIdList();
+        players.add(playerId);
     }
+
+    public static void addGameToPlayer(String gameId, String playerId) {
+        Player player = getPlayer(playerId);
+        Set<String> games = player.getGameIdList();
+        games.add(gameId);
+    }
+
+    public static List<Player> findPlayersByGame(String gameId) {
+        Game game = getGame(gameId);
+        Set<String> playersIds = game.getPlayerIdList();
+        List<Player> playersList = new ArrayList<>();
+
+        for (String playerId : playersIds) {
+            Player player = getPlayer(playerId);
+
+            if (player != null) {
+                playersList.add(player);
+            }
+        }
+
+        return playersList;
+    }
+
+    public static List<Game> findGamesByPlayer(String playerId) {
+        Player player = getPlayer(playerId);
+        Set<String> gamesIds = player.getGameIdList();
+        List<Game> gamesList = new ArrayList<>();
+
+        for (String gameId : gamesIds) {
+            Game game = getGame(gameId);
+
+            if (game != null) {
+                gamesList.add(game);
+            }
+        }
+
+        return gamesList;
+    }
+
 
 }

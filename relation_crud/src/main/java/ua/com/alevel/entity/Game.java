@@ -13,8 +13,19 @@ public class Game extends BaseEntity {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public boolean setName(String name) {
+        boolean correctGameName;
+
+        //name of game can't have only digits
+        if (name.matches("\\d+")) {
+            System.out.println("Name of game can't contain only digits!");
+            correctGameName = false;
+        } else {
+            this.name = name;
+            correctGameName = true;
+        }
+
+        return correctGameName;
     }
 
     public boolean isCommandGame() {

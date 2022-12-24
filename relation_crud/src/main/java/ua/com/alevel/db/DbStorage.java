@@ -60,9 +60,13 @@ public class DbStorage {
         Player player = null;
 
         for (int i = 0; i < players.size(); i++) {
-            if (games.get(i).getId().equals(id)) {
-                player = players.get(i);
-                break;
+            if (players.get(i) != null) {
+
+                if (players.get(i).getId().equals(id)) {
+                    player = players.get(i);
+                    break;
+                }
+
             }
         }
 
@@ -77,9 +81,13 @@ public class DbStorage {
         Game game = null;
 
         for (int i = 0; i < games.size(); i++) {
-            if (games.get(i).getId().equals(id)) {
-                game = games.get(i);
-                break;
+            if (games.get(i) != null) {
+
+                if (games.get(i).getId().equals(id)) {
+                    game = games.get(i);
+                    break;
+                }
+
             }
         }
 
@@ -164,37 +172,119 @@ public class DbStorage {
     }
 
     //operations delete from CRUD
-    public static void deletePlayer(String id) {
+    public static boolean deletePlayer(String id) {
+        boolean wasDeletedEverywhere = false;
 
         for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getId().equals(id)) {
-                players.remove(i);
-                break;
+            if (players.get(i) != null) {
+
+                if (players.get(i).getId().equals(id)) {
+                    players.remove(i);
+
+                    //if player was deleted from Players, we should also delete it at once from all Games
+                    //List<Game> allGames = getAllGames();
+                    for (int j = 0; j < games.size(); j++) {
+                        Game currentGame = games.get(j);
+
+                        if (currentGame != null) {
+                            Set<String> playerIdList = currentGame.getPlayerIdList();
+
+                            for (String playerId : playerIdList) {
+                                if (playerId.equals(id)) {
+                                    playerIdList.remove(id);
+                                    wasDeletedEverywhere = true;
+                                    break;
+                                }
+                            }
+
+                        }
+                    }
+                    break;
+                }
             }
         }
+
+        return wasDeletedEverywhere;
+
     }
 
-    public static void deleteGame(String id) {
+    public static boolean deleteGame(String id) {
+        boolean wasDeletedEverywhere = false;
 
         for (int i = 0; i < games.size(); i++) {
-            if (games.get(i).getId().equals(id)) {
-                games.remove(i);
-                break;
+            if (games.get(i) != null) {
+
+                if (games.get(i).getId().equals(id)) {
+                    games.remove(i);
+
+                    //List<Player> allPlayers = getAllPlayers();
+                    for (int j = 0; j < players.size(); j++) {
+                        Player currentPlayer = players.get(j);
+
+                        if (currentPlayer != null) {
+                            Set<String> gameIdList = currentPlayer.getGameIdList();
+
+                            for (String gameId : gameIdList) {
+                                if (gameId.equals(id)) {
+                                    gameIdList.remove(id);
+                                    break;
+                                }
+                            }
+
+                        }
+                    }
+
+                    break;
+                }
             }
         }
+
+        return wasDeletedEverywhere;
     }
 
     //relation operations create from CRUD
     public static void addPlayerToGame(String playerId, String gameId) {
-        Game game = getGame(gameId);
-        Set<String> players = game.getPlayerIdList();
-        players.add(playerId);
+
+            Game game = getGame(gameId);
+
+                Set<String> playersIdList = game.getPlayerIdList();
+                int count = 0;
+
+                for (String currentPlayerId : playersIdList) {
+                    if (currentPlayerId.equals(playerId)) {
+                        count++;
+                    }
+                }
+
+                if (count == 0) {
+                    playersIdList.add(playerId);
+                    System.out.println("Player was successfully attached to the game.");
+                } else {
+                    System.out.println("We have already player with such id in this game!");
+                }
+
     }
 
     public static void addGameToPlayer(String gameId, String playerId) {
-        Player player = getPlayer(playerId);
-        Set<String> games = player.getGameIdList();
-        games.add(gameId);
+
+            Player player = getPlayer(playerId);
+
+                Set<String> gamesIdList = player.getGameIdList();
+                int count = 0;
+
+                for (String currentGameId : gamesIdList) {
+                    if (currentGameId.equals(gameId)) {
+                        count++;
+                    }
+                }
+
+                if (count == 0) {
+                    gamesIdList.add(gameId);
+                    System.out.println("Game was successfully attached to the player.");
+                } else {
+                    System.out.println("We have already game with such id for this player!");
+                }
+
     }
 
     public static List<Player> findPlayersByGame(String gameId) {
@@ -229,5 +319,70 @@ public class DbStorage {
         return gamesList;
     }
 
+    public static void deletePlayerFromGame(String playerId, String gameId) {
+        Game game = getGame(gameId);
+
+        Set<String> playersIdList = game.getPlayerIdList();
+
+        for (String currentPlayerId : playersIdList) {
+            if (currentPlayerId.equals(playerId)) {
+                playersIdList.remove(playerId);
+                System.out.println("Player was successfully deleted from the game");
+                break;
+            } else {
+                System.out.println("We don't have player with such id in this game. Please check your info.");
+            }
+        }
+
+    }
+
+    public static void deleteGameFromPlayer(String gameId, String playerId) {
+        Player player = getPlayer(playerId);
+
+        Set<String> gameIdList = player.getGameIdList();
+
+        for (String currentGameId : gameIdList) {
+            if (currentGameId.equals(gameId)) {
+                gameIdList.remove(gameId);
+                System.out.println("Game was successfully deleted for this player.");
+                break;
+            } else {
+                System.out.println("We don't have game with such id for this player. Please check your info.");
+            }
+        }
+
+    }
+
+
+    //check if exist object with such id
+    public static boolean existPlayerId(String playerId) {
+        boolean existPlayerId = false;
+
+        for (int i = 0; i < players.size(); i++) {
+            Player currentPlayer = players.get(i);
+
+            if (currentPlayer.getId().equals(playerId)) {
+                existPlayerId = true;
+                break;
+            }
+        }
+
+        return existPlayerId;
+    }
+
+    public static boolean existGameId(String gameId) {
+        boolean existGameId = false;
+
+        for (int i = 0; i < games.size(); i++) {
+            Game currentGame = games.get(i);
+
+            if (currentGame.getId().equals(gameId)) {
+                existGameId = true;
+                break;
+            }
+        }
+
+        return existGameId;
+    }
 
 }

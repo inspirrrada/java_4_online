@@ -64,9 +64,6 @@ public class Player extends BaseEntity {
         return gameIdList;
     }
 
-    public void setGameIdList(Set<String> gameIdList) {
-        this.gameIdList = gameIdList;
-    }
 
     @Override
     public String toString() {

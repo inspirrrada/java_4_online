@@ -1,16 +1,21 @@
-package ua.com.alevel.entity;
+package ua.com.alevel;
 
 import ua.com.alevel.db.DbStorage;
+import ua.com.alevel.entity.Game;
+import ua.com.alevel.entity.Player;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class GamePlayInterface {
 
     public void start() throws IOException {
-        System.out.println("Welcome to the GamePlay menu!");
+        System.out.println("WELCOME TO THE GAMEPLAY MENU!");
+        System.out.println();
         System.out.println("Please select your options:");
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -25,32 +30,31 @@ public class GamePlayInterface {
     }
 
     private void menu() {
-        System.out.println("\n-----------------------------------------------------");
-        System.out.println("\n-----------------------------------------------------");
+        System.out.println("========================================================");
         System.out.println("If you want to create new player, please enter 1");
         System.out.println("If you want to find player, please enter 2");
         System.out.println("If you want to update player, please enter 3");
         System.out.println("If you want to delete player, please enter 4");
         System.out.println("If you want to find all players, please enter 5");
-        System.out.println("\n-----------------------------------------------------");
+        System.out.println("--------------------------------------------------------");
 
         System.out.println("If you want to enter new game, please enter 6");
         System.out.println("If you want to find game, please enter 7");
         System.out.println("If you want to update game, please enter 8");
         System.out.println("If you want to delete game, please enter 9");
         System.out.println("If you want to find all games, please enter 10");
-        System.out.println("\n-----------------------------------------------------");
+        System.out.println("--------------------------------------------------------");
 
         System.out.println("If you want to attach player to game, please enter 11");
         System.out.println("If you want to attach game to player, please enter 12");
         System.out.println("If you want to find all players by game, please enter 13");
         System.out.println("If you want to find all games by player, please enter 14");
         System.out.println("If you want to delete player from game, please enter 15");
-        System.out.println("\n-----------------------------------------------------");
+        System.out.println("--------------------------------------------------------");
 
         System.out.println("If you want to close application, please enter 16");
-        System.out.println("-----------------------------------------------------");
-        System.out.println("\n-----------------------------------------------------");
+        System.out.println("========================================================");
+        System.out.println();
     }
 
     private void crud(BufferedReader reader, String selectedOption) throws IOException {
@@ -72,7 +76,7 @@ public class GamePlayInterface {
                 break;
 
             case "5":
-                findAllPlayers(reader);
+                findAllPlayers();
                 break;
 
             case "6":
@@ -88,11 +92,11 @@ public class GamePlayInterface {
                 break;
 
             case "9":
-                deleteGame();
+                deleteGame(reader);
                 break;
 
             case "10":
-                findAllGames(reader);
+                findAllGames();
                 break;
 
             case "11":
@@ -108,7 +112,7 @@ public class GamePlayInterface {
                 break;
 
             case "14":
-                findAllGamesByPlayer();
+                findAllGamesByPlayer(reader);
                 break;
 
             case "15":
@@ -116,6 +120,10 @@ public class GamePlayInterface {
                 break;
 
             case "16":
+                deleteGameFromPlayer(reader);
+                break;
+
+            case "17":
                 stop();
                 break;
 
@@ -262,6 +270,47 @@ public class GamePlayInterface {
         }
     }
 
+    private void deletePlayer(BufferedReader reader) throws IOException {
+        System.out.println("\nMenu 4. DELETE PLAYER BY ID");
+        String playerId = reader.readLine();
+
+        boolean wasDeletedEverywhere = DbStorage.deletePlayer(playerId);
+        if (wasDeletedEverywhere) {
+            System.out.println("Your player was successfully deleted.");
+        } else {
+            System.out.println("Your player can't be deleted in automatic mode. Please contact with support service.");
+        }
+    }
+
+    private void findAllPlayers() {
+        System.out.println("\nMenu 5. FIND ALL PLAYERS");
+        List<Player> allPlayers = DbStorage.getAllPlayers();
+        boolean isListEmpty = true;
+
+        for (Player player: allPlayers) {
+            if (player != null) {
+                isListEmpty = false;
+                break;
+            }
+        }
+
+        if (isListEmpty) {
+            System.out.println("There are no players.");
+        } else {
+            System.out.println("Players:");
+
+            int count = 1;
+            for (Player player : allPlayers) {
+                System.out.println(count + ". " + player.toString());
+                count++;
+            }
+
+        }
+
+    }
+
+
+
     private void createGame(BufferedReader reader) throws IOException {
         System.out.println("\nMenu 6. ENTER GAME");
         Game game = null;
@@ -374,43 +423,179 @@ public class GamePlayInterface {
         }
     }
 
-    private void deletePlayer(BufferedReader reader) throws IOException {
-        System.out.println("\nMenu 4. DELETE PLAYER BY ID");
-        String playerId = reader.readLine();
+    private void deleteGame(BufferedReader reader) throws IOException {
+        System.out.println("\nMenu 9. DELETE GAME BY ID");
+        String gameId = reader.readLine();
 
-        boolean wasDeleted = DbStorage.deletePlayer(playerId);
-        if (wasDeleted) {
-            System.out.println("Your player was successfully deleted");
+        boolean wasDeletedEverywhere = DbStorage.deleteGame(gameId);
+        if (wasDeletedEverywhere) {
+            System.out.println("Your game was successfully deleted.");
         } else {
-            System.out.println("We can't find player with such email!");
+            System.out.println("Your game can't be deleted in automatic mode. Please contact with support service.");
         }
     }
 
-    private void findAllPlayers() {
-        System.out.println("\nMenu 5. FIND ALL PLAYERS");
-        Player[] players = PlayerStorage.getPlayers();
-        boolean isArrayEmpty = true;
+    private void findAllGames() {
+        System.out.println("\nMenu 10. FIND ALL GAMES");
+        List<Game> allGames = DbStorage.getAllGames();
+        boolean isListEmpty = true;
 
-        for (Player player: players) {
-            if(player != null) {
-                isArrayEmpty = false;
+        for (Game game: allGames) {
+            if (game != null) {
+                isListEmpty = false;
                 break;
             }
         }
 
-        if (isArrayEmpty) {
-            System.out.println("There are no players.");
+        if (isListEmpty) {
+            System.out.println("There are no games.");
         } else {
-            System.out.println("Players:");
+            System.out.println("Games:");
 
-            for (int i = 0; i < players.length; i++) {
-                if (players[i] != null) {
-                    System.out.println((i+1) + ". " + players[i]);
-                }
+            int count = 1;
+            for (Game game : allGames) {
+                System.out.println(count + ". " + game.toString());
+                count++;
             }
+
         }
 
     }
+
+
+
+    private void attachPlayerToGame(BufferedReader reader) throws IOException {
+        System.out.println("\nMenu 11. ATTACH PLAYER TO GAME\n");
+
+        System.out.println("Please enter player ID");
+        String playerId = reader.readLine();
+
+        Player player = DbStorage.getPlayer(playerId);
+        if (player != null) {
+
+            System.out.println("Please enter game ID");
+            String gameId = reader.readLine();
+
+            Game game = DbStorage.getGame(gameId);
+            if (game != null) {
+
+                DbStorage.addPlayerToGame(playerId, gameId);
+
+            } else {
+                System.out.println("We can't find game with such id! Please check and try this menu again.");
+            }
+
+        } else {
+            System.out.println("We can't find player with such id! Please check and try this menu again.");
+        }
+
+    }
+
+    private void attachGameToPlayer(BufferedReader reader) throws IOException {
+        System.out.println("\nMenu 12. ATTACH GAME TO PLAYER\n");
+
+        System.out.println("Please enter game ID");
+        String gameId = reader.readLine();
+
+        Game game = DbStorage.getGame(gameId);
+        if (game != null) {
+
+            System.out.println("Please enter player ID");
+            String playerId = reader.readLine();
+
+            Player player = DbStorage.getPlayer(playerId);
+            if (player != null) {
+
+                DbStorage.addGameToPlayer(gameId, playerId);
+
+            } else {
+                System.out.println("We can't find player with such id! Please check and try this menu again.");
+            }
+
+        } else {
+            System.out.println("We can't find game with such id! Please check and try this menu again.");
+        }
+
+    }
+
+    private void findAllPlayersByGame(BufferedReader reader) throws IOException {
+        System.out.println("\nMenu 13. FIND ALL PLAYERS BY GAME ID\n");
+        System.out.println("Please enter game ID");
+        String gameId = reader.readLine();
+
+        Game game = DbStorage.getGame(gameId);
+        if (game != null) {
+            DbStorage.findPlayersByGame(gameId);
+        } else {
+            System.out.println("We can't find game with such id! Please check and try this menu again.");
+        }
+    }
+
+    private void findAllGamesByPlayer(BufferedReader reader) throws IOException {
+        System.out.println("\nMenu 14. FIND ALL GAMES BY PLAYER ID\n");
+        System.out.println("Please enter player ID");
+        String playerId = reader.readLine();
+
+        Player player = DbStorage.getPlayer(playerId);
+        if (player != null) {
+            DbStorage.findGamesByPlayer(playerId);
+        } else {
+            System.out.println("We can't find player with such id! Please check and try this menu again.");
+        }
+    }
+
+    private void deletePlayerFromGame(BufferedReader reader) throws IOException {
+        System.out.println("\nMenu 15. DELETE PLAYER FROM GAME BY ID\n");
+
+        System.out.println("Please enter player ID");
+        String playerId = reader.readLine();
+
+        Player player = DbStorage.getPlayer(playerId);
+        if (player != null) {
+
+            System.out.println("Please enter game ID");
+            String gameId = reader.readLine();
+
+            Game game = DbStorage.getGame(gameId);
+            if (game != null) {
+
+                DbStorage.deletePlayerFromGame(playerId, gameId);
+
+            } else {
+                System.out.println("We can't find game with such id! Please check and try this menu again.");
+            }
+
+        } else {
+            System.out.println("We can't find player with such id! Please check and try this menu again.");
+        }
+    }
+
+    private void deleteGameFromPlayer(BufferedReader reader) throws IOException {
+        System.out.println("\nMenu 16. DELETE GAME FROM PLAYER BY ID\n");
+
+        System.out.println("Please enter game ID");
+        String gameId = reader.readLine();
+
+        Game game = DbStorage.getGame(gameId);
+        if (game != null) {
+
+            System.out.println("Please enter player ID");
+            String playerId = reader.readLine();
+
+            Player player = DbStorage.getPlayer(playerId);
+            if (player != null) {
+
+                DbStorage.deleteGameFromPlayer(gameId, playerId);
+
+            } else {
+                System.out.println("We can't find player with such id! Please check and try this menu again.");
+            }
+
+        } else {
+            System.out.println("We can't find game with such id! Please check and try this menu again.");
+        }
+    }
+
 
     private void stop() {
         System.out.println("\nThe application is finished.");

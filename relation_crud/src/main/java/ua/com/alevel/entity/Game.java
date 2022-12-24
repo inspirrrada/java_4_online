@@ -1,5 +1,7 @@
 package ua.com.alevel.entity;
 
+import ua.com.alevel.db.DbStorage;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +20,7 @@ public class Game extends BaseEntity {
 
         //name of game can't have only digits
         if (name.matches("\\d+")) {
-            System.out.println("Name of game can't contain only digits!");
+            System.out.println(DbStorage.getRedText().format("Name of game can't contain only digits!"));
             correctGameName = false;
         } else {
             this.name = name;

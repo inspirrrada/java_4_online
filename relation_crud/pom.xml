@@ -12,7 +12,17 @@
         <java.version>17</java.version>
         <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
         <maven.shade.plugin.version>3.3.0</maven.shade.plugin.version>
+        <maven.jcolor.plugin.version>5.5.1</maven.jcolor.plugin.version>
     </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.diogonunes/JColor -->
+        <dependency>
+            <groupId>com.diogonunes</groupId>
+            <artifactId>JColor</artifactId>
+            <version>${maven.jcolor.plugin.version}</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <finalName>relation_crud</finalName>

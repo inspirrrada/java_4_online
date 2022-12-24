@@ -1,5 +1,6 @@
 package ua.com.alevel.db;
 
+import com.diogonunes.jcolor.AnsiFormat;
 import ua.com.alevel.entity.Game;
 import ua.com.alevel.entity.Player;
 
@@ -8,10 +9,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import static com.diogonunes.jcolor.Attribute.*;
+
 public class DbStorage {
 
     private static List<Player> players = new ArrayList<>();
     private static List<Game> games = new ArrayList<>();
+
+    private static AnsiFormat redText = new AnsiFormat(RED_TEXT());
+    private static AnsiFormat blueText = new AnsiFormat(BRIGHT_BLUE_TEXT());
+    private static AnsiFormat underlinedText = new AnsiFormat(UNDERLINE());
 
     private DbStorage() {}
 
@@ -101,9 +108,9 @@ public class DbStorage {
     //operations update from CRUD
     public static void updatePlayerAge(String id, int age) {
         if (age < 18) {
-            System.out.println("Age is too young for this game. Your changes of age weren't saved.");
+            System.out.println(redText.format("Age is too young for this game. Your changes of age weren't saved."));
         } else if (age > 100) {
-            System.out.println("Age is too great for this game. Your changes of age weren't saved.");
+            System.out.println(redText.format("Age is too great for this game. Your changes of age weren't saved."));
         } else {
 
             for (int i = 0; i < players.size(); i++) {
@@ -127,13 +134,13 @@ public class DbStorage {
             }
 
         } else {
-            System.out.println("Invalid value!");
+            System.out.println(redText.format("Invalid value!"));
         }
     }
 
     public static void updatePlayerNickname(String id, String nickname) {
         if (nickname.matches("\\d+")) {
-            System.out.println("Nickname can't contain only digits!");
+            System.out.println(redText.format("Nickname can't contain only digits!"));
         } else {
 
             for (int i = 0; i < players.size(); i++) {
@@ -148,7 +155,7 @@ public class DbStorage {
 
     public static void updateGameName(String id, String name) {
         if (name.matches("\\d+")) {
-            System.out.println("Game name can't contain only digits!");
+            System.out.println(redText.format("Game name can't contain only digits!"));
         } else {
 
             for (int i = 0; i < games.size(); i++) {
@@ -243,7 +250,8 @@ public class DbStorage {
     }
 
     //relation operations create from CRUD
-    public static void addPlayerToGame(String playerId, String gameId) {
+    public static boolean addPlayerToGame(String playerId, String gameId) {
+            boolean successfullyAdded = false;
 
             Game game = getGame(gameId);
 
@@ -256,12 +264,15 @@ public class DbStorage {
                     }
                 }
 
+                //check if playersIdList already has such player id
                 if (count == 0) {
                     playersIdList.add(playerId);
-                    System.out.println("Player was successfully attached to the game.");
+                    successfullyAdded = true;
                 } else {
-                    System.out.println("We have already player with such id in this game!");
+                    //System.out.println(redText.format("We have already player with such id in this game!"));
                 }
+
+                return successfullyAdded;
 
     }
 
@@ -278,11 +289,20 @@ public class DbStorage {
                     }
                 }
 
+                //check if gamesIdList already has such game id
                 if (count == 0) {
                     gamesIdList.add(gameId);
-                    System.out.println("Game was successfully attached to the player.");
+
+                    //when we add gameId to the player, at once we have to add also playerId to the game
+                    boolean wasAddedPlayerToGame = addPlayerToGame(playerId, gameId);
+                        if (wasAddedPlayerToGame) {
+                            System.out.println(blueText.format("Game was successfully attached to the player."));
+                        } else {
+                            System.out.println(redText.format("This game can't be added to this player in automatic mode. Please contact with support service."));
+                        }
+
                 } else {
-                    System.out.println("We have already game with such id for this player!");
+                    System.out.println(redText.format("We have already game with such id for this player!"));
                 }
 
     }
@@ -319,20 +339,25 @@ public class DbStorage {
         return gamesList;
     }
 
-    public static void deletePlayerFromGame(String playerId, String gameId) {
+    public static boolean deletePlayerFromGame(String playerId, String gameId) {
+        boolean successfullyDeleted = false;
         Game game = getGame(gameId);
 
         Set<String> playersIdList = game.getPlayerIdList();
 
         for (String currentPlayerId : playersIdList) {
+
             if (currentPlayerId.equals(playerId)) {
                 playersIdList.remove(playerId);
-                System.out.println("Player was successfully deleted from the game");
+                successfullyDeleted = true;
                 break;
             } else {
-                System.out.println("We don't have player with such id in this game. Please check your info.");
+                System.out.println(redText.format("We don't have player with such id in this game. Please check your info."));
             }
+
         }
+
+        return successfullyDeleted;
 
     }
 
@@ -344,45 +369,71 @@ public class DbStorage {
         for (String currentGameId : gameIdList) {
             if (currentGameId.equals(gameId)) {
                 gameIdList.remove(gameId);
-                System.out.println("Game was successfully deleted for this player.");
+
+                //when we delete gameId from player, at one time we have to delete playerId from game
+                boolean wasDeletedPlayerFromGame = deletePlayerFromGame(playerId, gameId);
+
+                if (wasDeletedPlayerFromGame) {
+                    System.out.println(blueText.format("Game was successfully deleted from player."));
+                } else {
+                    System.out.println(redText.format("\nGame can't be deleted from player in automatic mode. Please contact with support service."));
+                }
+
                 break;
             } else {
-                System.out.println("We don't have game with such id for this player. Please check your info.");
+                System.out.println(redText.format("We don't have game with such id for this player. Please check your info."));
             }
         }
+
 
     }
 
 
     //check if exist object with such id
     public static boolean existPlayerId(String playerId) {
-        boolean existPlayerId = false;
+        boolean existPlayerId;
 
-        for (int i = 0; i < players.size(); i++) {
-            Player currentPlayer = players.get(i);
+        Player player = getPlayer(playerId);
 
-            if (currentPlayer.getId().equals(playerId)) {
-                existPlayerId = true;
-                break;
-            }
+        if (player == null) {
+            existPlayerId = false;
+            System.out.println(redText.format("We can't find player with such id!"));
+        } else {
+            existPlayerId = true;
         }
 
         return existPlayerId;
     }
 
     public static boolean existGameId(String gameId) {
-        boolean existGameId = false;
+        boolean existGameId;
 
-        for (int i = 0; i < games.size(); i++) {
-            Game currentGame = games.get(i);
+        Game game = getGame(gameId);
 
-            if (currentGame.getId().equals(gameId)) {
-                existGameId = true;
-                break;
-            }
+        if (game == null) {
+            existGameId = false;
+            System.out.println(redText.format("We can't find game with such id!"));
+        } else {
+            existGameId = true;
         }
 
         return existGameId;
     }
 
+
+    //formatting
+
+
+    public static AnsiFormat getRedText() {
+        return redText;
+    }
+
+
+    public static AnsiFormat getBlueText() {
+        return blueText;
+    }
+
+    public static AnsiFormat getUnderlinedText() {
+        return underlinedText;
+    }
 }

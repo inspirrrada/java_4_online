@@ -1,5 +1,7 @@
 package ua.com.alevel.entity;
 
+import ua.com.alevel.db.DbStorage;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,7 +36,7 @@ public class Player extends BaseEntity {
             this.email = email;
             correctEmail = true;
         } else {
-            System.out.println("Invalid value!");
+            System.out.println(DbStorage.getRedText().format("Invalid value!"));
             correctEmail = false;
         }
 
@@ -50,7 +52,7 @@ public class Player extends BaseEntity {
         boolean correctNickname;
         //nickname can't have only digits
        if (nickname.matches("\\d+")) {
-            System.out.println("Nickname can't contain only digits!");
+            System.out.println(DbStorage.getRedText().format("Nickname can't contain only digits!"));
             correctNickname = false;
         } else {
             this.nickname = nickname;

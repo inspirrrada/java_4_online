@@ -1,6 +1,6 @@
-P:\A-level\Java_4_online\relation_crud\src\main\java\ua\com\alevel\GamePlayInterface.java
-P:\A-level\Java_4_online\relation_crud\src\main\java\ua\com\alevel\Main.java
-P:\A-level\Java_4_online\relation_crud\src\main\java\ua\com\alevel\entity\Game.java
-P:\A-level\Java_4_online\relation_crud\src\main\java\ua\com\alevel\db\DbStorage.java
-P:\A-level\Java_4_online\relation_crud\src\main\java\ua\com\alevel\entity\BaseEntity.java
-P:\A-level\Java_4_online\relation_crud\src\main\java\ua\com\alevel\entity\Player.java
+/mnt/p/A-level/Java_4_online/relation_crud/src/main/java/ua/com/alevel/db/DbStorage.java
+/mnt/p/A-level/Java_4_online/relation_crud/src/main/java/ua/com/alevel/Main.java
+/mnt/p/A-level/Java_4_online/relation_crud/src/main/java/ua/com/alevel/entity/BaseEntity.java
+/mnt/p/A-level/Java_4_online/relation_crud/src/main/java/ua/com/alevel/entity/Player.java
+/mnt/p/A-level/Java_4_online/relation_crud/src/main/java/ua/com/alevel/GamePlayInterface.java
+/mnt/p/A-level/Java_4_online/relation_crud/src/main/java/ua/com/alevel/entity/Game.java

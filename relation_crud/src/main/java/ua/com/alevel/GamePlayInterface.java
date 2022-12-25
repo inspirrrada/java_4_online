@@ -132,10 +132,10 @@ public class GamePlayInterface {
 
 
     private void createPlayer(BufferedReader reader) throws IOException {
-        System.out.println("\nMenu 1. CREATE PLAYER");
-
-        System.out.println(DbStorage.getUnderlinedText().format("Please enter your age."));
-        System.out.println("***You must be of legal age to play this game.");
+        System.out.println(DbStorage.getReverse().format("\nMenu 1. CREATE PLAYER"));
+        System.out.println();
+        System.out.print(DbStorage.getUnderlinedText().format("Please enter your age."));
+        System.out.println(" ***You must be of legal age to play this game.");
 
         String ageS;
         int age = 0;
@@ -172,8 +172,8 @@ public class GamePlayInterface {
             }
 
 
-            System.out.println(DbStorage.getUnderlinedText().format("\nPlease enter your nickname."));
-            System.out.println("***Pay attention, nickname can't have only digits.");
+            System.out.print(DbStorage.getUnderlinedText().format("\nPlease enter your nickname."));
+            System.out.println(" ***Pay attention, nickname can't have only digits.");
             String nickname = reader.readLine();
             boolean correctNickname = player.setNickname(nickname);
             while (!correctNickname) {
@@ -191,15 +191,16 @@ public class GamePlayInterface {
     }
 
     private void findPlayerById(BufferedReader reader) throws IOException {
-        System.out.println("\nMenu 2. FIND PLAYER BY ID");
-        System.out.println("Please enter player ID:");
+        System.out.println(DbStorage.getReverse().format("\nMenu 2. FIND PLAYER BY ID"));
+        System.out.println();
+        System.out.println(DbStorage.getUnderlinedText().format("Please enter player ID:"));
         String playerId = reader.readLine();
 
         boolean existSuchPlayerId = DbStorage.existPlayerId(playerId);
 
         if (existSuchPlayerId) {
             Player player = DbStorage.getPlayer(playerId);
-            System.out.println("Player = " + player);
+            System.out.println(DbStorage.getYellowText().format(player.toString()));
         } else {
             System.out.println("Please check and try this menu again.");
         }
@@ -209,9 +210,9 @@ public class GamePlayInterface {
     }
 
     private void updatePlayer(BufferedReader reader) throws IOException {
-        System.out.println("\nMenu 3. UPDATE PLAYER BY ID");
-
-        System.out.println("Please enter player ID");
+        System.out.println(DbStorage.getReverse().format("\nMenu 3. UPDATE PLAYER BY ID"));
+        System.out.println();
+        System.out.println(DbStorage.getUnderlinedText().format("Please enter player ID"));
         String playerId = reader.readLine();
 
         boolean existSuchPlayerId = DbStorage.existPlayerId(playerId);
@@ -222,7 +223,7 @@ public class GamePlayInterface {
             System.out.println("If you don't want to update some detail, press 0 and you go to the next.");
 
             //update age
-            System.out.println("\nPlease enter new age:");
+            System.out.println(DbStorage.getUnderlinedText().format("\nPlease enter new age:"));
             String ageS = reader.readLine();
 
             if (!ageS.equals("0")) {
@@ -234,7 +235,7 @@ public class GamePlayInterface {
             }
 
             //update nickname
-            System.out.println("\nPlease enter new nickname:");
+            System.out.println(DbStorage.getUnderlinedText().format("\nPlease enter new nickname:"));
             String nickname = reader.readLine();
 
             if (!nickname.equals("0")) {
@@ -252,7 +253,7 @@ public class GamePlayInterface {
 
 
             //update email
-            System.out.println("\nPlease enter new email:");
+            System.out.println(DbStorage.getUnderlinedText().format("\nPlease enter new email:"));
             String email = reader.readLine();
 
             if (!email.equals("0")) {
@@ -274,8 +275,9 @@ public class GamePlayInterface {
     }
 
     private void deletePlayer(BufferedReader reader) throws IOException {
-        System.out.println("\nMenu 4. DELETE PLAYER BY ID");
-        System.out.println("Please enter player ID:");
+        System.out.println(DbStorage.getReverse().format("\nMenu 4. DELETE PLAYER BY ID"));
+        System.out.println();
+        System.out.println(DbStorage.getUnderlinedText().format("Please enter player ID:"));
         String playerId = reader.readLine();
 
         boolean existSuchPlayerId = DbStorage.existPlayerId(playerId);
@@ -295,7 +297,8 @@ public class GamePlayInterface {
     }
 
     private void findAllPlayers() {
-        System.out.println("\nMenu 5. FIND ALL PLAYERS");
+        System.out.println(DbStorage.getReverse().format("\nMenu 5. FIND ALL PLAYERS"));
+        System.out.println();
         List<Player> allPlayers = DbStorage.getAllPlayers();
         boolean isListEmpty = true;
 
@@ -313,7 +316,7 @@ public class GamePlayInterface {
 
             int count = 1;
             for (Player player : allPlayers) {
-                System.out.println(count + ". " + player.toString());
+                System.out.println(DbStorage.getYellowText().format(count + ". " + player.toString()));
                 count++;
             }
 
@@ -324,10 +327,12 @@ public class GamePlayInterface {
 
 
     private void createGame(BufferedReader reader) throws IOException {
-        System.out.println("\nMenu 6. ENTER GAME");
+        System.out.println(DbStorage.getReverse().format("\nMenu 6. ENTER GAME"));
+        System.out.println();
         Game game = new Game();
 
-        System.out.println("\nPlease enter name of game. \n***Pay attention, name of game can't have only digits.");
+        System.out.print(DbStorage.getUnderlinedText().format("Please enter name of game."));
+        System.out.println(" ***Pay attention, name of game can't have only digits.");
         String gameName = reader.readLine();
         boolean correctGameName = game.setName(gameName);
         while (!correctGameName) {
@@ -336,7 +341,8 @@ public class GamePlayInterface {
             correctGameName = game.setName(gameName);
         }
 
-        System.out.println("\nPlease choose type of game: command or single. \n***For this enter below 'y' for command game or 'n' for single.");
+        System.out.print(DbStorage.getUnderlinedText().format("\nPlease choose type of game: command or single."));
+        System.out.println(" ***For this enter below 'y' for command game or 'n' for single.");
         String gameType = reader.readLine();
         boolean isCommandGame = false;
 
@@ -355,22 +361,21 @@ public class GamePlayInterface {
         game.setCommandGame(isCommandGame);
 
         DbStorage.addGame(game);
-        System.out.println(DbStorage.getBlueText().format("\nCongratulations! Your game was entered."));
+        System.out.println(DbStorage.getBlueText().format("\nCongratulations! Your game was recorded."));
 
     }
 
     private void findGameById(BufferedReader reader) throws IOException {
-        System.out.println("\nMenu 7. FIND GAME BY ID");
-        System.out.println("Please enter game ID:");
+        System.out.println(DbStorage.getReverse().format("\nMenu 7. FIND GAME BY ID"));
+        System.out.println();
+        System.out.println(DbStorage.getUnderlinedText().format("Please enter game ID:"));
         String gameId = reader.readLine();
 
         boolean existSuchGameId = DbStorage.existGameId(gameId);
 
         if (existSuchGameId) {
-
             Game game = DbStorage.getGame(gameId);
-
-            System.out.println("Game = " + game);
+            System.out.println(DbStorage.getYellowText().format(game.toString()));
             System.out.println();
         } else {
             System.out.println("Please check and try this menu again.");
@@ -379,9 +384,9 @@ public class GamePlayInterface {
     }
 
     private void updateGame(BufferedReader reader) throws IOException {
-        System.out.println("\nMenu 8. UPDATE GAME BY ID");
-
-        System.out.println("Please enter game ID");
+        System.out.println(DbStorage.getReverse().format("\nMenu 8. UPDATE GAME BY ID"));
+        System.out.println();
+        System.out.println(DbStorage.getUnderlinedText().format("Please enter game ID"));
         String gameId = reader.readLine();
 
         boolean existSuchGameId = DbStorage.existGameId(gameId);
@@ -394,7 +399,7 @@ public class GamePlayInterface {
             System.out.println("If you don't want to update some detail, press 0 and you go to the next.");
 
             //update name
-            System.out.println("\nPlease enter new name:");
+            System.out.println(DbStorage.getUnderlinedText().format("\nPlease enter new name:"));
             String gameName = reader.readLine();
 
             if (!gameName.equals("0")) {
@@ -405,7 +410,8 @@ public class GamePlayInterface {
             }
 
             //update gameType
-            System.out.println("\nPlease enter new command type: enter below 'y' for command game or 'n' for single.");
+            System.out.print(DbStorage.getUnderlinedText().format("\nPlease enter new command type:"));
+            System.out.println(" enter below 'y' for command game or 'n' for single.");
             String gameType = reader.readLine();
 
             boolean isCommandGame = game.isCommandGame();
@@ -446,8 +452,9 @@ public class GamePlayInterface {
     }
 
     private void deleteGame(BufferedReader reader) throws IOException {
-        System.out.println("\nMenu 9. DELETE GAME BY ID");
-        System.out.println("Please enter game ID:");
+        System.out.println(DbStorage.getReverse().format("\nMenu 9. DELETE GAME BY ID"));
+        System.out.println();
+        System.out.println(DbStorage.getUnderlinedText().format("Please enter game ID:"));
         String gameId = reader.readLine();
 
         boolean existSuchGameId = DbStorage.existGameId(gameId);
@@ -468,7 +475,8 @@ public class GamePlayInterface {
     }
 
     private void findAllGames() {
-        System.out.println("\nMenu 10. FIND ALL GAMES");
+        System.out.println(DbStorage.getReverse().format("\nMenu 10. FIND ALL GAMES"));
+        System.out.println();
         List<Game> allGames = DbStorage.getAllGames();
         boolean isListEmpty = true;
 
@@ -486,7 +494,7 @@ public class GamePlayInterface {
 
             int count = 1;
             for (Game game : allGames) {
-                System.out.println(count + ". " + game.toString());
+                System.out.println(DbStorage.getYellowText().format(count + ". " + game.toString()));
                 count++;
             }
 
@@ -497,16 +505,17 @@ public class GamePlayInterface {
 
 
     private void attachGameToPlayer(BufferedReader reader) throws IOException {
-        System.out.println("\nMenu 11. ATTACH GAME TO PLAYER\n");
+        System.out.println(DbStorage.getReverse().format("\nMenu 11. ATTACH GAME TO PLAYER"));
+        System.out.println();
 
-        System.out.println("Please enter game ID");
+        System.out.println(DbStorage.getUnderlinedText().format("Please enter game ID"));
         String gameId = reader.readLine();
 
         boolean existSuchGameId = DbStorage.existGameId(gameId);
 
         if (existSuchGameId) {
 
-            System.out.println("Please enter player ID");
+            System.out.println(DbStorage.getUnderlinedText().format("\nPlease enter player ID"));
             String playerId = reader.readLine();
 
             boolean existSuchPlayerId = DbStorage.existPlayerId(playerId);
@@ -522,20 +531,34 @@ public class GamePlayInterface {
     }
 
     private void findAllPlayersByGame(BufferedReader reader) throws IOException {
-        System.out.println("\nMenu 12. FIND ALL PLAYERS BY GAME ID\n");
-        System.out.println("Please enter game ID");
+        System.out.println(DbStorage.getReverse().format("\nMenu 12. FIND ALL PLAYERS BY GAME ID"));
+        System.out.println();
+
+        System.out.println(DbStorage.getUnderlinedText().format("Please enter game ID"));
         String gameId = reader.readLine();
 
         boolean existSuchGameId = DbStorage.existGameId(gameId);
 
         if (existSuchGameId) {
             List<Player> playersList = DbStorage.findPlayersByGame(gameId);
-            //System.out.println("Players list: " + playersList);
+            boolean isListEmpty = true;
 
-            int count = 1;
             for (Player player : playersList) {
-                System.out.println(count + ". " + player.toString());
-                count++;
+                if (player != null) {
+                    isListEmpty = false;
+                    break;
+                }
+            }
+
+            if (isListEmpty) {
+                System.out.println("There are no players in this game");
+            } else {
+                System.out.println("Players:");
+                int count = 1;
+                for (Player player : playersList) {
+                    System.out.println(DbStorage.getYellowText().format(count + ". " + player.toString()));
+                    count++;
+                }
             }
         } else {
             System.out.println("Please check and try this menu again.");
@@ -544,20 +567,34 @@ public class GamePlayInterface {
     }
 
     private void findAllGamesByPlayer(BufferedReader reader) throws IOException {
-        System.out.println("\nMenu 13. FIND ALL GAMES BY PLAYER ID\n");
-        System.out.println("Please enter player ID");
+        System.out.println(DbStorage.getReverse().format("\nMenu 13. FIND ALL GAMES BY PLAYER ID"));
+        System.out.println();
+
+        System.out.println(DbStorage.getUnderlinedText().format("Please enter player ID"));
         String playerId = reader.readLine();
 
         boolean existSuchPlayerId = DbStorage.existPlayerId(playerId);
 
         if (existSuchPlayerId) {
             List<Game> gamesList = DbStorage.findGamesByPlayer(playerId);
-            //System.out.println("Games list: " + gamesList);
+            boolean isListEmpty = true;
 
-            int count = 1;
             for (Game game : gamesList) {
-                System.out.println(count + ". " + game.toString());
-                count++;
+                if (game != null) {
+                    isListEmpty = false;
+                    break;
+                }
+            }
+
+            if (isListEmpty) {
+                System.out.println("There are no players in this game");
+            } else {
+                int count = 1;
+                for (Game game : gamesList) {
+                    System.out.println("Games:");
+                    System.out.println(DbStorage.getYellowText().format(count + ". " + game.toString()));
+                    count++;
+                }
             }
         } else {
             System.out.println("Please check and try this menu again.");
@@ -566,16 +603,17 @@ public class GamePlayInterface {
     }
 
     private void deleteGameFromPlayer(BufferedReader reader) throws IOException {
-        System.out.println("\nMenu 14. DELETE GAME FROM PLAYER BY ID\n");
+        System.out.println(DbStorage.getReverse().format("\nMenu 14. DELETE GAME FROM PLAYER BY ID"));
+        System.out.println();
 
-        System.out.println("Please enter game ID");
+        System.out.println(DbStorage.getUnderlinedText().format("Please enter game ID"));
         String gameId = reader.readLine();
 
         boolean existSuchGameId = DbStorage.existGameId(gameId);
 
         if (existSuchGameId) {
 
-            System.out.println("Please enter player ID");
+            System.out.println(DbStorage.getUnderlinedText().format("\nPlease enter player ID"));
             String playerId = reader.readLine();
 
             boolean existSuchPlayerId = DbStorage.existPlayerId(playerId);
@@ -594,7 +632,7 @@ public class GamePlayInterface {
 
 
     private void stop() {
-        System.out.println("\nThe application is finished.");
+        System.out.println("\nThe application is finished.\n");
         System.exit(0);
     }
 

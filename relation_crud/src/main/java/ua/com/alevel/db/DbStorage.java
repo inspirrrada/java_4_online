@@ -16,9 +16,16 @@ public class DbStorage {
     private static List<Player> players = new ArrayList<>();
     private static List<Game> games = new ArrayList<>();
 
-    private static AnsiFormat redText = new AnsiFormat(RED_TEXT());
+    private static AnsiFormat redText = new AnsiFormat(BRIGHT_RED_TEXT());
     private static AnsiFormat blueText = new AnsiFormat(BRIGHT_BLUE_TEXT());
+    private static AnsiFormat yellowText = new AnsiFormat(YELLOW_TEXT());
+    private static AnsiFormat greenText = new AnsiFormat(GREEN_TEXT());
+    private static AnsiFormat cyanText = new AnsiFormat(CYAN_TEXT());
+    private static AnsiFormat cyanBrightText = new AnsiFormat(BRIGHT_CYAN_TEXT());
+    private static AnsiFormat reverse = new AnsiFormat(REVERSE());
     private static AnsiFormat underlinedText = new AnsiFormat(UNDERLINE());
+    private static AnsiFormat overlinedText = new AnsiFormat(OVERLINED());
+    private static AnsiFormat italicText = new AnsiFormat(ITALIC());
 
     private DbStorage() {}
 
@@ -296,7 +303,7 @@ public class DbStorage {
                     //when we add gameId to the player, at once we have to add also playerId to the game
                     boolean wasAddedPlayerToGame = addPlayerToGame(playerId, gameId);
                         if (wasAddedPlayerToGame) {
-                            System.out.println(blueText.format("Game was successfully attached to the player."));
+                            System.out.println(blueText.format("\nGame was successfully attached to the player."));
                         } else {
                             System.out.println(redText.format("This game can't be added to this player in automatic mode. Please contact with support service."));
                         }
@@ -374,7 +381,7 @@ public class DbStorage {
                 boolean wasDeletedPlayerFromGame = deletePlayerFromGame(playerId, gameId);
 
                 if (wasDeletedPlayerFromGame) {
-                    System.out.println(blueText.format("Game was successfully deleted from player."));
+                    System.out.println(blueText.format("\nGame was successfully deleted from player."));
                 } else {
                     System.out.println(redText.format("\nGame can't be deleted from player in automatic mode. Please contact with support service."));
                 }
@@ -433,7 +440,35 @@ public class DbStorage {
         return blueText;
     }
 
+    public static AnsiFormat getYellowText() {
+        return yellowText;
+    }
+
+    public static AnsiFormat getGreenText() {
+        return greenText;
+    }
+
+    public static AnsiFormat getCyanText() {
+        return cyanText;
+    }
+
+    public static AnsiFormat getCyanBrightText() {
+        return cyanBrightText;
+    }
+
+    public static AnsiFormat getReverse() {
+        return reverse;
+    }
+
     public static AnsiFormat getUnderlinedText() {
         return underlinedText;
+    }
+
+    public static AnsiFormat getOverlinedText() {
+        return overlinedText;
+    }
+
+    public static AnsiFormat getItalicText() {
+        return italicText;
     }
 }

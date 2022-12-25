@@ -1,6 +1,6 @@
-ua\com\alevel\entity\BaseEntity.class
-ua\com\alevel\entity\Player.class
-ua\com\alevel\GamePlayInterface.class
-ua\com\alevel\Main.class
-ua\com\alevel\db\DbStorage.class
-ua\com\alevel\entity\Game.class
+ua/com/alevel/entity/Player.class
+ua/com/alevel/entity/BaseEntity.class
+ua/com/alevel/Main.class
+ua/com/alevel/db/DbStorage.class
+ua/com/alevel/entity/Game.class
+ua/com/alevel/GamePlayInterface.class

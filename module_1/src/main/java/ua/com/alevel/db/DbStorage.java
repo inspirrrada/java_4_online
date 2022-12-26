@@ -359,7 +359,7 @@ public class DbStorage {
                 playersIdList[i] = playerId;
                 successfullyAdded = true;
 
-                playerIdCount += playerIdCount;
+                playerIdCount = playerIdCount + 1;
                 game.setPlayerIdCount(playerIdCount);
 
                 break;
@@ -388,7 +388,7 @@ public class DbStorage {
                 gamesIdList[i] = gameId;
                 successfullyAdded = true;
 
-                gameIdCount += gameIdCount;
+                gameIdCount = gameIdCount + 1;
                 player.setGameIdCount(gameIdCount);
 
                 break;
@@ -423,10 +423,10 @@ public class DbStorage {
                         if (wasAddedPlayerToGame) {
                             System.out.println(blueText.format("\nGame was successfully attached to the player."));
                         } else {
-                            System.out.println(redText.format("This game can't be added to this player in automatic mode. Please contact with support service."));
+                            System.out.println(redText.format("--1--This game can't be added to this player in automatic mode. Please contact with support service."));
                         }
                     } else {
-                        System.out.println(redText.format("This game can't be added to this player in automatic mode. Please contact with support service."));
+                        System.out.println(redText.format("--2--This game can't be added to this player in automatic mode. Please contact with support service."));
                     }
 
                 } else {

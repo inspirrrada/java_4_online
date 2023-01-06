@@ -16,6 +16,7 @@
         <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
         <junit.version>4.13.1</junit.version>
         <junit.jupiter.version>5.7.0</junit.jupiter.version>
+        <maven.jcolor.plugin.version>5.5.1</maven.jcolor.plugin.version>
     </properties>
 
     <dependencies>
@@ -41,6 +42,13 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.diogonunes/JColor -->
+            <dependency>
+                <groupId>com.diogonunes</groupId>
+                <artifactId>JColor</artifactId>
+                <version>${maven.jcolor.plugin.version}</version>
+            </dependency>
 
     </dependencies>
 

@@ -115,19 +115,74 @@ public class DbGamePlayStorage {
 
     //------------------------------------
     //operations update from CRUD
-    public void updatePlayer(Player playerNew) {
-        Player playerOld = getPlayerByIdOrNull(playerNew.getId());
+//    public void updatePlayer(Player playerNew) {
+//        Player currentPlayer = getPlayerByIdOrNull(playerNew.getId());
+//
+//        if (currentPlayer != null) {
+//            currentPlayer = playerNew;
+//        }
+//
+//    }
 
-        if (playerOld != null) {
-            playerOld = playerNew;
-        }
+    public void updatePlayerAge(String id, int age) {
+
+            for (int i = 0; i < players.size(); i++) {
+                if (players.get(i).getId().equals(id)) {
+                    players.get(i).setAge(age);
+                    break;
+                }
+            }
+
     }
 
-    public void updateGame(Game gameNew) {
-        Game gameOld = getGameByIdOrNull(gameNew.getId());
+    public void updatePlayerEmail(String id, String email) {
 
-        if (gameOld != null) {
-            gameOld = gameNew;
+            for (int i = 0; i < players.size(); i++) {
+                if (players.get(i).getId().equals(id)) {
+                    players.get(i).setEmail(email);
+                    break;
+                }
+            }
+
+    }
+
+    public void updatePlayerNickname(String id, String nickname) {
+
+            for (int i = 0; i < players.size(); i++) {
+                if (players.get(i).getId().equals(id)) {
+                    players.get(i).setNickname(nickname);
+                    break;
+                }
+            }
+
+    }
+
+//    public void updateGame(Game gameNew) {
+//        Game gameOld = getGameByIdOrNull(gameNew.getId());
+//
+//        if (gameOld != null) {
+//            gameOld = gameNew;
+//        }
+//    }
+
+    public void updateGameName(String id, String name) {
+
+            for (int i = 0; i < games.size(); i++) {
+                if (games.get(i).getId().equals(id)) {
+                    games.get(i).setName(name);
+                    break;
+                }
+            }
+
+    }
+
+    public void updateGameType(String id, boolean isCommandGame) {
+
+        for (int i = 0; i < games.size(); i++) {
+            if (games.get(i).getId().equals(id)) {
+                games.get(i).setCommandGame(isCommandGame);
+                break;
+            }
         }
     }
 

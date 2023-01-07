@@ -3,6 +3,7 @@ package ua.com.alevel.dao;
 
 import ua.com.alevel.entity.Game;
 import ua.com.alevel.entity.Player;
+import ua.com.alevel.service.GamePlayService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +33,19 @@ public interface GamePlayDao {
 
     //------------------------------------
     //operations update from CRUD
-    void updatePlayer(Player playerNew);
+    //void updatePlayer(Player playerNew);
 
-    void updateGame(Game gameNew);
+    void updatePlayerAge(String id, int age);
+
+    void updatePlayerEmail(String id, String email);
+
+    void updatePlayerNickname(String id, String nickname);
+
+    //void updateGame(Game gameNew);
+
+    void updateGameName(String id, String name);
+
+    void updateGameType(String id, boolean isCommandGame);
 
 
     //------------------------------------

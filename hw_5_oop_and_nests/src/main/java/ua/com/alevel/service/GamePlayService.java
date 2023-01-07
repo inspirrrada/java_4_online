@@ -3,15 +3,10 @@ package ua.com.alevel.service;
 import com.diogonunes.jcolor.AnsiFormat;
 import ua.com.alevel.dao.GamePlayDao;
 import ua.com.alevel.dao.GamePlayDao1;
-import ua.com.alevel.db.DbGamePlayStorage;
 import ua.com.alevel.entity.Game;
 import ua.com.alevel.entity.Player;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static com.diogonunes.jcolor.Attribute.*;
 
@@ -30,24 +25,17 @@ public class GamePlayService {
     //------------------------------------
     //operations create from CRUD
     public void addPlayer(Player player) {
-//        if (!hasTheSameEmail(player.getEmail()) && !hasTheSameNickname(player.getNickname())) {
-//            gamePlayDao.addPlayer(player);
-//        } else if ( hasTheSameEmail(player.getEmail()) ) {
-//            System.out.println("This email is already registered! Please enter new one.");
-//        } else if ( hasTheSameNickname(player.getNickname()) ) {
-//            System.out.println("This nickname is already registered! Please enter new one.");
-//        }
-
-        gamePlayDao.addPlayer(player);
+        if (isAgePermissible(player.getAge()) &&
+                isCorrectEmail(player.getEmail()) && !hasTheSameEmail(player.getEmail()) &&
+                isCorrectNickname(player.getNickname()) && !hasTheSameNickname(player.getNickname())) {
+            gamePlayDao.addPlayer(player);
+        }
     }
 
     public void addGame(Game game) {
-//        if (!hasTheSameGameName(game.getName())) {
-//            gamePlayDao.addGame(game);
-//        } else {
-//            System.out.println("This name of game is already registered! Please enter new one.");
-//        }
-        gamePlayDao.addGame(game);
+        if (!hasTheSameGameName(game.getName()) && isCorrectGameName(game.getName())) {
+            gamePlayDao.addGame(game);
+        }
     }
 
 
@@ -88,34 +76,101 @@ public class GamePlayService {
 
     //------------------------------------
     //operations update from CRUD
-    public void updatePlayer(Player playerNew) {
-        boolean updateSuccessfull = false;
-        gamePlayDao.updatePlayer(playerNew);
-        updateSuccessfull = true;
+//    public void updatePlayer(Player playerNew) {
+//        Player player = getPlayerByIdOrNull(playerNew.getId());
+//        Player playerCopy = new Player();
+//        playerCopy.setAge(player.getAge());
+//        playerCopy.setEmail(player.getEmail());
+//        playerCopy.setNickname(player.getNickname());
+//
+//        if (isAgePermissible(playerNew.getAge()) &&
+//                isCorrectEmail(playerNew.getEmail()) && !hasTheSameEmail(playerNew.getEmail()) &&
+//                isCorrectNickname(playerNew.getNickname()) && !hasTheSameNickname(playerNew.getNickname())) {
+//            gamePlayDao.updatePlayer(playerNew);
+//        } else {
+//            playerNew.setAge(playerCopy.getAge());
+//            playerNew.setEmail(playerCopy.getEmail());
+//            playerNew.setNickname(playerCopy.getNickname());
+//        }
+//
+//
+//
+////            if (!hasTheSameEmail(playerNew.getEmail()) && !hasTheSameNickname(playerNew.getNickname())) {
+////                gamePlayDao.updatePlayer(playerNew);
+////                updateSuccessfull = true;
+////            } else if ( hasTheSameEmail(playerNew.getEmail()) ) {
+////                System.out.println("This email is already registered! Please enter new one.");
+////            } else if ( hasTheSameNickname(playerNew.getNickname()) ) {
+////                System.out.println("This nickname is already registered! Please enter new one.");
+////            }
+//
+//
+//        //return updateSuccessfull;
+//    }
 
-//            if (!hasTheSameEmail(playerNew.getEmail()) && !hasTheSameNickname(playerNew.getNickname())) {
-//                gamePlayDao.updatePlayer(playerNew);
-//                updateSuccessfull = true;
-//            } else if ( hasTheSameEmail(playerNew.getEmail()) ) {
-//                System.out.println("This email is already registered! Please enter new one.");
-//            } else if ( hasTheSameNickname(playerNew.getNickname()) ) {
-//                System.out.println("This nickname is already registered! Please enter new one.");
-//            }
+    public void updatePlayerAge(String id, int age) {
+        Player player = getPlayerByIdOrNull(id);
 
-
-        //return updateSuccessfull;
-    }
-
-    public boolean updateGame(Game gameNew) {
-        boolean updateSuccessfull = false;
-
-        if (!hasTheSameGameName(gameNew.getName())) {
-            gamePlayDao.updateGame(gameNew);
-        } else {
-            //System.out.println("This name of game is already registered!");
+        if (player != null) {
+            if (isAgePermissible(age)) {
+                gamePlayDao.updatePlayerAge(id, age);
+            }
         }
 
-        return updateSuccessfull;
+    }
+
+    public void updatePlayerEmail(String id, String email) {
+        Player player = getPlayerByIdOrNull(id);
+
+        if (player != null) {
+            if (isCorrectEmail(email) && !hasTheSameEmail(email)) {
+                gamePlayDao.updatePlayerEmail(id, email);
+            }
+        }
+
+    }
+
+    public void updatePlayerNickname(String id, String nickname) {
+        Player player = getPlayerByIdOrNull(id);
+
+        if (player != null) {
+            if ( isCorrectNickname(nickname) && !hasTheSameNickname(nickname) ) {
+                gamePlayDao.updatePlayerNickname(id, nickname);
+            }
+        }
+
+    }
+
+//    public boolean updateGame(Game gameNew) {
+//        boolean updateSuccessfull = false;
+//
+//        if (!hasTheSameGameName(gameNew.getName())) {
+//            gamePlayDao.updateGame(gameNew);
+//        } else {
+//            //System.out.println("This name of game is already registered!");
+//        }
+//
+//        return updateSuccessfull;
+//
+//    }
+
+    public void updateGameName(String id, String name) {
+        Game game = getGameByIdOrNull(id);
+
+        if (game != null) {
+            if ( isCorrectGameName(name) && !hasTheSameGameName(name) ) {
+                gamePlayDao.updateGameName(id, name);
+            }
+        }
+
+    }
+
+    public void updateGameType(String id, boolean isCommandGame) {
+        Game game = getGameByIdOrNull(id);
+
+        if (game != null) {
+            gamePlayDao.updateGameType(id, isCommandGame);
+        }
 
     }
 
@@ -157,8 +212,11 @@ public class GamePlayService {
 //        }
 //
 //        return wasAddedGameToPlayerInAllDb;
+        if (existPlayerId(playerId) && existGameId(gameId)) {
+            gamePlayDao.addGameToPlayerInAllDb(gameId, playerId);
+        }
 
-       gamePlayDao.addGameToPlayerInAllDb(gameId, playerId);
+
     }
 
 

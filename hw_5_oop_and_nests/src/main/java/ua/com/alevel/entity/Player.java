@@ -19,7 +19,9 @@ public class Player extends BaseEntity {
     }
 
     public void setAge(int age) {
-        this.age = age;
+
+            this.age = age;
+
     }
 
     public String getEmail() {
@@ -27,7 +29,9 @@ public class Player extends BaseEntity {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+
+            this.email = email;
+
     }
 
     public String getNickname() {
@@ -35,7 +39,9 @@ public class Player extends BaseEntity {
     }
 
     public void setNickname(String nickname) {
-        this.nickname = nickname;
+
+            this.nickname = nickname;
+
     }
 
     public Set<String> getGameIdList() {

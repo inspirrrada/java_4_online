@@ -3,6 +3,7 @@ package ua.com.alevel.dao;
 import ua.com.alevel.db.DbGamePlayStorage;
 import ua.com.alevel.entity.Game;
 import ua.com.alevel.entity.Player;
+import ua.com.alevel.service.GamePlayService;
 
 import java.util.List;
 
@@ -51,14 +52,39 @@ public class GamePlayDao1 implements GamePlayDao {
 
     //------------------------------------
     //operations update from CRUD
+//    @Override
+//    public void updatePlayer(Player playerNew) {
+//        dbGamePlayStorage.updatePlayer(playerNew);
+//    }
+
     @Override
-    public void updatePlayer(Player playerNew) {
-        dbGamePlayStorage.updatePlayer(playerNew);
+    public void updatePlayerAge(String id, int age) {
+        dbGamePlayStorage.updatePlayerAge(id, age);
     }
 
     @Override
-    public void updateGame(Game gameNew) {
-        dbGamePlayStorage.updateGame(gameNew);
+    public void updatePlayerEmail(String id, String email) {
+        dbGamePlayStorage.updatePlayerEmail(id, email);
+    }
+
+    @Override
+    public void updatePlayerNickname(String id, String nickname) {
+        dbGamePlayStorage.updatePlayerNickname(id, nickname);
+    }
+
+//    @Override
+//    public void updateGame(Game gameNew) {
+//        dbGamePlayStorage.updateGame(gameNew);
+//    }
+
+    @Override
+    public void updateGameName(String id, String name) {
+        dbGamePlayStorage.updateGameName(id, name);
+    }
+
+    @Override
+    public void updateGameType(String id, boolean isCommandGame) {
+        dbGamePlayStorage.updateGameType(id, isCommandGame);
     }
 
 

@@ -268,7 +268,7 @@ public class GamePlayController {
                     if (isAgePermissible) {
                         if (age != ageOld) {
                             playerNew.setAge(age);
-                            service.updatePlayer(playerNew);
+                            service.updatePlayerAge(playerId, age);
                             System.out.println(GamePlayService.getBlueText().format("Age for player '" + playerNew.getNickname() + "' was updated successfully."));
                         } else {
                             System.out.println(GamePlayService.getRedText().format("You entered old value, your changes weren't saved."));
@@ -298,7 +298,7 @@ public class GamePlayController {
                     boolean hasTheSameNickname = service.hasTheSameNickname(nickname);
                     if (!hasTheSameNickname) {
                         playerNew.setNickname(nickname);
-                        service.updatePlayer(playerNew);
+                        service.updatePlayerNickname(playerId, nickname);
                         System.out.println(GamePlayService.getBlueText().format("Nickname for player was updated successfully to the '" + nickname + "'."));
                     } else {
                         System.out.println(GamePlayService.getRedText().format("This nickname is already registered. Your changes weren't saved."));
@@ -323,7 +323,7 @@ public class GamePlayController {
                     boolean hasTheSameEmail = service.hasTheSameEmail(email);
                     if (!hasTheSameEmail) {
                         playerNew.setEmail(email);
-                        service.updatePlayer(playerNew);
+                        service.updatePlayerEmail(playerId, email);
                         System.out.println(GamePlayService.getBlueText().format("Email for player '" + playerNew.getNickname() + "' was updated successfully."));
                     } else {
                         System.out.println(GamePlayService.getRedText().format("This email is already registered. Your changes weren't saved."));
@@ -485,7 +485,7 @@ public class GamePlayController {
                     if (!hasTheSameGameName) {
                         game.setName(gameName);
                         //boolean updateSuccessfull = service.updateGame(game);
-                        service.updateGame(game);
+                        service.updateGameName(gameId, gameName);
                         System.out.println(GamePlayService.getBlueText().format("Name for game was updated to '" + game.getName() + "' successfully."));
                     } else {
                         System.out.println(GamePlayService.getRedText().format("This game name is already registered. Your changes weren't saved."));
@@ -517,7 +517,7 @@ public class GamePlayController {
                         gameTypeValue = "single game";
                     }
 
-                    service.updateGame(game);
+                    service.updateGameType(gameId, isCommandGame);
                     System.out.println(GamePlayService.getBlueText().format("Type of game was updated successfully to the '" + gameTypeValue + "'."));
 
 
@@ -531,7 +531,7 @@ public class GamePlayController {
                         gameTypeValue = "single game";
                     }
 
-                    service.updateGame(game);
+                    service.updateGameType(gameId, isCommandGame);
                     System.out.println(GamePlayService.getBlueText().format("Type of game was updated successfully to the '" + gameTypeValue + "'."));
 
                 } else {

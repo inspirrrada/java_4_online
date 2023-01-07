@@ -52,11 +52,6 @@ public class GamePlayDao1 implements GamePlayDao {
 
     //------------------------------------
     //operations update from CRUD
-//    @Override
-//    public void updatePlayer(Player playerNew) {
-//        dbGamePlayStorage.updatePlayer(playerNew);
-//    }
-
     @Override
     public void updatePlayerAge(String id, int age) {
         dbGamePlayStorage.updatePlayerAge(id, age);
@@ -71,11 +66,6 @@ public class GamePlayDao1 implements GamePlayDao {
     public void updatePlayerNickname(String id, String nickname) {
         dbGamePlayStorage.updatePlayerNickname(id, nickname);
     }
-
-//    @Override
-//    public void updateGame(Game gameNew) {
-//        dbGamePlayStorage.updateGame(gameNew);
-//    }
 
     @Override
     public void updateGameName(String id, String name) {

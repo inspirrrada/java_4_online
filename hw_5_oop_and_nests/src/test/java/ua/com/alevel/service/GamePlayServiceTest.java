@@ -8,8 +8,6 @@ import ua.com.alevel.entity.Player;
 public class GamePlayServiceTest {
     private static final GamePlayService gamePlayService = new GamePlayService();
 
-    private static int PLAYERS_SIZE = 10;
-    private static int GAMES_SIZE = 10;
     private static int SIZE = 10;
     private static int AGE = 18;
     private static String EMAIL = "test@gmail.com";
@@ -65,7 +63,7 @@ public class GamePlayServiceTest {
 
     @Test
     @Order(3)
-    public void addPlayerTest() {
+    public void checkAddNewPlayer() {
         Player player = generatePlayer(SIZE + 1);
         gamePlayService.addPlayer(player);
         Assertions.assertEquals(gamePlayService.getAllPlayers().size(), SIZE + 1);
@@ -73,7 +71,7 @@ public class GamePlayServiceTest {
 
     @Test
     @Order(4)
-    public void addGameTest() {
+    public void checkAddNewGame() {
         Game game = generateGame(SIZE + 1);
         gamePlayService.addGame(game);
         Assertions.assertEquals(gamePlayService.getAllGames().size(), SIZE + 1);

@@ -383,7 +383,6 @@ public class GamePlayController {
     }
 
 
-
     private void createGame(BufferedReader reader) throws IOException {
         System.out.println(GamePlayService.getReverse().format("\nMenu 6. ENTER GAME"));
         System.out.println();

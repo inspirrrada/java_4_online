@@ -1,7 +1,5 @@
 package ua.com.alevel.entity;
 
-import ua.com.alevel.db.DbGamePlayStorage;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +28,6 @@ public class Game extends BaseEntity {
     public Set<String> getPlayerIdList() {
         return playerIdList;
     }
-
 
     @Override
     public String toString() {

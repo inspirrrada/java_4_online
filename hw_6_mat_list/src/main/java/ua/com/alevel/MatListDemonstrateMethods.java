@@ -17,19 +17,6 @@ public class MatListDemonstrateMethods {
         joinFewMatlists();
         joinAndLeaveOnlyCommonElements();
         System.out.println();
-        //demonstrate sorting methods
-        sortDesc();
-        System.out.println();
-        sortDescBetweenIndexes();
-        System.out.println();
-        sortDescStartFromExactValue();
-        System.out.println();
-        sortAsc();
-        System.out.println();
-        sortAscBetweenIndexes();
-        System.out.println();
-        sortAscStartFromExactValue();
-        System.out.println();
         //demonstrate max and min
         getElementByIndex();
         getMax();
@@ -51,6 +38,19 @@ public class MatListDemonstrateMethods {
         clearValuesOfMatList();
         System.out.println();
         clearSeparateValuesinMatlist();
+        //demonstrate sorting methods
+        sortDesc();
+        System.out.println();
+        sortDescBetweenIndexes();
+        System.out.println();
+        sortDescStartFromExactValue();
+        System.out.println();
+        sortAsc();
+        System.out.println();
+        sortAscBetweenIndexes();
+        System.out.println();
+        sortAscStartFromExactValue();
+        System.out.println();
     }
 
     public void create() {

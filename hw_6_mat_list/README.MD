@@ -1,5 +1,6 @@
 # hw_6_mat_list #
 ### <u> For start please run file </u> `run.sh` <u> from directory 'hw_6_mat_list'. </u> ###
+### You can see work of all methods in console due to the class MatListDemonstrateMethods.class  ###
 ## Task: ##
 #### Реалізація класу MatList<Number>
 

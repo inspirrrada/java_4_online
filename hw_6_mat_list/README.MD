@@ -1,5 +1,5 @@
 # hw_6_mat_list #
-### <u> For start please run file </u> `run.sh` <u> from project directory. </u> ###
+### <u> For start please run file </u> `run.sh` <u> from directory 'hw_6_mat_list'. </u> ###
 ## Task: ##
 #### Реалізація класу MatList<Number>
 

@@ -8,21 +8,21 @@
 Ваш класс можна буде ініціювати наступними конструкторами:
 
 1. MatList()
-2. MatList(Number[] ... numbers)
+2. MatList(E[] ... numbers)
 3. MatList(MatList … numbers)
 
 Окрім методів інтерфейсу List ваш класс має мати наступні методи:
 
-1. void add(Number n) - додає елемент
-2. void add(Number ... n) - додає n едементів
+1. void add(E n) - додає елемент
+2. void add(E ... n) - додає n едементів
 3. void join(MatList ... ml) - об'єднує з іншими MatList
 4. void intersection (MatList ... ml) - об'єднує з іншими MatList, залишаючи тільки ті елементи, які є в усіх колекціях
 5. void sortDesc() - сортує колекцію від найбільшого
 6. void sortDesc(int firstIndex, int lastIndex) - сортує колекцію від найбільшого тільки ті елементи, які лежать між firstIndex та lastIndex
-7. void sortDesc(Number value) - сортує колекцію від найбільшого починаючи з value
+7. void sortDesc(E value) - сортує колекцію від найбільшого починаючи з value
 8. void sortAsc() - сортує колекцію від найменшого
 9. void sortAsc(int firstIndex, int lastIndex)
-10. void sortAsc(Number value)
+10. void sortAsc(E value)
 11. Number get(int index)
 12. Number getMax()
 13. Number getMin()

@@ -1,156 +1,155 @@
 package ua.com.alevel;
 
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Dictionary<K, V> {
-    private ArrayList[] array = new ArrayList[2];
-    private ArrayList<Object> keyList = new ArrayList<>();
-    private ArrayList<Object> valueList = new ArrayList<>();
-    private int size = 0;
+    private ArrayList<Pair> pairsList = new ArrayList<>();
 
+    private static class Pair<K, V> {
+        private K key;
+        private V value;
 
-    public Dictionary() {
-        array[0] = keyList;
-        array[1] = valueList;
+        public Pair(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
     }
+
+    int size = 0;
+
 
     public int size() {
         return this.size;
     }
+
     public boolean isEmpty() {
         if (size() == 0) {
             return true;
         }
         return false;
     }
+
     public boolean containsKey(K key) {
         boolean containsKey = false;
-        for (Object currentKey : this.keyList) {
-            if (currentKey.equals(key)) {
+        for (Pair currentPair : this.pairsList) {
+            if (currentPair.key.equals(key)) {
                 containsKey = true;
                 break;
             }
         }
-            return containsKey;
+        return containsKey;
     }
+
     public boolean containsValue(V value) {
         boolean containsValue = false;
-        for (Object currentValue : this.valueList) {
-            if (currentValue.equals(value)) {
+        for (Pair currentPair : this.pairsList) {
+            if (currentPair.value.equals(value)) {
                 containsValue = true;
                 break;
             }
         }
         return containsValue;
     }
+
     public V get(K key) {
-        int keyIndex = -1;
-        for (int i = 0; i < this.keyList.size(); i++) {
-            K currentKey = (K) this.keyList.get(i);
+        V value = null;
+        for (Pair currentPair : this.pairsList) {
+            K currentKey = (K) currentPair.key;
             if (currentKey.equals(key)) {
-                keyIndex = i;
+                value = (V) currentPair.value;
                 break;
             }
         }
-        if (keyIndex != -1) {
-            return (V) this.valueList.get(keyIndex);
-        } else {
+        if (value == null) {
             System.out.println("We can't find such key in this dictionary!");
-            return null;
         }
+        return value;
     }
+
     public boolean put(K key, V value) {
         if (!containsKey(key)) {
-            this.keyList.add(key);
-            this.valueList.add(value);
+            Pair newPair = new Pair(key, value);
+            pairsList.add(newPair);
             size++;
         } else {
-            int keyIndex = this.keyList.indexOf(key);
-            this.valueList.set(keyIndex, value);
+            for (Pair currentPair : this.pairsList) {
+                if (currentPair.key.equals(key)) {
+                    currentPair.value = value;            //update value
+                }
+            }
         }
         return true;
     }
+
     public boolean remove(K key) {
-        int keyIndex = -1;
-        for (int i = 0; i < this.keyList.size(); i++) {
-            K currentKey = (K) this.keyList.get(i);
-            if (currentKey.equals(key)) {
-                keyIndex = i;
+        boolean hasKey = false;
+        for (Pair currentPair : this.pairsList) {
+            if (currentPair.key.equals(key)) {
+                this.pairsList.remove(currentPair);
+                size--;
+                hasKey = true;
                 break;
             }
         }
-        if (keyIndex != -1) {
-            this.keyList.remove(key);
-            this.valueList.remove(get(key));
-            return true;
-        } else {
+        if (!hasKey) {
             System.out.println("We can't find such key in this dictionary!");
             return false;
-        }
-    }
-    public boolean putAll(Dictionary<K, V> dictionary) {
-        for (int i = 0; i < dictionary.size(); i++) {
-            K key = (K) dictionary.getKeyList().get(i);
-            V value = (V) dictionary.getValueList().get(i);
-            put(key, value);
-        }
-        return true;
-    }
-    public boolean clear() {
-        this.keyList = new ArrayList<>();
-        this.valueList = new ArrayList<>();
-        this.size = 0;
-        return true;
-    }
-    public Set<K> keySet() {
-        HashSet<K> keySet = new HashSet<>();
-        for (Object currentKey : this.keyList) {
-            keySet.add((K) currentKey);
-        }
-        return keySet;
-    }
-    public Collection<V> values() {
-        Collection<V> valueCollection = new ArrayList<>();
-        for (Object currentValue : this.valueList) {
-            valueCollection.add((V) currentValue);
-        }
-        return valueCollection;
-    }
-
-    public void printDictionary() {
-        for (int i = 0; i < this.size(); i++) {
-            ArrayList keyList = this.getKeyList();
-            ArrayList valueList = this.getValueList();
-            System.out.println("key: " + keyList.get(i) + ", value: " + valueList.get(i));
+        } else {
+            return true;
         }
     }
 
-
-    public ArrayList[] getArray() {
-        return array;
+    public ArrayList<Pair> getPairsList() {
+        return pairsList;
     }
 
-    public void setArray(ArrayList[] array) {
-        this.array = array;
+    public void setPairsList(ArrayList<Pair> pairsList) {
+        this.pairsList = pairsList;
     }
 
-    public ArrayList<Object> getKeyList() {
-        return keyList;
-    }
+//    public boolean putAll(Dictionary<K, V> dictionary) {
+//        for (Pair inputPair : dictionary.getPairsList()) {
+//            K inputKey = (K) inputPair.key;
+//            for (Pair inputPair : dictionary.getPairsList()) {
+//            }
+//            for (int i = 0; i < dictionary.size(); i++) {
+//                K key = (K) dictionary.getKeyList().get(i);
+//                V value = (V) dictionary.getValueList().get(i);
+//                put(key, value);
+//            }
+//            return true;
+//        }
+//    }
+//
+//        public boolean clear () {
+//            Iterator iterator = this.pairsList.iterator();
+//            while (iterator.hasNext()) {
+//                iterator.remove();
+//            }
+//            this.size = 0;
+//            return true;
+//        }
+//
+//        public Set<K> keySet () {
+//            HashSet<K> keySet = new HashSet<>();
+//            for (Pair currentPair : this.pairsList) {
+//                keySet.add((K) currentPair.key);
+//            }
+//            return keySet;
+//        }
+//
+//        public Collection<V> values () {
+//            Collection<V> valueCollection = new ArrayList<>();
+//            for (Pair currentPair : this.pairsList) {
+//                valueCollection.add((V) currentPair.value);
+//            }
+//            return valueCollection;
+//        }
+//
+//        public void printDictionary () {
+//            for (Pair currentPair : this.pairsList) {
+//                System.out.println("key: " + currentPair.key + ", value: " + currentPair.value);
+//            }
+//        }
 
-    public void setKeyList(ArrayList<Object> keyList) {
-        this.keyList = keyList;
-    }
-
-    public ArrayList<Object> getValueList() {
-        return valueList;
-    }
-
-    public void setValueList(ArrayList<Object> valueList) {
-        this.valueList = valueList;
-    }
 }

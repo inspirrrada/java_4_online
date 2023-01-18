@@ -1,12 +1,9 @@
 package ua.com.alevel;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        Dictionary dictionary = new Dictionary<>();
+        Dictionary3 dictionary = new Dictionary3<>();
         dictionary.put(1, "A");
         dictionary.put(2, "A");
         dictionary.put(3, "B");

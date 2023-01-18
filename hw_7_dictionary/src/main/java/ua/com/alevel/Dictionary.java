@@ -107,49 +107,44 @@ public class Dictionary<K, V> {
         this.pairsList = pairsList;
     }
 
-//    public boolean putAll(Dictionary<K, V> dictionary) {
-//        for (Pair inputPair : dictionary.getPairsList()) {
-//            K inputKey = (K) inputPair.key;
-//            for (Pair inputPair : dictionary.getPairsList()) {
-//            }
-//            for (int i = 0; i < dictionary.size(); i++) {
-//                K key = (K) dictionary.getKeyList().get(i);
-//                V value = (V) dictionary.getValueList().get(i);
-//                put(key, value);
-//            }
-//            return true;
-//        }
-//    }
-//
-//        public boolean clear () {
-//            Iterator iterator = this.pairsList.iterator();
-//            while (iterator.hasNext()) {
-//                iterator.remove();
-//            }
-//            this.size = 0;
-//            return true;
-//        }
-//
-//        public Set<K> keySet () {
-//            HashSet<K> keySet = new HashSet<>();
-//            for (Pair currentPair : this.pairsList) {
-//                keySet.add((K) currentPair.key);
-//            }
-//            return keySet;
-//        }
-//
-//        public Collection<V> values () {
-//            Collection<V> valueCollection = new ArrayList<>();
-//            for (Pair currentPair : this.pairsList) {
-//                valueCollection.add((V) currentPair.value);
-//            }
-//            return valueCollection;
-//        }
-//
-//        public void printDictionary () {
-//            for (Pair currentPair : this.pairsList) {
-//                System.out.println("key: " + currentPair.key + ", value: " + currentPair.value);
-//            }
-//        }
+    public boolean putAll(Dictionary<K, V> dictionary) {
+        for (Pair currentPair : dictionary.getPairsList()) {
+            K currentKey = (K) currentPair.key;
+            V currentValue = (V) currentPair.value;
+            this.put(currentKey, currentValue);
+        }
+        return true;
+    }
+
+    public boolean clear () {
+        Iterator iterator = this.pairsList.iterator();
+        while (iterator.hasNext()) {
+            iterator.remove();
+        }
+        this.size = 0;
+        return true;
+    }
+
+    public Set<K> keySet() {
+        HashSet<K> keySet = new HashSet<>();
+        for (Pair currentPair : this.pairsList) {
+            keySet.add((K) currentPair.key);
+        }
+        return keySet;
+    }
+
+    public Collection<V> values() {
+        Collection<V> valueCollection = new ArrayList<>();
+        for (Pair currentPair : this.pairsList) {
+            valueCollection.add((V) currentPair.value);
+        }
+        return valueCollection;
+    }
+
+    public void printDictionary() {
+        for (Pair currentPair : this.pairsList) {
+            System.out.println("key: " + currentPair.key + ", value: " + currentPair.value);
+        }
+    }
 
 }

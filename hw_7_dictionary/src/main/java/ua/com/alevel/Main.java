@@ -3,7 +3,7 @@ package ua.com.alevel;
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        Dictionary3 dictionary = new Dictionary3<>();
+        Dictionary dictionary = new Dictionary<>();
         dictionary.put(1, "A");
         dictionary.put(2, "A");
         dictionary.put(3, "B");

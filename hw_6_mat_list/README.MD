@@ -1,6 +1,6 @@
 # Matlist class implementation #
 ### <u> For start and demonstration methods of MatList, please run file </u> `run.sh` <u> from directory 'hw_6_mat_list'. </u> ###
-### This way you can see work of all methods in terminal which were written in MatList.class  ###
+### This way you can see work of all methods in terminal which were written in `MatList.class`  ###
 ## Task: ##
 #### Реалізація класу MatList<Number>
 

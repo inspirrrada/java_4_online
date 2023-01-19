@@ -1,38 +1,38 @@
-package ua.com.alevel;
+package ua.com.alevel.matlist;
 
 import java.util.*;
 
 public class MatList<E extends Number> implements List<E> {
 
     private Number[] array;
-    private int defaultSize = 10;
+    private int DEFAULT_CAPACITY = 10;
     private int elementQty;
 
     /**----------------------------------------------------
      * constructors
      */
     public MatList() {
-        array = new Number[defaultSize];
+        array = new Number[DEFAULT_CAPACITY];
     }
 
     public MatList(E[] ... numbers) {
-        defaultSize = 0;
+        DEFAULT_CAPACITY = 0;
         for (E[] currentArray : numbers) {
-            defaultSize += currentArray.length;
+            DEFAULT_CAPACITY += currentArray.length;
         }
-        this.array = new Number[defaultSize];
+        this.array = new Number[DEFAULT_CAPACITY];
         for (E[] currentArray : numbers) {
             addAll(Arrays.asList(currentArray));
         }
     }
 
     public MatList(MatList ... numbers) {
-        defaultSize = 0;
+        DEFAULT_CAPACITY = 0;
         for (MatList matlist : numbers) {
             Number[] currentArray = matlist.toArray();
-            defaultSize += currentArray.length;
+            DEFAULT_CAPACITY += currentArray.length;
         }
-        this.array = new Number[defaultSize];
+        this.array = new Number[DEFAULT_CAPACITY];
         for (MatList matlist : numbers) {
             addAll(matlist);
         }
@@ -104,7 +104,7 @@ public class MatList<E extends Number> implements List<E> {
     }
 
     public void sortDesc(int firstIndex, int lastIndex) {
-        Arrays.sort(this.array, firstIndex, lastIndex, Collections.reverseOrder());
+        Arrays.sort(this.array, firstIndex, lastIndex + 1, Collections.reverseOrder());
     }
 
     public void sortDesc(E value) {
@@ -117,14 +117,15 @@ public class MatList<E extends Number> implements List<E> {
     }
 
     public void sortAsc(int firstIndex, int lastIndex) {
-        Arrays.sort(this.array, firstIndex, lastIndex);
+        Arrays.sort(this.array, firstIndex, lastIndex + 1);
     }
 
     public void sortAsc(E value) {
         Number[] arrayCopy = Arrays.copyOf(this.array, this.size());
         Arrays.sort(arrayCopy, 0, arrayCopy.length);
-        int firstIndexOfValue = Arrays.binarySearch(arrayCopy, value);
-        Arrays.sort(this.array, firstIndexOfValue, this.size());
+//        int firstIndexOfValue = Arrays.binarySearch(arrayCopy, value);
+        int indexOfValue = indexOf(value);
+       sortAsc(indexOfValue, this.size()-1);
 }
 
     public E get(int index) {
@@ -138,12 +139,12 @@ public class MatList<E extends Number> implements List<E> {
 
     public Number getMax() {
         this.sortDesc();
-        return this.toArray()[0];
+        return (E) this.toArray()[0];
     }
 
     public Number getMin() {
         this.sortAsc();
-        return this.toArray()[0];
+        return (E) this.toArray()[0];
     }
 
     public Number getAverage() {
@@ -154,7 +155,7 @@ public class MatList<E extends Number> implements List<E> {
             }
         }
         Number average = sum / this.elementQty;
-        return average;
+        return (E) average;
     }
 
     public Number getMedian() {
@@ -168,11 +169,12 @@ public class MatList<E extends Number> implements List<E> {
     }
 
     public Number[] toArray() {
-        return Arrays.copyOf(this.array, this.elementQty);
+//        return Arrays.copyOf(this.array, this.elementQty);
+        return this.array;
     }
 
     public Number[] toArray(int firstIndex, int lastIndex) {
-        return Arrays.copyOfRange(this.array, firstIndex, lastIndex);
+        return Arrays.copyOfRange(this.array, firstIndex, lastIndex + 1);
     }
 
     public MatList cut(int firstIndex, int lastIndex) {
@@ -183,7 +185,7 @@ public class MatList<E extends Number> implements List<E> {
     }
 
     public void clear() {
-        this.array = new Number[defaultSize];
+        this.array = new Number[DEFAULT_CAPACITY];
         this.elementQty = 0;
     }
 
@@ -289,7 +291,7 @@ public class MatList<E extends Number> implements List<E> {
 
     @Override
     public <T> T[] toArray(T[] ts) {
-        if (ts.length < defaultSize) {
+        if (ts.length < DEFAULT_CAPACITY) {
             return (T[]) Arrays.copyOf(array, array.length, ts.getClass());
         } else {
             return ts;
@@ -401,10 +403,17 @@ public class MatList<E extends Number> implements List<E> {
     }
 
     /**----------------------------------------------------
+     * getters/setters
+     */
+
+    public int getDefaultCapacity() {
+        return DEFAULT_CAPACITY;
+    }
+
+    /**----------------------------------------------------
      * private classes for iterator methods from interface List,
      * based on methods from Arraylist class
      */
-
     private class Itr implements Iterator<E> {
         int cursor;
         int lastRet = -1;

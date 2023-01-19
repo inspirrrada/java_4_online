@@ -1,4 +1,4 @@
-package ua.com.alevel;
+package ua.com.alevel.dictionary;
 
 import java.util.*;
 

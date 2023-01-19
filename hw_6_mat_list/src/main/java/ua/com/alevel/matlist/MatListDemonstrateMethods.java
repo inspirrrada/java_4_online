@@ -9,7 +9,6 @@ import static com.diogonunes.jcolor.Attribute.*;
 
 public class MatListDemonstrateMethods {
     MatList matList;
-    //Random random = new Random();
     private static AnsiFormat blueText = new AnsiFormat(BRIGHT_BLUE_TEXT());
     private static AnsiFormat yellowText = new AnsiFormat(YELLOW_TEXT());
     private static AnsiFormat reverse = new AnsiFormat(REVERSE());
@@ -40,7 +39,7 @@ public class MatListDemonstrateMethods {
 
     public void start() {
         System.out.println();
-        System.out.println(reverse.format("WELCOME TO THE DEMOSTRATION OF METHODS OF MATLIST "));
+        System.out.println(reverse.format("WELCOME TO THE DEMOSTRATION OF MATLIST METHODS "));
         System.out.println("(on examples of random integers)");
         System.out.println();
         createDemonstration();
@@ -345,10 +344,10 @@ public class MatListDemonstrateMethods {
 
     public void clearSeparateValuesinMatlist() {
         System.out.println(underlinedText.format("Clear part of MatList"));
-        Integer[] array = new Integer[] {15, 20, 25, 30, 35, 40, 45, 50, 55, 60};
+        Integer[] array = new Integer[]{15, 20, 25, 30, 35, 40, 45, 50, 55, 60};
         MatList matListCurrent = new MatList(array);
         System.out.println("MatList before: " + matListCurrent);
-        Number[] clearArray = new Number[] {20, 25, 100};
+        Number[] clearArray = new Number[]{20, 25, 100};
         System.out.println("Data for clear in array: " + Arrays.toString(clearArray));
         matListCurrent.clear(clearArray);
         System.out.println(blueText.format("MatList after: " + matListCurrent));
@@ -362,5 +361,4 @@ public class MatListDemonstrateMethods {
         clearSeparateValuesinMatlist();
         System.out.println();
     }
-
 }

@@ -5,57 +5,57 @@ import java.util.*;
 public class MatList<E extends Number> implements List<E> {
 
     private Number[] array;
-    private int DEFAULT_CAPACITY = 10;
-    private int elementQty;
+    private int startCapacity = 10;
+    private int size;
 
-    /**----------------------------------------------------
-     * constructors
-     */
+
     public MatList() {
-        array = new Number[DEFAULT_CAPACITY];
+        array = new Number[startCapacity];
     }
 
-    public MatList(E[] ... numbers) {
-        DEFAULT_CAPACITY = 0;
+    public MatList(E[]... numbers) {
+        startCapacity = 0;
         for (E[] currentArray : numbers) {
-            DEFAULT_CAPACITY += currentArray.length;
+            startCapacity += currentArray.length;
         }
-        this.array = new Number[DEFAULT_CAPACITY];
+        this.array = new Number[startCapacity];
         for (E[] currentArray : numbers) {
             addAll(Arrays.asList(currentArray));
         }
     }
 
-    public MatList(MatList ... numbers) {
-        DEFAULT_CAPACITY = 0;
+    public MatList(MatList... numbers) {
+        startCapacity = 0;
         for (MatList matlist : numbers) {
             Number[] currentArray = matlist.toArray();
-            DEFAULT_CAPACITY += currentArray.length;
+            startCapacity += currentArray.length;
         }
-        this.array = new Number[DEFAULT_CAPACITY];
+        this.array = new Number[startCapacity];
         for (MatList matlist : numbers) {
             addAll(matlist);
         }
     }
 
-    /**----------------------------------------------------
+    /**
+     * ----------------------------------------------------
      * methods for homework
      */
     @Override
     public boolean add(E n) {
         checkArrayCapacityBeforeAddingElement();
-        this.array[elementQty] = n;
-        elementQty++;
+        this.array[size] = n;
+        size++;
         return true;
     }
 
-    public void add(E ... n) {
+    public void add(E... n) {
         for (E currentElem : n) {
             add(currentElem);
         }
     }
 
-    /**----------------------------------------------------
+    /**
+     * ----------------------------------------------------
      * methods from interface List that has to be @Override
      */
     @Override
@@ -64,30 +64,30 @@ public class MatList<E extends Number> implements List<E> {
             checkArrayCapacityBeforeAddingElement();
             Number[] arrayAfterIndex = Arrays.copyOfRange(this.array, i, this.array.length);
             this.array[i] = e;
-            this.elementQty++;
-            System.arraycopy(arrayAfterIndex, 0, this.array, i+1, this.elementQty);
+            this.size++;
+            System.arraycopy(arrayAfterIndex, 0, this.array, i + 1, this.size);
         } else {
             System.out.println("Error! Please enter correct index!");
         }
     }
 
-    public void join(MatList ... ml) {
+    public void join(MatList... ml) {
         for (MatList currentMatList : ml) {
             Number[] currentArray = currentMatList.toArray();
             for (int i = 0; i < currentArray.length; i++) {
                 add((E) currentArray[i]);
             }
         }
-}
+    }
 
-    public void intersection (MatList ... ml) {
+    public void intersection(MatList... ml) {
         Number[] commonArray = new Number[0];
         MatList commonMatList = new MatList(commonArray);
         for (MatList currentMatList : ml) {
             Number[] currentArray = currentMatList.toArray();
             for (int i = 0; i < currentArray.length; i++) {
                 Number inputNum = currentArray[i];
-                for (int j = 0; j < this.elementQty; j++) {
+                for (int j = 0; j < this.size; j++) {
                     Number arrayNum = this.array[j];
                     if (arrayNum.equals(inputNum)) {
                         commonMatList.add(arrayNum);
@@ -96,7 +96,7 @@ public class MatList<E extends Number> implements List<E> {
             }
         }
         this.array = commonMatList.array;
-        this.elementQty = commonMatList.elementQty;
+        this.size = commonMatList.size;
     }
 
     public void sortDesc() {
@@ -109,11 +109,11 @@ public class MatList<E extends Number> implements List<E> {
 
     public void sortDesc(E value) {
         int firstIndexOfValue = indexOf(value);
-        Arrays.sort(this.array, firstIndexOfValue, this.elementQty, Collections.reverseOrder());
+        Arrays.sort(this.array, firstIndexOfValue, this.size, Collections.reverseOrder());
     }
 
     public void sortAsc() {
-        Arrays.sort(this.array, 0, this.elementQty);
+        Arrays.sort(this.array, 0, this.size);
     }
 
     public void sortAsc(int firstIndex, int lastIndex) {
@@ -123,10 +123,9 @@ public class MatList<E extends Number> implements List<E> {
     public void sortAsc(E value) {
         Number[] arrayCopy = Arrays.copyOf(this.array, this.size());
         Arrays.sort(arrayCopy, 0, arrayCopy.length);
-//        int firstIndexOfValue = Arrays.binarySearch(arrayCopy, value);
         int indexOfValue = indexOf(value);
-       sortAsc(indexOfValue, this.size()-1);
-}
+        sortAsc(indexOfValue, this.size() - 1);
+    }
 
     public E get(int index) {
         if (index > 0 && index < this.array.length) {
@@ -154,7 +153,7 @@ public class MatList<E extends Number> implements List<E> {
                 sum += currentNum.doubleValue();
             }
         }
-        Number average = sum / this.elementQty;
+        Number average = sum / this.size;
         return (E) average;
     }
 
@@ -169,7 +168,6 @@ public class MatList<E extends Number> implements List<E> {
     }
 
     public Number[] toArray() {
-//        return Arrays.copyOf(this.array, this.elementQty);
         return this.array;
     }
 
@@ -180,20 +178,20 @@ public class MatList<E extends Number> implements List<E> {
     public MatList cut(int firstIndex, int lastIndex) {
         Number[] array = Arrays.copyOfRange(this.array, firstIndex, lastIndex + 1);
         this.array = array;
-        this.elementQty = (lastIndex - firstIndex) + 1;
+        this.size = (lastIndex - firstIndex) + 1;
         return this;
     }
 
     public void clear() {
-        this.array = new Number[DEFAULT_CAPACITY];
-        this.elementQty = 0;
+        this.array = new Number[startCapacity];
+        this.size = 0;
     }
 
     public void clear(Number[] numbers) {
         Number[] clearArray = this.array;
         for (int i = 0; i < numbers.length; i++) {
             Number inputNum = numbers[i];
-            for (int j = 0; j < this.elementQty; j++) {
+            for (int j = 0; j < this.size; j++) {
                 Number currentElem = clearArray[j];
                 if (inputNum.equals(currentElem)) {
                     remove(j);
@@ -213,25 +211,25 @@ public class MatList<E extends Number> implements List<E> {
     @Override
     public E remove(int index) {
         Number oldValue = this.array[index];
-        int newSize = this.elementQty - 1;
+        int newSize = this.size - 1;
         if (newSize > index) {
             System.arraycopy(this.array, index + 1, this.array, index, newSize - index);
         }
         this.array[newSize] = null;
-        this.elementQty--;
+        this.size--;
         return (E) oldValue;
     }
 
     @Override
     public int indexOf(Object o) {
         if (o == null) {
-            for(int i = 0; i < this.array.length; i++) {
+            for (int i = 0; i < this.array.length; i++) {
                 if (this.array[i] == null) {
                     return i;
                 }
             }
         } else {
-            for(int i = 0; i < this.array.length; i++) {
+            for (int i = 0; i < this.array.length; i++) {
                 if (o.equals(this.array[i])) {
                     return i;
                 }
@@ -243,13 +241,13 @@ public class MatList<E extends Number> implements List<E> {
     @Override
     public int lastIndexOf(Object o) {
         if (o == null) {
-            for(int i = this.array.length - 1; i >= 0; i--) {
+            for (int i = this.array.length - 1; i >= 0; i--) {
                 if (this.array[i] == null) {
                     return i;
                 }
             }
         } else {
-            for(int i = this.array.length - 1; i >= 0; i--) {
+            for (int i = this.array.length - 1; i >= 0; i--) {
                 if (o.equals(this.array[i])) {
                     return i;
                 }
@@ -276,7 +274,7 @@ public class MatList<E extends Number> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        return this.elementQty == 0;
+        return this.size == 0;
     }
 
     @Override
@@ -291,7 +289,7 @@ public class MatList<E extends Number> implements List<E> {
 
     @Override
     public <T> T[] toArray(T[] ts) {
-        if (ts.length < DEFAULT_CAPACITY) {
+        if (ts.length < startCapacity) {
             return (T[]) Arrays.copyOf(array, array.length, ts.getClass());
         } else {
             return ts;
@@ -314,9 +312,9 @@ public class MatList<E extends Number> implements List<E> {
     @Override
     public boolean addAll(Collection<? extends E> collection) {
         Object[] tempArray = collection.toArray();
-            for (Object currentElem : tempArray) {
-               this.add((E) currentElem);
-            }
+        for (Object currentElem : tempArray) {
+            this.add((E) currentElem);
+        }
         return true;
     }
 
@@ -325,7 +323,7 @@ public class MatList<E extends Number> implements List<E> {
         Object[] tempArray = collection.toArray();
         if (i >= 0 && i < this.array.length) {
             checkArrayCapacityBeforeAddingElement();
-            Number[] arrayTillIndex = Arrays.copyOfRange(this.array, 0, i+1);
+            Number[] arrayTillIndex = Arrays.copyOfRange(this.array, 0, i + 1);
             System.arraycopy(tempArray, 0, arrayTillIndex, i, arrayTillIndex.length + tempArray.length);
             this.array = arrayTillIndex;
             return true;
@@ -363,28 +361,30 @@ public class MatList<E extends Number> implements List<E> {
 
     @Override
     public int size() {
-        return this.elementQty;
+        return this.size;
     }
 
-    /**----------------------------------------------------
+    /**
+     * ----------------------------------------------------
      * supporting methods
      */
     public void checkArrayCapacityBeforeAddingElement() {
-        if (this.elementQty == this.array.length) {
+        if (this.size == this.array.length) {
             int newLength;
             if (this.array.length == 0) {
                 newLength = 1;
             } else {
-                newLength = this.array.length  * 2;
+                newLength = this.array.length * 2;
             }
             this.array = Arrays.copyOf(this.array, newLength);
         }
     }
+
     @Override
     public String toString() {
         String value = "";
         int count = 0;
-        for (int i = 0; i < this.elementQty; i++) {
+        for (int i = 0; i < this.size; i++) {
             if (this.array[i] != null) {
                 if (value.equals("")) {
                     value = value + "[" + this.array[i];
@@ -402,34 +402,31 @@ public class MatList<E extends Number> implements List<E> {
         return value;
     }
 
-    /**----------------------------------------------------
-     * getters/setters
-     */
-
-    public int getDefaultCapacity() {
-        return DEFAULT_CAPACITY;
+    public int getStartCapacity() {
+        return startCapacity;
     }
 
-    /**----------------------------------------------------
+    /**
+     * ----------------------------------------------------
      * private classes for iterator methods from interface List,
-     * based on methods from Arraylist class
+     * copy from methods of Arraylist class
      */
     private class Itr implements Iterator<E> {
         int cursor;
         int lastRet = -1;
-        int expectedModCount = MatList.this.elementQty;
+        int expectedModCount = MatList.this.size;
 
         Itr() {
         }
 
         public boolean hasNext() {
-            return this.cursor != MatList.this.elementQty;
+            return this.cursor != MatList.this.size;
         }
 
         public E next() {
             this.checkForComodification();
             int i = this.cursor;
-            if (i >= MatList.this.elementQty) {
+            if (i >= MatList.this.size) {
                 throw new NoSuchElementException();
             } else {
                 Object[] elementData = MatList.this.array;
@@ -451,7 +448,7 @@ public class MatList<E extends Number> implements List<E> {
                     MatList.this.remove(this.lastRet);
                     this.cursor = this.lastRet;
                     this.lastRet = -1;
-                    this.expectedModCount = MatList.this.elementQty;
+                    this.expectedModCount = MatList.this.size;
                 } catch (IndexOutOfBoundsException var2) {
                     throw new ConcurrentModificationException();
                 }
@@ -460,7 +457,7 @@ public class MatList<E extends Number> implements List<E> {
 
 
         final void checkForComodification() {
-            if (MatList.this.elementQty != this.expectedModCount) {
+            if (MatList.this.size != this.expectedModCount) {
                 throw new ConcurrentModificationException();
             }
         }
@@ -520,7 +517,7 @@ public class MatList<E extends Number> implements List<E> {
                 MatList.this.add(i, e);
                 this.cursor = i + 1;
                 this.lastRet = -1;
-                this.expectedModCount = MatList.this.elementQty;
+                this.expectedModCount = MatList.this.size;
             } catch (IndexOutOfBoundsException var3) {
                 throw new ConcurrentModificationException();
             }

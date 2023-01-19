@@ -1,11 +1,8 @@
 package ua.com.alevel.matlist;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
 import java.util.Random;
 
 public class MatListMethodsTest {
@@ -37,7 +34,7 @@ public class MatListMethodsTest {
     public void checkCreateMatListWithEmptyConstructor() {
         MatList matList = new MatList<>();
 
-        Assertions.assertEquals(matList.getDefaultCapacity(), CAPACITY);
+        Assertions.assertEquals(matList.getStartCapacity(), CAPACITY);
         Assertions.assertEquals(matList.size(), 0);
     }
 
@@ -85,7 +82,7 @@ public class MatListMethodsTest {
     public void checkAddOneElementToExactIndex() {
         MatList matList = generateRandomMatList();
         int size = matList.size();
-        int index = random.nextInt(0, size-1);
+        int index = random.nextInt(0, size - 1);
         int num = getRandonNum();
         matList.add(index, num);
 
@@ -106,9 +103,9 @@ public class MatListMethodsTest {
 
         Assertions.assertEquals(matList.size(), size + 4);
         Assertions.assertEquals(matList.get(size), num1);
-        Assertions.assertEquals(matList.get(size+1), num2);
-        Assertions.assertEquals(matList.get(size+2), num3);
-        Assertions.assertEquals(matList.get(size+3), num4);
+        Assertions.assertEquals(matList.get(size + 1), num2);
+        Assertions.assertEquals(matList.get(size + 2), num3);
+        Assertions.assertEquals(matList.get(size + 3), num4);
     }
 
     @Test
@@ -128,14 +125,13 @@ public class MatListMethodsTest {
     @Test
     @Order(8)
     public void checkJoinAndLeaveOnlyCommonElements() {
-        Integer[] array = new Integer[] {15, 20, 25, 30, 35};
+        Integer[] array = new Integer[]{15, 20, 25, 30, 35};
         MatList matList = new MatList(array);
-        Integer[] array1 = new Integer[] {5, 10, 15, 20, 25}; //common 15, 20, 25
-        Integer[] array2 = new Integer[] {30, 35, 40, 45, 50}; //common 30, 35
+        Integer[] array1 = new Integer[]{5, 10, 15, 20, 25}; //common 15, 20, 25
+        Integer[] array2 = new Integer[]{30, 35, 40, 45, 50}; //common 30, 35
         MatList matList1 = new MatList<>(array1);
         MatList matList2 = new MatList<>(array2);
         matList.intersection(matList1, matList2);
-        System.out.println(matList);
 
         Assertions.assertEquals(matList.size(), 5);
         Assertions.assertEquals(matList.contains(5), false);
@@ -228,7 +224,7 @@ public class MatListMethodsTest {
     @Test
     @Order(15)
     public void checkGetElementByIndex() {
-        Integer[] array = new Integer[] {15, 20, 25, 30, 35, 40, 45, 50, 55, 60};
+        Integer[] array = new Integer[]{15, 20, 25, 30, 35, 40, 45, 50, 55, 60};
         MatList matList = new MatList(array);
 
         Assertions.assertEquals(matList.get(0), 15);
@@ -261,7 +257,7 @@ public class MatListMethodsTest {
     @Test
     @Order(18)
     public void checkGetAverage() {
-        Integer[] array = new Integer[] {15, 20, 25, 30, 35, 40, 45, 50, 55, 60};
+        Integer[] array = new Integer[]{15, 20, 25, 30, 35, 40, 45, 50, 55, 60};
         MatList matList = new MatList(array);
         double average = (15 + 20 + 25 + 30 + 35 + 40 + 45 + 50 + 55 + 60) / 10.0;
 
@@ -271,7 +267,7 @@ public class MatListMethodsTest {
     @Test
     @Order(19)
     public void checkGetMedianForOddQtyElements() {
-        Integer[] array = new Integer[] {15, 20, 25, 30, 35, 40, 45, 50, 55};
+        Integer[] array = new Integer[]{15, 20, 25, 30, 35, 40, 45, 50, 55};
         MatList matList = new MatList(array);
         int median = 35;
 
@@ -281,7 +277,7 @@ public class MatListMethodsTest {
     @Test
     @Order(20)
     public void checkGetMedianForEvenQtyElements() {
-        Integer[] array = new Integer[] {15, 20, 25, 30, 35, 40, 45, 50, 55, 60};
+        Integer[] array = new Integer[]{15, 20, 25, 30, 35, 40, 45, 50, 55, 60};
         MatList matList = new MatList(array);
 
         Assertions.assertEquals(matList.getMedian(), (35 + 40) / 2.0);
@@ -302,11 +298,11 @@ public class MatListMethodsTest {
     @Order(22)
     public void checktoArrayPartOfMatList() {
         MatList matList = generateRandomMatList();
-        Number[] array = matList.toArray(6,9);
+        Number[] array = matList.toArray(6, 9);
 
-        Assertions.assertEquals(array.length, (9-6)+1);
+        Assertions.assertEquals(array.length, (9 - 6) + 1);
         Assertions.assertEquals(matList.get(6), array[0]);
-        Assertions.assertEquals(matList.get(9), array[array.length-1]);
+        Assertions.assertEquals(matList.get(9), array[array.length - 1]);
     }
 
     @Test
@@ -317,7 +313,7 @@ public class MatListMethodsTest {
         matList.cut(6, 9);
 
         Assertions.assertEquals(matList.get(0), num6);
-        Assertions.assertEquals(matList.size(), (9-6)+1);
+        Assertions.assertEquals(matList.size(), (9 - 6) + 1);
     }
 
     @Test
@@ -332,10 +328,10 @@ public class MatListMethodsTest {
     @Test
     @Order(25)
     public void checkClearBetweenIndexes() {
-        Integer[] array = new Integer[] {15, 20, 25, 30, 35, 40, 45, 50, 55, 60};
+        Integer[] array = new Integer[]{15, 20, 25, 30, 35, 40, 45, 50, 55, 60};
         MatList matList = new MatList(array);
         int sizeBefore = matList.size();
-        Number[] clearArray = new Number[] {20, 25, 100};
+        Number[] clearArray = new Number[]{20, 25, 100};
         matList.clear(clearArray);
         int sizeAfter = matList.size();
 

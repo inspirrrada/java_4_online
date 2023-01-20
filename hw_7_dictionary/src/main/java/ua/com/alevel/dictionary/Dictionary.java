@@ -116,9 +116,10 @@ public class Dictionary<K, V> {
         return true;
     }
 
-    public boolean clear () {
+    public boolean clear() {
         Iterator iterator = this.pairsList.iterator();
         while (iterator.hasNext()) {
+            iterator.next();
             iterator.remove();
         }
         this.size = 0;
@@ -141,10 +142,23 @@ public class Dictionary<K, V> {
         return valueCollection;
     }
 
-    public void printDictionary() {
-        for (Pair currentPair : this.pairsList) {
-            System.out.println("key: " + currentPair.key + ", value: " + currentPair.value);
+    @Override
+    public String toString() {
+        String value = "";
+        if (pairsList.size() == 0) {
+            value = "[]";
+        } else {
+            for (int i = 0; i < pairsList.size(); i++) {
+                Pair currentPair = pairsList.get(i);
+                if (i == 0) {
+                    value += "[ ";
+                }
+                value += "{key: " + currentPair.key + ", value: " + currentPair.value + "} ";
+                if (i == pairsList.size() - 1) {
+                    value += "]";
+                }
+            }
         }
+        return value;
     }
-
 }

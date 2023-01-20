@@ -1,5 +1,6 @@
-# hw_7_dictionary #
-### <u> For start please run file </u> `run.sh` <u> from directory 'hw_7_dictionary'. </u> ###
+# Dictionary class implementation #
+### <u> For start please run file </u> `run.sh` <u> from directory `hw_7_dictionary`. </u> ###
+### After start in terminal you can see demonstration of all Dictionary methods from task, which were written in `Dictionary.class`  ###
 ## Task: ##
 #### Реалізація Dictionary
 

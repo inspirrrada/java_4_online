@@ -30,9 +30,17 @@ public class DictionaryDemonstrateMethods {
         System.out.println(underlinedText.format("Put values to the new Dictionary"));
         System.out.println("Value 1: zipCode - 58000, city - Chernivtsi.");
         System.out.println("Value 2: zipCode - 79000, city - Lviv.");
-        zipCodesUa.put("58000", "Chernivtsi");
+        zipCodesUa.put("58000", "Vinnutsya");
         zipCodesUa.put("79000", "Lviv");
         System.out.println(blueText.format("Dictionary result: " + zipCodesUa.toString()));
+    }
+
+    public void updateValueInDictionary() {
+        System.out.println(underlinedText.format("Update value in the Dictionary"));
+        System.out.println("Dictionary before: " + zipCodesUa);
+        zipCodesUa.put("58000", "Chernivtsi");
+        System.out.println("Update value by key: 58000");
+        System.out.println(blueText.format("Dictionary after: " + zipCodesUa.toString()));
     }
 
     public void addValuesFromOtherDictionary() {
@@ -49,6 +57,7 @@ public class DictionaryDemonstrateMethods {
     public void addMethodsDemonstration() {
         System.out.println(yellowText.format("CREATE DICTIONARY AND ADD VALUES"));
         putValuesToTheNewDictionary();
+        updateValueInDictionary();
         addValuesFromOtherDictionary();
         System.out.println();
     }

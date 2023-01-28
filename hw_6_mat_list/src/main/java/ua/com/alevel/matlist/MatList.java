@@ -8,7 +8,6 @@ public class MatList<E extends Number> implements List<E> {
     private int startCapacity = 10;
     private int size;
 
-
     public MatList() {
         array = new Number[startCapacity];
     }
@@ -71,8 +70,8 @@ public class MatList<E extends Number> implements List<E> {
         }
     }
 
-    public void join(MatList... ml) {
-        for (MatList currentMatList : ml) {
+    public void join(MatList<E>... ml) {
+        for (MatList<E> currentMatList : ml) {
             Number[] currentArray = currentMatList.toArray();
             for (int i = 0; i < currentArray.length; i++) {
                 add((E) currentArray[i]);
@@ -80,17 +79,17 @@ public class MatList<E extends Number> implements List<E> {
         }
     }
 
-    public void intersection(MatList... ml) {
+    public void intersection(MatList<E>... ml) {
         Number[] commonArray = new Number[0];
-        MatList commonMatList = new MatList(commonArray);
-        for (MatList currentMatList : ml) {
+        MatList<E> commonMatList = new MatList<E>((E[]) commonArray);
+        for (MatList<E> currentMatList : ml) {
             Number[] currentArray = currentMatList.toArray();
             for (int i = 0; i < currentArray.length; i++) {
                 Number inputNum = currentArray[i];
                 for (int j = 0; j < this.size; j++) {
                     Number arrayNum = this.array[j];
                     if (arrayNum.equals(inputNum)) {
-                        commonMatList.add(arrayNum);
+                        commonMatList.add((E) arrayNum);
                     }
                 }
             }

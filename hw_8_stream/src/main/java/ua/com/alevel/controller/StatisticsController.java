@@ -28,17 +28,23 @@ public class StatisticsController {
 
     public void getResult() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String text;
         while (true) {
             System.out.println();
             System.out.println(ColorUtils.getUnderlinedText().format("Please enter your text:"));
-            String text = reader.readLine();
+            text = reader.readLine();
             if (text.equals("0")) {
-                break;
-            } else if (text.equals("")) {
+                System.out.println();
+                System.out.println(ColorUtils.getYellowText().format("The application is finished. Good Bye!"));
+                System.out.println();
+               break;
+            }
+            if (text.equals("")) {
                 System.out.println(ColorUtils.getRedText().format("You have not entered anything."));
             } else {
                 TextStatisticsMethods.printTable(TextStatisticsMethods.getWordStatisticsList(text));
             }
+//            TextStatisticsMethods.printTable(TextStatisticsMethods.getWordStatisticsList(text));
         }
     }
 }

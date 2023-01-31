@@ -1,0 +1,169 @@
+package ua.com.alevel.service;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+
+public class FileHelperService {
+
+    public void readHomeDirectory() {
+        File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
+        System.out.println("homeDir: " + homeDir);
+        readDir(homeDir);
+    }
+
+    public void observe(String dirName) {
+        String path = getDirPathByName(dirName);
+        File file = new File(path);
+        readDir(file);
+    }
+
+    public String getDirPathByName(String dirName) {
+        String[] dirPath = new String[1];
+        HashMap<String, String> map = getSearchDirInfo(dirName);
+        map.forEach((k,v) -> {
+            if (v.equals(dirName)) {
+                dirPath[0] = k;
+            }
+        });
+        return dirPath[0];
+    }
+
+    public String getFilePathByName(String fileName) {
+        String[] filePath = new String[1];
+        HashMap<String, String> map = getSearchDirInfo(fileName);
+        map.forEach((k,v) -> {
+            if (v.equals(fileName)) {
+                filePath[0] = k;
+            }
+        });
+        return filePath[0];
+    }
+
+    public String getDirNameByPath(String dirPath) {
+        File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
+        String[] dirName = new String[1];
+        HashMap<String, String> map = new HashMap<>();
+        readAllDirs(homeDir, map);
+        map.forEach((k,v) -> {
+            if (k.equals(dirPath)) {
+                dirName[0] = v;
+            }
+        });
+        return dirName[0];
+    }
+
+    public String getFileNameByPath(String filePath) {
+        File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
+        String[] fileName = new String[1];
+        HashMap<String, String> map = new HashMap<>();
+        readAllFiles(homeDir, map);
+        map.forEach((k,v) -> {
+            if (k.equals(filePath)) {
+                fileName[0] = v;
+            }
+        });
+        return fileName[0];
+    }
+
+    public void readDir(File dir) {
+        System.out.println("dir: " + dir.getAbsolutePath());
+        File[] files = dir.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                readDir(file);
+            } else {
+                System.out.println("file: " + file.getAbsolutePath());
+            }
+        }
+    }
+
+    public void readFile(String path) {
+        File file = new File(path);
+        readDir(file);
+    }
+
+    public boolean isExistDir(String dirName) {
+        boolean isExistDir = false;
+        HashMap<String, String> resultMap = getSearchDirInfo(dirName);
+        if (resultMap.size() >= 1) {
+            isExistDir = true;
+        }
+        return isExistDir;
+    }
+
+    public boolean isExistFile(String fileName) {
+        boolean isExistFile = false;
+        HashMap<String, String> resultMap = getSearchFileInfo(fileName);
+        if (resultMap.size() >= 1) {
+            isExistFile = true;
+        }
+        return isExistFile;
+    }
+
+    public HashMap getSearchDirInfo(String dirName) {
+        File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
+        HashMap<String, String> allDirsMap = new HashMap<>();
+        HashMap resultMap = new HashMap();
+        readAllDirs(homeDir, allDirsMap);
+        allDirsMap.forEach((k,v) -> {
+            if (v.equals(dirName)) {
+                resultMap.put(k, v);
+            }
+        });
+        return resultMap;
+    }
+
+    public HashMap getSearchFileInfo(String fileName) {
+        File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
+        HashMap<String, String> allFilesMap = new HashMap<>();
+        HashMap resultMap = new HashMap();
+        readAllFiles(homeDir, allFilesMap);
+        allFilesMap.forEach((k,v) -> {
+            if (v.equals(fileName)) {
+                resultMap.put(k, v);
+            }
+        });
+        return resultMap;
+    }
+
+
+    public void readAllDirs(File homeDir, HashMap<String, String> allDirsMap) {
+        File[] dirs = homeDir.listFiles();
+        for (File file : dirs) {
+            if (file.isDirectory()) {
+                allDirsMap.put(file.getAbsolutePath(), file.getName());
+                readAllDirs(file, allDirsMap);
+            }
+        }
+    }
+
+    public void readAllFiles(File homeDir, HashMap<String, String> allFilesMap) {
+        File[] files = homeDir.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                readAllFiles(file, allFilesMap);
+            } else {
+                allFilesMap.put(file.getAbsolutePath(), file.getName());
+            }
+        }
+    }
+
+    public boolean createFile(String dirPath, String fileName) throws IOException {
+        String path = dirPath + "/" + fileName;
+        File file = new File(path);
+        return file.createNewFile();
+    }
+
+    public boolean createDir(String path) throws IOException {
+        File dir = new File(path);
+        return dir.mkdir();
+    }
+
+
+}

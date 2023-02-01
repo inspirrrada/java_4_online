@@ -2,10 +2,7 @@ package ua.com.alevel.controller;
 
 import ua.com.alevel.service.FileHelperService;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -64,11 +61,11 @@ public class FileHelperController {
             case "3" -> createNewDir(reader);
             case "4" -> deleteFile(reader);
             case "5" -> deleteDir(reader);
-//            case "6" -> deleteGame(reader);
-//            case "7" ->
+            case "6" -> transferFileFromOneDirToAnother(reader);
+            case "7" -> transferFolderFromOneDirToAnother(reader);
             case "8" -> findFile(reader);
             case "9" -> findDir(reader);
-//            case "10" -> deleteGame(reader);
+            case "10" -> searchText(reader);
             case "11" -> stop();
 //            default -> System.out.println(GamePlayService.getRedText().format("Wrong value! Select menu again."));
         }
@@ -116,7 +113,7 @@ public class FileHelperController {
         service.createFile(path[0], fileName);
     }
 
-    public void createNewDir(BufferedReader reader) throws IOException {
+    private void createNewDir(BufferedReader reader) throws IOException {
         System.out.println("Please enter name of directory where you want to create new folder: ");
         String dirName = reader.readLine();
         HashMap<String, String> map = service.getSearchDirInfo(dirName);
@@ -149,7 +146,7 @@ public class FileHelperController {
         service.createDir(path[0], newDirName);
     }
 
-    public void findFile(BufferedReader reader) throws IOException {
+    private void findFile(BufferedReader reader) throws IOException {
         System.out.println("Please enter name of file:");
         System.out.println("***Pay attention, the search is case-sensitive.");
         String searchFile = reader.readLine();
@@ -165,7 +162,7 @@ public class FileHelperController {
         }
     }
 
-    public void findDir(BufferedReader reader) throws IOException {
+    private void findDir(BufferedReader reader) throws IOException {
         System.out.println("Please enter name of directory:");
         System.out.println("***Pay attention, the search is case-sensitive.");
         String searchDir = reader.readLine();
@@ -181,7 +178,7 @@ public class FileHelperController {
         }
     }
 
-    public void deleteDir(BufferedReader reader) throws IOException {
+    private void deleteDir(BufferedReader reader) throws IOException {
         System.out.println("Please enter name of directory:");
         String dirName = reader.readLine();
         HashMap<String, String> map = service.getSearchDirInfo(dirName);
@@ -212,7 +209,7 @@ public class FileHelperController {
         service.deleteDir(path[0]);
     }
 
-    public void deleteFile(BufferedReader reader) throws IOException {
+    private void deleteFile(BufferedReader reader) throws IOException {
         System.out.println("Please enter name of directory:");
         String dirName = reader.readLine();
         HashMap<String, String> map = service.getSearchDirInfo(dirName);
@@ -244,6 +241,166 @@ public class FileHelperController {
         String fileName = reader.readLine();
         service.deleteFile(path[0], fileName);
     }
+
+    private void transferFileFromOneDirToAnother(BufferedReader reader) throws IOException {
+        System.out.println("Please enter name of directory, from which you want to move the file:");
+        String dirFrom = reader.readLine();
+        HashMap<String, String> mapFrom = service.getSearchDirInfo(dirFrom);
+        String[] pathFrom = new String[1];
+        if (mapFrom.size() > 1) {
+            System.out.println("We found few directories in system with such name.");
+            mapFrom.forEach((k,v) -> System.out.println(k));
+            System.out.println("Please look details and enter the path of directory you need:");
+            while(true) {
+                pathFrom[0] = reader.readLine();
+                int[] count = new int[1];
+                mapFrom.forEach((k,v) -> {
+                    if (pathFrom[0].equals(k)) {
+                        count[0]++;
+                    }
+                });
+                if (count[0] == 0) {
+                    System.out.println("Wrong value! Please choose and enter the path of directory you entered earlier.");
+                } else if (count[0] == 1) {
+                    break;
+                }
+            }
+        } else if (mapFrom.size() == 0) {
+            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
+        } else {
+            pathFrom[0] = service.getDirPathByName(dirFrom);
+        }
+        System.out.println("Please enter file name with extension:");
+        String fileName = reader.readLine();
+        service.deleteFile(pathFrom[0], fileName);
+        System.out.println("Please enter name of directory, where you want to move the file:");
+        String dirTo = reader.readLine();
+        HashMap<String, String> mapTo = service.getSearchDirInfo(dirTo);
+        String[] pathTo = new String[1];
+        if (mapTo.size() > 1) {
+            System.out.println("We found few directories in system with such name.");
+            mapTo.forEach((k,v) -> System.out.println(k));
+            System.out.println("Please look details and enter the path of directory you need:");
+            while(true) {
+                pathTo[0] = reader.readLine();
+                int[] count = new int[1];
+                mapTo.forEach((k,v) -> {
+                    if (pathTo[0].equals(k)) {
+                        count[0]++;
+                    }
+                });
+                if (count[0] == 0) {
+                    System.out.println("Wrong value! Please choose and enter the path of directory you entered earlier.");
+                } else if (count[0] == 1) {
+                    break;
+                }
+            }
+        } else if (mapTo.size() == 0) {
+            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
+        } else {
+            pathTo[0] = service.getDirPathByName(dirTo);
+        }
+        service.moveFile(pathFrom[0], fileName, pathTo[0]);
+    }
+
+    private void transferFolderFromOneDirToAnother(BufferedReader reader) throws IOException {
+        System.out.println("Please enter name of directory, from which you want to move the folder:");
+        String dirFrom = reader.readLine();
+        HashMap<String, String> mapFrom = service.getSearchDirInfo(dirFrom);
+        String[] pathFrom = new String[1];
+        if (mapFrom.size() > 1) {
+            System.out.println("We found few directories in system with such name.");
+            mapFrom.forEach((k,v) -> System.out.println(k));
+            System.out.println("Please look details and enter the path of directory you need:");
+            while(true) {
+                pathFrom[0] = reader.readLine();
+                int[] count = new int[1];
+                mapFrom.forEach((k,v) -> {
+                    if (pathFrom[0].equals(k)) {
+                        count[0]++;
+                    }
+                });
+                if (count[0] == 0) {
+                    System.out.println("Wrong value! Please choose and enter the path of directory you entered earlier.");
+                } else if (count[0] == 1) {
+                    break;
+                }
+            }
+        } else if (mapFrom.size() == 0) {
+            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
+        } else {
+            pathFrom[0] = service.getDirPathByName(dirFrom);
+        }
+        System.out.println("Please enter folder name you want to move:");
+        String folderName = reader.readLine();
+        //service.deleteFile(pathFrom[0], fileName);
+        System.out.println("Please enter name of directory, where you want to move the folder:");
+        String dirTo = reader.readLine();
+        HashMap<String, String> mapTo = service.getSearchDirInfo(dirTo);
+        String[] pathTo = new String[1];
+        if (mapTo.size() > 1) {
+            System.out.println("We found few directories in system with such name.");
+            mapTo.forEach((k,v) -> System.out.println(k));
+            System.out.println("Please look details and enter the path of directory you need:");
+            while(true) {
+                pathTo[0] = reader.readLine();
+                int[] count = new int[1];
+                mapTo.forEach((k,v) -> {
+                    if (pathTo[0].equals(k)) {
+                        count[0]++;
+                    }
+                });
+                if (count[0] == 0) {
+                    System.out.println("Wrong value! Please choose and enter the path of directory you entered earlier.");
+                } else if (count[0] == 1) {
+                    break;
+                }
+            }
+        } else if (mapTo.size() == 0) {
+            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
+        } else {
+            pathTo[0] = service.getDirPathByName(dirTo);
+        }
+        service.moveDir(pathFrom[0], folderName, pathTo[0]);
+    }
+
+    public void searchText(BufferedReader reader) throws IOException {
+        System.out.println("Please enter name of directory:");
+        String dirName = reader.readLine();
+        HashMap<String, String> map = service.getSearchDirInfo(dirName);
+        String[] path = new String[1];
+        if (map.size() > 1) {
+            System.out.println("We found few directories in system with such name.");
+            map.forEach((k,v) -> System.out.println(k));
+            System.out.println("Please look details and enter the path of directory you need:");
+            while(true) {
+                path[0] = reader.readLine();
+                int[] count = new int[1];
+                map.forEach((k,v) -> {
+                    if (path[0].equals(k)) {
+                        count[0]++;
+                    }
+                });
+                if (count[0] == 0) {
+                    System.out.println("Wrong value! Please choose and enter the path of directory you entered earlier.");
+                } else if (count[0] == 1) {
+                    break;
+                }
+            }
+        } else if (map.size() == 0) {
+            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
+        } else {
+            path[0] = service.getDirPathByName(dirName);
+        }
+        System.out.println("Please enter text for search:");
+        String searchText = reader.readLine();
+        HashMap resultMap = service.searchTextInDir(path[0], searchText);
+        System.out.println("Text was found here:");
+        resultMap.forEach((k,v) -> System.out.println(k));
+
+    }
+
+
 
 //    private void createPlayer(BufferedReader reader) throws IOException {
 //        System.out.println(GamePlayService.getReverse().format("\nMenu 1. CREATE PLAYER"));

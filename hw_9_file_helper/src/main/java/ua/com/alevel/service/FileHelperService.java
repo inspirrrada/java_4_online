@@ -2,10 +2,10 @@ package ua.com.alevel.service;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class FileHelperService {
 
@@ -191,21 +191,65 @@ public class FileHelperService {
     }
 
     public void deleteFile(String dirPath, String fileName) {
-        String path = dirPath + "/" + fileName;
+        String path = dirPath + File.separator + fileName;
         File file = new File(path);
         file.delete();
     }
 
     public boolean createFile(String dirPath, String fileName) throws IOException {
-        String path = dirPath + "/" + fileName;
+        String path = dirPath + File.separator + fileName;
         File file = new File(path);
         return file.createNewFile();
     }
 
     public boolean createDir(String dirPath, String newDirName) throws IOException {
-        String path = dirPath + "/" + newDirName;
+        String path = dirPath + File.separator + newDirName;
         File dir = new File(path);
         return dir.mkdir();
+    }
+
+    public void moveFile(String oldDirPath, String fileName, String newDirPath) {
+        String oldPath = oldDirPath + File.separator + fileName;
+        File file = new File(oldPath);
+        String newPath = newDirPath + File.separator + fileName;
+        boolean wasRenamed = file.renameTo(new File(newPath));
+        if (wasRenamed) {
+            System.out.println("File moved successfully");
+        } else {
+            System.out.println("Failed to move the file");
+        }
+    }
+
+    public void moveDir(String oldDirPath, String dirName, String newDirPath) {
+        String oldPath = oldDirPath + File.separator + dirName;
+        File file = new File(oldPath);
+        String newPath = newDirPath + File.separator + dirName;
+        boolean wasRenamed = file.renameTo(new File(newPath));
+        if (wasRenamed) {
+            System.out.println("File moved successfully");
+        } else {
+            System.out.println("Failed to move the file");
+        }
+    }
+
+    public HashMap searchTextInDir(String dirPath, String text) {
+        HashMap<String, String> allFilesMap = new HashMap<>();
+        HashMap resultMap = new HashMap();
+        File dir = new File(dirPath);
+        readAllFiles(dir, allFilesMap);
+        allFilesMap.forEach((k,v) -> {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(k));
+                Stream<String> lines = reader.lines();
+                boolean containsText = lines.anyMatch(line -> line.contains(text));
+                if (containsText) {
+                    resultMap.put(k,v);
+                }
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return resultMap;
     }
 
 }

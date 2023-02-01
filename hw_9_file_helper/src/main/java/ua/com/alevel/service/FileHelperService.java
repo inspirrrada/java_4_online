@@ -5,9 +5,7 @@ import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 public class FileHelperService {
 
@@ -108,6 +106,7 @@ public class FileHelperService {
 
     public HashMap getSearchDirInfo(String dirName) {
         File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
+        //File homeDir = new File("/home/inspirada/Java/test");
         HashMap<String, String> allDirsMap = new HashMap<>();
         HashMap resultMap = new HashMap();
         readAllDirs(homeDir, allDirsMap);
@@ -154,16 +153,59 @@ public class FileHelperService {
         }
     }
 
+    public void readAllDirsAndFiles(File homeDir, TreeMap<String, String> allDirsAndFilesMap) {
+        File[] dirs = homeDir.listFiles();
+        for (File file : dirs) {
+            if (file.isDirectory()) {
+                allDirsAndFilesMap.put(file.getAbsolutePath(), file.getName());
+                readAllDirsAndFiles(file, allDirsAndFilesMap);
+            } else {
+                allDirsAndFilesMap.put(file.getAbsolutePath(), file.getName());
+            }
+        }
+    }
+
+    public TreeMap getDirContent(File dir) {
+        //File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
+        //File homeDir = new File("/home/inspirada/Java/test");
+        TreeMap<String, String> allDirsAndFilesMap = new TreeMap<>(Collections.reverseOrder());
+//        TreeMap resultMap = new TreeMap();
+        readAllDirsAndFiles(dir, allDirsAndFilesMap);
+//        allDirsAndFilesMap.forEach((k,v) -> {
+//            if (v.equals(dirName)) {
+//                resultMap.put(k, v);
+//            }
+//        });
+        System.out.println("allDirsAndFilesMap: " + allDirsAndFilesMap);
+        return allDirsAndFilesMap;
+    }
+
+    public void deleteDir(String dirPath) {
+        File file = new File(dirPath);
+        TreeMap<String,String> dirContentMap = getDirContent(file);
+        dirContentMap.forEach((k,v) -> {
+            File currentFile = new File(k);
+            currentFile.delete();
+        });
+        file.delete();
+    }
+
+    public void deleteFile(String dirPath, String fileName) {
+        String path = dirPath + "/" + fileName;
+        File file = new File(path);
+        file.delete();
+    }
+
     public boolean createFile(String dirPath, String fileName) throws IOException {
         String path = dirPath + "/" + fileName;
         File file = new File(path);
         return file.createNewFile();
     }
 
-    public boolean createDir(String path) throws IOException {
+    public boolean createDir(String dirPath, String newDirName) throws IOException {
+        String path = dirPath + "/" + newDirName;
         File dir = new File(path);
         return dir.mkdir();
     }
-
 
 }

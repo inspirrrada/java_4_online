@@ -61,9 +61,9 @@ public class FileHelperController {
         switch (selectedOption) {
             case "1" -> viewContentExactDir(reader);
             case "2" -> createNewFile(reader);
-//            case "3" -> deletePlayer(reader);
-//            case "4" -> findAllPlayers();
-//            case "5" -> createGame(reader);
+            case "3" -> createNewDir(reader);
+            case "4" -> deleteFile(reader);
+            case "5" -> deleteDir(reader);
 //            case "6" -> deleteGame(reader);
 //            case "7" ->
             case "8" -> findFile(reader);
@@ -116,8 +116,42 @@ public class FileHelperController {
         service.createFile(path[0], fileName);
     }
 
+    public void createNewDir(BufferedReader reader) throws IOException {
+        System.out.println("Please enter name of directory where you want to create new folder: ");
+        String dirName = reader.readLine();
+        HashMap<String, String> map = service.getSearchDirInfo(dirName);
+        String[] path = new String[1];
+        if (map.size() > 1) {
+            System.out.println("We found few directories in system with such name.");
+            map.forEach((k,v) -> System.out.println(k));
+            System.out.println("Please look details and enter the path of directory you need:");
+            while(true) {
+                path[0] = reader.readLine();
+                int[] count = new int[1];
+                map.forEach((k,v) -> {
+                    if (path[0].equals(k)) {
+                        count[0]++;
+                    }
+                });
+                if (count[0] == 0) {
+                    System.out.println("Wrong value! Please choose and enter the path of directory you entered earlier.");
+                } else if (count[0] == 1) {
+                    break;
+                }
+            }
+        } else if (map.size() == 0) {
+            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
+        } else if (map.size() == 1) {
+            path[0] = service.getDirPathByName(dirName);
+        }
+        System.out.println("Please enter name of new folder");
+        String newDirName = reader.readLine();
+        service.createDir(path[0], newDirName);
+    }
+
     public void findFile(BufferedReader reader) throws IOException {
         System.out.println("Please enter name of file:");
+        System.out.println("***Pay attention, the search is case-sensitive.");
         String searchFile = reader.readLine();
         HashMap resultMap = service.getSearchFileInfo(searchFile);
         if (resultMap.size() > 1) {
@@ -133,6 +167,7 @@ public class FileHelperController {
 
     public void findDir(BufferedReader reader) throws IOException {
         System.out.println("Please enter name of directory:");
+        System.out.println("***Pay attention, the search is case-sensitive.");
         String searchDir = reader.readLine();
         HashMap resultMap = service.getSearchDirInfo(searchDir);
         if (resultMap.size() > 1) {
@@ -144,6 +179,70 @@ public class FileHelperController {
         } else {
             System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
         }
+    }
+
+    public void deleteDir(BufferedReader reader) throws IOException {
+        System.out.println("Please enter name of directory:");
+        String dirName = reader.readLine();
+        HashMap<String, String> map = service.getSearchDirInfo(dirName);
+        String[] path = new String[1];
+        if (map.size() > 1) {
+            System.out.println("We found few directories in system with such name.");
+            map.forEach((k,v) -> System.out.println(k));
+            System.out.println("Please look details and enter the path of directory you need:");
+            while(true) {
+                path[0] = reader.readLine();
+                int[] count = new int[1];
+                map.forEach((k,v) -> {
+                    if (path[0].equals(k)) {
+                        count[0]++;
+                    }
+                });
+                if (count[0] == 0) {
+                    System.out.println("Wrong value! Please choose and enter the path of directory you entered earlier.");
+                } else if (count[0] == 1) {
+                    break;
+                }
+            }
+        } else if (map.size() == 0) {
+            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
+        } else {
+            path[0] = service.getDirPathByName(dirName);
+        }
+        service.deleteDir(path[0]);
+    }
+
+    public void deleteFile(BufferedReader reader) throws IOException {
+        System.out.println("Please enter name of directory:");
+        String dirName = reader.readLine();
+        HashMap<String, String> map = service.getSearchDirInfo(dirName);
+        String[] path = new String[1];
+        if (map.size() > 1) {
+            System.out.println("We found few directories in system with such name.");
+            map.forEach((k,v) -> System.out.println(k));
+            System.out.println("Please look details and enter the path of directory you need:");
+            while(true) {
+                path[0] = reader.readLine();
+                int[] count = new int[1];
+                map.forEach((k,v) -> {
+                    if (path[0].equals(k)) {
+                        count[0]++;
+                    }
+                });
+                if (count[0] == 0) {
+                    System.out.println("Wrong value! Please choose and enter the path of directory you entered earlier.");
+                } else if (count[0] == 1) {
+                    break;
+                }
+            }
+        } else if (map.size() == 0) {
+            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
+        } else {
+            path[0] = service.getDirPathByName(dirName);
+        }
+        System.out.println("Please enter name of file with extension");
+        String fileName = reader.readLine();
+        service.deleteFile(path[0], fileName);
     }
 
 //    private void createPlayer(BufferedReader reader) throws IOException {

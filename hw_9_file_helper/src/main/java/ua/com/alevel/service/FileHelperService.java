@@ -1,5 +1,7 @@
 package ua.com.alevel.service;
 
+import ua.com.alevel.utils.ColorUtils;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.io.*;
@@ -15,15 +17,32 @@ public class FileHelperService {
         readDir(homeDir);
     }
 
-    public void observe(String dirName) {
-        String path = getDirPathByName(dirName);
-        File file = new File(path);
+//    public void observe(String dirName) {
+//        String path = getDirPathByName(dirName);
+//        File file = new File(path);
+//        readDir(file);
+//    }
+
+    public void observe(String dirPath) {
+        File file = new File(dirPath);
         readDir(file);
     }
 
-    public String getDirPathByName(String dirName) {
+
+//    public String getDirPathByName(String dirName) {
+//        String[] dirPath = new String[1];
+//        HashMap<String, String> map = searchDir(dirName);
+//        map.forEach((k,v) -> {
+//            if (v.equals(dirName)) {
+//                dirPath[0] = k;
+//            }
+//        });
+//        return dirPath[0];
+//    }
+
+    //+
+    public String getDirPathByName(String dirName, HashMap<String, String> map) {
         String[] dirPath = new String[1];
-        HashMap<String, String> map = getSearchDirInfo(dirName);
         map.forEach((k,v) -> {
             if (v.equals(dirName)) {
                 dirPath[0] = k;
@@ -32,16 +51,16 @@ public class FileHelperService {
         return dirPath[0];
     }
 
-    public String getFilePathByName(String fileName) {
-        String[] filePath = new String[1];
-        HashMap<String, String> map = getSearchDirInfo(fileName);
-        map.forEach((k,v) -> {
-            if (v.equals(fileName)) {
-                filePath[0] = k;
-            }
-        });
-        return filePath[0];
-    }
+//    public String getFilePathByName(String fileName) {
+//        String[] filePath = new String[1];
+//        HashMap<String, String> map = getSearchDirInfo(fileName);
+//        map.forEach((k,v) -> {
+//            if (v.equals(fileName)) {
+//                filePath[0] = k;
+//            }
+//        });
+//        return filePath[0];
+//    }
 
     public String getDirNameByPath(String dirPath) {
         File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
@@ -70,13 +89,13 @@ public class FileHelperService {
     }
 
     public void readDir(File dir) {
-        System.out.println("dir: " + dir.getAbsolutePath());
+        System.out.println(ColorUtils.getMagentaText().format("dir: " + dir.getAbsolutePath()));
         File[] files = dir.listFiles();
         for (File file : files) {
             if (file.isDirectory()) {
                 readDir(file);
             } else {
-                System.out.println("file: " + file.getAbsolutePath());
+                System.out.println(ColorUtils.getBlueText().format("file: " + file.getAbsolutePath()));
             }
         }
     }
@@ -86,14 +105,14 @@ public class FileHelperService {
         readDir(file);
     }
 
-    public boolean isExistDir(String dirName) {
-        boolean isExistDir = false;
-        HashMap<String, String> resultMap = getSearchDirInfo(dirName);
-        if (resultMap.size() >= 1) {
-            isExistDir = true;
-        }
-        return isExistDir;
-    }
+//    public boolean isExistDir(String dirName) {
+//        boolean isExistDir = false;
+//        HashMap<String, String> resultMap = getSearchDirInfo(dirName);
+//        if (resultMap.size() >= 1) {
+//            isExistDir = true;
+//        }
+//        return isExistDir;
+//    }
 
     public boolean isExistFile(String fileName) {
         boolean isExistFile = false;
@@ -104,17 +123,37 @@ public class FileHelperService {
         return isExistFile;
     }
 
-    public HashMap getSearchDirInfo(String dirName) {
-        File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
-        //File homeDir = new File("/home/inspirada/Java/test");
+//    public HashMap getSearchDirInfo(String dirName) {
+//        File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
+//        //File homeDir = new File("/home/inspirada/Java/test");
+//        HashMap<String, String> allDirsMap = new HashMap<>();
+//        HashMap resultMap = new HashMap();
+//        readAllDirs(homeDir, allDirsMap);
+//        allDirsMap.forEach((k,v) -> {
+//            if (v.equals(dirName)) {
+//                resultMap.put(k, v);
+//            }
+//        });
+//        return resultMap;
+//    }
+
+    //+
+    public HashMap<String, String> searchDir(String dirName, File searchFrom) {
         HashMap<String, String> allDirsMap = new HashMap<>();
-        HashMap resultMap = new HashMap();
-        readAllDirs(homeDir, allDirsMap);
+        HashMap<String, String> resultMap = new HashMap();
+        readAllDirs(searchFrom, allDirsMap);
         allDirsMap.forEach((k,v) -> {
             if (v.equals(dirName)) {
                 resultMap.put(k, v);
             }
         });
+        return resultMap;
+    }
+
+    //+
+    public HashMap<String, String> searchDirInSystem(String dirName) {
+        File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
+        HashMap<String, String> resultMap = searchDir(dirName, homeDir);
         return resultMap;
     }
 
@@ -165,47 +204,59 @@ public class FileHelperService {
         }
     }
 
-    public TreeMap getDirContent(File dir) {
-        //File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
-        //File homeDir = new File("/home/inspirada/Java/test");
+    public TreeMap<String,String> getDirContent(File dir) {
         TreeMap<String, String> allDirsAndFilesMap = new TreeMap<>(Collections.reverseOrder());
-//        TreeMap resultMap = new TreeMap();
         readAllDirsAndFiles(dir, allDirsAndFilesMap);
-//        allDirsAndFilesMap.forEach((k,v) -> {
-//            if (v.equals(dirName)) {
-//                resultMap.put(k, v);
-//            }
-//        });
-        System.out.println("allDirsAndFilesMap: " + allDirsAndFilesMap);
         return allDirsAndFilesMap;
     }
 
-    public void deleteDir(String dirPath) {
-        File file = new File(dirPath);
-        TreeMap<String,String> dirContentMap = getDirContent(file);
+    //+
+    public boolean hasContentInside(String parentDirPath, String dirForDelete) {
+        String path = parentDirPath + File.separator + dirForDelete;
+        File folder = new File(path);
+        TreeMap<String, String> allDirsAndFilesMap = new TreeMap<>(Collections.reverseOrder());
+        readAllDirsAndFiles(folder, allDirsAndFilesMap);
+        return allDirsAndFilesMap.size() > 0;
+    }
+
+    //+
+    public boolean deleteDir(String parentDirPath, String dirForDelete) {
+        String path = parentDirPath + File.separator + dirForDelete;
+        File folder = new File(path);
+        TreeMap<String,String> dirContentMap = getDirContent(folder);
         dirContentMap.forEach((k,v) -> {
             File currentFile = new File(k);
             currentFile.delete();
         });
-        file.delete();
+        return folder.delete();
     }
 
-    public void deleteFile(String dirPath, String fileName) {
+    //+
+    public boolean deleteFile(String dirPath, String fileName) {
         String path = dirPath + File.separator + fileName;
         File file = new File(path);
-        file.delete();
+        return file.delete();
     }
 
+    //+
     public boolean createFile(String dirPath, String fileName) throws IOException {
-        String path = dirPath + File.separator + fileName;
-        File file = new File(path);
+        String filePath = dirPath + File.separator + fileName;
+        File file = new File(filePath);
         return file.createNewFile();
     }
 
-    public boolean createDir(String dirPath, String newDirName) throws IOException {
+    //+
+    public boolean isExist(String dirPath, String fileName) {
+        String filePath = dirPath + File.separator + fileName;
+        File file = new File(filePath);
+        return file.exists();
+    }
+
+    //+
+    public boolean createDir(String dirPath, String newDirName) {
         String path = dirPath + File.separator + newDirName;
-        File dir = new File(path);
-        return dir.mkdir();
+        File newDir = new File(path);
+        return newDir.mkdir();
     }
 
     public void moveFile(String oldDirPath, String fileName, String newDirPath) {

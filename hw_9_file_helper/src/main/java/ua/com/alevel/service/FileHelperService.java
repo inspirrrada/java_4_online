@@ -11,10 +11,8 @@ import java.util.stream.Stream;
 
 public class FileHelperService {
 
-    public void readHomeDirectory() {
-        File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
-        System.out.println("homeDir: " + homeDir);
-        readDir(homeDir);
+    public File getHomeDirectory() {
+        return FileSystemView.getFileSystemView().getHomeDirectory();
     }
 
 //    public void observe(String dirName) {
@@ -114,14 +112,14 @@ public class FileHelperService {
 //        return isExistDir;
 //    }
 
-    public boolean isExistFile(String fileName) {
-        boolean isExistFile = false;
-        HashMap<String, String> resultMap = getSearchFileInfo(fileName);
-        if (resultMap.size() >= 1) {
-            isExistFile = true;
-        }
-        return isExistFile;
-    }
+//    public boolean isExistFile(String fileName) {
+//        boolean isExistFile = false;
+//        HashMap<String, String> resultMap = getSearchFileInfo(fileName);
+//        if (resultMap.size() >= 1) {
+//            isExistFile = true;
+//        }
+//        return isExistFile;
+//    }
 
 //    public HashMap getSearchDirInfo(String dirName) {
 //        File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
@@ -157,7 +155,7 @@ public class FileHelperService {
         return resultMap;
     }
 
-    public HashMap getSearchFileInfo(String fileName) {
+    public HashMap<String,String> searchFile(String fileName) {
         File homeDir = FileSystemView.getFileSystemView().getHomeDirectory();
         HashMap<String, String> allFilesMap = new HashMap<>();
         HashMap resultMap = new HashMap();
@@ -259,40 +257,24 @@ public class FileHelperService {
         return newDir.mkdir();
     }
 
-    public void moveFile(String oldDirPath, String fileName, String newDirPath) {
+    //+
+    public boolean moveFile(String oldDirPath, String fileName, String newDirPath) {
         String oldPath = oldDirPath + File.separator + fileName;
         File file = new File(oldPath);
         String newPath = newDirPath + File.separator + fileName;
-        boolean wasRenamed = file.renameTo(new File(newPath));
-        if (wasRenamed) {
-            System.out.println("File moved successfully");
-        } else {
-            System.out.println("Failed to move the file");
-        }
+        return file.renameTo(new File(newPath));
     }
 
-    public void moveDir(String oldDirPath, String dirName, String newDirPath) {
-        String oldPath = oldDirPath + File.separator + dirName;
-        File file = new File(oldPath);
-        String newPath = newDirPath + File.separator + dirName;
-        boolean wasRenamed = file.renameTo(new File(newPath));
-        if (wasRenamed) {
-            System.out.println("File moved successfully");
-        } else {
-            System.out.println("Failed to move the file");
-        }
-    }
-
-    public HashMap searchTextInDir(String dirPath, String text) {
+    public HashMap<String,String> searchTextInDir(String dirPath, String text) {
         HashMap<String, String> allFilesMap = new HashMap<>();
-        HashMap resultMap = new HashMap();
+        HashMap<String,String> resultMap = new HashMap();
         File dir = new File(dirPath);
         readAllFiles(dir, allFilesMap);
         allFilesMap.forEach((k,v) -> {
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(k));
                 Stream<String> lines = reader.lines();
-                boolean containsText = lines.anyMatch(line -> line.contains(text));
+                boolean containsText = lines.anyMatch(line -> line.toLowerCase().contains(text.toLowerCase()));
                 if (containsText) {
                     resultMap.put(k,v);
                 }
@@ -302,5 +284,4 @@ public class FileHelperService {
         });
         return resultMap;
     }
-
 }

@@ -16,7 +16,7 @@ public class FileHelperController {
         System.out.println();
         System.out.println("WELCOME TO THE FILE HELPER APP!");
         System.out.println();
-        System.out.println("Please select your options:");
+        System.out.println("***Pay attention, search is case-sensitive. Please select your options:");
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String selectedOption;
@@ -63,11 +63,11 @@ public class FileHelperController {
             case "3" -> createNewDir(reader);
             case "4" -> deleteFile(reader);
             case "5" -> deleteDir(reader);
-//            case "6" -> transferFileFromOneDirToAnother(reader);
-//            case "7" -> transferFolderFromOneDirToAnother(reader);
-//            case "8" -> findFile(reader);
-//            case "9" -> findDir(reader);
-//            case "10" -> searchText(reader);
+            case "6" -> transferFile(reader);
+            case "7" -> transferDir(reader);
+            case "8" -> findFile(reader);
+            case "9" -> findDir(reader);
+            case "10" -> searchText(reader);
             case "11" -> stop();
             default -> System.out.println(ColorUtils.getRedText().format("Wrong value! Select menu again."));
         }
@@ -216,7 +216,7 @@ public class FileHelperController {
             if (isExistFolder) {
                 boolean hasContentInside = service.hasContentInside(dirPath, folderName);
                 if (hasContentInside) {
-                    System.out.println("Folder '" + folderName + "' is not empty. Are you sure you want to delete this folder?");
+                    System.out.println(ColorUtils.getOrangeText().format("Folder '" + folderName + "' is not empty. Are you sure you want to delete this folder?"));
                     System.out.println(ColorUtils.getItalicText().format("For confirmation please enter 'y'. Other answer will back you to the main menu."));
                     String answer = reader.readLine();
                     if (answer.equalsIgnoreCase("y")) {
@@ -241,205 +241,173 @@ public class FileHelperController {
         }
     }
 
-//    private void transferFileFromOneDirToAnother(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 6. MOVE FILE"));
-//        System.out.println();
-//        System.out.println("Please enter name of directory, from which you want to move the file:");
-//        String dirFrom = reader.readLine();
-//        HashMap<String, String> mapFrom = service.getSearchDirInfo(dirFrom);
-//        String[] pathFrom = new String[1];
-//        if (mapFrom.size() > 1) {
-//            System.out.println("We found few directories in system with such name.");
-//            mapFrom.forEach((k,v) -> System.out.println(k));
-//            System.out.println("Please look details and enter the path of directory you need:");
-//            while(true) {
-//                pathFrom[0] = reader.readLine();
-//                int[] count = new int[1];
-//                mapFrom.forEach((k,v) -> {
-//                    if (pathFrom[0].equals(k)) {
-//                        count[0]++;
-//                    }
-//                });
-//                if (count[0] == 0) {
-//                    System.out.println("Wrong value! Please choose and enter the path of directory you entered earlier.");
-//                } else if (count[0] == 1) {
-//                    break;
-//                }
-//            }
-//        } else if (mapFrom.size() == 0) {
-//            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
-//        } else {
-//            pathFrom[0] = service.getDirPathByName(dirFrom);
-//        }
-//        System.out.println("Please enter file name with extension:");
-//        String fileName = reader.readLine();
-//        service.deleteFile(pathFrom[0], fileName);
-//        System.out.println("Please enter name of directory, where you want to move the file:");
-//        String dirTo = reader.readLine();
-//        HashMap<String, String> mapTo = service.getSearchDirInfo(dirTo);
-//        String[] pathTo = new String[1];
-//        if (mapTo.size() > 1) {
-//            System.out.println("We found few directories in system with such name.");
-//            mapTo.forEach((k,v) -> System.out.println(k));
-//            System.out.println("Please look details and enter the path of directory you need:");
-//            while(true) {
-//                pathTo[0] = reader.readLine();
-//                int[] count = new int[1];
-//                mapTo.forEach((k,v) -> {
-//                    if (pathTo[0].equals(k)) {
-//                        count[0]++;
-//                    }
-//                });
-//                if (count[0] == 0) {
-//                    System.out.println("Wrong value! Please choose and enter the path of directory you entered earlier.");
-//                } else if (count[0] == 1) {
-//                    break;
-//                }
-//            }
-//        } else if (mapTo.size() == 0) {
-//            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
-//        } else {
-//            pathTo[0] = service.getDirPathByName(dirTo);
-//        }
-//        service.moveFile(pathFrom[0], fileName, pathTo[0]);
-//    }
-//
-//    private void transferFolderFromOneDirToAnother(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 7. MOVE DIR"));
-//        System.out.println();
-//        System.out.println("Please enter name of directory, from which you want to move the folder:");
-//        String dirFrom = reader.readLine();
-//        HashMap<String, String> mapFrom = service.getSearchDirInfo(dirFrom);
-//        String[] pathFrom = new String[1];
-//        if (mapFrom.size() > 1) {
-//            System.out.println("We found few directories in system with such name.");
-//            mapFrom.forEach((k,v) -> System.out.println(k));
-//            System.out.println("Please look details and enter the path of directory you need:");
-//            while(true) {
-//                pathFrom[0] = reader.readLine();
-//                int[] count = new int[1];
-//                mapFrom.forEach((k,v) -> {
-//                    if (pathFrom[0].equals(k)) {
-//                        count[0]++;
-//                    }
-//                });
-//                if (count[0] == 0) {
-//                    System.out.println("Wrong value! Please choose and enter the path of directory you entered earlier.");
-//                } else if (count[0] == 1) {
-//                    break;
-//                }
-//            }
-//        } else if (mapFrom.size() == 0) {
-//            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
-//        } else {
-//            pathFrom[0] = service.getDirPathByName(dirFrom);
-//        }
-//        System.out.println("Please enter folder name you want to move:");
-//        String folderName = reader.readLine();
-//        //service.deleteFile(pathFrom[0], fileName);
-//        System.out.println("Please enter name of directory, where you want to move the folder:");
-//        String dirTo = reader.readLine();
-//        HashMap<String, String> mapTo = service.getSearchDirInfo(dirTo);
-//        String[] pathTo = new String[1];
-//        if (mapTo.size() > 1) {
-//            System.out.println("We found few directories in system with such name.");
-//            mapTo.forEach((k,v) -> System.out.println(k));
-//            System.out.println("Please look details and enter the path of directory you need:");
-//            while(true) {
-//                pathTo[0] = reader.readLine();
-//                int[] count = new int[1];
-//                mapTo.forEach((k,v) -> {
-//                    if (pathTo[0].equals(k)) {
-//                        count[0]++;
-//                    }
-//                });
-//                if (count[0] == 0) {
-//                    System.out.println("Wrong value! Please choose and enter the path of directory you entered earlier.");
-//                } else if (count[0] == 1) {
-//                    break;
-//                }
-//            }
-//        } else if (mapTo.size() == 0) {
-//            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
-//        } else {
-//            pathTo[0] = service.getDirPathByName(dirTo);
-//        }
-//        service.moveDir(pathFrom[0], folderName, pathTo[0]);
-//    }
-//
-//    private void findFile(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 8. FIND FILE"));
-//        System.out.println();
-//        System.out.println("Please enter name of file:");
-//        System.out.println("***Pay attention, the search is case-sensitive.");
-//        String searchFile = reader.readLine();
-//        HashMap resultMap = service.getSearchFileInfo(searchFile);
-//        if (resultMap.size() > 1) {
-//            System.out.println("There are few files in system with such name:");
-//            resultMap.forEach((k,v) -> System.out.println(k));
-//        } else if (resultMap.size() == 1) {
-//            System.out.println("Search file you can find here: " );
-//            resultMap.forEach((k,v) -> System.out.println(k));
-//        } else {
-//            System.out.println("We can't find such file in system. Please check the name and try this menu again.");
-//        }
-//    }
-//
-//    private void findDir(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 9. FIND DIR"));
-//        System.out.println();
-//        System.out.println("Please enter name of directory:");
-//        System.out.println("***Pay attention, the search is case-sensitive.");
-//        String searchDir = reader.readLine();
-//        HashMap resultMap = service.getSearchDirInfo(searchDir);
-//        if (resultMap.size() > 1) {
-//            System.out.println("There are few directories in system with such name:");
-//            resultMap.forEach((k,v) -> System.out.println(k));
-//        } else if (resultMap.size() == 1) {
-//            System.out.println("Search directory you can find here: " );
-//            resultMap.forEach((k,v) -> System.out.println(k));
-//        } else {
-//            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
-//        }
-//    }
-//
-//    public void searchText(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 10. FIND TEXT"));
-//        System.out.println();
-//        System.out.println("Please enter name of directory:");
-//        String dirName = reader.readLine();
-//        HashMap<String, String> map = service.getSearchDirInfo(dirName);
-//        String[] path = new String[1];
-//        if (map.size() > 1) {
-//            System.out.println("We found few directories in system with such name.");
-//            map.forEach((k,v) -> System.out.println(k));
-//            System.out.println("Please look details and enter the path of directory you need:");
-//            while(true) {
-//                path[0] = reader.readLine();
-//                int[] count = new int[1];
-//                map.forEach((k,v) -> {
-//                    if (path[0].equals(k)) {
-//                        count[0]++;
-//                    }
-//                });
-//                if (count[0] == 0) {
-//                    System.out.println("Wrong value! Please choose and enter the path of directory you entered earlier.");
-//                } else if (count[0] == 1) {
-//                    break;
-//                }
-//            }
-//        } else if (map.size() == 0) {
-//            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
-//        } else {
-//            path[0] = service.getDirPathByName(dirName);
-//        }
-//        System.out.println("Please enter text for search:");
-//        String searchText = reader.readLine();
-//        HashMap resultMap = service.searchTextInDir(path[0], searchText);
-//        System.out.println("Text was found here:");
-//        resultMap.forEach((k,v) -> System.out.println(k));
-//
-//    }
+    private void transferFile(BufferedReader reader) throws IOException {
+        System.out.println(ColorUtils.getReverse().format("\nMenu 6. MOVE FILE"));
+        System.out.println();
+        System.out.println("Please enter name of directory, from where you want to move the file:");
+        String dirFrom = reader.readLine();
+        service.searchDirInSystem(dirFrom);
+        String dirFromPath = getExactDirPath(dirFrom, reader);
+        if (dirFromPath != null) {
+            System.out.println();
+            System.out.println("Please enter file name with extension:");
+            String fileName = reader.readLine();
+            System.out.println();
+            boolean existFileThere = service.isExist(dirFromPath, fileName);
+            if (existFileThere) {
+                System.out.println("Please enter name of directory where you want to move the file:");
+                String dirTo = reader.readLine();
+                System.out.println();
+                service.searchDirInSystem(dirTo);
+                String dirToPath = getExactDirPath(dirTo, reader);
+                if (dirToPath != null) {
+                    boolean alreadyExistDuplicate = service.isExist(dirToPath, fileName);
+                    if (alreadyExistDuplicate) {
+                        System.out.println(ColorUtils.getOrangeText().format("In directory '" + dirToPath + "' there is already file with name '" + fileName + "'."));
+                        System.out.println(ColorUtils.getBoldext().format("***If continue moving, old file will be overwritten, all data inside will be removed. Do you still want to continue?"));
+                        System.out.println(ColorUtils.getItalicText().format("For confirmation please enter 'y'. Other answer will back you to the main menu."));
+                        String answer = reader.readLine();
+                        if (answer.equalsIgnoreCase("y")) {
+                            boolean wasDeletedDuplicate = service.deleteFile(dirToPath, fileName);
+                            if (wasDeletedDuplicate) {
+                                boolean successfullyMoved = service.moveFile(dirFromPath, fileName, dirToPath);
+                                if (successfullyMoved) {
+                                    System.out.println(ColorUtils.getCyanText().format("Congratulations! File '" + fileName + "' was moved successfully."));
+                                } else {
+                                    System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
+                                }
+                            } else {
+                                System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
+                            }
+                        }
+                    } else {
+                        boolean successfullyMoved = service.moveFile(dirFromPath, fileName, dirToPath);
+                        if (successfullyMoved) {
+                            System.out.println();
+                            System.out.println(ColorUtils.getCyanText().format("Congratulations! File '" + fileName + "' was moved successfully."));
+                        } else {
+                            System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
+                        }
+                    }
+                }
+            } else {
+                System.out.println(ColorUtils.getRedText().format("There is no one file with such name in this directory. Please check and try this menu again."));
+            }
+        }
+    }
+
+    private void transferDir(BufferedReader reader) throws IOException {
+        System.out.println(ColorUtils.getReverse().format("\nMenu 7. MOVE FOLDER"));
+        System.out.println();
+        System.out.println("Please enter name of directory, from where you want to move the folder:");
+        String dirFrom = reader.readLine();
+        service.searchDirInSystem(dirFrom);
+        String dirFromPath = getExactDirPath(dirFrom, reader);
+        if (dirFromPath != null) {
+            System.out.println();
+            System.out.println("Please enter name of folder you want to move:");
+            String folderName = reader.readLine();
+            System.out.println();
+            service.searchDirInSystem(folderName);
+            boolean existFolderThere = service.isExist(dirFromPath, folderName);
+            if (existFolderThere) {
+                System.out.println("Please enter name of directory, where you want to move the folder:");
+                String dirTo = reader.readLine();
+                System.out.println();
+                service.searchDirInSystem(dirTo);
+                String dirToPath = getExactDirPath(dirTo, reader);
+                if (dirToPath != null) {
+                    boolean alreadyExistDuplicate = service.isExist(dirToPath, folderName);
+                    if (alreadyExistDuplicate) {
+                        System.out.println(ColorUtils.getOrangeText().format("In directory '" + dirToPath + "' there is already folder with name '" + folderName + "'."));
+                        System.out.println(ColorUtils.getBoldext().format("***If continue moving, old folder will be overwritten, all data inside will be removed. Do you still want to continue?"));
+                        System.out.println(ColorUtils.getItalicText().format("For confirmation please enter 'y'. Other answer will back you to the main menu."));
+                        String answer = reader.readLine();
+                        if (answer.equalsIgnoreCase("y")) {
+                            boolean wasDeletedDuplicate = service.deleteDir(dirToPath, folderName);
+                            if (wasDeletedDuplicate) {
+                                boolean successfullyMoved = service.moveFile(dirFromPath, folderName, dirToPath);
+                                if (successfullyMoved) {
+                                    System.out.println();
+                                    System.out.println(ColorUtils.getCyanText().format("Congratulations! Folder '" + folderName + "' was moved successfully."));
+                                } else {
+                                    System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
+                                }
+                            } else {
+                                System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
+                            }
+                        }
+                    } else {
+                        boolean successfullyMoved = service.moveFile(dirFromPath, folderName, dirToPath);
+                        if (successfullyMoved) {
+                            System.out.println(ColorUtils.getCyanText().format("Congratulations! Folder '" + folderName + "' was moved successfully."));
+                        } else {
+                            System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
+                        }
+                    }
+                }
+            } else {
+                System.out.println(ColorUtils.getRedText().format("There is no one folder with such name in this directory. Please check and try this menu again."));
+            }
+        }
+    }
+
+    private void findFile(BufferedReader reader) throws IOException {
+        System.out.println(ColorUtils.getReverse().format("\nMenu 8. FIND FILE"));
+        System.out.println();
+        System.out.println("Please enter name of file you want to find:");
+        String searchFile = reader.readLine();
+        System.out.println();
+        HashMap<String,String> resultMap = service.searchFile(searchFile);
+        if (resultMap.size() > 1) {
+            System.out.println("There are few files in system with such name:");
+            resultMap.forEach((k,v) -> System.out.println(ColorUtils.getYellowText().format(k)));
+        } else if (resultMap.size() == 1) {
+            System.out.println("Search file you can find here: " );
+            resultMap.forEach((k,v) -> System.out.println(ColorUtils.getYellowText().format(k)));
+        } else {
+            System.out.println(ColorUtils.getRedText().format("We can't find such file in system. Please check the name and try this menu again."));
+        }
+    }
+
+    private void findDir(BufferedReader reader) throws IOException {
+        System.out.println(ColorUtils.getReverse().format("\nMenu 9. FIND DIR"));
+        System.out.println();
+        System.out.println("Please enter name of directory you want to find:");
+        String searchDir = reader.readLine();
+        System.out.println();
+        HashMap<String,String> resultMap = service.searchDirInSystem(searchDir);
+        if (resultMap.size() > 1) {
+            System.out.println("There are few directories in system with such name:");
+            resultMap.forEach((k,v) -> System.out.println(ColorUtils.getYellowText().format(k)));
+        } else if (resultMap.size() == 1) {
+            System.out.println("Search directory you can find here: " );
+            resultMap.forEach((k,v) -> System.out.println(ColorUtils.getYellowText().format(k)));
+        } else {
+            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
+        }
+    }
+
+    public void searchText(BufferedReader reader) throws IOException {
+        System.out.println(ColorUtils.getReverse().format("\nMenu 10. FIND TEXT"));
+        System.out.println();
+        System.out.println("Please enter name of directory:");
+        String dirName = reader.readLine();
+        System.out.println();
+        service.searchDirInSystem(dirName);
+        String dirPath = getExactDirPath(dirName, reader);
+        if (dirPath != null) {
+            System.out.println("Please enter text for search:");
+            String searchText = reader.readLine();
+            HashMap<String,String> resultMap = service.searchTextInDir(dirPath, searchText);
+            if (resultMap.size() > 0) {
+                System.out.println("Text was found here:");
+                resultMap.forEach((k,v) -> System.out.println(ColorUtils.getYellowText().format(k)));
+            } else {
+                System.out.println(ColorUtils.getRedText().format("Text wasn't found anywhere in chosen directory."));
+            }
+        }
+    }
 
     private void stop() {
         System.out.println("\nThe application is finished.\n");

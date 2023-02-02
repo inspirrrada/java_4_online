@@ -1,6 +1,7 @@
 package ua.com.alevel.utils;
 
 import com.diogonunes.jcolor.AnsiFormat;
+import com.diogonunes.jcolor.Attribute;
 
 import static com.diogonunes.jcolor.Attribute.*;
 
@@ -13,6 +14,10 @@ public class ColorUtils {
     private static AnsiFormat reverse = new AnsiFormat(REVERSE());
     private static AnsiFormat underlinedText = new AnsiFormat(UNDERLINE());
     private static AnsiFormat italicText = new AnsiFormat(ITALIC());
+    private static AnsiFormat boldext = new AnsiFormat(BOLD());
+
+    private static Attribute orange = TEXT_COLOR(202);
+    private static AnsiFormat orangeText = new AnsiFormat(orange);
 
     public static AnsiFormat getBlueText() {
         return blueText;
@@ -42,7 +47,15 @@ public class ColorUtils {
         return italicText;
     }
 
+    public static AnsiFormat getBoldext() {
+        return boldext;
+    }
+
     public static AnsiFormat getUnderlinedText() {
         return underlinedText;
+    }
+
+    public static AnsiFormat getOrangeText() {
+        return orangeText;
     }
 }

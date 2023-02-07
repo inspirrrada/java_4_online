@@ -2,7 +2,7 @@ package ua.com.alevel.db;
 
 import ua.com.alevel.entity.Game;
 import ua.com.alevel.entity.Player;
-import ua.com.alevel.service.GamePlayService;
+import ua.com.alevel.service.GamePlayServiceImpl;
 
 import java.util.*;
 
@@ -251,12 +251,12 @@ public class DbGamePlayStorage {
             boolean wasAddedPlayerToGame = addOnlyPlayerToGame(playerId, gameId);
             if (wasAddedPlayerToGame) {
                 //successfullyAdded = true;
-                System.out.println(GamePlayService.getBlueText().format("\nGame was successfully attached to the player."));
+                System.out.println(GamePlayServiceImpl.getBlueText().format("\nGame was successfully attached to the player."));
             } else {
-                System.out.println(GamePlayService.getRedText().format("This game can't be added to this player in automatic mode. Please contact with support service."));
+                System.out.println(GamePlayServiceImpl.getRedText().format("This game can't be added to this player in automatic mode. Please contact with support service."));
             }
         } else {
-            System.out.println(GamePlayService.getRedText().format("We have already game with such id for this player!"));
+            System.out.println(GamePlayServiceImpl.getRedText().format("We have already game with such id for this player!"));
         }
     }
 
@@ -319,13 +319,13 @@ public class DbGamePlayStorage {
                 boolean wasDeletedPlayerFromGame = deleteOnlyPlayerFromGame(playerId, gameId);
                 if (wasDeletedPlayerFromGame) {
                     successfullyDeleted = true;
-                    System.out.println(GamePlayService.getBlueText().format("\nGame was successfully deleted from player."));
+                    System.out.println(GamePlayServiceImpl.getBlueText().format("\nGame was successfully deleted from player."));
                 } else {
-                    System.out.println(GamePlayService.getRedText().format("\nGame can't be deleted from player in automatic mode. Please contact with support service."));
+                    System.out.println(GamePlayServiceImpl.getRedText().format("\nGame can't be deleted from player in automatic mode. Please contact with support service."));
                 }
                 break;
             } else {
-                System.out.println(GamePlayService.getRedText().format("We don't have game with such id for this player. Please check your info."));
+                System.out.println(GamePlayServiceImpl.getRedText().format("We don't have game with such id for this player. Please check your info."));
             }
         }
         return successfullyDeleted;

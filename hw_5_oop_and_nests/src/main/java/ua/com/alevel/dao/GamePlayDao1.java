@@ -3,7 +3,6 @@ package ua.com.alevel.dao;
 import ua.com.alevel.db.DbGamePlayStorage;
 import ua.com.alevel.entity.Game;
 import ua.com.alevel.entity.Player;
-import ua.com.alevel.service.GamePlayService;
 
 import java.util.List;
 

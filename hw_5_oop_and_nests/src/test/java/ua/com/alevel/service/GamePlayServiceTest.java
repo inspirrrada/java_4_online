@@ -5,8 +5,8 @@ import ua.com.alevel.entity.Game;
 import ua.com.alevel.entity.Player;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class GamePlayServiceImplTest {
-    private static final GamePlayServiceImpl GAME_PLAY_SERVICE_IMPL = new GamePlayServiceImpl();
+public class GamePlayServiceTest {
+    private static final GamePlayService GAME_PLAY_SERVICE_IMPL = new GamePlayService();
 
     private static int SIZE = 10;
     private static int AGE = 18;

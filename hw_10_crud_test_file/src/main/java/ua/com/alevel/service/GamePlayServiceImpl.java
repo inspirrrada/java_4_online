@@ -3,6 +3,7 @@ package ua.com.alevel.service;
 import com.diogonunes.jcolor.AnsiFormat;
 import ua.com.alevel.dao.GamePlayDao;
 import ua.com.alevel.dao.GamePlayDao1;
+import ua.com.alevel.dao.GamePlayDaoJson;
 import ua.com.alevel.entity.Game;
 import ua.com.alevel.entity.Player;
 
@@ -10,9 +11,9 @@ import java.util.List;
 
 import static com.diogonunes.jcolor.Attribute.*;
 
-public class GamePlayServiceImpl implements GamePlayService {
+public class GamePlayServiceImpl {
 
-    private GamePlayDao gamePlayDao = new GamePlayDao1();
+    private GamePlayDao gamePlayDao = new GamePlayDaoJson();
 
     private static AnsiFormat redText = new AnsiFormat(BRIGHT_RED_TEXT());
     private static AnsiFormat blueText = new AnsiFormat(BRIGHT_BLUE_TEXT());
@@ -25,7 +26,6 @@ public class GamePlayServiceImpl implements GamePlayService {
      * ------------------------------------
      * operations create from CRUD
      */
-    @Override
     public void addPlayer(Player player) {
         if (isAgePermissible(player.getAge()) &&
                 isCorrectEmail(player.getEmail()) && !hasTheSameEmail(player.getEmail()) &&
@@ -34,7 +34,6 @@ public class GamePlayServiceImpl implements GamePlayService {
         }
     }
 
-    @Override
     public void addGame(Game game) {
         if (!hasTheSameGameName(game.getName()) && isCorrectGameName(game.getName())) {
             gamePlayDao.addGame(game);
@@ -45,7 +44,6 @@ public class GamePlayServiceImpl implements GamePlayService {
      * ------------------------------------
      * operations read from CRUD
      */
-    @Override
     public Player getPlayerByIdOrNull(String id) {
         boolean existSuchPlayerId = existPlayerId(id);
         Player player = null;
@@ -55,12 +53,10 @@ public class GamePlayServiceImpl implements GamePlayService {
         return player;
     }
 
-    @Override
     public List<Player> getAllPlayers() {
         return gamePlayDao.getAllPlayers();
     }
 
-    @Override
     public Game getGameByIdOrNull(String id) {
         boolean existSuchGameId = existGameId(id);
         Game game = null;
@@ -70,7 +66,6 @@ public class GamePlayServiceImpl implements GamePlayService {
         return game;
     }
 
-    @Override
     public List<Game> getAllGames() {
         return gamePlayDao.getAllGames();
     }
@@ -79,7 +74,6 @@ public class GamePlayServiceImpl implements GamePlayService {
      * ------------------------------------
      * operations update from CRUD
      */
-    @Override
     public void updatePlayerAge(String id, int age) {
         Player player = getPlayerByIdOrNull(id);
         if (player != null) {
@@ -89,7 +83,6 @@ public class GamePlayServiceImpl implements GamePlayService {
         }
     }
 
-    @Override
     public void updatePlayerEmail(String id, String email) {
         Player player = getPlayerByIdOrNull(id);
         if (player != null) {
@@ -99,7 +92,6 @@ public class GamePlayServiceImpl implements GamePlayService {
         }
     }
 
-    @Override
     public void updatePlayerNickname(String id, String nickname) {
         Player player = getPlayerByIdOrNull(id);
         if (player != null) {
@@ -109,7 +101,6 @@ public class GamePlayServiceImpl implements GamePlayService {
         }
     }
 
-    @Override
     public void updateGameName(String id, String name) {
         Game game = getGameByIdOrNull(id);
         if (game != null) {
@@ -119,7 +110,6 @@ public class GamePlayServiceImpl implements GamePlayService {
         }
     }
 
-    @Override
     public void updateGameType(String id, boolean isCommandGame) {
         Game game = getGameByIdOrNull(id);
         if (game != null) {
@@ -132,12 +122,10 @@ public class GamePlayServiceImpl implements GamePlayService {
      * ------------------------------------
      * operations delete from CRUD
      */
-    @Override
     public boolean deletePlayer(String id) {
         return gamePlayDao.deletePlayer(id);
     }
 
-    @Override
     public boolean deleteGame(String id) {
         return gamePlayDao.deleteGame(id);
     }
@@ -146,7 +134,11 @@ public class GamePlayServiceImpl implements GamePlayService {
      * ------------------------------------
      * relation operations create from CRUD
      */
-    @Override
+    public boolean addOnlyPlayerToGame(String playerId, String gameId) {
+        return gamePlayDao.addOnlyPlayerToGame(playerId, gameId);
+
+    }
+
     public void addGameToPlayerInAllDb(String gameId, String playerId) {
         if (existPlayerId(playerId) && existGameId(gameId)) {
             gamePlayDao.addGameToPlayerInAllDb(gameId, playerId);
@@ -157,12 +149,10 @@ public class GamePlayServiceImpl implements GamePlayService {
      * ------------------------------------
      * relation operations read from CRUD
      */
-    @Override
     public List<Player> getPlayersByGame(String gameId) {
         return gamePlayDao.getPlayersByGame(gameId);
     }
 
-    @Override
     public List<Game> getGamesByPlayer(String playerId) {
         return gamePlayDao.getGamesByPlayer(playerId);
     }
@@ -171,7 +161,10 @@ public class GamePlayServiceImpl implements GamePlayService {
      * ------------------------------------
      * relation operations delete from CRUD
      */
-    @Override
+    public boolean deleteOnlyPlayerFromGame(String playerId, String gameId) {
+        return gamePlayDao.deleteOnlyPlayerFromGame(playerId, gameId);
+    }
+
     public boolean deleteGameFromPlayerInAllDb(String gameId, String playerId) {
         return gamePlayDao.deleteGameFromPlayerInAllDb(gameId, playerId);
     }

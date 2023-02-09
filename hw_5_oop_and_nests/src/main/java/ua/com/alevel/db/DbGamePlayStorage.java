@@ -381,4 +381,13 @@ public class DbGamePlayStorage {
     public boolean existGameId(String gameId) {
         return getGameByIdOrNull(gameId) != null;
     }
+
+
+    @Override
+    public String toString() {
+        return "DbGamePlayStorage{" +
+                "players=" + players +
+                ", games=" + games +
+                '}';
+    }
 }

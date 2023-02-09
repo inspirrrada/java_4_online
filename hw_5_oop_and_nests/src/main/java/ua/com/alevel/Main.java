@@ -1,5 +1,6 @@
 package ua.com.alevel;
 
+import netscape.javascript.JSObject;
 import ua.com.alevel.controller.GamePlayController;
 
 import java.io.IOException;

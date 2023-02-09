@@ -2,7 +2,6 @@ package ua.com.alevel.service;
 
 import com.diogonunes.jcolor.AnsiFormat;
 import ua.com.alevel.dao.GamePlayDao;
-import ua.com.alevel.dao.GamePlayDao1;
 import ua.com.alevel.dao.GamePlayDaoJson;
 import ua.com.alevel.entity.Game;
 import ua.com.alevel.entity.Player;
@@ -13,9 +12,11 @@ import static com.diogonunes.jcolor.Attribute.*;
 
 public class GamePlayServiceImpl {
 
-    private GamePlayDao gamePlayDao = new GamePlayDaoJson();
+//    private GamePlayDao gamePlayDao = new GamePlayDaoJson();
 
-    private static AnsiFormat redText = new AnsiFormat(BRIGHT_RED_TEXT());
+    private GamePlayDaoJson gamePlayDao = new GamePlayDaoJson(); //TODO change type to GamePlayDao
+
+    private static AnsiFormat redText = new AnsiFormat(BRIGHT_RED_TEXT()); //TODO change to ColorUtils
     private static AnsiFormat blueText = new AnsiFormat(BRIGHT_BLUE_TEXT());
     private static AnsiFormat yellowText = new AnsiFormat(YELLOW_TEXT());
     private static AnsiFormat reverse = new AnsiFormat(REVERSE());
@@ -130,44 +131,44 @@ public class GamePlayServiceImpl {
         return gamePlayDao.deleteGame(id);
     }
 
-    /**
-     * ------------------------------------
-     * relation operations create from CRUD
-     */
-    public boolean addOnlyPlayerToGame(String playerId, String gameId) {
-        return gamePlayDao.addOnlyPlayerToGame(playerId, gameId);
-
-    }
-
-    public void addGameToPlayerInAllDb(String gameId, String playerId) {
-        if (existPlayerId(playerId) && existGameId(gameId)) {
-            gamePlayDao.addGameToPlayerInAllDb(gameId, playerId);
-        }
-    }
-
-    /**
-     * ------------------------------------
-     * relation operations read from CRUD
-     */
-    public List<Player> getPlayersByGame(String gameId) {
-        return gamePlayDao.getPlayersByGame(gameId);
-    }
-
-    public List<Game> getGamesByPlayer(String playerId) {
-        return gamePlayDao.getGamesByPlayer(playerId);
-    }
-
-    /**
-     * ------------------------------------
-     * relation operations delete from CRUD
-     */
-    public boolean deleteOnlyPlayerFromGame(String playerId, String gameId) {
-        return gamePlayDao.deleteOnlyPlayerFromGame(playerId, gameId);
-    }
-
-    public boolean deleteGameFromPlayerInAllDb(String gameId, String playerId) {
-        return gamePlayDao.deleteGameFromPlayerInAllDb(gameId, playerId);
-    }
+//    /**
+//     * ------------------------------------
+//     * relation operations create from CRUD
+//     */
+//    public boolean addOnlyPlayerToGame(String playerId, String gameId) {
+//        return gamePlayDao.addOnlyPlayerToGame(playerId, gameId);
+//
+//    }
+//
+//    public void addGameToPlayerInAllDb(String gameId, String playerId) {
+//        if (existPlayerId(playerId) && existGameId(gameId)) {
+//            gamePlayDao.addGameToPlayerInAllDb(gameId, playerId);
+//        }
+//    }
+//
+//    /**
+//     * ------------------------------------
+//     * relation operations read from CRUD
+//     */
+//    public List<Player> getPlayersByGame(String gameId) {
+//        return gamePlayDao.getPlayersByGame(gameId);
+//    }
+//
+//    public List<Game> getGamesByPlayer(String playerId) {
+//        return gamePlayDao.getGamesByPlayer(playerId);
+//    }
+//
+//    /**
+//     * ------------------------------------
+//     * relation operations delete from CRUD
+//     */
+//    public boolean deleteOnlyPlayerFromGame(String playerId, String gameId) {
+//        return gamePlayDao.deleteOnlyPlayerFromGame(playerId, gameId);
+//    }
+//
+//    public boolean deleteGameFromPlayerInAllDb(String gameId, String playerId) {
+//        return gamePlayDao.deleteGameFromPlayerInAllDb(gameId, playerId);
+//    }
 
     /**
      * ------------------------------------

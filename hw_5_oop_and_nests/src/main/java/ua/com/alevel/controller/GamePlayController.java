@@ -273,6 +273,7 @@ public class GamePlayController {
         } else {
             System.out.println("Players:");
             int count = 1;
+//            System.out.println("allPlayers.toString()" + allPlayers.toString());
             for (Player player : allPlayers) {
                 System.out.println(GamePlayService.getYellowText().format(count + ". " + player.toString()));
                 count++;

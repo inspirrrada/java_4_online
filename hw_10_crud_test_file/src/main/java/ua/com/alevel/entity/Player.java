@@ -38,14 +38,18 @@ public class Player extends BaseEntity {
         return gameIdList;
     }
 
+    public void setGameIdList(Set<String> gameIdList) {
+        this.gameIdList = gameIdList;
+    }
+
     @Override
     public String toString() {
-        return "Player{" +
-                "id=" + getId() +
-                ", age=" + age +
-                ", email='" + email + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", gameIdList=" + gameIdList +
-                '}';
+        return "\n{" +
+                "\"id\":" + "\"" + getId() + "\"" +
+                ", \"age\":" + age +
+                ", \"email\":" + "\"" + email + "\"" +
+                ", \"nickname\":" + "\"" + nickname + "\"" +
+                ", \"gameIdList\":" + gameIdList +
+                "}";
     }
 }

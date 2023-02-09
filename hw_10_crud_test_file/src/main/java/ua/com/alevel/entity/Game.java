@@ -29,13 +29,17 @@ public class Game extends BaseEntity {
         return playerIdList;
     }
 
+    public void setPlayerIdList(Set<String> playerIdList) {
+        this.playerIdList = playerIdList;
+    }
+
     @Override
     public String toString() {
-        return "Game{" +
-                "id=" + getId() +
-                ", name='" + name + '\'' +
-                ", commandGame=" + commandGame +
-                ", playerIdList=" + playerIdList +
-                '}';
+        return "\n{" +
+                "\"id\":" + "\"" + getId() + "\"" +
+                ", \"name\":" + "\"" + name + "\"" +
+                ", \"commandGame\":" + "\"" + commandGame + "\"" +
+                ", \"playerIdList\":" + playerIdList +
+                "}";
     }
 }

@@ -76,8 +76,8 @@ public class GamePlayController {
             case "9" -> deleteGame(reader);
             case "10" -> findAllGames();
             case "11" -> attachGameToPlayer(reader);
-//            case "12" -> findAllPlayersByGame(reader);
-//            case "13" -> findAllGamesByPlayer(reader);
+            case "12" -> findAllPlayersByGame(reader);
+            case "13" -> findAllGamesByPlayer(reader);
 //            case "14" -> deleteGameFromPlayer(reader);
             case "15" -> stop();
             default -> System.out.println(GamePlayServiceImpl.getRedText().format("Wrong value! Select menu again."));
@@ -467,52 +467,52 @@ public class GamePlayController {
         }
     }
 
-//    private void findAllPlayersByGame(BufferedReader reader) throws IOException {
-//        System.out.println(GamePlayServiceImpl.getReverse().format("\nMenu 12. FIND ALL PLAYERS BY GAME ID"));
-//        System.out.println();
-//        System.out.println(GamePlayServiceImpl.getUnderlinedText().format("Please enter game ID"));
-//        String gameId = reader.readLine();
-//        boolean existSuchGameId = service.existGameId(gameId);
-//        if (existSuchGameId) {
-//            List<Player> playersList = service.getPlayersByGame(gameId);
-//            if (playersList.isEmpty()) {
-//                System.out.println("There are no players in this game");
-//            } else {
-//                System.out.println("Players:");
-//                int count = 1;
-//                for (Player player : playersList) {
-//                    System.out.println(GamePlayServiceImpl.getYellowText().format(count + ". " + player.toString()));
-//                    count++;
-//                }
-//            }
-//        } else {
-//            System.out.println("Please check and try this menu again.");
-//        }
-//    }
-//
-//    private void findAllGamesByPlayer(BufferedReader reader) throws IOException {
-//        System.out.println(GamePlayServiceImpl.getReverse().format("\nMenu 13. FIND ALL GAMES BY PLAYER ID"));
-//        System.out.println();
-//        System.out.println(GamePlayServiceImpl.getUnderlinedText().format("Please enter player ID"));
-//        String playerId = reader.readLine();
-//        boolean existSuchPlayerId = service.existPlayerId(playerId);
-//        if (existSuchPlayerId) {
-//            List<Game> gamesList = service.getGamesByPlayer(playerId);
-//            if (gamesList.isEmpty()) {
-//                System.out.println("There are no games for this player");
-//            } else {
-//                int count = 1;
-//                System.out.println("Games:");
-//                for (Game game : gamesList) {
-//                    System.out.println(GamePlayServiceImpl.getYellowText().format(count + ". " + game.toString()));
-//                    count++;
-//                }
-//            }
-//        } else {
-//            System.out.println("Please check and try this menu again.");
-//        }
-//    }
-//
+    private void findAllPlayersByGame(BufferedReader reader) throws IOException {
+        System.out.println(GamePlayServiceImpl.getReverse().format("\nMenu 12. FIND ALL PLAYERS BY GAME ID"));
+        System.out.println();
+        System.out.println(GamePlayServiceImpl.getUnderlinedText().format("Please enter game ID"));
+        String gameId = reader.readLine();
+        boolean existSuchGameId = service.existGameId(gameId);
+        if (existSuchGameId) {
+            List<Player> playersList = service.getPlayersByGame(gameId);
+            if (playersList.isEmpty()) {
+                System.out.println("There are no players in this game");
+            } else {
+                System.out.println("Players:");
+                int count = 1;
+                for (Player player : playersList) {
+                    System.out.println(GamePlayServiceImpl.getYellowText().format(count + ". " + player.toString()));
+                    count++;
+                }
+            }
+        } else {
+            System.out.println("Please check and try this menu again.");
+        }
+    }
+
+    private void findAllGamesByPlayer(BufferedReader reader) throws IOException {
+        System.out.println(GamePlayServiceImpl.getReverse().format("\nMenu 13. FIND ALL GAMES BY PLAYER ID"));
+        System.out.println();
+        System.out.println(GamePlayServiceImpl.getUnderlinedText().format("Please enter player ID"));
+        String playerId = reader.readLine();
+        boolean existSuchPlayerId = service.existPlayerId(playerId);
+        if (existSuchPlayerId) {
+            List<Game> gamesList = service.getGamesByPlayer(playerId);
+            if (gamesList.isEmpty()) {
+                System.out.println("There are no games for this player");
+            } else {
+                int count = 1;
+                System.out.println("Games:");
+                for (Game game : gamesList) {
+                    System.out.println(GamePlayServiceImpl.getYellowText().format(count + ". " + game.toString()));
+                    count++;
+                }
+            }
+        } else {
+            System.out.println("Please check and try this menu again.");
+        }
+    }
+
 //    private void deleteGameFromPlayer(BufferedReader reader) throws IOException {
 //        System.out.println(GamePlayServiceImpl.getReverse().format("\nMenu 14. DELETE GAME FROM PLAYER BY ID"));
 //        System.out.println();

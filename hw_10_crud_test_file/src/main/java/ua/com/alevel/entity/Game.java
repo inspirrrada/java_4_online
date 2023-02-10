@@ -39,7 +39,7 @@ public class Game extends BaseEntity {
                 "\"id\":" + "\"" + getId() + "\"" +
                 ",\"name\":" + "\"" + name + "\"" +
                 ",\"commandGame\":" + "\"" + commandGame + "\"" +
-                ",\"playerIdList\":" + playerIdList +
+                ",\"playerIdList\":" + "\"" + playerIdList + "\"" +
                 "}";
     }
 }

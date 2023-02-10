@@ -64,7 +64,7 @@ public class DbGamePlayStorage {
                     continue;
                 }
                 line = line.replaceAll("\"", "");
-                String playerString = line.substring(line.indexOf("{") + 1, line.indexOf("}")).replace("\\s+|,\\s+", "|");
+                String playerString = line.substring(line.indexOf("{") + 1, line.indexOf("}")).replace(", ", "|");
                 String[] playerArr = playerString.split(",");
                 for (String s : playerArr) {
                     String[] playerField = s.split(":");

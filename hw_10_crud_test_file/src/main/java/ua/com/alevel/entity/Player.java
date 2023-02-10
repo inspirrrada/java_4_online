@@ -49,7 +49,7 @@ public class Player extends BaseEntity {
                 ",\"age\":" + age +
                 ",\"email\":" + "\"" + email + "\"" +
                 ",\"nickname\":" + "\"" + nickname + "\"" +
-                ",\"gameIdList\":" + gameIdList +
+                ",\"gameIdList\":" + "\"" + gameIdList + "\"" +
                 "}";
     }
 }

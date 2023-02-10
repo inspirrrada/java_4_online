@@ -146,18 +146,18 @@ public class GamePlayServiceImpl {
         }
     }
 
-//    /**
-//     * ------------------------------------
-//     * relation operations read from CRUD
-//     */
-//    public List<Player> getPlayersByGame(String gameId) {
-//        return gamePlayDao.getPlayersByGame(gameId);
-//    }
-//
-//    public List<Game> getGamesByPlayer(String playerId) {
-//        return gamePlayDao.getGamesByPlayer(playerId);
-//    }
-//
+    /**
+     * ------------------------------------
+     * relation operations read from CRUD
+     */
+    public List<Player> getPlayersByGame(String gameId) {
+        return gamePlayDao.getPlayersByGame(gameId);
+    }
+
+    public List<Game> getGamesByPlayer(String playerId) {
+        return gamePlayDao.getGamesByPlayer(playerId);
+    }
+
 //    /**
 //     * ------------------------------------
 //     * relation operations delete from CRUD

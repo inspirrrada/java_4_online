@@ -126,19 +126,19 @@ public class GamePlayDaoJson {
     }
 
 
-//    //------------------------------------
-//    //relation operations read from CRUD
+    //------------------------------------
+    //relation operations read from CRUD
 //    @Override
-//    public List<Player> getPlayersByGame(String gameId) {
-//        return dbGamePlayStorage.getPlayersByGame(gameId);
-//    }
-//
+    public List<Player> getPlayersByGame(String gameId) {
+        return dbGamePlayStorage.getPlayersByGame(gameId);
+    }
+
 //    @Override
-//    public List<Game> getGamesByPlayer(String playerId) {
-//        return dbGamePlayStorage.getGamesByPlayer(playerId);
-//    }
-//
-//
+    public List<Game> getGamesByPlayer(String playerId) {
+        return dbGamePlayStorage.getGamesByPlayer(playerId);
+    }
+
+
 //    //------------------------------------
 //    //relation operations delete from CRUD
 //    @Override

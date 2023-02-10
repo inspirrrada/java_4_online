@@ -75,7 +75,7 @@ public class GamePlayController {
             case "8" -> updateGame(reader);
             case "9" -> deleteGame(reader);
             case "10" -> findAllGames();
-//            case "11" -> attachGameToPlayer(reader);
+            case "11" -> attachGameToPlayer(reader);
 //            case "12" -> findAllPlayersByGame(reader);
 //            case "13" -> findAllGamesByPlayer(reader);
 //            case "14" -> deleteGameFromPlayer(reader);
@@ -449,24 +449,24 @@ public class GamePlayController {
         }
     }
 
-//    private void attachGameToPlayer(BufferedReader reader) throws IOException {
-//        System.out.println(GamePlayServiceImpl.getReverse().format("\nMenu 11. ATTACH GAME TO PLAYER"));
-//        System.out.println();
-//        System.out.println(GamePlayServiceImpl.getUnderlinedText().format("Please enter game ID"));
-//        String gameId = reader.readLine();
-//        boolean existSuchGameId = service.existGameId(gameId);
-//        if (existSuchGameId) {
-//            System.out.println(GamePlayServiceImpl.getUnderlinedText().format("\nPlease enter player ID"));
-//            String playerId = reader.readLine();
-//            boolean existSuchPlayerId = service.existPlayerId(playerId);
-//            if (existSuchPlayerId) {
-//                service.addGameToPlayerInAllDb(gameId, playerId);
-//            }
-//        } else {
-//            System.out.println("Please check and try this menu again.");
-//        }
-//    }
-//
+    private void attachGameToPlayer(BufferedReader reader) throws IOException {
+        System.out.println(GamePlayServiceImpl.getReverse().format("\nMenu 11. ATTACH GAME TO PLAYER"));
+        System.out.println();
+        System.out.println(GamePlayServiceImpl.getUnderlinedText().format("Please enter game ID"));
+        String gameId = reader.readLine();
+        boolean existSuchGameId = service.existGameId(gameId);
+        if (existSuchGameId) {
+            System.out.println(GamePlayServiceImpl.getUnderlinedText().format("\nPlease enter player ID"));
+            String playerId = reader.readLine();
+            boolean existSuchPlayerId = service.existPlayerId(playerId);
+            if (existSuchPlayerId) {
+                service.addGameToPlayerInAllDb(gameId, playerId);
+            }
+        } else {
+            System.out.println("Please check and try this menu again.");
+        }
+    }
+
 //    private void findAllPlayersByGame(BufferedReader reader) throws IOException {
 //        System.out.println(GamePlayServiceImpl.getReverse().format("\nMenu 12. FIND ALL PLAYERS BY GAME ID"));
 //        System.out.println();

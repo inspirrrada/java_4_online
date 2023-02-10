@@ -113,19 +113,19 @@ public class GamePlayDaoJson {
     }
 
 
-//    //------------------------------------
-//    //relation operations create from CRUD
+    //------------------------------------
+    //relation operations create from CRUD
 //    @Override
-//    public boolean addOnlyPlayerToGame(String playerId, String gameId) {
-//        return dbGamePlayStorage.addOnlyPlayerToGame(playerId, gameId);
-//    }
-//
+    public boolean addOnlyPlayerToGame(String playerId, String gameId) {
+        return dbGamePlayStorage.addOnlyPlayerToGame(playerId, gameId);
+    }
+
 //    @Override
-//    public void addGameToPlayerInAllDb(String gameId, String playerId) {
-//        dbGamePlayStorage.addGameToPlayerInAllDb(gameId, playerId);
-//    }
-//
-//
+    public void addGameToPlayerInAllDb(String gameId, String playerId) {
+        dbGamePlayStorage.addGameToPlayerInAllDb(gameId, playerId);
+    }
+
+
 //    //------------------------------------
 //    //relation operations read from CRUD
 //    @Override

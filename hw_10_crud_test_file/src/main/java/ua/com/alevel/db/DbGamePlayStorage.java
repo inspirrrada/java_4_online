@@ -64,8 +64,8 @@ public class DbGamePlayStorage {
                     continue;
                 }
                 line = line.replaceAll("\"", "");
-                String playerString = line.substring(line.indexOf("{") + 1, line.indexOf("}"));
-                String[] playerArr = playerString.split(", ");
+                String playerString = line.substring(line.indexOf("{") + 1, line.indexOf("}")).replace("\\s+|,\\s+", "|");
+                String[] playerArr = playerString.split(",");
                 for (String s : playerArr) {
                     String[] playerField = s.split(":");
                     map.put(playerField[0], playerField[1]);
@@ -84,9 +84,13 @@ public class DbGamePlayStorage {
                             } else {
                                 String value = (String) v;
                                 value = value.substring(1, value.length() - 1).replace("\"", "");
-                                String[] valueArr = value.split(",");
-                                for (String s : valueArr) {
-                                    set.add(s);
+                                if (value.contains("|")) {
+                                    String[] valueArr = value.split("\\|");
+                                    for (String s : valueArr) {
+                                        set.add(s);
+                                    }
+                                } else {
+                                    set.add(value);
                                 }
                                 player.setGameIdList(set);
                             }
@@ -112,8 +116,8 @@ public class DbGamePlayStorage {
                     continue;
                 }
                 line = line.replaceAll("\"", "");
-                String gameString = line.substring(line.indexOf("{") + 1, line.indexOf("}"));
-                String[] gameArr = gameString.split(", ");
+                String gameString = line.substring(line.indexOf("{") + 1, line.indexOf("}")).replace(", ", "|");
+                String[] gameArr = gameString.split(",");
                 for (String s : gameArr) {
                     String[] gameField = s.split(":");
                     map.put(gameField[0], gameField[1]);
@@ -130,10 +134,14 @@ public class DbGamePlayStorage {
                                 game.setPlayerIdList(set);
                             } else {
                                 String value = (String) v;
-                                value = value.substring(1, value.length() - 1).replace("\"", "");
-                                String[] valueArr = value.split(",");
-                                for (String s : valueArr) {
-                                    set.add(s);
+                                value = value.substring(1, value.length() - 1);
+                                if (value.contains("|")) {
+                                    String[] valueArr = value.split("\\|");
+                                    for (String s : valueArr) {
+                                        set.add(s);
+                                    }
+                                } else {
+                                    set.add(value);
                                 }
                                 game.setPlayerIdList(set);
                             }
@@ -385,13 +393,27 @@ public class DbGamePlayStorage {
                 count++;
             }
         }
+
         //check if playersIdList already has such player id
         if (count == 0) {
             playersIdList.add(playerId);
+           // game.setPlayerIdList(playersIdList);
             successfullyAdded = true;
         } else {
             //System.out.println(redText.format("We have already player with such id in this game!"));
         }
+//        for (String currentPlayerId : playersIdList) {
+//            currentPlayerId = "\"" + currentPlayerId + "\"";
+//        }
+
+        games = readGamesFromFile();
+        for (Game gameCurrent : games) {
+            if (gameCurrent.getId().equals(gameId)) {
+                gameCurrent.setPlayerIdList(playersIdList);
+                break;
+            }
+        }
+        writeToFile(games.toString(), gamesFile);
         return successfullyAdded;
 
     }
@@ -414,6 +436,14 @@ public class DbGamePlayStorage {
             boolean wasAddedPlayerToGame = addOnlyPlayerToGame(playerId, gameId);
             if (wasAddedPlayerToGame) {
                 //successfullyAdded = true;
+                players = readPlayersFromFile();
+                for (Player playerCurrent : players) {
+                    if (playerCurrent.getId().equals(playerId)) {
+                        playerCurrent.setGameIdList(gamesIdList);
+                        break;
+                    }
+                }
+                writeToFile(players.toString(), playersFile);
                 System.out.println(ColorUtils.getBlueText().format("\nGame was successfully attached to the player."));
             } else {
                 System.out.println(ColorUtils.getRedText().format("This game can't be added to this player in automatic mode. Please contact with support service."));

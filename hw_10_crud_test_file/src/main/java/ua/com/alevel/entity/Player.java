@@ -46,10 +46,10 @@ public class Player extends BaseEntity {
     public String toString() {
         return "\n{" +
                 "\"id\":" + "\"" + getId() + "\"" +
-                ", \"age\":" + age +
-                ", \"email\":" + "\"" + email + "\"" +
-                ", \"nickname\":" + "\"" + nickname + "\"" +
-                ", \"gameIdList\":" + gameIdList +
+                ",\"age\":" + age +
+                ",\"email\":" + "\"" + email + "\"" +
+                ",\"nickname\":" + "\"" + nickname + "\"" +
+                ",\"gameIdList\":" + gameIdList +
                 "}";
     }
 }

@@ -131,21 +131,21 @@ public class GamePlayServiceImpl {
         return gamePlayDao.deleteGame(id);
     }
 
-//    /**
-//     * ------------------------------------
-//     * relation operations create from CRUD
-//     */
-//    public boolean addOnlyPlayerToGame(String playerId, String gameId) {
-//        return gamePlayDao.addOnlyPlayerToGame(playerId, gameId);
-//
-//    }
-//
-//    public void addGameToPlayerInAllDb(String gameId, String playerId) {
-//        if (existPlayerId(playerId) && existGameId(gameId)) {
-//            gamePlayDao.addGameToPlayerInAllDb(gameId, playerId);
-//        }
-//    }
-//
+    /**
+     * ------------------------------------
+     * relation operations create from CRUD
+     */
+    public boolean addOnlyPlayerToGame(String playerId, String gameId) {
+        return gamePlayDao.addOnlyPlayerToGame(playerId, gameId);
+
+    }
+
+    public void addGameToPlayerInAllDb(String gameId, String playerId) {
+        if (existPlayerId(playerId) && existGameId(gameId)) {
+            gamePlayDao.addGameToPlayerInAllDb(gameId, playerId);
+        }
+    }
+
 //    /**
 //     * ------------------------------------
 //     * relation operations read from CRUD

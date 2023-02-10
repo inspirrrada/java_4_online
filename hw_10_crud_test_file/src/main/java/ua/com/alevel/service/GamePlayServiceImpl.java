@@ -158,17 +158,17 @@ public class GamePlayServiceImpl {
         return gamePlayDao.getGamesByPlayer(playerId);
     }
 
-//    /**
-//     * ------------------------------------
-//     * relation operations delete from CRUD
-//     */
-//    public boolean deleteOnlyPlayerFromGame(String playerId, String gameId) {
-//        return gamePlayDao.deleteOnlyPlayerFromGame(playerId, gameId);
-//    }
-//
-//    public boolean deleteGameFromPlayerInAllDb(String gameId, String playerId) {
-//        return gamePlayDao.deleteGameFromPlayerInAllDb(gameId, playerId);
-//    }
+    /**
+     * ------------------------------------
+     * relation operations delete from CRUD
+     */
+    public boolean deleteOnlyPlayerFromGame(String playerId, String gameId) {
+        return gamePlayDao.deleteOnlyPlayerFromGame(playerId, gameId);
+    }
+
+    public boolean deleteGameFromPlayerInAllDb(String gameId, String playerId) {
+        return gamePlayDao.deleteGameFromPlayerInAllDb(gameId, playerId);
+    }
 
     /**
      * ------------------------------------

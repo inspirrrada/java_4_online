@@ -78,7 +78,7 @@ public class GamePlayController {
             case "11" -> attachGameToPlayer(reader);
             case "12" -> findAllPlayersByGame(reader);
             case "13" -> findAllGamesByPlayer(reader);
-//            case "14" -> deleteGameFromPlayer(reader);
+            case "14" -> deleteGameFromPlayer(reader);
             case "15" -> stop();
             default -> System.out.println(GamePlayServiceImpl.getRedText().format("Wrong value! Select menu again."));
         }
@@ -513,25 +513,25 @@ public class GamePlayController {
         }
     }
 
-//    private void deleteGameFromPlayer(BufferedReader reader) throws IOException {
-//        System.out.println(GamePlayServiceImpl.getReverse().format("\nMenu 14. DELETE GAME FROM PLAYER BY ID"));
-//        System.out.println();
-//        System.out.println(GamePlayServiceImpl.getUnderlinedText().format("Please enter game ID"));
-//        String gameId = reader.readLine();
-//        boolean existSuchGameId = service.existGameId(gameId);
-//        if (existSuchGameId) {
-//            System.out.println(GamePlayServiceImpl.getUnderlinedText().format("\nPlease enter player ID"));
-//            String playerId = reader.readLine();
-//            boolean existSuchPlayerId = service.existPlayerId(playerId);
-//            if (existSuchPlayerId) {
-//                service.deleteGameFromPlayerInAllDb(gameId, playerId);
-//            } else {
-//                System.out.println("Please check and try this menu again.");
-//            }
-//        } else {
-//            System.out.println("Please check and try this menu again.");
-//        }
-//    }
+    private void deleteGameFromPlayer(BufferedReader reader) throws IOException {
+        System.out.println(GamePlayServiceImpl.getReverse().format("\nMenu 14. DELETE GAME FROM PLAYER BY ID"));
+        System.out.println();
+        System.out.println(GamePlayServiceImpl.getUnderlinedText().format("Please enter game ID"));
+        String gameId = reader.readLine();
+        boolean existSuchGameId = service.existGameId(gameId);
+        if (existSuchGameId) {
+            System.out.println(GamePlayServiceImpl.getUnderlinedText().format("\nPlease enter player ID"));
+            String playerId = reader.readLine();
+            boolean existSuchPlayerId = service.existPlayerId(playerId);
+            if (existSuchPlayerId) {
+                service.deleteGameFromPlayerInAllDb(gameId, playerId);
+            } else {
+                System.out.println("Please check and try this menu again.");
+            }
+        } else {
+            System.out.println("Please check and try this menu again.");
+        }
+    }
 
     private void stop() {
         System.out.println("\nThe application is finished.\n");

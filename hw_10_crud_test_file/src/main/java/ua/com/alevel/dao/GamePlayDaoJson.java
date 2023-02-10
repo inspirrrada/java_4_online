@@ -139,19 +139,19 @@ public class GamePlayDaoJson {
     }
 
 
-//    //------------------------------------
-//    //relation operations delete from CRUD
+    //------------------------------------
+    //relation operations delete from CRUD
 //    @Override
-//    public boolean deleteOnlyPlayerFromGame(String playerId, String gameId) {
-//        return dbGamePlayStorage.deleteOnlyPlayerFromGame(playerId, gameId);
-//    }
-//
+    public boolean deleteOnlyPlayerFromGame(String playerId, String gameId) {
+        return dbGamePlayStorage.deleteOnlyPlayerFromGame(playerId, gameId);
+    }
+
 //    @Override
-//    public boolean deleteGameFromPlayerInAllDb(String gameId, String playerId) {
-//        return dbGamePlayStorage.deleteGameFromPlayerInAllDb(gameId, playerId);
-//    }
-//
-//
+    public boolean deleteGameFromPlayerInAllDb(String gameId, String playerId) {
+        return dbGamePlayStorage.deleteGameFromPlayerInAllDb(gameId, playerId);
+    }
+
+
     //------------------------------------
     //check for duplicate data
 //    @Override

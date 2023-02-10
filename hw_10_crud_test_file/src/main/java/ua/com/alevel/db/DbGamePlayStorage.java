@@ -498,6 +498,14 @@ public class DbGamePlayStorage {
                 break;
             }
         }
+        games = readGamesFromFile();
+        for (Game gameCurrent : games) {
+            if (gameCurrent.getId().equals(gameId)) {
+                gameCurrent.setPlayerIdList(playersIdList);
+                break;
+            }
+        }
+        writeToFile(games.toString(), gamesFile);
         return successfullyDeleted;
     }
 
@@ -512,6 +520,14 @@ public class DbGamePlayStorage {
                 boolean wasDeletedPlayerFromGame = deleteOnlyPlayerFromGame(playerId, gameId);
                 if (wasDeletedPlayerFromGame) {
                     successfullyDeleted = true;
+                    players = readPlayersFromFile();
+                    for (Player playerCurrent : players) {
+                        if (playerCurrent.getId().equals(playerId)) {
+                            playerCurrent.setGameIdList(gameIdList);
+                            break;
+                        }
+                    }
+                    writeToFile(players.toString(), playersFile);
                     System.out.println(ColorUtils.getBlueText().format("\nGame was successfully deleted from player."));
                 } else {
                     System.out.println(ColorUtils.getRedText().format("\nGame can't be deleted from player in automatic mode. Please contact with support service."));

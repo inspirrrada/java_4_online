@@ -2,15 +2,9 @@ package ua.com.alevel.dao;
 
 import ua.com.alevel.entity.Game;
 import ua.com.alevel.entity.Player;
-
 import java.util.List;
 
 public interface GamePlayDao {
-
-    /**
-     * ------------------------------------
-     * all methods for connection with db
-     */
 
     /**
      * ------------------------------------
@@ -32,11 +26,9 @@ public interface GamePlayDao {
      * ------------------------------------
      * operations update from CRUD
      */
-    //void updatePlayer(Player playerNew);
     void updatePlayerAge(String id, int age);
     void updatePlayerEmail(String id, String email);
     void updatePlayerNickname(String id, String nickname);
-    //void updateGame(Game gameNew);
     void updateGameName(String id, String name);
     void updateGameType(String id, boolean isCommandGame);
 
@@ -51,7 +43,6 @@ public interface GamePlayDao {
      * ------------------------------------
      * relation operations create from CRUD
      */
-    boolean addOnlyPlayerToGame(String playerId, String gameId);
     void addGameToPlayerInAllDb(String gameId, String playerId);
 
     /**
@@ -65,7 +56,6 @@ public interface GamePlayDao {
      * ------------------------------------
      * relation operations delete from CRUD
      */
-    boolean deleteOnlyPlayerFromGame(String playerId, String gameId);
     boolean deleteGameFromPlayerInAllDb(String gameId, String playerId);
 
     /**
@@ -77,4 +67,8 @@ public interface GamePlayDao {
     boolean hasTheSameGameName(String gameName);
     boolean existPlayerId(String playerId);
     boolean existGameId(String gameId);
+    String getPlayersFile();
+    void setPlayersFile(String playersFile);
+    String getGamesFile();
+    void setGamesFile(String gamesFile);
 }

@@ -1,202 +1,183 @@
 package ua.com.alevel.dao;
 
-import com.google.gson.Gson;
-import ua.com.alevel.db.DbGamePlayStorage;
-import ua.com.alevel.db.PlayersContainer;
+import ua.com.alevel.db.DbGamePlayFileStorage;
 import ua.com.alevel.entity.Game;
 import ua.com.alevel.entity.Player;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
-public class GamePlayDaoJson {
+public class GamePlayDaoJson implements GamePlayDao {
 
-    DbGamePlayStorage dbGamePlayStorage = new DbGamePlayStorage();
+    private String playersFile;
+    private String gamesFile;
+    DbGamePlayFileStorage dbGamePlayFileStorage;
 
-    public GamePlayDaoJson() {
+    public GamePlayDaoJson(String playersFile, String gamesFile) {
+        this.playersFile = playersFile;
+        this.gamesFile = gamesFile;
+        this.dbGamePlayFileStorage = new DbGamePlayFileStorage(playersFile, gamesFile);
         System.out.println("This is GamePlayDaoJson");
-//        Path playersPath = Paths.get("players.json"); // nio
-//        Path gamesPath = Paths.get("games.json"); // nio
-//        try {
-//            if (!Files.exists(playersPath)) {
-//                Files.createFile(playersPath);
-//                dbGamePlayStorage.writeToFile(dbGamePlayStorage.getPlayers().toString());
-//            }
-//            if (!Files.exists(gamesPath)) {
-//                Files.createFile(gamesPath);
-//            }
-//        } catch (IOException e) {
-//            System.out.println("Oops...Something went wrong:( Please contact our client support.");
-//            e.printStackTrace();
-//        }
     }
 
-    //------------------------------------
-    //operations create from CRUD
-//    @Override
+    /**
+     * ------------------------------------
+     * operations create from CRUD
+     */
+    @Override
     public void addPlayer(Player player) {
-        dbGamePlayStorage.addPlayer(player);
+        dbGamePlayFileStorage.addPlayer(player);
     }
 
-//    @Override
+    @Override
     public void addGame(Game game) {
-        dbGamePlayStorage.addGame(game);
+        dbGamePlayFileStorage.addGame(game);
     }
 
-    //------------------------------------
-    //operations read from CRUD
-//    @Override
+    /**
+     * ------------------------------------
+     * operations read from CRUD
+     */
+    @Override
     public Player getPlayerByIdOrNull(String id) {
-        return dbGamePlayStorage.getPlayerByIdOrNull(id);
+        return dbGamePlayFileStorage.getPlayerByIdOrNull(id);
     }
-//
-//    @Override
+
+    @Override
     public List<Player> getAllPlayers() {
-        return dbGamePlayStorage.getAllPlayers();
+        return dbGamePlayFileStorage.getAllPlayers();
     }
 
-//    @Override
+    @Override
     public Game getGameByIdOrNull(String id) {
-        return dbGamePlayStorage.getGameByIdOrNull(id);
+        return dbGamePlayFileStorage.getGameByIdOrNull(id);
     }
 
-//    @Override
+    @Override
     public List<Game> getAllGames() {
-        return dbGamePlayStorage.getAllGames();
+        return dbGamePlayFileStorage.getAllGames();
     }
 
-
-    //------------------------------------
-    //operations update from CRUD
-//    @Override
+    /**
+     * ------------------------------------
+     * operations update from CRUD
+     */
+    @Override
     public void updatePlayerAge(String id, int age) {
-        dbGamePlayStorage.updatePlayerAge(id, age);
+        dbGamePlayFileStorage.updatePlayerAge(id, age);
     }
 
-//    @Override
+    @Override
     public void updatePlayerEmail(String id, String email) {
-        dbGamePlayStorage.updatePlayerEmail(id, email);
+        dbGamePlayFileStorage.updatePlayerEmail(id, email);
     }
 
-//    @Override
+    @Override
     public void updatePlayerNickname(String id, String nickname) {
-        dbGamePlayStorage.updatePlayerNickname(id, nickname);
+        dbGamePlayFileStorage.updatePlayerNickname(id, nickname);
     }
 
-//    @Override
+    @Override
     public void updateGameName(String id, String name) {
-        dbGamePlayStorage.updateGameName(id, name);
+        dbGamePlayFileStorage.updateGameName(id, name);
     }
 
-//    @Override
+    @Override
     public void updateGameType(String id, boolean isCommandGame) {
-        dbGamePlayStorage.updateGameType(id, isCommandGame);
+        dbGamePlayFileStorage.updateGameType(id, isCommandGame);
     }
 
-
-    //------------------------------------
-    //operations delete from CRUD
-//    @Override
+    /**
+     * ------------------------------------
+     * operations delete from CRUD
+     */
+    @Override
     public boolean deletePlayer(String id) {
-        return dbGamePlayStorage.deletePlayer(id);
+        return dbGamePlayFileStorage.deletePlayer(id);
     }
 
-//    @Override
+    @Override
     public boolean deleteGame(String id) {
-        return dbGamePlayStorage.deleteGame(id);
+        return dbGamePlayFileStorage.deleteGame(id);
     }
 
-
-    //------------------------------------
-    //relation operations create from CRUD
-//    @Override
-    public boolean addOnlyPlayerToGame(String playerId, String gameId) {
-        return dbGamePlayStorage.addOnlyPlayerToGame(playerId, gameId);
-    }
-
-//    @Override
+    /**
+     * ------------------------------------
+     * relation operations create from CRUD
+     */
+    @Override
     public void addGameToPlayerInAllDb(String gameId, String playerId) {
-        dbGamePlayStorage.addGameToPlayerInAllDb(gameId, playerId);
+        dbGamePlayFileStorage.addGameToPlayerInAllDb(gameId, playerId);
     }
 
-
-    //------------------------------------
-    //relation operations read from CRUD
-//    @Override
+    /**
+     * ------------------------------------
+     * relation operations read from CRUD
+     */
+    @Override
     public List<Player> getPlayersByGame(String gameId) {
-        return dbGamePlayStorage.getPlayersByGame(gameId);
+        return dbGamePlayFileStorage.getPlayersByGame(gameId);
     }
 
-//    @Override
+    @Override
     public List<Game> getGamesByPlayer(String playerId) {
-        return dbGamePlayStorage.getGamesByPlayer(playerId);
+        return dbGamePlayFileStorage.getGamesByPlayer(playerId);
     }
 
 
-    //------------------------------------
-    //relation operations delete from CRUD
-//    @Override
-    public boolean deleteOnlyPlayerFromGame(String playerId, String gameId) {
-        return dbGamePlayStorage.deleteOnlyPlayerFromGame(playerId, gameId);
-    }
-
-//    @Override
+    /**
+     * ------------------------------------
+     * relation operations delete from CRUD
+     */
+    @Override
     public boolean deleteGameFromPlayerInAllDb(String gameId, String playerId) {
-        return dbGamePlayStorage.deleteGameFromPlayerInAllDb(gameId, playerId);
+        return dbGamePlayFileStorage.deleteGameFromPlayerInAllDb(gameId, playerId);
     }
 
-
-    //------------------------------------
-    //check for duplicate data
-//    @Override
+    /**
+     * ------------------------------------
+     * check methods
+     */
+    @Override
     public boolean hasTheSameEmail(String email) {
-        return dbGamePlayStorage.hasTheSameEmail(email);
+        return dbGamePlayFileStorage.hasTheSameEmail(email);
     }
 
-//    @Override
+    @Override
     public boolean hasTheSameNickname(String nickname) {
-        return dbGamePlayStorage.hasTheSameNickname(nickname);
+        return dbGamePlayFileStorage.hasTheSameNickname(nickname);
     }
 
-//    @Override
+    @Override
     public boolean hasTheSameGameName(String gameName) {
-        return dbGamePlayStorage.hasTheSameGameName(gameName);
+        return dbGamePlayFileStorage.hasTheSameGameName(gameName);
     }
 
-//    @Override
+    @Override
     public boolean existPlayerId(String playerId) {
-        return dbGamePlayStorage.existPlayerId(playerId);
+        return dbGamePlayFileStorage.existPlayerId(playerId);
     }
 
-//    @Override
+    @Override
     public boolean existGameId(String gameId) {
-        return dbGamePlayStorage.existGameId(gameId);
+        return dbGamePlayFileStorage.existGameId(gameId);
     }
 
-//    private static class gamePlayContainer {
-//        private List<Player> players;
-//        private List<Game> games;
-//
-//        public List<Player> getPlayers() {
-//            return players;
-//        }
-//
-//        public void setPlayers(List<Player> players) {
-//            this.players = players;
-//        }
-//
-//        public List<Game> getGames() {
-//            return games;
-//        }
-//
-//        public void setGames(List<Game> games) {
-//            this.games = games;
-//        }
-//    }
+    @Override
+    public String getPlayersFile() {
+        return dbGamePlayFileStorage.getPlayersFile();
+    }
+
+    @Override
+    public void setPlayersFile(String playersFile) {
+        dbGamePlayFileStorage.setPlayersFile(playersFile);
+    }
+
+    @Override
+    public String getGamesFile() {
+        return dbGamePlayFileStorage.getGamesFile();
+    }
+
+    @Override
+    public void setGamesFile(String gamesile) {
+        dbGamePlayFileStorage.setGamesFile(gamesFile);
+    }
 }

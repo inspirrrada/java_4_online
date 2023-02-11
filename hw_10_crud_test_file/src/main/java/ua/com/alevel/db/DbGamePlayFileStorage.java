@@ -2,29 +2,25 @@ package ua.com.alevel.db;
 
 import ua.com.alevel.entity.Game;
 import ua.com.alevel.entity.Player;
-import ua.com.alevel.service.GamePlayService;
 import ua.com.alevel.utils.ColorUtils;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class DbGamePlayStorage {
+public class DbGamePlayFileStorage {
 
     private List<Player> players;
     private List<Game> games;
-    private String playersFile = "players.json";
-    private String gamesFile = "games.json";
-    private Path playersPath = Paths.get("players.json"); // nio
-    private Path gamesPath = Paths.get("games.json"); // nio
+    private String playersFile;
+    private String gamesFile;
 
-    private static DbGamePlayStorage instance;
-
-    public DbGamePlayStorage() {
+    public DbGamePlayFileStorage(String playersFile, String gamesFile) {
+        this.playersFile = playersFile;
+        this.gamesFile = gamesFile;
+        Path playersPath = Paths.get(playersFile);
+        Path gamesPath = Paths.get(gamesFile);
         try {
             if (!Files.exists(playersPath)) {
                 Files.createFile(playersPath);
@@ -41,13 +37,6 @@ public class DbGamePlayStorage {
             e.printStackTrace();
         }
     }
-
-//    public static DbGamePlayStorage getInstance() {
-//        if (instance == null) {
-//            instance = new DbGamePlayStorage();
-//        }
-//        return instance;
-//    }
 
     /**
      * ------------------------------------
@@ -71,7 +60,7 @@ public class DbGamePlayStorage {
                     map.put(playerField[0], playerField[1]);
                 }
                 Player player = new Player();
-                map.forEach((k,v) -> {
+                map.forEach((k, v) -> {
                     switch (k) {
                         case "id" -> player.setId((String) v);
                         case "age" -> player.setAge(Integer.parseInt((String) v));
@@ -102,7 +91,6 @@ public class DbGamePlayStorage {
         } catch (IOException e) {
             throw new RuntimeException();
         }
-        System.out.println("players from file: " + players);
         return players;
     }
 
@@ -123,7 +111,7 @@ public class DbGamePlayStorage {
                     map.put(gameField[0], gameField[1]);
                 }
                 Game game = new Game();
-                map.forEach((k,v) -> {
+                map.forEach((k, v) -> {
                     switch (k) {
                         case "id" -> game.setId((String) v);
                         case "name" -> game.setName((String) v);
@@ -153,7 +141,6 @@ public class DbGamePlayStorage {
         } catch (IOException e) {
             throw new RuntimeException();
         }
-        System.out.println("games from file: " + games);
         return games;
     }
 
@@ -249,11 +236,11 @@ public class DbGamePlayStorage {
         }
         return game;
     }
+
     public List<Game> getAllGames() {
         games = readGamesFromFile();
         return games;
     }
-
 
     /**
      * ------------------------------------
@@ -313,7 +300,6 @@ public class DbGamePlayStorage {
         }
         writeToFile(games.toString(), gamesFile);
     }
-
 
     /**
      * ------------------------------------
@@ -393,19 +379,11 @@ public class DbGamePlayStorage {
                 count++;
             }
         }
-
         //check if playersIdList already has such player id
         if (count == 0) {
             playersIdList.add(playerId);
-           // game.setPlayerIdList(playersIdList);
             successfullyAdded = true;
-        } else {
-            //System.out.println(redText.format("We have already player with such id in this game!"));
         }
-//        for (String currentPlayerId : playersIdList) {
-//            currentPlayerId = "\"" + currentPlayerId + "\"";
-//        }
-
         games = readGamesFromFile();
         for (Game gameCurrent : games) {
             if (gameCurrent.getId().equals(gameId)) {
@@ -415,11 +393,9 @@ public class DbGamePlayStorage {
         }
         writeToFile(games.toString(), gamesFile);
         return successfullyAdded;
-
     }
 
     public void addGameToPlayerInAllDb(String gameId, String playerId) {
-        //boolean successfullyAdded = false;
         Player player = getPlayerByIdOrNull(playerId);
         Set<String> gamesIdList = player.getGameIdList();
         int count = 0;
@@ -428,14 +404,12 @@ public class DbGamePlayStorage {
                 count++;
             }
         }
-
         //check if gamesIdList already has such game id
         if (count == 0) {
             gamesIdList.add(gameId);
             //when we add gameId to the player, at once we have to add also playerId to the game
             boolean wasAddedPlayerToGame = addOnlyPlayerToGame(playerId, gameId);
             if (wasAddedPlayerToGame) {
-                //successfullyAdded = true;
                 players = readPlayersFromFile();
                 for (Player playerCurrent : players) {
                     if (playerCurrent.getId().equals(playerId)) {
@@ -597,12 +571,20 @@ public class DbGamePlayStorage {
         return getGameByIdOrNull(gameId) != null;
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public String getPlayersFile() {
+        return playersFile;
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
+    public void setPlayersFile(String playersFile) {
+        this.playersFile = playersFile;
+    }
+
+    public String getGamesFile() {
+        return gamesFile;
+    }
+
+    public void setGamesFile(String gamesFile) {
+        this.gamesFile = gamesFile;
     }
 
     @Override

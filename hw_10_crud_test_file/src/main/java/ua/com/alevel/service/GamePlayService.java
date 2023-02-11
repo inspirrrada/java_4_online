@@ -2,6 +2,7 @@ package ua.com.alevel.service;
 
 import ua.com.alevel.entity.Game;
 import ua.com.alevel.entity.Player;
+import ua.com.alevel.utils.ColorUtils;
 
 import java.util.List;
 
@@ -33,4 +34,23 @@ public interface GamePlayService {
     List<Player> getPlayersByGame(String gameId);
     List<Game> getGamesByPlayer(String playerId);
     boolean deleteGameFromPlayerInAllDb(String gameId, String playerId);
+
+    /**
+     * ------------------------------------
+     * additional methods
+     */
+    boolean hasTheSameEmail(String email);
+    boolean hasTheSameNickname(String nickname);
+    boolean hasTheSameGameName(String gameName);
+    boolean existPlayerId(String playerId);
+    boolean existGameId(String gameId);
+    boolean isCorrectAgeFormat(String ageValue);
+    boolean isAgePermissible(int age);
+    boolean isCorrectNickname(String nickname);
+    boolean isCorrectEmail(String email);
+    boolean isCorrectGameName(String gameName);
+    String getPlayersFile();
+    void setPlayersFile(String playersFile);
+    String getGamesFile();
+    void setGamesFile(String gamesFile);
 }

@@ -1,32 +1,30 @@
 package ua.com.alevel.service;
 
-import com.diogonunes.jcolor.AnsiFormat;
 import ua.com.alevel.dao.GamePlayDao;
 import ua.com.alevel.dao.GamePlayDaoJson;
 import ua.com.alevel.entity.Game;
 import ua.com.alevel.entity.Player;
-
+import ua.com.alevel.utils.ColorUtils;
 import java.util.List;
 
-import static com.diogonunes.jcolor.Attribute.*;
+public class GamePlayServiceImpl implements GamePlayService {
 
-public class GamePlayServiceImpl {
+    private String playersFile;
+    private String gamesFile;
+    private GamePlayDao gamePlayDao;
 
-//    private GamePlayDao gamePlayDao = new GamePlayDaoJson();
-
-    private GamePlayDaoJson gamePlayDao = new GamePlayDaoJson(); //TODO change type to GamePlayDao
-
-    private static AnsiFormat redText = new AnsiFormat(BRIGHT_RED_TEXT()); //TODO change to ColorUtils
-    private static AnsiFormat blueText = new AnsiFormat(BRIGHT_BLUE_TEXT());
-    private static AnsiFormat yellowText = new AnsiFormat(YELLOW_TEXT());
-    private static AnsiFormat reverse = new AnsiFormat(REVERSE());
-    private static AnsiFormat underlinedText = new AnsiFormat(UNDERLINE());
+    public GamePlayServiceImpl(String playersFile, String gamesFile) {
+        this.playersFile = playersFile;
+        this.gamesFile = gamesFile;
+        this.gamePlayDao = new GamePlayDaoJson(playersFile, gamesFile);
+    }
 
     /**
-     * FROM STORAGE
+     * FROM FILE STORAGE
      * ------------------------------------
      * operations create from CRUD
      */
+    @Override
     public void addPlayer(Player player) {
         if (isAgePermissible(player.getAge()) &&
                 isCorrectEmail(player.getEmail()) && !hasTheSameEmail(player.getEmail()) &&
@@ -35,6 +33,7 @@ public class GamePlayServiceImpl {
         }
     }
 
+    @Override
     public void addGame(Game game) {
         if (!hasTheSameGameName(game.getName()) && isCorrectGameName(game.getName())) {
             gamePlayDao.addGame(game);
@@ -45,6 +44,7 @@ public class GamePlayServiceImpl {
      * ------------------------------------
      * operations read from CRUD
      */
+    @Override
     public Player getPlayerByIdOrNull(String id) {
         boolean existSuchPlayerId = existPlayerId(id);
         Player player = null;
@@ -54,10 +54,12 @@ public class GamePlayServiceImpl {
         return player;
     }
 
+    @Override
     public List<Player> getAllPlayers() {
         return gamePlayDao.getAllPlayers();
     }
 
+    @Override
     public Game getGameByIdOrNull(String id) {
         boolean existSuchGameId = existGameId(id);
         Game game = null;
@@ -67,6 +69,7 @@ public class GamePlayServiceImpl {
         return game;
     }
 
+    @Override
     public List<Game> getAllGames() {
         return gamePlayDao.getAllGames();
     }
@@ -75,6 +78,7 @@ public class GamePlayServiceImpl {
      * ------------------------------------
      * operations update from CRUD
      */
+    @Override
     public void updatePlayerAge(String id, int age) {
         Player player = getPlayerByIdOrNull(id);
         if (player != null) {
@@ -84,6 +88,7 @@ public class GamePlayServiceImpl {
         }
     }
 
+    @Override
     public void updatePlayerEmail(String id, String email) {
         Player player = getPlayerByIdOrNull(id);
         if (player != null) {
@@ -93,6 +98,7 @@ public class GamePlayServiceImpl {
         }
     }
 
+    @Override
     public void updatePlayerNickname(String id, String nickname) {
         Player player = getPlayerByIdOrNull(id);
         if (player != null) {
@@ -102,6 +108,7 @@ public class GamePlayServiceImpl {
         }
     }
 
+    @Override
     public void updateGameName(String id, String name) {
         Game game = getGameByIdOrNull(id);
         if (game != null) {
@@ -111,6 +118,7 @@ public class GamePlayServiceImpl {
         }
     }
 
+    @Override
     public void updateGameType(String id, boolean isCommandGame) {
         Game game = getGameByIdOrNull(id);
         if (game != null) {
@@ -118,15 +126,16 @@ public class GamePlayServiceImpl {
         }
     }
 
-
     /**
      * ------------------------------------
      * operations delete from CRUD
      */
+    @Override
     public boolean deletePlayer(String id) {
         return gamePlayDao.deletePlayer(id);
     }
 
+    @Override
     public boolean deleteGame(String id) {
         return gamePlayDao.deleteGame(id);
     }
@@ -135,11 +144,7 @@ public class GamePlayServiceImpl {
      * ------------------------------------
      * relation operations create from CRUD
      */
-    public boolean addOnlyPlayerToGame(String playerId, String gameId) {
-        return gamePlayDao.addOnlyPlayerToGame(playerId, gameId);
-
-    }
-
+    @Override
     public void addGameToPlayerInAllDb(String gameId, String playerId) {
         if (existPlayerId(playerId) && existGameId(gameId)) {
             gamePlayDao.addGameToPlayerInAllDb(gameId, playerId);
@@ -150,10 +155,12 @@ public class GamePlayServiceImpl {
      * ------------------------------------
      * relation operations read from CRUD
      */
+    @Override
     public List<Player> getPlayersByGame(String gameId) {
         return gamePlayDao.getPlayersByGame(gameId);
     }
 
+    @Override
     public List<Game> getGamesByPlayer(String playerId) {
         return gamePlayDao.getGamesByPlayer(playerId);
     }
@@ -162,10 +169,7 @@ public class GamePlayServiceImpl {
      * ------------------------------------
      * relation operations delete from CRUD
      */
-    public boolean deleteOnlyPlayerFromGame(String playerId, String gameId) {
-        return gamePlayDao.deleteOnlyPlayerFromGame(playerId, gameId);
-    }
-
+    @Override
     public boolean deleteGameFromPlayerInAllDb(String gameId, String playerId) {
         return gamePlayDao.deleteGameFromPlayerInAllDb(gameId, playerId);
     }
@@ -174,15 +178,17 @@ public class GamePlayServiceImpl {
      * ------------------------------------
      * check data
      */
+    @Override
     public boolean hasTheSameEmail(String email) {
-        //boolean hasTheSameEmail = false;
         return gamePlayDao.hasTheSameEmail(email);
     }
 
+    @Override
     public boolean hasTheSameNickname(String nickname) {
         return gamePlayDao.hasTheSameNickname(nickname);
     }
 
+    @Override
     public boolean hasTheSameGameName(String gameName) {
         return gamePlayDao.hasTheSameGameName(gameName);
     }
@@ -191,18 +197,20 @@ public class GamePlayServiceImpl {
      * ------------------------------------
      * check if exist object with such id
      */
+    @Override
     public boolean existPlayerId(String playerId) {
         boolean existPlayerId = gamePlayDao.existPlayerId(playerId);
         if (!existPlayerId) {
-            System.out.println(redText.format("We can't find player with such id!"));
+            System.out.println(ColorUtils.getRedText().format("We can't find player with such id!"));
         }
         return existPlayerId;
     }
 
+    @Override
     public boolean existGameId(String gameId) {
         boolean existGameId = gamePlayDao.existGameId(gameId);
         if (!existGameId) {
-            System.out.println(redText.format("We can't find game with such id!"));
+            System.out.println(ColorUtils.getRedText().format("We can't find game with such id!"));
         }
         return existGameId;
     }
@@ -211,85 +219,85 @@ public class GamePlayServiceImpl {
      * ------------------------------------
      * check format
      */
+    @Override
     public boolean isCorrectAgeFormat(String ageValue) {
         boolean correctAgeFormat;
         //age has to be only from digits
         if (ageValue.matches("\\d+")) {
             correctAgeFormat = true;
         } else {
-            System.out.println(GamePlayServiceImpl.getRedText().format("Invalid value! Please enter number NOT string!"));
+            System.out.println(ColorUtils.getRedText().format("Invalid value! Please enter number NOT string!"));
             correctAgeFormat = false;
         }
         return correctAgeFormat;
     }
 
+    @Override
     public boolean isAgePermissible(int age) {
         boolean agePermissible;
         if (age < 18) {
             agePermissible = false;
-            System.out.println(GamePlayServiceImpl.getRedText().format("Grow up first and come later."));
-            //System.out.println(redText.format("Unacceptable value!"));
+            System.out.println(ColorUtils.getRedText().format("Grow up first and come later."));
         } else if (age > 100) {
             agePermissible = false;
-            System.out.println(GamePlayServiceImpl.getRedText().format("Your age is fantastic! You're too good for this game."));
+            System.out.println(ColorUtils.getRedText().format("Your age is fantastic! You're too good for this game."));
         } else {
             agePermissible = true;
         }
         return agePermissible;
     }
 
+    @Override
     public boolean isCorrectNickname(String nickname) {
         boolean correctNickname = true;
         //nickname can't have only digits
         if (nickname.matches("\\d+")) {
-            System.out.println(GamePlayServiceImpl.getRedText().format("Nickname can't contain only digits!"));
+            System.out.println(ColorUtils.getRedText().format("Nickname can't contain only digits!"));
             correctNickname = false;
         }
         return correctNickname;
     }
 
+    @Override
     public boolean isCorrectEmail(String email) {
         boolean correctEmail;
         if (email.matches("^(.+)@(.+)$")) {
             correctEmail = true;
         } else {
-            System.out.println(GamePlayServiceImpl.getRedText().format("Invalid value!"));
+            System.out.println(ColorUtils.getRedText().format("Invalid value!"));
             correctEmail = false;
         }
         return correctEmail;
     }
 
+    @Override
     public boolean isCorrectGameName(String gameName) {
         boolean correctGameName = true;
         //name of game can't have only digits
         if (gameName.matches("\\d+")) {
-            System.out.println(getRedText().format("Name of game can't contain only digits!"));
+            System.out.println(ColorUtils.getRedText().format("Name of game can't contain only digits!"));
             correctGameName = false;
         }
         return correctGameName;
     }
 
-    /**
-     * ------------------------------------
-     * formatting
-     */
-    public static AnsiFormat getRedText() {
-        return redText;
+    @Override
+    public String getPlayersFile() {
+        return gamePlayDao.getPlayersFile();
     }
 
-    public static AnsiFormat getBlueText() {
-        return blueText;
+    @Override
+    public void setPlayersFile(String playersFile) {
+        gamePlayDao.setPlayersFile(playersFile);
     }
 
-    public static AnsiFormat getYellowText() {
-        return yellowText;
+    @Override
+    public String getGamesFile() {
+        return gamePlayDao.getGamesFile();
     }
 
-    public static AnsiFormat getReverse() {
-        return reverse;
-    }
-
-    public static AnsiFormat getUnderlinedText() {
-        return underlinedText;
+    @Override
+    public void setGamesFile(String gamesFile) {
+        gamePlayDao.setGamesFile(gamesFile);
     }
 }

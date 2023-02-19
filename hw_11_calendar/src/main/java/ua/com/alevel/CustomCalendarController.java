@@ -94,19 +94,55 @@ public class CustomCalendarController {
 //            case "1" -> viewDirContent(reader);
 //            case "2" -> createNewFile(reader);
 //            case "3" -> createNewDir(reader);
-//            case "4" -> deleteFile(reader);
-//            case "5" -> deleteDir(reader);
-//            case "6" -> transferFile(reader);
-//            case "7" -> transferDir(reader);
-//            case "8" -> findFile(reader);
-//            case "9" -> findDir(reader);
-//            case "10" -> searchText(reader);
-//            case "11" -> stop();
-//            default -> System.out.println(ColorUtils.getRedText().format("Wrong value! Select menu again."));
+            case "4" -> addSubmenu();
+            case "5" -> minusSubmenu();
+            case "6" -> differenceSubmenu();
+            case "7" -> stop();
+            default -> System.out.println(ColorUtils.RED_TEXT.format("Wrong value! Select menu again."));
         }
         menu();
     }
 
+    private void addOptions(BufferedReader reader, String selectedOption) throws IOException {
+        switch (selectedOption) {
+//            case "11" -> viewDirContent(reader);
+//            case "12" -> createNewFile(reader);
+//            case "13" -> createNewDir(reader);
+//            case "14" -> addSubmenu();
+//            case "15" -> minusSubmenu();
+//            case "16" -> differenceSubmenu();
+//            case "17" -> stop();
+//            case "18" -> stop();
+            default -> System.out.println(ColorUtils.RED_TEXT.format("Wrong value!"));
+        }
+    }
+
+    private void minusOptions(BufferedReader reader, String selectedOption) throws IOException {
+        switch (selectedOption) {
+//            case "21" -> viewDirContent(reader);
+//            case "22" -> createNewFile(reader);
+//            case "23" -> createNewDir(reader);
+//            case "24" -> addSubmenu();
+//            case "25" -> minusSubmenu();
+//            case "26" -> differenceSubmenu();
+//            case "27" -> stop();
+//            case "28" -> stop();
+            default -> System.out.println(ColorUtils.RED_TEXT.format("Wrong value!"));
+        }
+    }
+
+    private void differenceOptions(BufferedReader reader, String selectedOption) throws IOException {
+        switch (selectedOption) {
+//            case "31" -> viewDirContent(reader);
+//            case "32" -> createNewFile(reader);
+//            case "33" -> createNewDir(reader);
+//            case "34" -> addSubmenu();
+//            case "35" -> minusSubmenu();
+//            case "36" -> differenceSubmenu();
+//            case "37" -> stop();
+            default -> System.out.println(ColorUtils.RED_TEXT.format("Wrong value!"));
+        }
+    }
 //    private String getExactDirPath(String dirName, BufferedReader reader) throws IOException {
 //        //тут змінна path зроблена через масив з 1 елемента, бо тільки таку змінну можна використати у лямбда-функції map.forEach((k,v) -> ...,
 //        //в іншому випадку просить final змінну і дає помилку:(

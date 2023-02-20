@@ -91,9 +91,9 @@ public class CustomCalendarController {
 
     private void crud(BufferedReader reader, String selectedOption) throws IOException {
         switch (selectedOption) {
-//            case "1" -> viewDirContent(reader);
-//            case "2" -> createNewFile(reader);
-//            case "3" -> createNewDir(reader);
+            case "1" -> getCurrentTime();
+            case "2" -> getDateInMillis(reader);
+            case "3" -> setDateInCalendar(reader);
             case "4" -> addSubmenu();
             case "5" -> minusSubmenu();
             case "6" -> differenceSubmenu();
@@ -103,400 +103,807 @@ public class CustomCalendarController {
         menu();
     }
 
+    private void getCurrentTime() {
+        System.out.println(ColorUtils.REVERSE.format("\nMenu 1. GET CURRENT TIME"));
+        System.out.println();
+        CustomCalendar calendar = new CustomCalendar();
+        System.out.println(ColorUtils.BLUE_TEXT.format("Now is: " + calendar.now()));
+    }
+
+    private void getDateInMillis(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nMenu 2. GET DATE IN MILLISECONDS"));
+        System.out.println();
+        System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+        try {
+            String date = reader.readLine();
+            boolean isFormatValid = CustomCalendar.isFormatValid(date);
+            if (isFormatValid) {
+                CustomCalendar calendar = new CustomCalendar(date);
+                System.out.println(ColorUtils.BLUE_TEXT.format("This date in milliseconds has " + calendar.getTimeMillis() + " ms."));
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setDateInCalendar(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nMenu 3. SET DATE IN CALENDAR"));
+        System.out.println();
+        System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+        try {
+            String date = reader.readLine();
+            boolean isFormatValid = CustomCalendar.isFormatValid(date);
+            if (isFormatValid) {
+                CustomCalendar calendar = new CustomCalendar(date);
+                calendar.set(date);
+                System.out.println(ColorUtils.BLUE_TEXT.format("The calendar was set on date: " + calendar.getDetailedInfoOfSetDate() + "."));
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
     private void addOptions(BufferedReader reader, String selectedOption) throws IOException {
         switch (selectedOption) {
-//            case "11" -> viewDirContent(reader);
-//            case "12" -> createNewFile(reader);
-//            case "13" -> createNewDir(reader);
-//            case "14" -> addSubmenu();
-//            case "15" -> minusSubmenu();
-//            case "16" -> differenceSubmenu();
-//            case "17" -> stop();
-//            case "18" -> stop();
+            case "11" -> addDateToDate(reader);
+            case "12" -> addYearsToDate(reader);
+            case "13" -> addMonthsToDate(reader);
+            case "14" -> addDaysToDate(reader);
+            case "15" -> addHoursToDate(reader);
+            case "16" -> addMinutesToDate(reader);
+            case "17" -> addSecondsToDate(reader);
+            case "18" -> addMillisToDate(reader);
             default -> System.out.println(ColorUtils.RED_TEXT.format("Wrong value!"));
+        }
+    }
+
+    private void addDateToDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 4.1. Add dates"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
+            String date1 = reader.readLine();
+            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            if (isDate1Valid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
+                String date2 = reader.readLine();
+                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                if (isDate2Valid) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date1);
+                    calendar.addDate(date2);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + calendar.getTimeMillis() + "ms or " + calendar));
+                    System.out.println();
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println("Please check and try this menu again.");
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addYearsToDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 4.2. Add years to the date"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+            String date = reader.readLine();
+            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            if (isDateValid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of years:"));
+                String yearsQty = reader.readLine();
+                if (yearsQty.matches("\\d+")) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date);
+                    calendar.addYears(Integer.parseInt(yearsQty));
+                    System.out.println("Result is: " + calendar);
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For years need number NOT string!"));
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addMonthsToDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 4.3. Add months to the date"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+            String date = reader.readLine();
+            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            if (isDateValid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of months:"));
+                String monthsQtyS = reader.readLine();
+                int monthQty = Integer.parseInt(monthsQtyS);
+                if (monthsQtyS.matches("\\d+")) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date);
+                    calendar.addMonths(monthQty);
+                    System.out.println("Result is: " + calendar);
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For months need number NOT String!"));
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addDaysToDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 4.4. Add days to the date"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+            String date = reader.readLine();
+            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            if (isDateValid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of days:"));
+                String daysQtyS = reader.readLine();
+                int daysQty = Integer.parseInt(daysQtyS);
+                if (daysQtyS.matches("\\d+")) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date);
+                    calendar.addDays(daysQty);
+                    System.out.println("Result is: " + calendar);
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For days need number NOT String!"));
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addHoursToDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 4.5. Add hours to the date"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+            String date = reader.readLine();
+            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            if (isDateValid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of hours:"));
+                String hoursQtyS = reader.readLine();
+                int hoursQty = Integer.parseInt(hoursQtyS);
+                if (hoursQtyS.matches("\\d+")) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date);
+                    calendar.addHours(hoursQty);
+                    System.out.println("Result is: " + calendar);
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For hours need number NOT String!"));
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addMinutesToDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 4.6. Add minutes to the date"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+            String date = reader.readLine();
+            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            if (isDateValid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of minutes:"));
+                String minutesQtyS = reader.readLine();
+                int minutesQty = Integer.parseInt(minutesQtyS);
+                if (minutesQtyS.matches("\\d+")) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date);
+                    calendar.addMinutes(minutesQty);
+                    System.out.println("Result is: " + calendar);
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For minutes need number NOT String!"));
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addSecondsToDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 4.7. Add seconds to the date"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+            String date = reader.readLine();
+            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            if (isDateValid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of seconds:"));
+                String secondsQtyS = reader.readLine();
+                int secondsQty = Integer.parseInt(secondsQtyS);
+                if (secondsQtyS.matches("\\d+")) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date);
+                    calendar.addSeconds(secondsQty);
+                    System.out.println("Result is: " + calendar);
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For seconds need number NOT String!"));
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addMillisToDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 4.7. Add milliseconds to the date"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+            String date = reader.readLine();
+            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            if (isDateValid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of millisseconds:"));
+                String millisQtyS = reader.readLine();
+                int millisQty = Integer.parseInt(millisQtyS);
+                if (millisQtyS.matches("\\d+")) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date);
+                    calendar.addMilliseconds(millisQty);
+                    System.out.println("Result is: " + calendar);
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For milliseconds need number NOT String!"));
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
         }
     }
 
     private void minusOptions(BufferedReader reader, String selectedOption) throws IOException {
         switch (selectedOption) {
-//            case "21" -> viewDirContent(reader);
-//            case "22" -> createNewFile(reader);
-//            case "23" -> createNewDir(reader);
-//            case "24" -> addSubmenu();
-//            case "25" -> minusSubmenu();
-//            case "26" -> differenceSubmenu();
-//            case "27" -> stop();
-//            case "28" -> stop();
+            case "21" -> minusDateFromDate(reader);
+            case "22" -> minusYearsFromDate(reader);
+            case "23" -> minusMonthsFromDate(reader);
+            case "24" -> minusDaysFromDate(reader);
+            case "25" -> minusHoursFromDate(reader);
+            case "26" -> minusMinutesFromDate(reader);
+            case "27" -> minusSecondsFromDate(reader);
+            case "28" -> minusMillisFromDate(reader);
             default -> System.out.println(ColorUtils.RED_TEXT.format("Wrong value!"));
+        }
+    }
+
+    private void minusDateFromDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 5.1. Subtract dates"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
+            String date1 = reader.readLine();
+            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            if (isDate1Valid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
+                String date2 = reader.readLine();
+                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                if (isDate2Valid) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date1);
+                    calendar.minusDate(date2);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + calendar.getTimeMillis() + "ms or " + calendar));
+                    System.out.println();
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println("Please check and try this menu again.");
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void minusYearsFromDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 5.2. Subtract years from the date"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+            String date = reader.readLine();
+            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            if (isDateValid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of years:"));
+                String yearsQty = reader.readLine();
+                if (yearsQty.matches("\\d+")) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date);
+                    calendar.minusYears(Integer.parseInt(yearsQty));
+                    System.out.println("Result is: " + calendar);
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For years need number NOT string!"));
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void minusMonthsFromDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 5.3. Subtract months from the date"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+            String date = reader.readLine();
+            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            if (isDateValid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of months:"));
+                String monthsQtyS = reader.readLine();
+                int monthQty = Integer.parseInt(monthsQtyS);
+                if (monthsQtyS.matches("\\d+")) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date);
+                    calendar.minusMonths(monthQty);
+                    System.out.println("Result is: " + calendar);
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For months need number NOT String!"));
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void minusDaysFromDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 5.4. Subtract days from the date"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+            String date = reader.readLine();
+            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            if (isDateValid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of days:"));
+                String daysQtyS = reader.readLine();
+                int daysQty = Integer.parseInt(daysQtyS);
+                if (daysQtyS.matches("\\d+")) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date);
+                    calendar.minusDays(daysQty);
+                    System.out.println("Result is: " + calendar);
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For days need number NOT String!"));
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void minusHoursFromDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 5.5. Subtract hours from the date"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+            String date = reader.readLine();
+            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            if (isDateValid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of hours:"));
+                String hoursQtyS = reader.readLine();
+                int hoursQty = Integer.parseInt(hoursQtyS);
+                if (hoursQtyS.matches("\\d+")) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date);
+                    calendar.minusHours(hoursQty);
+                    System.out.println("Result is: " + calendar);
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For hours need number NOT String!"));
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void minusMinutesFromDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 5.6. Subtract minutes from the date"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+            String date = reader.readLine();
+            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            if (isDateValid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of minutes:"));
+                String minutesQtyS = reader.readLine();
+                int minutesQty = Integer.parseInt(minutesQtyS);
+                if (minutesQtyS.matches("\\d+")) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date);
+                    calendar.minusMinutes(minutesQty);
+                    System.out.println("Result is: " + calendar);
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For minutes need number NOT String!"));
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void minusSecondsFromDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 5.7. Subtract seconds from the date"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+            String date = reader.readLine();
+            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            if (isDateValid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of seconds:"));
+                String secondsQtyS = reader.readLine();
+                int secondsQty = Integer.parseInt(secondsQtyS);
+                if (secondsQtyS.matches("\\d+")) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date);
+                    calendar.minusSeconds(secondsQty);
+                    System.out.println("Result is: " + calendar);
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For seconds need number NOT String!"));
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void minusMillisFromDate(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 5.7. Subtract milliseconds from the date"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+            String date = reader.readLine();
+            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            if (isDateValid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of millisseconds:"));
+                String millisQtyS = reader.readLine();
+                int millisQty = Integer.parseInt(millisQtyS);
+                if (millisQtyS.matches("\\d+")) {
+                    System.out.println();
+                    CustomCalendar calendar = new CustomCalendar(date);
+                    calendar.minusMilliseconds(millisQty);
+                    System.out.println("Result is: " + calendar);
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For milliseconds need number NOT String!"));
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
         }
     }
 
     private void differenceOptions(BufferedReader reader, String selectedOption) throws IOException {
         switch (selectedOption) {
-//            case "31" -> viewDirContent(reader);
-//            case "32" -> createNewFile(reader);
-//            case "33" -> createNewDir(reader);
-//            case "34" -> addSubmenu();
-//            case "35" -> minusSubmenu();
-//            case "36" -> differenceSubmenu();
-//            case "37" -> stop();
+            case "31" -> getDifferenceInYears(reader);
+            case "32" -> getDifferenceInMonths(reader);
+            case "33" -> getDifferenceInDays(reader);
+            case "34" -> getDifferenceInHours(reader);
+            case "35" -> getDifferenceInMinutes(reader);
+            case "36" -> getDifferenceInSeconds(reader);
+            case "37" -> getDifferenceInMillis(reader);
             default -> System.out.println(ColorUtils.RED_TEXT.format("Wrong value!"));
         }
     }
-//    private String getExactDirPath(String dirName, BufferedReader reader) throws IOException {
-//        //тут змінна path зроблена через масив з 1 елемента, бо тільки таку змінну можна використати у лямбда-функції map.forEach((k,v) -> ...,
-//        //в іншому випадку просить final змінну і дає помилку:(
-//        String[] path = new String[1];
-//        if (dirName.equalsIgnoreCase("h")) {
-//            path[0] = service.getHomeDirectory().getAbsolutePath();
-//        } else {
-//            HashMap<String, String> map = service.searchDirInSystem(dirName);
-//            if (map.size() > 1) {
-//                System.out.println();
-//                System.out.println("We found few directories in system with such name.");
-//                System.out.println(ColorUtils.getYellowText().format("---------------------------------------------------"));
-//                map.forEach((k, v) -> System.out.println(ColorUtils.getYellowText().format(k)));
-//                System.out.println(ColorUtils.getYellowText().format("---------------------------------------------------"));
-//                System.out.println();
-//                System.out.println("Please look details and enter the path of directory you need:");
-//                while (true) {
-//                    path[0] = reader.readLine();
-//                    int[] count = new int[1];
-//                    map.forEach((k, v) -> {
-//                        if (path[0].equals(k)) {
-//                            count[0]++;
-//                        }
-//                    });
-//                    if (count[0] == 0) {
-//                        System.out.println(ColorUtils.getRedText().format("Wrong value! Please choose and enter the path of directory you entered earlier."));
-//                    } else if (count[0] == 1) {
-//                        break;
-//                    }
-//                }
-//            } else if (map.size() == 0) {
-//                System.out.println(ColorUtils.getRedText().format("We can't find such directory in system! Please check the name and try this menu again."));
-//                return null;
-//            } else {
-//                path[0] = service.getDirPathByName(dirName, map);
-//            }
-//        }
-//        return path[0];
-//    }
-//
-//    private void viewDirContent(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 1. VIEW ALL DIRS/FILES INSIDE"));
-//        System.out.println();
-//        System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of directory:"));
-//        System.out.println("For select start system directory, enter in terminal 'h'");
-//        String dirName = reader.readLine();
-//        service.searchDirInSystem(dirName);
-//        String dirPath = getExactDirPath(dirName, reader);
-//        if (dirPath != null) {
-//            System.out.println();
-//            System.out.println("RESULT:");
-//            service.observe(dirPath);
-//        }
-//    }
-//
-//    public void createNewFile(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 2. CREATE NEW FILE"));
-//        System.out.println();
-//        System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of directory where you want to create new file: "));
-//        System.out.println("For select start system directory, enter in terminal 'h'");
-//        String dirName = reader.readLine();
-//        service.searchDirInSystem(dirName);
-//        String dirPath = getExactDirPath(dirName, reader);
-//        if (dirPath != null) {
-//            System.out.println();
-//            System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of new file with extension"));
-//            String fileName = reader.readLine();
-//            System.out.println();
-//            boolean wasCreatedFile = service.createFile(dirPath, fileName);
-//            if (wasCreatedFile) {
-//                System.out.println(ColorUtils.getCyanText().format("Congratulations! The file '" + fileName + "' was created in directory '" + dirPath + "'"));
-//            } else {
-//                boolean isAlreadyExist = service.isExist(dirPath, fileName);
-//                if (isAlreadyExist) {
-//                    System.out.println(ColorUtils.getRedText().format("File with such name already exists in this directory!"));
-//                } else {
-//                    System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
-//                }
-//            }
-//        }
-//    }
-//
-//    private void createNewDir(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 3. CREATE NEW FOLDER"));
-//        System.out.println();
-//        System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of directory where you want to create new folder: "));
-//        System.out.println("For select start system directory, enter in terminal 'h'");
-//        String dirName = reader.readLine();
-//        service.searchDirInSystem(dirName);
-//        String dirPath = getExactDirPath(dirName, reader);
-//        if (dirPath != null) {
-//            System.out.println();
-//            System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of new folder"));
-//            String newDirName = reader.readLine();
-//            System.out.println();
-//            boolean wasCreatedDir = service.createDir(dirPath, newDirName);
-//            if (wasCreatedDir) {
-//                System.out.println(ColorUtils.getCyanText().format("Congratulations! The folder '" + newDirName + "' was created in directory '" + dirPath + "'"));
-//            } else {
-//                boolean isAlreadyExist = service.isExist(dirPath, newDirName);
-//                if (isAlreadyExist) {
-//                    System.out.println(ColorUtils.getRedText().format("Folder with such name already exists in this directory!"));
-//                } else {
-//                    System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
-//                }
-//            }
-//        }
-//    }
-//
-//    private void deleteFile(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 4. DELETE FILE"));
-//        System.out.println();
-//        System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of directory where you want to delete file:"));
-//        System.out.println("For select start system directory, enter in terminal 'h'");
-//        String dirName = reader.readLine();
-//        service.searchDirInSystem(dirName);
-//        String dirPath = getExactDirPath(dirName, reader);
-//        if (dirPath != null) {
-//            System.out.println();
-//            System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of file with extension:"));
-//            String fileName = reader.readLine();
-//            System.out.println();
-//            boolean isExistFile = service.isExist(dirPath, fileName);
-//            if (isExistFile) {
-//                boolean wasDeletedFile = service.deleteFile(dirPath, fileName);
-//                if (wasDeletedFile) {
-//                    System.out.println(ColorUtils.getCyanText().format("Congratulations! The file '" + fileName + "' was deleted from directory '" + dirPath + "'"));
-//                } else {
-//                    System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
-//                }
-//            } else {
-//                System.out.println(ColorUtils.getRedText().format("There are no files with such name in this directory. Please check and try this menu again."));
-//            }
-//        }
-//    }
-//
-//    private void deleteDir(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 5. DELETE FOLDER"));
-//        System.out.println();
-//        System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of directory where you want to delete folder:"));
-//        System.out.println("For select start system directory, enter in terminal 'h'");
-//        String dirName = reader.readLine();
-//        service.searchDirInSystem(dirName);
-//        String dirPath = getExactDirPath(dirName, reader);
-//        if (dirPath != null) {
-//            System.out.println();
-//            System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of folder:"));
-//            String folderName = reader.readLine();
-//            System.out.println();
-//            boolean isExistFolder = service.isExist(dirPath, folderName);
-//            if (isExistFolder) {
-//                boolean hasContentInside = service.hasContentInside(dirPath, folderName);
-//                if (hasContentInside) {
-//                    System.out.println(ColorUtils.getOrangeText().format("Folder '" + folderName + "' is not empty. Are you sure you want to delete this folder?"));
-//                    System.out.println(ColorUtils.getItalicText().format("For confirmation please enter 'y'. Other answer will back you to the main menu."));
-//                    String answer = reader.readLine();
-//                    if (answer.equalsIgnoreCase("y")) {
-//                        boolean wasDeletedFolder = service.deleteDir(dirPath, folderName);
-//                        if (wasDeletedFolder) {
-//                            System.out.println(ColorUtils.getCyanText().format("Congratulations! The folder '" + folderName + "' was deleted from directory '" + dirPath + "'"));
-//                        } else {
-//                            System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
-//                        }
-//                    }
-//                } else {
-//                    boolean wasDeletedFolder = service.deleteDir(dirPath, folderName);
-//                    if (wasDeletedFolder) {
-//                        System.out.println(ColorUtils.getCyanText().format("Congratulations! The folder '" + folderName + "' was deleted from directory '" + dirPath + "'"));
-//                    } else {
-//                        System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
-//                    }
-//                }
-//            } else {
-//                System.out.println(ColorUtils.getRedText().format("There are no folders with such name in this directory. Please check and try this menu again."));
-//            }
-//        }
-//    }
-//
-//    private void transferFile(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 6. MOVE FILE"));
-//        System.out.println();
-//        System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of directory, from where you want to move the file:"));
-//        System.out.println("For select start system directory, enter in terminal 'h'");
-//        String dirFrom = reader.readLine();
-//        service.searchDirInSystem(dirFrom);
-//        String dirFromPath = getExactDirPath(dirFrom, reader);
-//        if (dirFromPath != null) {
-//            System.out.println();
-//            System.out.println(ColorUtils.getUnderlinedText().format("Please enter file name with extension:"));
-//            String fileName = reader.readLine();
-//            System.out.println();
-//            boolean existFileThere = service.isExist(dirFromPath, fileName);
-//            if (existFileThere) {
-//                System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of directory where you want to move the file:"));
-//                System.out.println("For select start system directory, enter in terminal 'h'");
-//                String dirTo = reader.readLine();
-//                System.out.println();
-//                service.searchDirInSystem(dirTo);
-//                String dirToPath = getExactDirPath(dirTo, reader);
-//                if (dirToPath != null) {
-//                    boolean alreadyExistDuplicate = service.isExist(dirToPath, fileName);
-//                    if (alreadyExistDuplicate) {
-//                        System.out.println(ColorUtils.getOrangeText().format("In directory '" + dirToPath + "' there is already file with name '" + fileName + "'."));
-//                        System.out.println(ColorUtils.getBoldext().format("***If continue moving, old file will be overwritten, all data inside will be removed. Do you still want to continue?"));
-//                        System.out.println(ColorUtils.getItalicText().format("For confirmation please enter 'y'. Other answer will back you to the main menu."));
-//                        String answer = reader.readLine();
-//                        if (answer.equalsIgnoreCase("y")) {
-//                            boolean wasDeletedDuplicate = service.deleteFile(dirToPath, fileName);
-//                            if (wasDeletedDuplicate) {
-//                                boolean successfullyMoved = service.moveFile(dirFromPath, fileName, dirToPath);
-//                                if (successfullyMoved) {
-//                                    System.out.println(ColorUtils.getCyanText().format("Congratulations! File '" + fileName + "' was moved successfully."));
-//                                } else {
-//                                    System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
-//                                }
-//                            } else {
-//                                System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
-//                            }
-//                        }
-//                    } else {
-//                        boolean successfullyMoved = service.moveFile(dirFromPath, fileName, dirToPath);
-//                        if (successfullyMoved) {
-//                            System.out.println();
-//                            System.out.println(ColorUtils.getCyanText().format("Congratulations! File '" + fileName + "' was moved successfully."));
-//                        } else {
-//                            System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
-//                        }
-//                    }
-//                }
-//            } else {
-//                System.out.println(ColorUtils.getRedText().format("There is no one file with such name in this directory. Please check and try this menu again."));
-//            }
-//        }
-//    }
-//
-//    private void transferDir(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 7. MOVE FOLDER"));
-//        System.out.println();
-//        System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of directory, from where you want to move the folder:"));
-//        System.out.println("For select start system directory, enter in terminal 'h'");
-//        String dirFrom = reader.readLine();
-//        service.searchDirInSystem(dirFrom);
-//        String dirFromPath = getExactDirPath(dirFrom, reader);
-//        if (dirFromPath != null) {
-//            System.out.println();
-//            System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of folder you want to move:"));
-//            String folderName = reader.readLine();
-//            System.out.println();
-//            service.searchDirInSystem(folderName);
-//            boolean existFolderThere = service.isExist(dirFromPath, folderName);
-//            if (existFolderThere) {
-//                System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of directory, where you want to move the folder:"));
-//                System.out.println("For select start system directory, enter in terminal 'h'");
-//                String dirTo = reader.readLine();
-//                System.out.println();
-//                service.searchDirInSystem(dirTo);
-//                String dirToPath = getExactDirPath(dirTo, reader);
-//                if (dirToPath != null) {
-//                    boolean alreadyExistDuplicate = service.isExist(dirToPath, folderName);
-//                    if (alreadyExistDuplicate) {
-//                        System.out.println(ColorUtils.getOrangeText().format("In directory '" + dirToPath + "' there is already folder with name '" + folderName + "'."));
-//                        System.out.println(ColorUtils.getBoldext().format("***If continue moving, old folder will be overwritten, all data inside will be removed. Do you still want to continue?"));
-//                        System.out.println(ColorUtils.getItalicText().format("For confirmation please enter 'y'. Other answer will back you to the main menu."));
-//                        String answer = reader.readLine();
-//                        if (answer.equalsIgnoreCase("y")) {
-//                            boolean wasDeletedDuplicate = service.deleteDir(dirToPath, folderName);
-//                            if (wasDeletedDuplicate) {
-//                                boolean successfullyMoved = service.moveFile(dirFromPath, folderName, dirToPath);
-//                                if (successfullyMoved) {
-//                                    System.out.println();
-//                                    System.out.println(ColorUtils.getCyanText().format("Congratulations! Folder '" + folderName + "' was moved successfully."));
-//                                } else {
-//                                    System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
-//                                }
-//                            } else {
-//                                System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
-//                            }
-//                        }
-//                    } else {
-//                        boolean successfullyMoved = service.moveFile(dirFromPath, folderName, dirToPath);
-//                        if (successfullyMoved) {
-//                            System.out.println(ColorUtils.getCyanText().format("Congratulations! Folder '" + folderName + "' was moved successfully."));
-//                        } else {
-//                            System.out.println(ColorUtils.getRedText().format("Something went wrong:( Please contact with our client support."));
-//                        }
-//                    }
-//                }
-//            } else {
-//                System.out.println(ColorUtils.getRedText().format("There is no one folder with such name in this directory. Please check and try this menu again."));
-//            }
-//        }
-//    }
-//
-//    private void findFile(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 8. FIND FILE"));
-//        System.out.println();
-//        System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of file you want to find:"));
-//        String searchFile = reader.readLine();
-//        System.out.println();
-//        HashMap<String, String> resultMap = service.searchFile(searchFile);
-//        if (resultMap.size() > 1) {
-//            System.out.println("There are few files in system with such name:");
-//            resultMap.forEach((k, v) -> System.out.println(ColorUtils.getYellowText().format(k)));
-//        } else if (resultMap.size() == 1) {
-//            System.out.println("Search file you can find here: ");
-//            resultMap.forEach((k, v) -> System.out.println(ColorUtils.getYellowText().format(k)));
-//        } else {
-//            System.out.println(ColorUtils.getRedText().format("We can't find such file in system. Please check the name and try this menu again."));
-//        }
-//    }
-//
-//    private void findDir(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 9. FIND DIR"));
-//        System.out.println();
-//        System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of directory you want to find:"));
-//        String searchDir = reader.readLine();
-//        System.out.println();
-//        HashMap<String, String> resultMap = service.searchDirInSystem(searchDir);
-//        if (resultMap.size() > 1) {
-//            System.out.println("There are few directories in system with such name:");
-//            resultMap.forEach((k, v) -> System.out.println(ColorUtils.getYellowText().format(k)));
-//        } else if (resultMap.size() == 1) {
-//            System.out.println("Search directory you can find here: ");
-//            resultMap.forEach((k, v) -> System.out.println(ColorUtils.getYellowText().format(k)));
-//        } else {
-//            System.out.println("We can't find such directory in system. Please check the name and try this menu again.");
-//        }
-//    }
-//
-//    public void searchText(BufferedReader reader) throws IOException {
-//        System.out.println(ColorUtils.getReverse().format("\nMenu 10. FIND TEXT"));
-//        System.out.println();
-//        System.out.println(ColorUtils.getUnderlinedText().format("Please enter name of directory:"));
-//        System.out.println("For select start system directory, enter in terminal 'h'");
-//        System.out.println();
-//        String dirName = reader.readLine();
-//        service.searchDirInSystem(dirName);
-//        String dirPath = getExactDirPath(dirName, reader);
-//        if (dirPath != null) {
-//            System.out.println();
-//            System.out.println(ColorUtils.getUnderlinedText().format("Please enter text for search:"));
-//            String searchText = reader.readLine();
-//            System.out.println(ColorUtils.getSlowBlink().format("...Searching..."));
-//            HashMap<String, String> resultMap = service.searchTextInDir(dirPath, searchText);
-//            if (resultMap.size() > 0) {
-//                System.out.println();
-//                System.out.println("Text was found here:");
-//                resultMap.forEach((k, v) -> System.out.println(ColorUtils.getYellowText().format(k)));
-//            } else {
-//                System.out.println();
-//                System.out.println(ColorUtils.getRedText().format("Text wasn't found anywhere in chosen directory."));
-//            }
-//        }
-//    }
+
+    private void getDifferenceInYears(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 6.1. Get difference between dates in years"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
+            String date1 = reader.readLine();
+            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            if (isDate1Valid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
+                String date2 = reader.readLine();
+                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                if (isDate2Valid) {
+                    System.out.println();
+                    CustomCalendar calendar1 = new CustomCalendar(date1);
+                    CustomCalendar calendar2 = new CustomCalendar(date2);
+                    int diff = CustomCalendar.differenceInYears(calendar1, calendar2);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " years."));
+                    System.out.println();
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println("Please check and try this menu again.");
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void getDifferenceInMonths(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 6.2. Get difference between dates in months"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
+            String date1 = reader.readLine();
+            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            if (isDate1Valid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
+                String date2 = reader.readLine();
+                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                if (isDate2Valid) {
+                    System.out.println();
+                    CustomCalendar calendar1 = new CustomCalendar(date1);
+                    CustomCalendar calendar2 = new CustomCalendar(date2);
+                    int diff = CustomCalendar.differenceInMonths(calendar1, calendar2);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " months."));
+                    System.out.println();
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println("Please check and try this menu again.");
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void getDifferenceInDays(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 6.3. Get difference between dates in days"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
+            String date1 = reader.readLine();
+            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            if (isDate1Valid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
+                String date2 = reader.readLine();
+                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                if (isDate2Valid) {
+                    System.out.println();
+                    CustomCalendar calendar1 = new CustomCalendar(date1);
+                    CustomCalendar calendar2 = new CustomCalendar(date2);
+                    int diff = CustomCalendar.differenceInDays(calendar1, calendar2);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " days."));
+                    System.out.println();
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println("Please check and try this menu again.");
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void getDifferenceInHours(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 6.4. Get difference between dates in hours"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
+            String date1 = reader.readLine();
+            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            if (isDate1Valid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
+                String date2 = reader.readLine();
+                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                if (isDate2Valid) {
+                    System.out.println();
+                    CustomCalendar calendar1 = new CustomCalendar(date1);
+                    CustomCalendar calendar2 = new CustomCalendar(date2);
+                    int diff = CustomCalendar.differenceInHours(calendar1, calendar2);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " hours."));
+                    System.out.println();
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println("Please check and try this menu again.");
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void getDifferenceInMinutes(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 6.5. Get difference between dates in minutes"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
+            String date1 = reader.readLine();
+            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            if (isDate1Valid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
+                String date2 = reader.readLine();
+                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                if (isDate2Valid) {
+                    System.out.println();
+                    CustomCalendar calendar1 = new CustomCalendar(date1);
+                    CustomCalendar calendar2 = new CustomCalendar(date2);
+                    long diff = CustomCalendar.differenceInMinutes(calendar1, calendar2);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " minutes."));
+                    System.out.println();
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println("Please check and try this menu again.");
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void getDifferenceInSeconds(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 6.6. Get difference between dates in seconds"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
+            String date1 = reader.readLine();
+            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            if (isDate1Valid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
+                String date2 = reader.readLine();
+                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                if (isDate2Valid) {
+                    System.out.println();
+                    CustomCalendar calendar1 = new CustomCalendar(date1);
+                    CustomCalendar calendar2 = new CustomCalendar(date2);
+                    long diff = CustomCalendar.differenceInSeconds(calendar1, calendar2);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " seconds."));
+                    System.out.println();
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println("Please check and try this menu again.");
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void getDifferenceInMillis(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nSubmenu 6.7. Get difference between dates in milliseconds"));
+        System.out.println();
+        try {
+            System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
+            String date1 = reader.readLine();
+            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            if (isDate1Valid) {
+                System.out.println();
+                System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
+                String date2 = reader.readLine();
+                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                if (isDate2Valid) {
+                    System.out.println();
+                    CustomCalendar calendar1 = new CustomCalendar(date1);
+                    CustomCalendar calendar2 = new CustomCalendar(date2);
+                    long diff = CustomCalendar.differenceInSeconds(calendar1, calendar2);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " milliseconds."));
+                    System.out.println();
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println("Please check and try this menu again.");
+                }
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
 
     private void stop() {
         System.out.println("\nThe application is finished.\n");

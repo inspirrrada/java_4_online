@@ -15,11 +15,11 @@ import static java.util.Calendar.*;
 
 public class CustomCalendar {
     private Calendar calendar;
-    private final String FORMAT_DAYS = "yyyy-MM-dd";
-    private final String FORMAT_MINUTES = "yyyy-MM-dd HH:mm";
-    private final String FORMAT_SECONDS = "yyyy-MM-dd HH:mm:ss";
-    private final String FORMAT_MILLIS = "yyyy-MM-dd HH:mm:ss SSS";
-    private final String[] POSSIBLE_FORMATS = new String[]{FORMAT_DAYS, FORMAT_MINUTES, FORMAT_SECONDS, FORMAT_MILLIS};
+    private static final String FORMAT_DAYS = "yyyy-MM-dd";
+    private static final String FORMAT_MINUTES = "yyyy-MM-dd HH:mm";
+    private static final String FORMAT_SECONDS = "yyyy-MM-dd HH:mm:ss";
+    private static final String FORMAT_MILLIS = "yyyy-MM-dd HH:mm:ss SSS";
+    private static final String[] POSSIBLE_FORMATS = new String[]{FORMAT_DAYS, FORMAT_MINUTES, FORMAT_SECONDS, FORMAT_MILLIS};
 
     public CustomCalendar() {
         this.calendar = Calendar.getInstance();
@@ -27,7 +27,6 @@ public class CustomCalendar {
 
     public CustomCalendar(String format) {
         String matchedFormat = getMatchedFormat(format);
-        if (!matchedFormat.equals("")) {
             try {
                 Date date = getDateFromString(matchedFormat, format);
                 LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
@@ -43,9 +42,6 @@ public class CustomCalendar {
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
-        } else {
-            System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
-        }
     }
 
     public CustomCalendar(long time) {
@@ -85,22 +81,18 @@ public class CustomCalendar {
 
     public void set(String format) {
         String matchedFormat = getMatchedFormat(format);
-        if (!matchedFormat.equals("")) {
             try {
                 this.calendar.setTime(getDateFromString(matchedFormat, format));
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
-        } else {
-            System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
-        }
     }
 
     public void addDate(CustomCalendar date) {
-        long thisMilles = this.calendar.getTimeInMillis();
+        long thisMillis = this.calendar.getTimeInMillis();
         long dateMillis = date.getTimeMillis();
-        long diff = thisMilles - dateMillis;
-        this.calendar.setTime(new Date(thisMilles + diff));
+        long diff = thisMillis - dateMillis;
+        this.calendar.setTime(new Date(thisMillis + diff));
     }
 
     public void addDate(String format) {
@@ -113,7 +105,7 @@ public class CustomCalendar {
     }
 
     public void addMonths(int months) {
-        this.calendar.add(MONTH, months);
+        this.calendar.add(MONTH, months + 1);
     }
 
     public void addDays(int days) {
@@ -209,6 +201,17 @@ public class CustomCalendar {
      * additional methods
      */
 
+    public static boolean isFormatValid(String dateValue) {
+        boolean isFormatValid = false;
+        for (String possibleFormat : POSSIBLE_FORMATS) {
+            if (hasValidDateFormat(possibleFormat, dateValue)) {
+                isFormatValid = true;
+                break;
+            }
+        }
+        return isFormatValid;
+    }
+
     private String getMatchedFormat(String dateValue) {
         String matchedFormat = "";
         for (String possibleFormat : POSSIBLE_FORMATS) {
@@ -227,6 +230,16 @@ public class CustomCalendar {
 
     private String convertDateToPrintFormat(Date date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMAT_MILLIS);
+        return simpleDateFormat.format(date);
+    }
+
+    private Date getSetDate() {
+        return this.calendar.getTime();
+    }
+
+    public String getDetailedInfoOfSetDate() {
+        Date date = this.getSetDate();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEEE MMMMM yyyy HH:mm:ss.SSSZ");
         return simpleDateFormat.format(date);
     }
 

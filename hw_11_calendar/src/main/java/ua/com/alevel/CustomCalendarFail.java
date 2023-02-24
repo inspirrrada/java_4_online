@@ -1,96 +1,83 @@
 package ua.com.alevel;
 
-import ua.com.alevel.utils.TimeConstants;
-
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.MonthDay;
-import java.util.Calendar;
-import java.util.Date;
-
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoField;
+import java.util.*;
 import static java.util.Calendar.*;
-import static java.util.Calendar.MONTH;
 
-public class CustomCalendar {
-    private long dateInMillis;
-    private int year;
-    private int month;
-    private int dayInYear;
-    private int dayInMonth;
-    private int hour;
-    private int minutes;
-    private int seconds;
-    private int milliseconds;
+
+public class CustomCalendarFail {
+    private Calendar calendar;
     private static final String FORMAT_DAYS = "yyyy-MM-dd";
     private static final String FORMAT_MINUTES = "yyyy-MM-dd HH:mm";
     private static final String FORMAT_SECONDS = "yyyy-MM-dd HH:mm:ss";
     private static final String FORMAT_MILLIS = "yyyy-MM-dd HH:mm:ss SSS";
     private static final String[] POSSIBLE_FORMATS = new String[]{FORMAT_DAYS, FORMAT_MINUTES, FORMAT_SECONDS, FORMAT_MILLIS};
 
-    public CustomCalendar() {
-        long millis = new Date().getTime();
-        MonthDay md;
+    public CustomCalendarFail() {
+        this.calendar = Calendar.getInstance();
     }
-    public CustomCalendar(String format) {
-        String[] formatArray = format.split(" ");
-        String[] dateArray = formatArray[0].split("-");
-        this.year = Integer.parseInt(dateArray[0]);
-        this.month = Integer.parseInt(dateArray[1]);
-        this.dayInMonth = Integer.parseInt(dateArray[2]);
-        if (formatArray.length > 1 ) {
-            String[] timeArray = formatArray[1].split(":");
-            this.hour = Integer.parseInt(timeArray[0]);
-            this.minutes = Integer.parseInt(timeArray[1]);
-            if (timeArray.length > 2) {
-                this.seconds = Integer.parseInt(timeArray[2]);
+
+    public CustomCalendarFail(String format) {
+        String matchedFormat = getMatchedFormat(format);
+            try {
+                Date date = getDateFromString(matchedFormat, format);
+                LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+                if (matchedFormat.equals(FORMAT_DAYS)) {
+                    localDateTime = localDateTime.withHour(0).withMinute(0).withSecond(0);
+                }
+                this.calendar = Calendar.getInstance();
+                int year = localDateTime.getYear();
+                int month = localDateTime.getMonthValue() - 1;
+                int monthDay = localDateTime.getDayOfMonth();
+                int hours = localDateTime.getHour();
+                int minutes = localDateTime.getMinute();
+                int seconds = localDateTime.getSecond();
+                long milliseconds = localDateTime.get(ChronoField.MILLI_OF_SECOND);
+                this.set(year, month, monthDay, hours, minutes, seconds, (int) milliseconds);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
             }
-        }
-        if (formatArray.length > 2) {
-            this.milliseconds = Integer.parseInt(formatArray[2]);
-        }
-        System.out.println(this.year + " year, " + this.dayInYear + " day in year, " + this.month + " month, " + this.dayInMonth + " day, " + this.hour + " hour, " + this.minutes + " minutes, " + this.seconds + " seconds, " + this.milliseconds + " milliseconds.");
-
-    }
-    public CustomCalendar(long time) {
-        this.year = getYears(time);
-        long millisInYears = getMillisInYear(this.year);
-        long leftMillisL = time - millisInYears;
-        this.dayInYear = getDays(leftMillisL);
-        getAndSetMonthAndDay(this.dayInYear, this.year);
-        int leftMillis = (int) (leftMillisL - dayInYear * TimeConstants.MILLIS_IN_ONE_DAY);
-        this.hour = getHours(leftMillis);
-        leftMillis = leftMillis - this.hour * TimeConstants.MILLIS_IN_ONE_HOUR;
-        this.minutes = getMinutes(leftMillis);
-        leftMillis = leftMillis - this.minutes * TimeConstants.MILLIS_IN_ONE_MINUTE;
-        this.seconds = getSeconds(leftMillis);
-        this.milliseconds = leftMillis - this.seconds * TimeConstants.MILLIS_IN_ONE_SECOND;
-        System.out.println(this.year + " year, " + this.dayInYear + " day in year, " + this.month + " month, " + this.dayInMonth + " day, " + this.hour + " hour, " + this.minutes + " minutes, " + this.seconds + " seconds, " + this.milliseconds + " milliseconds.");
     }
 
-    public static LocalDateTime now() {
-        return LocalDateTime.now();
+    public CustomCalendarFail(long time) {
+//        if (time == 0) {
+//            this.calendar.set(Calendar.YEAR, 0);
+//            this.calendar.set(Calendar.MONTH, 0);
+//            this.calendar.set(Calendar.DATE, 0);
+//        } else {
+//
+//        }
+
+//        if (this.calendar.get(YEAR) < 1970) {
+//            this.calendar.setTimeInMillis(time - 62167399200000L);  //62167399200000 -> millis before start unix-time
+//        } else {
+//            this.calendar.setTimeInMillis(time);
+//        }
+        this.calendar = Calendar.getInstance();
+        this.calendar.setTimeInMillis(time - 62167399200000L); //62167399200000 -> millis before start unix-time
+//        this.calendar.setTimeInMillis(time - 62167485600000L);
+    }
+
+    public String now() {
+        return convertDateToPrintFormat(Calendar.getInstance().getTime());
     }
 
     public long getTimeMillis() {
-       int leapYears = getLeapYearsQty(this.year);
-       int nonLeapYears = this.year - leapYears;
-       long yearsMillis = (leapYears * TimeConstants.MILLIS_IN_ONE_LEAP_YEAR + nonLeapYears * TimeConstants.MILLIS_IN_ONE_NON_LEAP_YEAR);
-        long daysMillis = (long) getDayInYear(this.month, this.dayInMonth) * TimeConstants.MILLIS_IN_ONE_DAY;
-        long hoursMillis =  (long) this.hour * TimeConstants.MILLIS_IN_ONE_HOUR;
-        long minutesMillis = (long) this.minutes * TimeConstants.MILLIS_IN_ONE_MINUTE;
-        long secondMillis =  (long) this.seconds * TimeConstants.MILLIS_IN_ONE_SECOND;
-        long millis = this.milliseconds;
-       long timeMillis = (leapYears * TimeConstants.MILLIS_IN_ONE_LEAP_YEAR + nonLeapYears * TimeConstants.MILLIS_IN_ONE_NON_LEAP_YEAR) +
-               (long) getDayInYear(this.month, this.dayInMonth) * TimeConstants.MILLIS_IN_ONE_DAY +
-               (long) this.hour * TimeConstants.MILLIS_IN_ONE_HOUR +
-               (long) this.minutes * TimeConstants.MILLIS_IN_ONE_MINUTE +
-               (long) this.seconds * TimeConstants.MILLIS_IN_ONE_SECOND +
-               this.milliseconds;
-        System.out.println(timeMillis + "ms");
-       return timeMillis;
+        if (this.calendar.get(YEAR) < 1970) {
+            return this.calendar.getTimeInMillis() + 62167399200000L; //62167399200000 -> millis before start unix-time
+        } else {
+            return this.calendar.getTimeInMillis();
+        }
     }
 
-    /*public void set(int year, int month) {
+    public void set(int year, int month) {
         this.calendar.set(Calendar.YEAR, year);
         this.calendar.set(Calendar.MONTH, month);
     }
@@ -110,11 +97,11 @@ public class CustomCalendar {
 
     public void set(String format) {
         String matchedFormat = getMatchedFormat(format);
-        try {
-            this.calendar.setTime(getDateFromString(matchedFormat, format));
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+            try {
+                this.calendar.setTime(getDateFromString(matchedFormat, format));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
     }
 
     public void addDate(CustomCalendarFail date) {
@@ -271,76 +258,73 @@ public class CustomCalendar {
     public static long differenceInMilliseconds(CustomCalendarFail first, CustomCalendarFail second) {
         return first.calendar.getTimeInMillis() - second.calendar.getTimeInMillis();
     }
-*/
 
     /**
      * additional methods
      */
 
-    private int getLeapYearsQty(int years) {
-        return years / 4;
-    }
-
-    private int getYears(long millis) {
-        return (int) (millis / TimeConstants.AVERAGE_MILLIS_IN_ONE_YEAR);
-    }
-
-    private int getDays(long millis) {
-        return (int) (millis / TimeConstants.MILLIS_IN_ONE_DAY);
-    }
-
-    private int getHours(long millis) {
-        return (int) (millis / TimeConstants.MILLIS_IN_ONE_HOUR);
-    }
-
-    private int getMinutes(long millis) {
-        return (int) (millis / TimeConstants.MILLIS_IN_ONE_MINUTE);
-    }
-
-    private int getSeconds(long millis) {
-        return (int) (millis / TimeConstants.MILLIS_IN_ONE_SECOND);
-    }
-
-    private long getMillisInYear(int year) {
-        int leapYearsQty = getLeapYearsQty(year);
-        int nonLeapYearsQty = year - leapYearsQty;
-       return (leapYearsQty * TimeConstants.MILLIS_IN_ONE_LEAP_YEAR) + (nonLeapYearsQty * TimeConstants.MILLIS_IN_ONE_NON_LEAP_YEAR);
-    }
-
-    private void getAndSetMonthAndDay(int dayInYear, int year) {
-        int days = 0;
-        boolean isYearLeap = (year % 4) == 0;
-        for (int i = 0; i < TimeConstants.DAYS_IN_MONTHS.length; i++) {
-            days += TimeConstants.DAYS_IN_MONTHS[i];
-            if (dayInYear != 0) {
-                if ((days / dayInYear) == 0) {
-                    if (i == 1 && isYearLeap) {
-                        days++;
-                    }
-                } else {
-                    this.month = i + 1;
-                    this.dayInMonth = TimeConstants.DAYS_IN_MONTHS[i] - (days - dayInYear) + 1;
-                    break;
-                }
-            } else {
-                this.month = 0;
-                this.dayInMonth = 1;
+    public static boolean isFormatValid(String dateValue) {
+        boolean isFormatValid = false;
+        for (String possibleFormat : POSSIBLE_FORMATS) {
+            if (hasValidDateFormat(possibleFormat, dateValue)) {
+                isFormatValid = true;
+                break;
             }
         }
+        return isFormatValid;
     }
 
-    private int getDayInYear(int month, int dayInMonth) {
-        int days = 0;
-        boolean isYearLeap = (year % 4) == 0;
-        for (int i = 0; i < month-1; i++) {
-            days += TimeConstants.DAYS_IN_MONTHS[i];
-            if (i == 1 && isYearLeap) {
-                days++;
+    private String getMatchedFormat(String dateValue) {
+        String matchedFormat = "";
+        for (String possibleFormat : POSSIBLE_FORMATS) {
+            boolean isValid = hasValidDateFormat(possibleFormat, dateValue);
+            if (isValid) {
+                matchedFormat = possibleFormat;
             }
         }
-        return days + dayInMonth -1;
+        return matchedFormat;
     }
 
+    private Date getDateFromString(String format, String dateValue) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        return simpleDateFormat.parse(dateValue);
+    }
 
+    private String convertDateToPrintFormat(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FORMAT_MILLIS);
+        return simpleDateFormat.format(date);
+    }
 
+    private Date getSetDate() {
+        return this.calendar.getTime();
+    }
+
+    public String getDetailedInfoOfSetDate() {
+        Date date = this.getSetDate();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEEE dd MMMMM yyyy HH:mm:ss.SSSZ");
+        return simpleDateFormat.format(date);
+    }
+
+    private static boolean hasValidDateFormat(String pattern, String date) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+            LocalDate.parse(date, formatter);
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
+        if (this.calendar != null) {
+            String value = this.calendar.get(YEAR) + "-" + this.calendar.get(MONTH + 1) + "-" + this.calendar.get(DAY_OF_MONTH) + " " +
+                    this.calendar.get(HOUR_OF_DAY) + ":" + this.calendar.get(MINUTE) + ":" + this.calendar.get(SECOND) + " " + this.calendar.get(MILLISECOND);
+            return value;
+//            dateFormat.format(this.calendar.getTime());
+        } else {
+            return "";
+        }
+    }
 }

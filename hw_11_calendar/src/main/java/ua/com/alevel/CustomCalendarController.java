@@ -5,7 +5,6 @@ import ua.com.alevel.utils.ColorUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 
 public class CustomCalendarController {
     public void start() {
@@ -24,7 +23,7 @@ public class CustomCalendarController {
         menu();
         try {
             while ((selectedOption = reader.readLine()) != null) {
-                crud(reader, selectedOption);
+                mainOptions(reader, selectedOption);
             }
         } catch (IOException e) {
             System.out.println(ColorUtils.RED_TEXT.format("Oops...Something went wrong:( Please try again later."));
@@ -33,20 +32,22 @@ public class CustomCalendarController {
 
     private void menu() {
         System.out.println();
-        System.out.println(" ===================================================================");
-        System.out.println("| If you want to get current time, please enter 1                   |");
-        System.out.println("| If you want to get some date in milliseconds, please enter 2      |");
-        System.out.println("| If you want to set exact date in your calendar, please enter 3    |");
-        System.out.println("| If you want to add some time to the date, please enter 4          |");
-        System.out.println("| If you want to subtract the dates from each other, please enter 5 |");
-        System.out.println("| If you want to get difference between dates, please enter 6       |");
-        System.out.println("| If you want to close application, please enter 7                  |");
-        System.out.println("====================================================================");
+        System.out.println("MAIN MENU:");
+        System.out.println("=======================================================================");
+        System.out.println("|  If you want to get current time, please enter 1                    |");
+        System.out.println("|  If you want to get some date in milliseconds, please enter 2       |");
+        System.out.println("|  If you want to set exact date in your calendar, please enter 3     |");
+        System.out.println("|  If you want to add some time to the date, please enter 4           |");
+        System.out.println("|  If you want to subtract the dates from each other, please enter 5  |");
+        System.out.println("|  If you want to get difference between dates, please enter 6        |");
+        System.out.println("|  If you want to close application, please enter 7                   |");
+        System.out.println("=======================================================================");
         System.out.println();
     }
 
     private void addSubmenu() {
         System.out.println();
+        System.out.println(" ADD MENU:");
         System.out.println(" ---------------------------------------------------");
         System.out.println("| For add dates to each other, please enter 11      |");
         System.out.println("| For add years to the date, please enter 12        |");
@@ -89,14 +90,14 @@ public class CustomCalendarController {
         System.out.println();
     }
 
-    private void crud(BufferedReader reader, String selectedOption) throws IOException {
+    private void mainOptions(BufferedReader reader, String selectedOption) throws IOException {
         switch (selectedOption) {
             case "1" -> getCurrentTime();
             case "2" -> getDateInMillis(reader);
             case "3" -> setDateInCalendar(reader);
-            case "4" -> addSubmenu();
-            case "5" -> minusSubmenu();
-            case "6" -> differenceSubmenu();
+            case "4" -> addOptions(reader);
+            case "5" -> minusOptions(reader);
+            case "6" -> differenceOptions(reader);
             case "7" -> stop();
             default -> System.out.println(ColorUtils.RED_TEXT.format("Wrong value! Select menu again."));
         }
@@ -105,8 +106,7 @@ public class CustomCalendarController {
 
     private void getCurrentTime() {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 1. GET CURRENT TIME"));
-        System.out.println();
-        CustomCalendar calendar = new CustomCalendar();
+        CustomCalendarFail calendar = new CustomCalendarFail();
         System.out.println(ColorUtils.BLUE_TEXT.format("Now is: " + calendar.now()));
     }
 
@@ -116,9 +116,9 @@ public class CustomCalendarController {
         System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
         try {
             String date = reader.readLine();
-            boolean isFormatValid = CustomCalendar.isFormatValid(date);
+            boolean isFormatValid = CustomCalendarFail.isFormatValid(date);
             if (isFormatValid) {
-                CustomCalendar calendar = new CustomCalendar(date);
+                CustomCalendarFail calendar = new CustomCalendarFail(date);
                 System.out.println(ColorUtils.BLUE_TEXT.format("This date in milliseconds has " + calendar.getTimeMillis() + " ms."));
             } else {
                 System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
@@ -136,9 +136,9 @@ public class CustomCalendarController {
         System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
         try {
             String date = reader.readLine();
-            boolean isFormatValid = CustomCalendar.isFormatValid(date);
+            boolean isFormatValid = CustomCalendarFail.isFormatValid(date);
             if (isFormatValid) {
-                CustomCalendar calendar = new CustomCalendar(date);
+                CustomCalendarFail calendar = new CustomCalendarFail(date);
                 calendar.set(date);
                 System.out.println(ColorUtils.BLUE_TEXT.format("The calendar was set on date: " + calendar.getDetailedInfoOfSetDate() + "."));
             } else {
@@ -151,7 +151,9 @@ public class CustomCalendarController {
         }
     }
 
-    private void addOptions(BufferedReader reader, String selectedOption) throws IOException {
+    private void addOptions(BufferedReader reader) throws IOException {
+        addSubmenu();
+        String selectedOption = reader.readLine();
         switch (selectedOption) {
             case "11" -> addDateToDate(reader);
             case "12" -> addYearsToDate(reader);
@@ -171,15 +173,16 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
             String date1 = reader.readLine();
-            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            boolean isDate1Valid = CustomCalendarFail.isFormatValid(date1);
             if (isDate1Valid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
                 String date2 = reader.readLine();
-                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                boolean isDate2Valid = CustomCalendarFail.isFormatValid(date2);
                 if (isDate2Valid) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date1);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date1);
+//                    CustomCalendar calendar2 = new CustomCalendar(date2);
                     calendar.addDate(date2);
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + calendar.getTimeMillis() + "ms or " + calendar));
                     System.out.println();
@@ -203,14 +206,14 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
             String date = reader.readLine();
-            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            boolean isDateValid = CustomCalendarFail.isFormatValid(date);
             if (isDateValid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of years:"));
                 String yearsQty = reader.readLine();
                 if (yearsQty.matches("\\d+")) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date);
                     calendar.addYears(Integer.parseInt(yearsQty));
                     System.out.println("Result is: " + calendar);
                 } else {
@@ -232,7 +235,7 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
             String date = reader.readLine();
-            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            boolean isDateValid = CustomCalendarFail.isFormatValid(date);
             if (isDateValid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of months:"));
@@ -240,7 +243,7 @@ public class CustomCalendarController {
                 int monthQty = Integer.parseInt(monthsQtyS);
                 if (monthsQtyS.matches("\\d+")) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date);
                     calendar.addMonths(monthQty);
                     System.out.println("Result is: " + calendar);
                 } else {
@@ -262,7 +265,7 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
             String date = reader.readLine();
-            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            boolean isDateValid = CustomCalendarFail.isFormatValid(date);
             if (isDateValid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of days:"));
@@ -270,7 +273,7 @@ public class CustomCalendarController {
                 int daysQty = Integer.parseInt(daysQtyS);
                 if (daysQtyS.matches("\\d+")) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date);
                     calendar.addDays(daysQty);
                     System.out.println("Result is: " + calendar);
                 } else {
@@ -292,7 +295,7 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
             String date = reader.readLine();
-            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            boolean isDateValid = CustomCalendarFail.isFormatValid(date);
             if (isDateValid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of hours:"));
@@ -300,7 +303,7 @@ public class CustomCalendarController {
                 int hoursQty = Integer.parseInt(hoursQtyS);
                 if (hoursQtyS.matches("\\d+")) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date);
                     calendar.addHours(hoursQty);
                     System.out.println("Result is: " + calendar);
                 } else {
@@ -322,7 +325,7 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
             String date = reader.readLine();
-            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            boolean isDateValid = CustomCalendarFail.isFormatValid(date);
             if (isDateValid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of minutes:"));
@@ -330,7 +333,7 @@ public class CustomCalendarController {
                 int minutesQty = Integer.parseInt(minutesQtyS);
                 if (minutesQtyS.matches("\\d+")) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date);
                     calendar.addMinutes(minutesQty);
                     System.out.println("Result is: " + calendar);
                 } else {
@@ -352,7 +355,7 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
             String date = reader.readLine();
-            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            boolean isDateValid = CustomCalendarFail.isFormatValid(date);
             if (isDateValid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of seconds:"));
@@ -360,7 +363,7 @@ public class CustomCalendarController {
                 int secondsQty = Integer.parseInt(secondsQtyS);
                 if (secondsQtyS.matches("\\d+")) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date);
                     calendar.addSeconds(secondsQty);
                     System.out.println("Result is: " + calendar);
                 } else {
@@ -382,7 +385,7 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
             String date = reader.readLine();
-            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            boolean isDateValid = CustomCalendarFail.isFormatValid(date);
             if (isDateValid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of millisseconds:"));
@@ -390,7 +393,7 @@ public class CustomCalendarController {
                 int millisQty = Integer.parseInt(millisQtyS);
                 if (millisQtyS.matches("\\d+")) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date);
                     calendar.addMilliseconds(millisQty);
                     System.out.println("Result is: " + calendar);
                 } else {
@@ -406,7 +409,9 @@ public class CustomCalendarController {
         }
     }
 
-    private void minusOptions(BufferedReader reader, String selectedOption) throws IOException {
+    private void minusOptions(BufferedReader reader) throws IOException {
+        minusSubmenu();
+        String selectedOption = reader.readLine();
         switch (selectedOption) {
             case "21" -> minusDateFromDate(reader);
             case "22" -> minusYearsFromDate(reader);
@@ -426,15 +431,15 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
             String date1 = reader.readLine();
-            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            boolean isDate1Valid = CustomCalendarFail.isFormatValid(date1);
             if (isDate1Valid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
                 String date2 = reader.readLine();
-                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                boolean isDate2Valid = CustomCalendarFail.isFormatValid(date2);
                 if (isDate2Valid) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date1);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date1);
                     calendar.minusDate(date2);
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + calendar.getTimeMillis() + "ms or " + calendar));
                     System.out.println();
@@ -458,14 +463,14 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
             String date = reader.readLine();
-            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            boolean isDateValid = CustomCalendarFail.isFormatValid(date);
             if (isDateValid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of years:"));
                 String yearsQty = reader.readLine();
                 if (yearsQty.matches("\\d+")) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date);
                     calendar.minusYears(Integer.parseInt(yearsQty));
                     System.out.println("Result is: " + calendar);
                 } else {
@@ -487,7 +492,7 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
             String date = reader.readLine();
-            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            boolean isDateValid = CustomCalendarFail.isFormatValid(date);
             if (isDateValid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of months:"));
@@ -495,7 +500,7 @@ public class CustomCalendarController {
                 int monthQty = Integer.parseInt(monthsQtyS);
                 if (monthsQtyS.matches("\\d+")) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date);
                     calendar.minusMonths(monthQty);
                     System.out.println("Result is: " + calendar);
                 } else {
@@ -517,7 +522,7 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
             String date = reader.readLine();
-            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            boolean isDateValid = CustomCalendarFail.isFormatValid(date);
             if (isDateValid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of days:"));
@@ -525,7 +530,7 @@ public class CustomCalendarController {
                 int daysQty = Integer.parseInt(daysQtyS);
                 if (daysQtyS.matches("\\d+")) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date);
                     calendar.minusDays(daysQty);
                     System.out.println("Result is: " + calendar);
                 } else {
@@ -547,7 +552,7 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
             String date = reader.readLine();
-            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            boolean isDateValid = CustomCalendarFail.isFormatValid(date);
             if (isDateValid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of hours:"));
@@ -555,7 +560,7 @@ public class CustomCalendarController {
                 int hoursQty = Integer.parseInt(hoursQtyS);
                 if (hoursQtyS.matches("\\d+")) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date);
                     calendar.minusHours(hoursQty);
                     System.out.println("Result is: " + calendar);
                 } else {
@@ -577,7 +582,7 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
             String date = reader.readLine();
-            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            boolean isDateValid = CustomCalendarFail.isFormatValid(date);
             if (isDateValid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of minutes:"));
@@ -585,7 +590,7 @@ public class CustomCalendarController {
                 int minutesQty = Integer.parseInt(minutesQtyS);
                 if (minutesQtyS.matches("\\d+")) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date);
                     calendar.minusMinutes(minutesQty);
                     System.out.println("Result is: " + calendar);
                 } else {
@@ -607,7 +612,7 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
             String date = reader.readLine();
-            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            boolean isDateValid = CustomCalendarFail.isFormatValid(date);
             if (isDateValid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of seconds:"));
@@ -615,7 +620,7 @@ public class CustomCalendarController {
                 int secondsQty = Integer.parseInt(secondsQtyS);
                 if (secondsQtyS.matches("\\d+")) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date);
                     calendar.minusSeconds(secondsQty);
                     System.out.println("Result is: " + calendar);
                 } else {
@@ -637,7 +642,7 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
             String date = reader.readLine();
-            boolean isDateValid = CustomCalendar.isFormatValid(date);
+            boolean isDateValid = CustomCalendarFail.isFormatValid(date);
             if (isDateValid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the number of millisseconds:"));
@@ -645,7 +650,7 @@ public class CustomCalendarController {
                 int millisQty = Integer.parseInt(millisQtyS);
                 if (millisQtyS.matches("\\d+")) {
                     System.out.println();
-                    CustomCalendar calendar = new CustomCalendar(date);
+                    CustomCalendarFail calendar = new CustomCalendarFail(date);
                     calendar.minusMilliseconds(millisQty);
                     System.out.println("Result is: " + calendar);
                 } else {
@@ -661,7 +666,9 @@ public class CustomCalendarController {
         }
     }
 
-    private void differenceOptions(BufferedReader reader, String selectedOption) throws IOException {
+    private void differenceOptions(BufferedReader reader) throws IOException {
+        differenceSubmenu();
+        String selectedOption = reader.readLine();
         switch (selectedOption) {
             case "31" -> getDifferenceInYears(reader);
             case "32" -> getDifferenceInMonths(reader);
@@ -680,17 +687,17 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
             String date1 = reader.readLine();
-            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            boolean isDate1Valid = CustomCalendarFail.isFormatValid(date1);
             if (isDate1Valid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
                 String date2 = reader.readLine();
-                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                boolean isDate2Valid = CustomCalendarFail.isFormatValid(date2);
                 if (isDate2Valid) {
                     System.out.println();
-                    CustomCalendar calendar1 = new CustomCalendar(date1);
-                    CustomCalendar calendar2 = new CustomCalendar(date2);
-                    int diff = CustomCalendar.differenceInYears(calendar1, calendar2);
+                    CustomCalendarFail calendar1 = new CustomCalendarFail(date1);
+                    CustomCalendarFail calendar2 = new CustomCalendarFail(date2);
+                    int diff = CustomCalendarFail.differenceInYears(calendar1, calendar2);
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " years."));
                     System.out.println();
                 } else {
@@ -713,17 +720,17 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
             String date1 = reader.readLine();
-            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            boolean isDate1Valid = CustomCalendarFail.isFormatValid(date1);
             if (isDate1Valid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
                 String date2 = reader.readLine();
-                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                boolean isDate2Valid = CustomCalendarFail.isFormatValid(date2);
                 if (isDate2Valid) {
                     System.out.println();
-                    CustomCalendar calendar1 = new CustomCalendar(date1);
-                    CustomCalendar calendar2 = new CustomCalendar(date2);
-                    int diff = CustomCalendar.differenceInMonths(calendar1, calendar2);
+                    CustomCalendarFail calendar1 = new CustomCalendarFail(date1);
+                    CustomCalendarFail calendar2 = new CustomCalendarFail(date2);
+                    int diff = CustomCalendarFail.differenceInMonths(calendar1, calendar2);
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " months."));
                     System.out.println();
                 } else {
@@ -746,17 +753,17 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
             String date1 = reader.readLine();
-            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            boolean isDate1Valid = CustomCalendarFail.isFormatValid(date1);
             if (isDate1Valid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
                 String date2 = reader.readLine();
-                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                boolean isDate2Valid = CustomCalendarFail.isFormatValid(date2);
                 if (isDate2Valid) {
                     System.out.println();
-                    CustomCalendar calendar1 = new CustomCalendar(date1);
-                    CustomCalendar calendar2 = new CustomCalendar(date2);
-                    int diff = CustomCalendar.differenceInDays(calendar1, calendar2);
+                    CustomCalendarFail calendar1 = new CustomCalendarFail(date1);
+                    CustomCalendarFail calendar2 = new CustomCalendarFail(date2);
+                    int diff = CustomCalendarFail.differenceInDays(calendar1, calendar2);
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " days."));
                     System.out.println();
                 } else {
@@ -779,17 +786,17 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
             String date1 = reader.readLine();
-            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            boolean isDate1Valid = CustomCalendarFail.isFormatValid(date1);
             if (isDate1Valid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
                 String date2 = reader.readLine();
-                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                boolean isDate2Valid = CustomCalendarFail.isFormatValid(date2);
                 if (isDate2Valid) {
                     System.out.println();
-                    CustomCalendar calendar1 = new CustomCalendar(date1);
-                    CustomCalendar calendar2 = new CustomCalendar(date2);
-                    int diff = CustomCalendar.differenceInHours(calendar1, calendar2);
+                    CustomCalendarFail calendar1 = new CustomCalendarFail(date1);
+                    CustomCalendarFail calendar2 = new CustomCalendarFail(date2);
+                    int diff = CustomCalendarFail.differenceInHours(calendar1, calendar2);
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " hours."));
                     System.out.println();
                 } else {
@@ -812,17 +819,17 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
             String date1 = reader.readLine();
-            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            boolean isDate1Valid = CustomCalendarFail.isFormatValid(date1);
             if (isDate1Valid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
                 String date2 = reader.readLine();
-                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                boolean isDate2Valid = CustomCalendarFail.isFormatValid(date2);
                 if (isDate2Valid) {
                     System.out.println();
-                    CustomCalendar calendar1 = new CustomCalendar(date1);
-                    CustomCalendar calendar2 = new CustomCalendar(date2);
-                    long diff = CustomCalendar.differenceInMinutes(calendar1, calendar2);
+                    CustomCalendarFail calendar1 = new CustomCalendarFail(date1);
+                    CustomCalendarFail calendar2 = new CustomCalendarFail(date2);
+                    long diff = CustomCalendarFail.differenceInMinutes(calendar1, calendar2);
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " minutes."));
                     System.out.println();
                 } else {
@@ -845,17 +852,17 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
             String date1 = reader.readLine();
-            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            boolean isDate1Valid = CustomCalendarFail.isFormatValid(date1);
             if (isDate1Valid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
                 String date2 = reader.readLine();
-                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                boolean isDate2Valid = CustomCalendarFail.isFormatValid(date2);
                 if (isDate2Valid) {
                     System.out.println();
-                    CustomCalendar calendar1 = new CustomCalendar(date1);
-                    CustomCalendar calendar2 = new CustomCalendar(date2);
-                    long diff = CustomCalendar.differenceInSeconds(calendar1, calendar2);
+                    CustomCalendarFail calendar1 = new CustomCalendarFail(date1);
+                    CustomCalendarFail calendar2 = new CustomCalendarFail(date2);
+                    long diff = CustomCalendarFail.differenceInSeconds(calendar1, calendar2);
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " seconds."));
                     System.out.println();
                 } else {
@@ -878,17 +885,17 @@ public class CustomCalendarController {
         try {
             System.out.println(ColorUtils.UNDERLINED.format("Please enter the first date in possible format:"));
             String date1 = reader.readLine();
-            boolean isDate1Valid = CustomCalendar.isFormatValid(date1);
+            boolean isDate1Valid = CustomCalendarFail.isFormatValid(date1);
             if (isDate1Valid) {
                 System.out.println();
                 System.out.println(ColorUtils.UNDERLINED.format("Please enter the second date in possible format:"));
                 String date2 = reader.readLine();
-                boolean isDate2Valid = CustomCalendar.isFormatValid(date2);
+                boolean isDate2Valid = CustomCalendarFail.isFormatValid(date2);
                 if (isDate2Valid) {
                     System.out.println();
-                    CustomCalendar calendar1 = new CustomCalendar(date1);
-                    CustomCalendar calendar2 = new CustomCalendar(date2);
-                    long diff = CustomCalendar.differenceInSeconds(calendar1, calendar2);
+                    CustomCalendarFail calendar1 = new CustomCalendarFail(date1);
+                    CustomCalendarFail calendar2 = new CustomCalendarFail(date2);
+                    long diff = CustomCalendarFail.differenceInSeconds(calendar1, calendar2);
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " milliseconds."));
                     System.out.println();
                 } else {

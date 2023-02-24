@@ -1,27 +1,56 @@
 package ua.com.alevel;
 
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-
-import static ua.com.alevel.CustomCalendar.differenceInMonths;
-import static ua.com.alevel.CustomCalendar.*;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world from hw_11!");
+//        CustomCalendar c = new CustomCalendar(31536000000L);
+        CustomCalendar c = new CustomCalendar(1478728923999L);
+        System.out.println(c.getTimeMillis());
+        //System.out.println(new Date(Long.MAX_VALUE));
+//        new CustomCalendarController().start();
+//        System.out.println(new CustomCalendar(1577829600000L));
+//        String myDate1 = "2016-11-11";
+//        String myDate2 = "0000-01-00";
+//        String myDate3 = "0000-00-00";
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        try {
+//            Date test1 = sdf.parse(myDate1);
+//            Date test2 = sdf.parse(myDate2);
+//            Date test3 = sdf.parse(myDate3);
+//            System.out.println("2016-11-11, millis: " + test1.getTime());
+//            System.out.println("0000-01-00, millis: " + test2.getTime());
+//            System.out.println("0000-00-00, millis: " + test3.getTime());
+//            System.out.println("date of 1577829600000: " + new Date(1577829600000L));
+//            System.out.println("date of 1602277200000L: " + new Date(1602277200000L));
+//            System.out.println("date of 3180106800000L: " + new Date(3180106800000L));
+//            Duration d = Duration.ofMinutes(10);
+//            CustomCalendar cc1 = new CustomCalendar(test1.getTime());
+//            CustomCalendar cc2 = new CustomCalendar(test2.getTime());
+//            CustomCalendar cc3 = new CustomCalendar(test3.getTime());
+//            Calendar cal1 = Calendar.getInstance();
+//            Calendar cal2 = Calendar.getInstance();
+//            Calendar cal3 = Calendar.getInstance();
+//            cal1.setTime(test1);
+//            cal2.setTime(test2);
+//            cal3.setTime(test3);
+//            System.out.println("cc1: " + cc1);
+//            System.out.println("cc2: " + cc2);
+//            System.out.println("cc3: " + cc3);
+//            System.out.println("cal1: " + cal1.YEAR + " " + cal1.MONTH + " " + cal1.DATE);
+//            System.out.println("cal2: " + cal2.YEAR + " " + cal2.MONTH + " " + cal2.DATE);
+//            System.out.println("cal3: " + cal3.YEAR + " " + cal3.MONTH + " " + cal3.DATE);
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
+//        System.out.println(new CustomCalendar(0L));
+//        System.out.println("Hello world from hw_11!");
 //        Calendar calendar = Calendar.getInstance();
 //        System.out.println(calendar.getTime());
 //        System.out.println(Instant.ofEpochMilli(calendar.getTime().getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime());
 //
-        Date date = new Date(41479200000L);
-        System.out.println("date: " + date);
+//        Date date = new Date(41479200000L);
+//        System.out.println("date: " + date);
 ////Set time in milliseconds
 //        c.setTimeInMillis(0);
 //        int mYear = c.get(Calendar.YEAR);
@@ -70,9 +99,9 @@ public class Main {
 //        String pattern = "yyyy-MM-dd HH:mm";
 //        String date = "2023-02-02 22:09";
 //        System.out.println(date.matches(pattern));
-        CustomCalendar cc1 = new CustomCalendar("2019-06-02-80");
-        cc1.set("2020-08-16-08");
-        System.out.println(cc1);
+//        CustomCalendar cc1 = new CustomCalendar("2019-06-02-80");
+//        cc1.set("2020-08-16-08");
+//        System.out.println(cc1);
 //        System.out.println("cc1.now(): " + cc1.now());
 //        CustomCalendar cc2 = new CustomCalendar("2020-02-02");
 //        int diff = differenceInDays(cc1, cc2);

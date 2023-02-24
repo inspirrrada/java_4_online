@@ -1,6 +1,5 @@
 package ua.com.alevel;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -16,7 +15,7 @@ import static java.util.Calendar.*;
 public class test {
     private Calendar calendar;
 
-    private static ua.com.alevel.CustomCalendar instance;
+    private static CustomCalendarFail instance;
 
     public test() {
         this.calendar = Calendar.getInstance();
@@ -106,9 +105,9 @@ public class test {
         //System.out.println(this.calendar.YEAR + " " + this.calendar.MONTH + " " + this.calendar.DAY_OF_MONTH + " " + this.calendar.HOUR + " " + this.calendar.MINUTE + " " + this.calendar.SECOND + " " + this.calendar.MILLISECOND);
     }
 
-    public static ua.com.alevel.CustomCalendar getInstance() {
+    public static CustomCalendarFail getInstance() {
         if (instance == null) {
-            instance = new ua.com.alevel.CustomCalendar();
+            instance = new CustomCalendarFail();
         }
         return instance;
     }
@@ -159,9 +158,9 @@ public class test {
     public void set(String format) {
 //        this.calendar.setTime();
     }
-    public void addDate(ua.com.alevel.CustomCalendar date) {}
+    public void addDate(CustomCalendarFail date) {}
     public void addDate(String format) {
-        ua.com.alevel.CustomCalendar cc = new ua.com.alevel.CustomCalendar(format);
+        CustomCalendarFail cc = new CustomCalendarFail(format);
     }
     public void addYears(int years) {
         this.calendar.add(YEAR, years);
@@ -184,14 +183,14 @@ public class test {
     public void addMilliseconds(int milliseconds) {
         this.calendar.add(MILLISECOND, milliseconds);
     }
-    public long minusDate(ua.com.alevel.CustomCalendar date) {
+    public long minusDate(CustomCalendarFail date) {
         long thisMilles = this.calendar.getTimeInMillis();
         long dateMillis = date.getTimeMillis();
         long diff = thisMilles - dateMillis;
         return diff;
     }
     public void minusDate(String format) {
-        ua.com.alevel.CustomCalendar calForMinus = new ua.com.alevel.CustomCalendar(format);
+        CustomCalendarFail calForMinus = new CustomCalendarFail(format);
         this.minusDate(calForMinus);
     }
     public void minusYears(int years) {

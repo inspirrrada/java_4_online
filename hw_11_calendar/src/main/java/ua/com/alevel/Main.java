@@ -1,12 +1,15 @@
 package ua.com.alevel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Main {
     public static void main(String[] args) {
-//        CustomCalendar c = new CustomCalendar(31536000000L);
-        CustomCalendar c = new CustomCalendar(1478728923999L);
+        CustomCalendar c = new CustomCalendar("2020-12-10");
         System.out.println(c.getTimeMillis());
+        c.addYears(5);
+        System.out.println(c);
         //System.out.println(new Date(Long.MAX_VALUE));
 //        new CustomCalendarController().start();
 //        System.out.println(new CustomCalendar(1577829600000L));
@@ -115,5 +118,11 @@ public class Main {
 “2023-02-02 22:09:59” - ініціалізує як 2023 2 лютого 22 год, 9 хв, 59 сек, 0 мілісекунд
 “2023-02-02 22:09:59 999” - ініціалізує як 2023 2 лютого 22 год, 9 хв, 59 сек, 999 мілісекунд*/
 
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 }

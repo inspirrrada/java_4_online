@@ -47,51 +47,6 @@ public class CustomCalendarController {
         System.out.println();
     }
 
-    private void addSubmenu() {
-        System.out.println();
-        System.out.println(" ADD MENU:");
-        System.out.println(" ---------------------------------------------------");
-        System.out.println("| For add dates to each other, please enter 11      |");
-        System.out.println("| For add years to the date, please enter 12        |");
-        System.out.println("| For add months to the date, please enter 13       |");
-        System.out.println("| For add days to the date, please enter 14         |");
-        System.out.println("| For add hours to the date, please enter 15        |");
-        System.out.println("| For add minutes to the date, please enter 16      |");
-        System.out.println("| For add seconds to the date, please enter 17      |");
-        System.out.println("| For add milliseconds to the date, please enter 18 |");
-        System.out.println(" ---------------------------------------------------");
-        System.out.println();
-    }
-
-    private void minusSubmenu() {
-        System.out.println();
-        System.out.println(" ----------------------------------------------------------");
-        System.out.println("| For subtract dates from each other, please enter 21      |");
-        System.out.println("| For subtract years from the date, please enter 22        |");
-        System.out.println("| For subtract months from the date, please enter 23       |");
-        System.out.println("| For subtract days from the date, please enter 24         |");
-        System.out.println("| For subtract hours from the date, please enter 25        |");
-        System.out.println("| For subtract minutes from the date, please enter 26      |");
-        System.out.println("| For subtract seconds from the date, please enter 27      |");
-        System.out.println("| For subtract milliseconds from the date, please enter 28 |");
-        System.out.println(" ----------------------------------------------------------");
-        System.out.println();
-    }
-
-    private void differenceSubmenu() {
-        System.out.println();
-        System.out.println(" -------------------------------------------------------------------------");
-        System.out.println("| For receive difference in years between 2 dates, please enter 31        |");
-        System.out.println("| For receive difference in months between 2 dates, please enter 32       |");
-        System.out.println("| For receive difference in days between 2 dates, please enter 33         |");
-        System.out.println("| For receive difference in hours between 2 dates, please enter 34        |");
-        System.out.println("| For receive difference in minutes between 2 dates, please enter 35      |");
-        System.out.println("| For receive difference in seconds between 2 dates, please enter 36      |");
-        System.out.println("| For receive difference in milliseconds between 2 dates, please enter 37 |");
-        System.out.println(" -------------------------------------------------------------------------");
-        System.out.println();
-    }
-
     private void mainOptions(BufferedReader reader, String selectedOption) throws IOException {
         switch (selectedOption) {
             case "1" -> getCurrentTime();
@@ -106,51 +61,22 @@ public class CustomCalendarController {
         menu();
     }
 
-    private void getCurrentTime() {
-        System.out.println(ColorUtils.REVERSE.format("\nMenu 1. GET CURRENT TIME"));
-        CustomCalendar calendar = new CustomCalendar();
-        System.out.println(ColorUtils.BLUE_TEXT.format("Now is: " + calendar.now()));
-    }
-
-    private void getDateInMillis(BufferedReader reader) {
-        System.out.println(ColorUtils.REVERSE.format("\nMenu 2. GET DATE IN MILLISECONDS"));
+    private void addSubmenu() {
         System.out.println();
-        System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
-        try {
-            String date = reader.readLine();
-            boolean isFormatValid = CustomCalendarFormats.isFormatValid(date);
-            if (isFormatValid) {
-                CustomCalendar calendar = new CustomCalendar(date);
-                System.out.println(ColorUtils.BLUE_TEXT.format("This date in milliseconds has " + calendar.getTimeMillis() + " ms."));
-            } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
-                System.out.println("Please check and try this menu again.");
-            }
-        } catch (IOException e) {
-            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void setDateInCalendar(BufferedReader reader) {
-        System.out.println(ColorUtils.REVERSE.format("\nMenu 3. SET DATE IN CALENDAR"));
+        System.out.println("   ADD MENU:");
+        System.out.println("   ---------------------------------------------------");
+        System.out.println("  | For add dates to each other, please enter 11      |");
+        System.out.println("  | For add years to the date, please enter 12        |");
+        System.out.println("  | For add months to the date, please enter 13       |");
+        System.out.println("  | For add days to the date, please enter 14         |");
+        System.out.println("  | For add hours to the date, please enter 15        |");
+        System.out.println("  | For add minutes to the date, please enter 16      |");
+        System.out.println("  | For add seconds to the date, please enter 17      |");
+        System.out.println("  | For add milliseconds to the date, please enter 18 |");
+        System.out.println("   ---------------------------------------------------");
+        System.out.println("  | For back to main menu, enter any char in terminal |");
+        System.out.println("   ---------------------------------------------------");
         System.out.println();
-        System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
-        try {
-            String date = reader.readLine();
-            boolean isFormatValid = CustomCalendarFormats.isFormatValid(date);
-            if (isFormatValid) {
-                CustomCalendar calendar = new CustomCalendar(date);
-                calendar.set(date);
-                System.out.println(ColorUtils.BLUE_TEXT.format("The calendar was set on date: " + calendar + "."));
-            } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
-                System.out.println("Please check and try this menu again.");
-            }
-        } catch (IOException e) {
-            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
-            throw new RuntimeException(e);
-        }
     }
 
     private void addOptions(BufferedReader reader) throws IOException {
@@ -165,7 +91,126 @@ public class CustomCalendarController {
             case "16" -> addMinutesToDate(reader);
             case "17" -> addSecondsToDate(reader);
             case "18" -> addMillisToDate(reader);
-            default -> System.out.println(ColorUtils.RED_TEXT.format("Wrong value!"));
+            default ->
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong value! You will be back to the main menu."));
+        }
+    }
+
+    private void minusSubmenu() {
+        System.out.println();
+        System.out.println("   MINUS MENU:");
+        System.out.println("   ----------------------------------------------------------");
+        System.out.println("  | For subtract dates from each other, please enter 21      |");
+        System.out.println("  | For subtract years from the date, please enter 22        |");
+        System.out.println("  | For subtract months from the date, please enter 23       |");
+        System.out.println("  | For subtract days from the date, please enter 24         |");
+        System.out.println("  | For subtract hours from the date, please enter 25        |");
+        System.out.println("  | For subtract minutes from the date, please enter 26      |");
+        System.out.println("  | For subtract seconds from the date, please enter 27      |");
+        System.out.println("  | For subtract milliseconds from the date, please enter 28 |");
+        System.out.println("   ----------------------------------------------------------");
+        System.out.println("  | For back to main menu, please enter any char in terminal |");
+        System.out.println("   ---------------------------------------------------------");
+        System.out.println();
+    }
+
+    private void minusOptions(BufferedReader reader) throws IOException {
+        minusSubmenu();
+        String selectedOption = reader.readLine();
+        switch (selectedOption) {
+            case "21" -> minusDateFromDate(reader);
+            case "22" -> minusYearsFromDate(reader);
+            case "23" -> minusMonthsFromDate(reader);
+            case "24" -> minusDaysFromDate(reader);
+            case "25" -> minusHoursFromDate(reader);
+            case "26" -> minusMinutesFromDate(reader);
+            case "27" -> minusSecondsFromDate(reader);
+            case "28" -> minusMillisFromDate(reader);
+            default ->
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong value! You will be back to the main menu."));
+        }
+    }
+
+    private void differenceSubmenu() {
+        System.out.println();
+        System.out.println("   DIFFERENCE MENU:");
+        System.out.println("   -------------------------------------------------------------------------");
+        System.out.println("  | For receive difference in years between 2 dates, please enter 31        |");
+        System.out.println("  | For receive difference in months between 2 dates, please enter 32       |");
+        System.out.println("  | For receive difference in days between 2 dates, please enter 33         |");
+        System.out.println("  | For receive difference in hours between 2 dates, please enter 34        |");
+        System.out.println("  | For receive difference in minutes between 2 dates, please enter 35      |");
+        System.out.println("  | For receive difference in seconds between 2 dates, please enter 36      |");
+        System.out.println("  | For receive difference in milliseconds between 2 dates, please enter 37 |");
+        System.out.println("   -------------------------------------------------------------------------");
+        System.out.println("  | For back to main menu, please enter any char in terminal                |");
+        System.out.println("   -------------------------------------------------------------------------");
+        System.out.println();
+    }
+
+    private void differenceOptions(BufferedReader reader) throws IOException {
+        differenceSubmenu();
+        String selectedOption = reader.readLine();
+        switch (selectedOption) {
+            case "31" -> getDifferenceInYears(reader);
+            case "32" -> getDifferenceInMonths(reader);
+            case "33" -> getDifferenceInDays(reader);
+            case "34" -> getDifferenceInHours(reader);
+            case "35" -> getDifferenceInMinutes(reader);
+            case "36" -> getDifferenceInSeconds(reader);
+            case "37" -> getDifferenceInMillis(reader);
+            default ->
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong value! You will be back to the main menu."));
+        }
+    }
+
+    private void getCurrentTime() {
+        System.out.println(ColorUtils.REVERSE.format("\nMenu 1. GET CURRENT TIME"));
+        CustomCalendar calendar = new CustomCalendar();
+        System.out.println();
+        System.out.println(ColorUtils.BLUE_TEXT.format("Now is: " + calendar.now()));
+    }
+
+    private void getDateInMillis(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nMenu 2. GET DATE IN MILLISECONDS"));
+        System.out.println();
+        System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+        try {
+            String date = reader.readLine();
+            System.out.println();
+            boolean isFormatValid = CustomCalendarFormats.isFormatValid(date);
+            if (isFormatValid) {
+                CustomCalendar calendar = new CustomCalendar(date);
+                System.out.println(ColorUtils.BLUE_TEXT.format("This date in milliseconds has " + calendar.getTimeMillis() + " ms."));
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or some value! Please check your date."));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setDateInCalendar(BufferedReader reader) {
+        System.out.println(ColorUtils.REVERSE.format("\nMenu 3. SET DATE IN CALENDAR"));
+        System.out.println();
+        System.out.println(ColorUtils.UNDERLINED.format("Please enter the date in possible format:"));
+        try {
+            String date = reader.readLine();
+            System.out.println();
+            boolean isFormatValid = CustomCalendarFormats.isFormatValid(date);
+            if (isFormatValid) {
+                CustomCalendar calendar = new CustomCalendar(date);
+                calendar.set(date);
+                System.out.println(ColorUtils.BLUE_TEXT.format("The calendar was set on date: " + calendar + "."));
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or some value! Please check your date."));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (IOException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
+            throw new RuntimeException(e);
         }
     }
 
@@ -184,16 +229,15 @@ public class CustomCalendarController {
                 if (isDate2Valid) {
                     System.out.println();
                     CustomCalendar calendar = new CustomCalendar(date1);
-//                    CustomCalendar calendar2 = new CustomCalendar(date2);
                     calendar.addDate(date2);
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + calendar.getTimeMillis() + "ms or " + calendar));
                     System.out.println();
                 } else {
-                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                     System.out.println("Please check and try this menu again.");
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or some value! Please check your date."));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -217,12 +261,12 @@ public class CustomCalendarController {
                     System.out.println();
                     CustomCalendar calendar = new CustomCalendar(date);
                     calendar.addYears(Integer.parseInt(yearsQty));
-                    System.out.println("Result is: " + calendar);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + calendar));
                 } else {
                     System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For years need number NOT string!"));
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -247,12 +291,12 @@ public class CustomCalendarController {
                     System.out.println();
                     CustomCalendar calendar = new CustomCalendar(date);
                     calendar.addMonths(monthQty);
-                    System.out.println("Result is: " + calendar);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + calendar));
                 } else {
                     System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For months need number NOT String!"));
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -277,12 +321,12 @@ public class CustomCalendarController {
                     System.out.println();
                     CustomCalendar calendar = new CustomCalendar(date);
                     calendar.addDays(daysQty);
-                    System.out.println("Result is: " + calendar);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + calendar));
                 } else {
                     System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For days need number NOT String!"));
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -307,12 +351,12 @@ public class CustomCalendarController {
                     System.out.println();
                     CustomCalendar calendar = new CustomCalendar(date);
                     calendar.addHours(hoursQty);
-                    System.out.println("Result is: " + calendar);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + calendar));
                 } else {
                     System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For hours need number NOT String!"));
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -337,12 +381,12 @@ public class CustomCalendarController {
                     System.out.println();
                     CustomCalendar calendar = new CustomCalendar(date);
                     calendar.addMinutes(minutesQty);
-                    System.out.println("Result is: " + calendar);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + calendar));
                 } else {
                     System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For minutes need number NOT String!"));
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -367,12 +411,12 @@ public class CustomCalendarController {
                     System.out.println();
                     CustomCalendar calendar = new CustomCalendar(date);
                     calendar.addSeconds(secondsQty);
-                    System.out.println("Result is: " + calendar);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + calendar));
                 } else {
                     System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For seconds need number NOT String!"));
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -397,33 +441,17 @@ public class CustomCalendarController {
                     System.out.println();
                     CustomCalendar calendar = new CustomCalendar(date);
                     calendar.addMilliseconds(millisQty);
-                    System.out.println("Result is: " + calendar);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + calendar));
                 } else {
                     System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For milliseconds need number NOT String!"));
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
             System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
             throw new RuntimeException(e);
-        }
-    }
-
-    private void minusOptions(BufferedReader reader) throws IOException {
-        minusSubmenu();
-        String selectedOption = reader.readLine();
-        switch (selectedOption) {
-            case "21" -> minusDateFromDate(reader);
-            case "22" -> minusYearsFromDate(reader);
-            case "23" -> minusMonthsFromDate(reader);
-            case "24" -> minusDaysFromDate(reader);
-            case "25" -> minusHoursFromDate(reader);
-            case "26" -> minusMinutesFromDate(reader);
-            case "27" -> minusSecondsFromDate(reader);
-            case "28" -> minusMillisFromDate(reader);
-            default -> System.out.println(ColorUtils.RED_TEXT.format("Wrong value!"));
         }
     }
 
@@ -446,11 +474,11 @@ public class CustomCalendarController {
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + calendar.getTimeMillis() + "ms or " + calendar));
                     System.out.println();
                 } else {
-                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                     System.out.println("Please check and try this menu again.");
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -479,7 +507,7 @@ public class CustomCalendarController {
                     System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For years need number NOT string!"));
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -509,7 +537,7 @@ public class CustomCalendarController {
                     System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For months need number NOT String!"));
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -539,7 +567,7 @@ public class CustomCalendarController {
                     System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For days need number NOT String!"));
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -569,7 +597,7 @@ public class CustomCalendarController {
                     System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For hours need number NOT String!"));
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -599,7 +627,7 @@ public class CustomCalendarController {
                     System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For minutes need number NOT String!"));
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -629,7 +657,7 @@ public class CustomCalendarController {
                     System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For seconds need number NOT String!"));
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -659,27 +687,12 @@ public class CustomCalendarController {
                     System.out.println(ColorUtils.RED_TEXT.format("Invalid value! For milliseconds need number NOT String!"));
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
             System.out.println(ColorUtils.RED_TEXT.format("Something went wrong:( Please contact our support service."));
             throw new RuntimeException(e);
-        }
-    }
-
-    private void differenceOptions(BufferedReader reader) throws IOException {
-        differenceSubmenu();
-        String selectedOption = reader.readLine();
-        switch (selectedOption) {
-            case "31" -> getDifferenceInYears(reader);
-            case "32" -> getDifferenceInMonths(reader);
-            case "33" -> getDifferenceInDays(reader);
-            case "34" -> getDifferenceInHours(reader);
-            case "35" -> getDifferenceInMinutes(reader);
-            case "36" -> getDifferenceInSeconds(reader);
-            case "37" -> getDifferenceInMillis(reader);
-            default -> System.out.println(ColorUtils.RED_TEXT.format("Wrong value!"));
         }
     }
 
@@ -703,11 +716,11 @@ public class CustomCalendarController {
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " years."));
                     System.out.println();
                 } else {
-                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                     System.out.println("Please check and try this menu again.");
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -736,11 +749,11 @@ public class CustomCalendarController {
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " months."));
                     System.out.println();
                 } else {
-                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                     System.out.println("Please check and try this menu again.");
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -769,11 +782,11 @@ public class CustomCalendarController {
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " days."));
                     System.out.println();
                 } else {
-                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                     System.out.println("Please check and try this menu again.");
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -798,15 +811,15 @@ public class CustomCalendarController {
                     System.out.println();
                     CustomCalendar calendar1 = new CustomCalendar(date1);
                     CustomCalendar calendar2 = new CustomCalendar(date2);
-                    int diff = CustomCalendar.differenceInHours(calendar1, calendar2);
+                    long diff = CustomCalendar.differenceInHours(calendar1, calendar2);
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " hours."));
                     System.out.println();
                 } else {
-                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                     System.out.println("Please check and try this menu again.");
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -835,11 +848,11 @@ public class CustomCalendarController {
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " minutes."));
                     System.out.println();
                 } else {
-                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                     System.out.println("Please check and try this menu again.");
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -868,11 +881,11 @@ public class CustomCalendarController {
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " seconds."));
                     System.out.println();
                 } else {
-                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                     System.out.println("Please check and try this menu again.");
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {
@@ -901,11 +914,11 @@ public class CustomCalendarController {
                     System.out.println(ColorUtils.BLUE_TEXT.format("Result is: " + diff + " milliseconds."));
                     System.out.println();
                 } else {
-                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                    System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                     System.out.println("Please check and try this menu again.");
                 }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("Wrong format!"));
+                System.out.println(ColorUtils.RED_TEXT.format("Wrong format or invalid some value!"));
                 System.out.println("Please check and try this menu again.");
             }
         } catch (IOException e) {

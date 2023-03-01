@@ -1,0 +1,50 @@
+10
+Frankivsk
+3
+2 300
+3 500
+4 700
+Lviv
+1 300
+3 100
+6 600
+Ternopil
+1 500
+2 100
+4 300
+6 400
+Chernivtsi
+1 700
+3 300
+5 300
+Khmelnytsk
+4 300
+6 500
+7 400
+8 500
+Rivne
+2 600
+3 400
+5 500
+7 600
+Zhutomyr
+5 400
+6 600
+8 300
+10 700
+Vinnutsya
+5 500
+7 300
+9 100
+10 350
+Cherkasy
+8 100
+10 250
+Kyiv
+7 700
+8 350
+9 250
+3
+Frankivsk Kyiv
+Chernivtsi Rivne
+Ternopil Vinnutsya

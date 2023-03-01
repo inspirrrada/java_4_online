@@ -4,8 +4,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DIFrameworkContext {
-    private DIFrameworkSearcher searcher;
-    private Set<Class<?>> serviceInterfaces;
+    private final DIFrameworkSearcher searcher;
+    private final Set<Class<?>> serviceInterfaces;
 
     public DIFrameworkContext(Class<?> mainClass) {
         Package aPackage = mainClass.getPackage();
@@ -21,5 +21,13 @@ public class DIFrameworkContext {
                 })
                 .filter(Class::isInterface)
                 .collect(Collectors.toSet());
+    }
+
+    public Set<Class<?>> getServiceInterfaces() {
+        return serviceInterfaces;
+    }
+
+    public DIFrameworkSearcher getSearcher() {
+        return searcher;
     }
 }

@@ -33,4 +33,8 @@ public class DIFrameworkSearcher {
     public Set<String> getInterfaces() {
         return interfaces;
     }
+
+    public Reflections getScanner() {
+        return scanner;
+    }
 }

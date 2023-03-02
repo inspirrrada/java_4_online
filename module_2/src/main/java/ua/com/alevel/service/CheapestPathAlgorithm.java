@@ -1,22 +1,26 @@
-package ua.com.alevel;
+package ua.com.alevel.service;
 
+import ua.com.alevel.utils.Graph;
+import ua.com.alevel.utils.Node;
 import java.util.*;
 
-public final class SearchCheapestPath {
-    public static Graph calculateCheapestPathFromStart(Graph graph, Node startCity) {
-        startCity.setPathCost(0);
+public final class CheapestPathAlgorithm {
+    public static Graph calculateProfitableValue(Graph graph, Node startNode) {
+        startNode.setPathCost(0);
         Set<Node> scannedNodes = new HashSet<>();
         Set<Node> unscannedNodes = new HashSet<>();
-        unscannedNodes.add(startCity);
+        unscannedNodes.add(startNode);
         while(unscannedNodes.size() != 0) {
-            Node currentNode = getCheapestCostNode(unscannedNodes);
+            Node currentNode = getNodeWithLowestValue(unscannedNodes);
             unscannedNodes.remove(currentNode);
-            Map<Node, Integer> neighborNodes = currentNode.getNeighborNodes();
-            for(Map.Entry<Node, Integer> neighborPair : neighborNodes.entrySet()) {
-                Node neighborNode = neighborPair.getKey();
+            Map<Integer, Integer> neighborNodes = currentNode.getNeighborNodesMap();
+            for(Map.Entry<Integer, Integer> neighborPair : neighborNodes.entrySet()) {
+                Integer neighborNodeIndex = neighborPair.getKey();
+                Node neighborNode = graph.getNodesSet().stream()
+                        .filter(v -> v.getIndex() == neighborNodeIndex).findFirst().get();
                 Integer neighborValue = neighborPair.getValue();
                 if(!scannedNodes.contains(neighborNode)) {
-                    calculateLowestValue(currentNode, neighborNode, neighborValue);
+                    calculateMinimumValue(currentNode, neighborNode, neighborValue);
                     unscannedNodes.add(neighborNode);
                 }
             }
@@ -25,7 +29,7 @@ public final class SearchCheapestPath {
         return graph;
     }
 
-    private static void calculateLowestValue(Node startNode, Node nextNode, Integer costValue) {
+    private static void calculateMinimumValue(Node startNode, Node nextNode, Integer costValue) {
         Integer startNodeCostValue = startNode.getPathCost();
         if ( (startNodeCostValue + costValue) < nextNode.getPathCost() ) {
             nextNode.setPathCost(startNodeCostValue + costValue);
@@ -35,7 +39,7 @@ public final class SearchCheapestPath {
         }
     }
 
-    public static Node getCheapestCostNode(Set<Node> unscannedNodes) {
+    public static Node getNodeWithLowestValue(Set<Node> unscannedNodes) {
         Node cheapestCostNode = null;
         int cheapestCost = 200_000;
         for (Node currentNode : unscannedNodes) {

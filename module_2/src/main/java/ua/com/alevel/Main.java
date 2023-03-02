@@ -1,7 +1,10 @@
 package ua.com.alevel;
 
+import ua.com.alevel.controller.SearchCheapestPath;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world from module_2!");
+        SearchCheapestPath search = new SearchCheapestPath();
+        search.start();
     }
 }

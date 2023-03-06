@@ -4,13 +4,16 @@ import org.reflections.Reflections;
 import ua.com.alevel.annotations.BeanClass;
 import ua.com.alevel.configurator.BeanConfigurator;
 import ua.com.alevel.configurator.impl.InjectBeanAnnotationBeanConfigurator;
+import ua.com.alevel.configurator.impl.ValueAnnotationBeanConfigurator;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class BeanFactory {
     private static Map<Class<?>, Object> beanMap = new HashMap<>();
-    private List<BeanConfigurator> beanConfigurators = Arrays.asList(new InjectBeanAnnotationBeanConfigurator());
+    private List<BeanConfigurator> beanConfigurators = Arrays.asList(
+            new InjectBeanAnnotationBeanConfigurator(),
+            new ValueAnnotationBeanConfigurator());
 
     public BeanFactory(Set<Class<?>> interfaces, Reflections scanner) {
         initBeanMap(interfaces, scanner);

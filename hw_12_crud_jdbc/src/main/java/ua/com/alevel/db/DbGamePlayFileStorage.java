@@ -1,8 +1,7 @@
 package ua.com.alevel.db;
 
-import ua.com.alevel.entity.Game;
-import ua.com.alevel.entity.Player;
-import ua.com.alevel.utils.ColorUtils;
+import ua.com.alevel.persistance.entity.Game;
+import ua.com.alevel.persistance.entity.Player;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -422,12 +421,12 @@ public class DbGamePlayFileStorage {
                     }
                 }
                 writeToFile(players.toString(), playersFile);
-                System.out.println(ColorUtils.getBlueText().format("\nGame was successfully attached to the player."));
+                System.out.println(ColorUtils.BLUE_TEXT.format("\nGame was successfully attached to the player."));
             } else {
-                System.out.println(ColorUtils.getRedText().format("This game can't be added to this player in automatic mode. Please contact with support service."));
+                System.out.println(ColorUtils.RED_TEXT.format("This game can't be added to this player in automatic mode. Please contact with support service."));
             }
         } else {
-            System.out.println(ColorUtils.getRedText().format("We have already game with such id for this player!"));
+            System.out.println(ColorUtils.RED_TEXT.format("We have already game with such id for this player!"));
         }
     }
 
@@ -506,13 +505,13 @@ public class DbGamePlayFileStorage {
                         }
                     }
                     writeToFile(players.toString(), playersFile);
-                    System.out.println(ColorUtils.getBlueText().format("\nGame was successfully deleted from player."));
+                    System.out.println(ColorUtils.BLUE_TEXT.format("\nGame was successfully deleted from player."));
                 } else {
-                    System.out.println(ColorUtils.getRedText().format("\nGame can't be deleted from player in automatic mode. Please contact with support service."));
+                    System.out.println(ColorUtils.RED_TEXT.format("\nGame can't be deleted from player in automatic mode. Please contact with support service."));
                 }
                 break;
             } else {
-                System.out.println(ColorUtils.getRedText().format("We don't have game with such id for this player. Please check your info."));
+                System.out.println(ColorUtils.RED_TEXT.format("We don't have game with such id for this player. Please check your info."));
             }
         }
         return successfullyDeleted;

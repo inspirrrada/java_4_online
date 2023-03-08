@@ -14,18 +14,25 @@
         <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
         <maven.shade.plugin.version>3.2.4</maven.shade.plugin.version>
         <mysql-connector-j.version>8.0.32</mysql-connector-j.version>
+        <maven.jcolor.plugin.version>5.5.1</maven.jcolor.plugin.version>
     </properties>
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>ua.com.alevel</groupId>-->
-<!--            <artifactId>di_framework</artifactId>-->
-<!--            <version>1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>ua.com.alevel</groupId>
+            <artifactId>di_framework</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <version>8.0.32</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.diogonunes/JColor -->
+        <dependency>
+            <groupId>com.diogonunes</groupId>
+            <artifactId>JColor</artifactId>
+            <version>${maven.jcolor.plugin.version}</version>
         </dependency>
     </dependencies>
 

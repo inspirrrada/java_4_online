@@ -1,10 +1,9 @@
 package ua.com.alevel.service;
 
-import ua.com.alevel.dao.GamePlayDao;
-import ua.com.alevel.dao.GamePlayDaoJson;
-import ua.com.alevel.entity.Game;
-import ua.com.alevel.entity.Player;
-import ua.com.alevel.utils.ColorUtils;
+import ua.com.alevel.persistance.dao.GamePlayDao;
+import ua.com.alevel.persistance.dao.GamePlayDaoJson;
+import ua.com.alevel.persistance.entity.Game;
+import ua.com.alevel.persistance.entity.Player;
 
 import java.util.List;
 
@@ -202,7 +201,7 @@ public class GamePlayServiceImpl implements GamePlayService {
     public boolean existPlayerId(String playerId) {
         boolean existPlayerId = gamePlayDao.existPlayerId(playerId);
         if (!existPlayerId) {
-            System.out.println(ColorUtils.getRedText().format("We can't find player with such id!"));
+            System.out.println(ColorUtils.RED_TEXT.format("We can't find player with such id!"));
         }
         return existPlayerId;
     }
@@ -211,7 +210,7 @@ public class GamePlayServiceImpl implements GamePlayService {
     public boolean existGameId(String gameId) {
         boolean existGameId = gamePlayDao.existGameId(gameId);
         if (!existGameId) {
-            System.out.println(ColorUtils.getRedText().format("We can't find game with such id!"));
+            System.out.println(ColorUtils.RED_TEXT.format("We can't find game with such id!"));
         }
         return existGameId;
     }
@@ -227,7 +226,7 @@ public class GamePlayServiceImpl implements GamePlayService {
         if (ageValue.matches("\\d+")) {
             correctAgeFormat = true;
         } else {
-            System.out.println(ColorUtils.getRedText().format("Invalid value! Please enter number NOT string!"));
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Please enter number NOT string!"));
             correctAgeFormat = false;
         }
         return correctAgeFormat;
@@ -238,10 +237,10 @@ public class GamePlayServiceImpl implements GamePlayService {
         boolean agePermissible;
         if (age < 18) {
             agePermissible = false;
-            System.out.println(ColorUtils.getRedText().format("Grow up first and come later."));
+            System.out.println(ColorUtils.RED_TEXT.format("Grow up first and come later."));
         } else if (age > 100) {
             agePermissible = false;
-            System.out.println(ColorUtils.getRedText().format("Your age is fantastic! You're too good for this game."));
+            System.out.println(ColorUtils.RED_TEXT.format("Your age is fantastic! You're too good for this game."));
         } else {
             agePermissible = true;
         }
@@ -253,7 +252,7 @@ public class GamePlayServiceImpl implements GamePlayService {
         boolean correctNickname = true;
         //nickname can't have only digits
         if (nickname.matches("\\d+")) {
-            System.out.println(ColorUtils.getRedText().format("Nickname can't contain only digits!"));
+            System.out.println(ColorUtils.RED_TEXT.format("Nickname can't contain only digits!"));
             correctNickname = false;
         }
         return correctNickname;
@@ -265,7 +264,7 @@ public class GamePlayServiceImpl implements GamePlayService {
         if (email.matches("^(.+)@(.+)$")) {
             correctEmail = true;
         } else {
-            System.out.println(ColorUtils.getRedText().format("Invalid value!"));
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid value!"));
             correctEmail = false;
         }
         return correctEmail;
@@ -276,7 +275,7 @@ public class GamePlayServiceImpl implements GamePlayService {
         boolean correctGameName = true;
         //name of game can't have only digits
         if (gameName.matches("\\d+")) {
-            System.out.println(ColorUtils.getRedText().format("Name of game can't contain only digits!"));
+            System.out.println(ColorUtils.RED_TEXT.format("Name of game can't contain only digits!"));
             correctGameName = false;
         }
         return correctGameName;

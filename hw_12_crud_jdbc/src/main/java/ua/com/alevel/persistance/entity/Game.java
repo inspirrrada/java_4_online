@@ -1,4 +1,4 @@
-package ua.com.alevel.entity;
+package ua.com.alevel.persistance.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,7 +7,11 @@ public class Game extends BaseEntity {
 
     private String name;
     private boolean commandGame;
-    private Set<String> playerIdList = new HashSet<>();
+    private Set<Player> players;
+
+    public Game() {
+        super();
+    }
 
     public String getName() {
         return name;
@@ -25,21 +29,22 @@ public class Game extends BaseEntity {
         this.commandGame = commandGame;
     }
 
-    public Set<String> getPlayerIdList() {
-        return playerIdList;
+    public Set<Player> getPlayers() {
+        return players;
     }
 
-    public void setPlayerIdList(Set<String> playerIdList) {
-        this.playerIdList = playerIdList;
+    public void setPlayers(Set<Player> players) {
+        this.players = players;
     }
 
     @Override
     public String toString() {
         return "\n{" +
                 "\"id\":" + "\"" + getId() + "\"" +
+                "\"created\":" + "\"" + getCreated() + "\"" +
                 ",\"name\":" + "\"" + name + "\"" +
                 ",\"commandGame\":" + "\"" + commandGame + "\"" +
-                ",\"playerIdList\":" + "\"" + playerIdList + "\"" +
+                ",\"playerIdList\":" + "\"" + players + "\"" +
                 "}";
     }
 }

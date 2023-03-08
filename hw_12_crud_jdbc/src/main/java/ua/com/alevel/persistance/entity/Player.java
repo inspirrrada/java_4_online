@@ -1,4 +1,4 @@
-package ua.com.alevel.entity;
+package ua.com.alevel.persistance.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,7 +8,11 @@ public class Player extends BaseEntity {
     private int age;
     private String email;
     private String nickname;
-    private Set<String> gameIdList = new HashSet<>();
+    private Set<Game> games;
+
+    public Player() {
+        super();
+    }
 
     public int getAge() {
         return age;
@@ -34,22 +38,15 @@ public class Player extends BaseEntity {
         this.nickname = nickname;
     }
 
-    public Set<String> getGameIdList() {
-        return gameIdList;
-    }
-
-    public void setGameIdList(Set<String> gameIdList) {
-        this.gameIdList = gameIdList;
-    }
-
     @Override
     public String toString() {
         return "\n{" +
                 "\"id\":" + "\"" + getId() + "\"" +
+                "\"created\":" + "\"" + getCreated() + "\"" +
                 ",\"age\":" + age +
                 ",\"email\":" + "\"" + email + "\"" +
                 ",\"nickname\":" + "\"" + nickname + "\"" +
-                ",\"gameIdList\":" + "\"" + gameIdList + "\"" +
+                ",\"gameIdList\":" + "\"" + games + "\"" +
                 "}";
     }
 }

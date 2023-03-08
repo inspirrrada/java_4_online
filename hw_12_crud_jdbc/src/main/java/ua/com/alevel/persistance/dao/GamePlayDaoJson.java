@@ -1,8 +1,8 @@
-package ua.com.alevel.dao;
+package ua.com.alevel.persistance.dao;
 
 import ua.com.alevel.db.DbGamePlayFileStorage;
-import ua.com.alevel.entity.Game;
-import ua.com.alevel.entity.Player;
+import ua.com.alevel.persistance.entity.Game;
+import ua.com.alevel.persistance.entity.Player;
 
 import java.util.List;
 

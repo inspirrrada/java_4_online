@@ -1,7 +1,6 @@
 package ua.com.alevel.service;
 
 import ua.com.alevel.persistance.dao.GamePlayDao;
-import ua.com.alevel.persistance.dao.GamePlayDaoJson;
 import ua.com.alevel.persistance.entity.Game;
 import ua.com.alevel.persistance.entity.Player;
 

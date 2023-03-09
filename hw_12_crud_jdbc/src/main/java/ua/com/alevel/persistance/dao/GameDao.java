@@ -9,13 +9,13 @@ import java.util.Optional;
 
 public interface GameDao {
     void addGame(Game game);
-    Optional<Game> getGameById(String id);
+    Optional<Game> getGameById(Long id);
     Collection<Game> getAllGames();
-    void updateGameName(String id, String name);
-    void updateGameType(String id, boolean isCommandGame);
-    boolean deleteGame(String id);
-    void addGameToPlayerInAllDb(String gameId, String playerId);
-    Collection<Game> getGamesByPlayer(String playerId);
+    void updateGameName(Long id, String name);
+    void updateGameType(Long id, boolean isCommandGame);
+    boolean deleteGame(Long id);
+    void addGameToPlayer(Long gameId, Long playerId);
+    Collection<Game> getGamesByPlayer(Long playerId);
     Collection<GameDto> getPlayersCountByGame();
-    boolean deleteGameFromPlayerInAllDb(String gameId, String playerId);
+    boolean deleteGameFromPlayerInAllDb(Long gameId, Long playerId);
 }

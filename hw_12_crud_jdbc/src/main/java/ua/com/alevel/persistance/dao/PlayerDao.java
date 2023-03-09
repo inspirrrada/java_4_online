@@ -8,11 +8,11 @@ import java.util.Optional;
 public interface PlayerDao {
 
     void addPlayer(Player player);
-    Optional<Player> getPlayerById(String id);
+    Optional<Player> getPlayerById(Long id);
     Collection<Player> getAllPlayers();
-    void updatePlayerAge(String id, int age);
-    void updatePlayerEmail(String id, String email);
-    void updatePlayerNickname(String id, String nickname);
-    boolean deletePlayer(String id);
-    Collection<Player> getPlayersByGame(String gameId);
+    void updatePlayerAge(Long id, int age);
+    void updatePlayerEmail(Long id, String email);
+    void updatePlayerNickname(Long id, String nickname);
+    boolean deletePlayer(Long id);
+    Collection<Player> getPlayersByGame(Long gameId);
 }

@@ -174,7 +174,7 @@ public class GameDaoImpl implements GameDao {
     }
 
     @Override
-    public boolean deleteGameFromPlayerInAllDb(Long gameId, Long playerId) {
+    public boolean deleteGameFromPlayer(Long gameId, Long playerId) {
         try(PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PLAYER_FROM_GAME)) {
             preparedStatement.setLong(1, gameId);
             preparedStatement.setLong(2, playerId);

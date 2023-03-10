@@ -1,6 +1,5 @@
 package ua.com.alevel.service;
 
-import ua.com.alevel.persistance.dao.GamePlayDao;
 import ua.com.alevel.persistance.entity.Game;
 import ua.com.alevel.persistance.entity.Player;
 
@@ -12,25 +11,7 @@ public class GamePlayServiceImpl implements GamePlayService {
     private String gamesFile;
     private GamePlayDao gamePlayDao;
 
-    public GamePlayServiceImpl(String playersFile, String gamesFile) {
-        this.playersFile = playersFile;
-        this.gamesFile = gamesFile;
-        this.gamePlayDao = new GamePlayDaoJson(playersFile, gamesFile);
-    }
 
-    /**
-     * FROM FILE STORAGE
-     * ------------------------------------
-     * operations create from CRUD
-     */
-    @Override
-    public void addPlayer(Player player) {
-        if (isAgePermissible(player.getAge()) &&
-                isCorrectEmail(player.getEmail()) && !hasTheSameEmail(player.getEmail()) &&
-                isCorrectNickname(player.getNickname()) && !hasTheSameNickname(player.getNickname())) {
-            gamePlayDao.addPlayer(player);
-        }
-    }
 
     @Override
     public void addGame(Game game) {

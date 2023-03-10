@@ -142,7 +142,7 @@ public class GameDaoImpl implements GameDao {
     }
 
     @Override
-    public Collection<GameDto> getPlayersCountByGame() {
+    public Collection<GameDto> getPlayersCountOfAllGames() {
         List<GameDto> gameDtoList = new ArrayList<>();
         try(ResultSet resultSet = jdbcService.getStatement().executeQuery(GET_PLAYERS_COUNT_FOR_EVERY_GAME)) {
             while(resultSet.next()) {

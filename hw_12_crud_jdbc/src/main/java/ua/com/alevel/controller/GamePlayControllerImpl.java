@@ -3,14 +3,19 @@ package ua.com.alevel.controller;
 import ua.com.alevel.annotations.BeanClass;
 import ua.com.alevel.annotations.Controller;
 import ua.com.alevel.annotations.InjectBean;
+import ua.com.alevel.annotations.Start;
+import ua.com.alevel.persistance.dto.GameDto;
+import ua.com.alevel.persistance.dto.PlayerDto;
 import ua.com.alevel.persistance.entity.Game;
 import ua.com.alevel.persistance.entity.Player;
-import ua.com.alevel.service.GamePlayService;
+import ua.com.alevel.service.GameService;
+import ua.com.alevel.service.PlayerService;
 import ua.com.alevel.utils.ColorUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -18,8 +23,13 @@ import java.util.List;
 public class GamePlayControllerImpl implements GamePlayController {
 
     @InjectBean
-    private GamePlayService service;
+    private GameService gameService;
 
+    @InjectBean
+    private PlayerService playerService;
+
+    @Start
+    @Override
     public void start() {
         System.out.println();
         System.out.println("WELCOME TO THE GAMEPLAY MENU!");
@@ -62,10 +72,12 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println("If you want to attach game to player, please enter 11");
         System.out.println("If you want to find all players by game, please enter 12");
         System.out.println("If you want to find all games by player, please enter 13");
-        System.out.println("If you want to delete game from player, please enter 14");
+        System.out.println("If you want to find players quantity for game, please enter 14");
+        System.out.println("If you want to find games quantity for player, please enter 15");
+        System.out.println("If you want to delete game from player, please enter 16");
         System.out.println("--------------------------------------------------------");
 
-        System.out.println("If you want to close application, please enter 15");
+        System.out.println("If you want to close application, please enter 17");
         System.out.println("========================================================");
         System.out.println();
     }
@@ -85,8 +97,10 @@ public class GamePlayControllerImpl implements GamePlayController {
             case "11" -> attachGameToPlayer(reader);
             case "12" -> findAllPlayersByGame(reader);
             case "13" -> findAllGamesByPlayer(reader);
-            case "14" -> deleteGameFromPlayer(reader);
-            case "15" -> stop();
+            case "14" -> findPlayersQtyByGame();
+            case "15" -> findGamesQtyByPlayer();
+            case "16" -> deleteGameFromPlayer(reader);
+            case "17" -> stop();
             default -> System.out.println(ColorUtils.RED_TEXT.format("Wrong value! Select menu again."));
         }
         menu();
@@ -101,10 +115,10 @@ public class GamePlayControllerImpl implements GamePlayController {
         boolean isCorrectAgeFormat = false;
         while (!isCorrectAgeFormat) {
             ageValue = reader.readLine();
-            isCorrectAgeFormat = service.isCorrectAgeFormat(ageValue);
+            isCorrectAgeFormat = playerService.isCorrectAgeFormat(ageValue);
         }
         int age = Integer.parseInt(ageValue);
-        boolean isAgePermissible = service.isAgePermissible(age);
+        boolean isAgePermissible = playerService.isAgePermissible(age);
         if (!isAgePermissible) {
             stop();
         } else {
@@ -114,9 +128,9 @@ public class GamePlayControllerImpl implements GamePlayController {
             boolean hasTheSameEmail = false;
             while (true) {
                 email = reader.readLine();
-                correctEmail = service.isCorrectEmail(email);
+                correctEmail = playerService.isCorrectEmail(email);
                 if (correctEmail) {
-                    hasTheSameEmail = service.hasTheSameEmail(email);
+                    hasTheSameEmail = playerService.hasTheSameEmail(email);
                     if (!hasTheSameEmail) {
                         break;
                     } else {
@@ -134,9 +148,9 @@ public class GamePlayControllerImpl implements GamePlayController {
             boolean hasTheSameNickname = false;
             while (true) {
                 nickname = reader.readLine();
-                correctNickname = service.isCorrectNickname(nickname);
+                correctNickname = playerService.isCorrectNickname(nickname);
                 if (correctNickname) {
-                    hasTheSameNickname = service.hasTheSameNickname(nickname);
+                    hasTheSameNickname = playerService.hasTheSameNickname(nickname);
                     if (!hasTheSameNickname) {
                         break;
                     } else {
@@ -151,7 +165,7 @@ public class GamePlayControllerImpl implements GamePlayController {
             player.setAge(age);
             player.setEmail(email);
             player.setNickname(nickname);
-            service.addPlayer(player);
+            playerService.addPlayer(player);
             System.out.println(ColorUtils.BLUE_TEXT.format("\nCongratulations! Your player was created."));
         }
     }
@@ -160,8 +174,8 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 2. FIND PLAYER BY ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter player ID:"));
-        String playerId = reader.readLine();
-        Player player = service.getPlayerByIdOrNull(playerId);
+        Long playerId = Long.valueOf(reader.readLine());
+        Player player = playerService.getPlayerById(playerId);
         if (player != null) {
             System.out.println(ColorUtils.YELLOW_TEXT.format(player.toString()));
         } else {
@@ -173,8 +187,8 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 3. UPDATE PLAYER BY ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter player ID"));
-        String playerId = reader.readLine();
-        Player playerNew = service.getPlayerByIdOrNull(playerId);
+        Long playerId = Long.valueOf(reader.readLine());
+        Player playerNew = playerService.getPlayerById(playerId);
 
         if (playerNew != null) {
             int ageOld = playerNew.getAge();
@@ -187,14 +201,14 @@ public class GamePlayControllerImpl implements GamePlayController {
 
             //"0" means without changes
             if (!ageValue.equals("0")) {
-                boolean isCorrectAgeFormat = service.isCorrectAgeFormat(ageValue);
+                boolean isCorrectAgeFormat = playerService.isCorrectAgeFormat(ageValue);
                 if (isCorrectAgeFormat) {
                     int age = Integer.parseInt(ageValue);
-                    boolean isAgePermissible = service.isAgePermissible(age);
+                    boolean isAgePermissible = playerService.isAgePermissible(age);
                     if (isAgePermissible) {
                         if (age != ageOld) {
                             playerNew.setAge(age);
-                            service.updatePlayerAge(playerId, age);
+                            playerService.updatePlayerAge(playerId, age);
                             System.out.println(ColorUtils.BLUE_TEXT.format("Age for player '" + playerNew.getNickname() + "' was updated successfully."));
                         } else {
                             System.out.println(ColorUtils.RED_TEXT.format("You entered old value, your changes weren't saved."));
@@ -215,14 +229,14 @@ public class GamePlayControllerImpl implements GamePlayController {
 
             //"0" means without changes
             if (!nickname.equals("0")) {
-                boolean correctNickname = service.isCorrectNickname(nickname);
+                boolean correctNickname = playerService.isCorrectNickname(nickname);
                 if (!correctNickname) {
                     System.out.println("Your changes of nickname weren't saved.");
                 } else {
-                    boolean hasTheSameNickname = service.hasTheSameNickname(nickname);
+                    boolean hasTheSameNickname = playerService.hasTheSameNickname(nickname);
                     if (!hasTheSameNickname) {
                         playerNew.setNickname(nickname);
-                        service.updatePlayerNickname(playerId, nickname);
+                        playerService.updatePlayerNickname(playerId, nickname);
                         System.out.println(ColorUtils.BLUE_TEXT.format("Nickname for player was updated successfully to the '" + nickname + "'."));
                     } else {
                         System.out.println(ColorUtils.RED_TEXT.format("This nickname is already registered. Your changes weren't saved."));
@@ -238,14 +252,14 @@ public class GamePlayControllerImpl implements GamePlayController {
 
             //"0" means without changes
             if (!email.equals("0")) {
-                boolean correctEmail = service.isCorrectEmail(email);
+                boolean correctEmail = playerService.isCorrectEmail(email);
                 if (!correctEmail) {
                     System.out.println("Your changes of email weren't saved.");
                 } else {
-                    boolean hasTheSameEmail = service.hasTheSameEmail(email);
+                    boolean hasTheSameEmail = playerService.hasTheSameEmail(email);
                     if (!hasTheSameEmail) {
                         playerNew.setEmail(email);
-                        service.updatePlayerEmail(playerId, email);
+                        playerService.updatePlayerEmail(playerId, email);
                         System.out.println(ColorUtils.BLUE_TEXT.format("Email for player '" + playerNew.getNickname() + "' was updated successfully."));
                     } else {
                         System.out.println(ColorUtils.RED_TEXT.format("This email is already registered. Your changes weren't saved."));
@@ -263,10 +277,10 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 4. DELETE PLAYER BY ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter player ID:"));
-        String playerId = reader.readLine();
-        boolean existSuchPlayerId = service.existPlayerId(playerId);
+        Long playerId = Long.valueOf(reader.readLine());
+        boolean existSuchPlayerId = playerService.existPlayerId(playerId);
         if (existSuchPlayerId) {
-            boolean wasDeletedEverywhere = service.deletePlayer(playerId);
+            boolean wasDeletedEverywhere = playerService.deletePlayer(playerId);
             if (wasDeletedEverywhere) {
                 System.out.println(ColorUtils.BLUE_TEXT.format("\nYour player was successfully deleted."));
             } else {
@@ -280,7 +294,7 @@ public class GamePlayControllerImpl implements GamePlayController {
     private void findAllPlayers() {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 5. FIND ALL PLAYERS"));
         System.out.println();
-        List<Player> allPlayers = service.getAllPlayers();
+        Collection<Player> allPlayers = playerService.getAllPlayers();
         if (allPlayers.isEmpty()) {
             System.out.println("There are no players.");
         } else {
@@ -303,9 +317,9 @@ public class GamePlayControllerImpl implements GamePlayController {
         boolean hasTheSameGameName = false;
         while (true) {
             gameName = reader.readLine();
-            correctGameName = service.isCorrectGameName(gameName);
+            correctGameName = gameService.isCorrectGameName(gameName);
             if (correctGameName) {
-                hasTheSameGameName = service.hasTheSameGameName(gameName);
+                hasTheSameGameName = gameService.hasTheSameGameName(gameName);
                 if (!hasTheSameGameName) {
                     break;
                 } else {
@@ -335,7 +349,7 @@ public class GamePlayControllerImpl implements GamePlayController {
         Game game = new Game();
         game.setName(gameName);
         game.setCommandGame(isCommandGame);
-        service.addGame(game);
+        gameService.addGame(game);
         System.out.println(ColorUtils.BLUE_TEXT.format("\nCongratulations! Your game was recorded."));
 
     }
@@ -344,8 +358,8 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 7. FIND GAME BY ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter game ID:"));
-        String gameId = reader.readLine();
-        Game game = service.getGameByIdOrNull(gameId);
+        Long gameId = Long.valueOf(reader.readLine());
+        Game game = gameService.getGameById(gameId);
         if (game != null) {
             System.out.println(ColorUtils.YELLOW_TEXT.format(game.toString()));
         } else {
@@ -357,8 +371,8 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 8. UPDATE GAME BY ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter game ID"));
-        String gameId = reader.readLine();
-        Game game = service.getGameByIdOrNull(gameId);
+        Long gameId = Long.valueOf(reader.readLine());
+        Game game = gameService.getGameById(gameId);
         if (game != null) {
             System.out.println("Great, please update details of game '" + game.getName() + "' below.");
             System.out.println("If you don't want to update some detail, press 0 and you go to the next. Updates for old values will not be saved.");
@@ -367,12 +381,12 @@ public class GamePlayControllerImpl implements GamePlayController {
             String gameName = reader.readLine();
             //"0" means without changes
             if (!gameName.equals("0")) {
-                boolean isCorrectGameName = service.isCorrectGameName(gameName);
+                boolean isCorrectGameName = gameService.isCorrectGameName(gameName);
                 if (isCorrectGameName) {
-                    boolean hasTheSameGameName = service.hasTheSameGameName(gameName);
+                    boolean hasTheSameGameName = gameService.hasTheSameGameName(gameName);
                     if (!hasTheSameGameName) {
                         game.setName(gameName);
-                        service.updateGameName(gameId, gameName);
+                        gameService.updateGameName(gameId, gameName);
                         System.out.println(ColorUtils.BLUE_TEXT.format("Name for game was updated to '" + game.getName() + "' successfully."));
                     } else {
                         System.out.println(ColorUtils.RED_TEXT.format("This game name is already registered. Your changes weren't saved."));
@@ -398,7 +412,7 @@ public class GamePlayControllerImpl implements GamePlayController {
                     } else {
                         gameTypeValue = "single game";
                     }
-                    service.updateGameType(gameId, isCommandGame);
+                    gameService.updateGameType(gameId, isCommandGame);
                     System.out.println(ColorUtils.BLUE_TEXT.format("Type of game was updated successfully to the '" + gameTypeValue + "'."));
                 } else if (gameType.equalsIgnoreCase("N") && isCommandGame) {
                     isCommandGame = false;
@@ -408,7 +422,7 @@ public class GamePlayControllerImpl implements GamePlayController {
                     } else {
                         gameTypeValue = "single game";
                     }
-                    service.updateGameType(gameId, isCommandGame);
+                    gameService.updateGameType(gameId, isCommandGame);
                     System.out.println(ColorUtils.BLUE_TEXT.format("Type of game was updated successfully to the '" + gameTypeValue + "'."));
                 } else {
                     System.out.println(ColorUtils.RED_TEXT.format("You entered wrong or old value! Your changes weren't saved."));
@@ -425,10 +439,10 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 9. DELETE GAME BY ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter game ID:"));
-        String gameId = reader.readLine();
-        boolean existSuchGameId = service.existGameId(gameId);
+        Long gameId = Long.valueOf(reader.readLine());
+        boolean existSuchGameId = gameService.existGameId(gameId);
         if (existSuchGameId) {
-            boolean wasDeletedEverywhere = service.deleteGame(gameId);
+            boolean wasDeletedEverywhere = gameService.deleteGame(gameId);
             if (wasDeletedEverywhere) {
                 System.out.println(ColorUtils.BLUE_TEXT.format("\nYour game was successfully deleted."));
             } else {
@@ -442,7 +456,7 @@ public class GamePlayControllerImpl implements GamePlayController {
     private void findAllGames() {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 10. FIND ALL GAMES"));
         System.out.println();
-        List<Game> allGames = service.getAllGames();
+        Collection<Game> allGames = gameService.getAllGames();
         if (allGames.isEmpty()) {
             System.out.println("There are no games.");
         } else {
@@ -459,14 +473,14 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 11. ATTACH GAME TO PLAYER"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter game ID"));
-        String gameId = reader.readLine();
-        boolean existSuchGameId = service.existGameId(gameId);
+        Long gameId = Long.valueOf(reader.readLine());
+        boolean existSuchGameId = gameService.existGameId(gameId);
         if (existSuchGameId) {
             System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter player ID"));
-            String playerId = reader.readLine();
-            boolean existSuchPlayerId = service.existPlayerId(playerId);
+            Long playerId = Long.valueOf(reader.readLine());
+            boolean existSuchPlayerId = playerService.existPlayerId(playerId);
             if (existSuchPlayerId) {
-                service.addGameToPlayerInAllDb(gameId, playerId);
+                gameService.addGameToPlayer(gameId, playerId);
             }
         } else {
             System.out.println("Please check and try this menu again.");
@@ -477,10 +491,10 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 12. FIND ALL PLAYERS BY GAME ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter game ID"));
-        String gameId = reader.readLine();
-        boolean existSuchGameId = service.existGameId(gameId);
+        Long gameId = Long.valueOf(reader.readLine());
+        boolean existSuchGameId = gameService.existGameId(gameId);
         if (existSuchGameId) {
-            List<Player> playersList = service.getPlayersByGame(gameId);
+            Collection<Player> playersList = playerService.getPlayersByGame(gameId);
             if (playersList.isEmpty()) {
                 System.out.println("There are no players in this game");
             } else {
@@ -500,10 +514,10 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 13. FIND ALL GAMES BY PLAYER ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter player ID"));
-        String playerId = reader.readLine();
-        boolean existSuchPlayerId = service.existPlayerId(playerId);
+        Long playerId = Long.valueOf(reader.readLine());
+        boolean existSuchPlayerId = playerService.existPlayerId(playerId);
         if (existSuchPlayerId) {
-            List<Game> gamesList = service.getGamesByPlayer(playerId);
+            Collection<Game> gamesList = gameService.getGamesByPlayer(playerId);
             if (gamesList.isEmpty()) {
                 System.out.println("There are no games for this player");
             } else {
@@ -519,18 +533,50 @@ public class GamePlayControllerImpl implements GamePlayController {
         }
     }
 
+    private void findPlayersQtyByGame() {
+        System.out.println(ColorUtils.REVERSE.format("\nMenu 14. GET GAMES STATISTICS BY PLAYERS"));
+        System.out.println();
+        Collection<GameDto> gameStatistics = gameService.getPlayersCountOfAllGames();
+        if (gameStatistics.isEmpty()) {
+            System.out.println("There are no data in system.");
+        } else {
+            int count = 1;
+            System.out.println("Games statistics: ");
+            for (GameDto gameDto : gameStatistics) {
+                System.out.println(ColorUtils.YELLOW_TEXT.format(count + ". " + gameDto.toString()));
+                count++;
+            }
+        }
+    }
+
+    private void findGamesQtyByPlayer() {
+        System.out.println(ColorUtils.REVERSE.format("\nMenu 15. GET PLAYERS STATISTICS BY GAMES"));
+        System.out.println();
+        Collection<PlayerDto> playerStatistics = playerService.getGamesCountOfAllPlayers();
+        if (playerStatistics.isEmpty()) {
+            System.out.println("There are no data in system.");
+        } else {
+            int count = 1;
+            System.out.println("Games statistics: ");
+            for (PlayerDto playerDto : playerStatistics) {
+                System.out.println(ColorUtils.YELLOW_TEXT.format(count + ". " + playerDto.toString()));
+                count++;
+            }
+        }
+    }
+
     private void deleteGameFromPlayer(BufferedReader reader) throws IOException {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 14. DELETE GAME FROM PLAYER BY ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter game ID"));
-        String gameId = reader.readLine();
-        boolean existSuchGameId = service.existGameId(gameId);
+        Long gameId = Long.valueOf(reader.readLine());
+        boolean existSuchGameId = gameService.existGameId(gameId);
         if (existSuchGameId) {
             System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter player ID"));
-            String playerId = reader.readLine();
-            boolean existSuchPlayerId = service.existPlayerId(playerId);
+            Long playerId = Long.valueOf(reader.readLine());
+            boolean existSuchPlayerId = playerService.existPlayerId(playerId);
             if (existSuchPlayerId) {
-                service.deleteGameFromPlayerInAllDb(gameId, playerId);
+                gameService.deleteGameFromPlayer(gameId, playerId);
             } else {
                 System.out.println("Please check and try this menu again.");
             }

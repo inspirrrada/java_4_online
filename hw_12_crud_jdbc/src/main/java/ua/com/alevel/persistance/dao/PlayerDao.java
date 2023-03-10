@@ -1,5 +1,7 @@
 package ua.com.alevel.persistance.dao;
 
+import ua.com.alevel.persistance.dto.GameDto;
+import ua.com.alevel.persistance.dto.PlayerDto;
 import ua.com.alevel.persistance.entity.Player;
 
 import java.util.Collection;
@@ -15,4 +17,5 @@ public interface PlayerDao {
     void updatePlayerNickname(Long id, String nickname);
     boolean deletePlayer(Long id);
     Collection<Player> getPlayersByGame(Long gameId);
+    Collection<PlayerDto> getGamesCountOfAllPlayers();
 }

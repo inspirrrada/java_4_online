@@ -2,6 +2,8 @@ package ua.com.alevel.service.impl;
 
 import ua.com.alevel.annotations.InjectBean;
 import ua.com.alevel.persistance.dao.PlayerDao;
+import ua.com.alevel.persistance.dto.GameDto;
+import ua.com.alevel.persistance.dto.PlayerDto;
 import ua.com.alevel.persistance.entity.Game;
 import ua.com.alevel.persistance.entity.Player;
 import ua.com.alevel.service.PlayerService;
@@ -65,7 +67,13 @@ public class PlayerServiceImpl implements PlayerService {
         return playerDao.getPlayersByGame(gameId);
     }
 
+    @Override
+    public Collection<PlayerDto> getGamesCountOfAllPlayers() {
+        return playerDao.getGamesCountOfAllPlayers();
+    }
+
     //
+    @Override
     public boolean isCorrectAgeFormat(String ageValue) {
         boolean correctAgeFormat;
         //age has to be only from digits
@@ -78,7 +86,7 @@ public class PlayerServiceImpl implements PlayerService {
         return correctAgeFormat;
     }
 
-
+    @Override
     public boolean isAgePermissible(int age) {
         boolean agePermissible;
         if (age < 18) {
@@ -93,7 +101,7 @@ public class PlayerServiceImpl implements PlayerService {
         return agePermissible;
     }
 
-
+    @Override
     public boolean isCorrectNickname(String nickname) {
         boolean correctNickname = true;
         //nickname can't have only digits
@@ -104,7 +112,7 @@ public class PlayerServiceImpl implements PlayerService {
         return correctNickname;
     }
 
-
+    @Override
     public boolean isCorrectEmail(String email) {
         boolean correctEmail;
         if (email.matches("^(.+)@(.+)$")) {
@@ -116,7 +124,7 @@ public class PlayerServiceImpl implements PlayerService {
         return correctEmail;
     }
 
-
+    @Override
     public boolean hasTheSameEmail(String email) {
         boolean hasTheSameEmail = false;
         Collection<Player> allPlayers = getAllPlayers();
@@ -131,6 +139,7 @@ public class PlayerServiceImpl implements PlayerService {
         return hasTheSameEmail;
     }
 
+    @Override
     public boolean hasTheSameNickname(String nickname) {
         boolean hasTheSameNickname = false;
         Collection<Player> allPlayers = getAllPlayers();
@@ -145,6 +154,7 @@ public class PlayerServiceImpl implements PlayerService {
         return hasTheSameNickname;
     }
 
+    @Override
     public boolean existPlayerId(Long playerId) {
         boolean existPlayerId = getPlayerById(playerId) != null;
         if (!existPlayerId) {

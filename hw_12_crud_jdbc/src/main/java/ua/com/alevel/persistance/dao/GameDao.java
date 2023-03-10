@@ -16,6 +16,6 @@ public interface GameDao {
     boolean deleteGame(Long id);
     void addGameToPlayer(Long gameId, Long playerId);
     Collection<Game> getGamesByPlayer(Long playerId);
-    Collection<GameDto> getPlayersCountByGame();
+    Collection<GameDto> getPlayersCountOfAllGames();
     boolean deleteGameFromPlayer(Long gameId, Long playerId);
 }

@@ -3,6 +3,8 @@ package ua.com.alevel.persistance.dao.impl;
 import ua.com.alevel.annotations.InjectBean;
 import ua.com.alevel.persistance.config.JdbcService;
 import ua.com.alevel.persistance.dao.PlayerDao;
+import ua.com.alevel.persistance.dto.GameDto;
+import ua.com.alevel.persistance.dto.PlayerDto;
 import ua.com.alevel.persistance.entity.Game;
 import ua.com.alevel.persistance.entity.Player;
 
@@ -140,5 +142,39 @@ public class PlayerDaoImpl implements PlayerDao {
             e.printStackTrace();
         }
         return allPlayers;
+    }
+
+    @Override
+    public Collection<PlayerDto> getGamesCountOfAllPlayers() {
+        List<PlayerDto> playerDtoList = new ArrayList<>();
+        try(ResultSet resultSet = jdbcService.getStatement().executeQuery(GET_GAMES_COUNT_FOR_EVERY_PLAYER)) {
+            while(resultSet.next()) {
+                playerDtoList.add(generatePlayerDto(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return playerDtoList;
+    }
+
+    private PlayerDto generatePlayerDto(ResultSet resultSet) {
+        try {
+            Long id = resultSet.getLong("id");
+            Timestamp created = resultSet.getTimestamp("created");
+            int age = resultSet.getInt("age");
+            String email = resultSet.getString("email");
+            String nickname = resultSet.getString("nickname");
+            int gamesCount = resultSet.getInt("players_count");
+            Player player = new Player();
+            player.setId(id);
+            player.setCreated(created);
+            player.setAge(age);
+            player.setEmail(email);
+            player.setNickname(nickname);
+            return new PlayerDto(player, gamesCount);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

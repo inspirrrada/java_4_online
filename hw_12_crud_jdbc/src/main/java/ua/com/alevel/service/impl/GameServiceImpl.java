@@ -61,8 +61,8 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Collection<GameDto> getPlayersCountByGame() {
-        return gameDao.getPlayersCountByGame();
+    public Collection<GameDto> getPlayersCountOfAllGames() {
+        return gameDao.getPlayersCountOfAllGames();
     }
 
     @Override
@@ -71,11 +71,6 @@ public class GameServiceImpl implements GameService {
     }
 
     //
-    /**
-     * ------------------------------------
-     * check data
-     */
-
     public boolean hasTheSameGameName(String gameName) {
         boolean hasTheSameGameName = false;
         Collection<Game> allGames = getAllGames();

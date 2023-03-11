@@ -1,16 +1,16 @@
 package ua.com.alevel.service.impl;
 
+import ua.com.alevel.annotations.BeanClass;
 import ua.com.alevel.annotations.InjectBean;
 import ua.com.alevel.persistance.dao.GameDao;
 import ua.com.alevel.persistance.dto.GameDto;
 import ua.com.alevel.persistance.entity.Game;
-import ua.com.alevel.persistance.entity.Player;
 import ua.com.alevel.service.GameService;
 import ua.com.alevel.utils.ColorUtils;
-
 import java.util.Collection;
-import java.util.List;
+import java.util.Optional;
 
+@BeanClass
 public class GameServiceImpl implements GameService {
 
     @InjectBean
@@ -24,8 +24,14 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Game getGameById (Long id) {
-        return gameDao.getGameById(id).get();
+    public Game getGameById(Long id) {
+        Optional<Game> gameOptional = gameDao.getGameById(id);
+        if (!gameOptional.isEmpty()) {
+            return gameOptional.get();
+        } else {
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid id!"));
+            return null;
+        }
     }
 
     @Override
@@ -70,16 +76,15 @@ public class GameServiceImpl implements GameService {
         return gameDao.deleteGameFromPlayer(gameId, playerId);
     }
 
-    //
     public boolean hasTheSameGameName(String gameName) {
         boolean hasTheSameGameName = false;
         Collection<Game> allGames = getAllGames();
         if (allGames != null) {
             for (Game game : allGames) {
-                    if (game.getName().equalsIgnoreCase(gameName)) {
-                        hasTheSameGameName = true;
-                        break;
-                    }
+                if (game.getName().equalsIgnoreCase(gameName)) {
+                    hasTheSameGameName = true;
+                    break;
+                }
             }
         }
         return hasTheSameGameName;
@@ -101,5 +106,10 @@ public class GameServiceImpl implements GameService {
             correctGameName = false;
         }
         return correctGameName;
+    }
+
+    @Override
+    public boolean hasRecordsInGeneralTable(Long gameId, Long playerId) {
+        return gameDao.hasRecordsInGeneralTable(gameId, playerId);
     }
 }

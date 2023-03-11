@@ -2,7 +2,6 @@ package ua.com.alevel.persistance.config;
 
 import ua.com.alevel.annotations.BeanClass;
 import ua.com.alevel.annotations.Value;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -46,6 +45,7 @@ public class JdbcServiceImpl implements JdbcService {
         try {
             Class.forName(driver);
             connection = DriverManager.getConnection(url, username, password);
+            statement = connection.createStatement();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

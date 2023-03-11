@@ -2,12 +2,11 @@ package ua.com.alevel.persistance.dao;
 
 import ua.com.alevel.persistance.dto.GameDto;
 import ua.com.alevel.persistance.entity.Game;
-
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 public interface GameDao {
+
     void addGame(Game game);
     Optional<Game> getGameById(Long id);
     Collection<Game> getAllGames();
@@ -18,4 +17,5 @@ public interface GameDao {
     Collection<Game> getGamesByPlayer(Long playerId);
     Collection<GameDto> getPlayersCountOfAllGames();
     boolean deleteGameFromPlayer(Long gameId, Long playerId);
+    boolean hasRecordsInGeneralTable(Long gameId, Long playerId);
 }

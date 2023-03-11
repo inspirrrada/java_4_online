@@ -1,6 +1,6 @@
 package ua.com.alevel.persistance.entity;
 
-import java.util.HashSet;
+
 import java.util.Set;
 
 public class Player extends BaseEntity {
@@ -42,11 +42,10 @@ public class Player extends BaseEntity {
     public String toString() {
         return "\n{" +
                 "\"id\":" + "\"" + getId() + "\"" +
-                "\"created\":" + "\"" + getCreated() + "\"" +
+                ",a\"created\":" + "\"" + getCreated() + "\"" +
                 ",\"age\":" + age +
                 ",\"email\":" + "\"" + email + "\"" +
                 ",\"nickname\":" + "\"" + nickname + "\"" +
-                ",\"gameIdList\":" + "\"" + games + "\"" +
                 "}";
     }
 }

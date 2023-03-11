@@ -42,10 +42,9 @@ public class Game extends BaseEntity {
     public String toString() {
         return "\n{" +
                 "\"id\":" + "\"" + getId() + "\"" +
-                "\"created\":" + "\"" + getCreated() + "\"" +
+                ",\"created\":" + "\"" + getCreated() + "\"" +
                 ",\"name\":" + "\"" + name + "\"" +
                 ",\"commandGame\":" + "\"" + commandGame + "\"" +
-                ",\"playerIdList\":" + "\"" + players + "\"" +
                 "}";
     }
 }

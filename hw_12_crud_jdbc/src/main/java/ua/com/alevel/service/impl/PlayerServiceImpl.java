@@ -1,17 +1,16 @@
 package ua.com.alevel.service.impl;
 
+import ua.com.alevel.annotations.BeanClass;
 import ua.com.alevel.annotations.InjectBean;
 import ua.com.alevel.persistance.dao.PlayerDao;
-import ua.com.alevel.persistance.dto.GameDto;
 import ua.com.alevel.persistance.dto.PlayerDto;
-import ua.com.alevel.persistance.entity.Game;
 import ua.com.alevel.persistance.entity.Player;
 import ua.com.alevel.service.PlayerService;
 import ua.com.alevel.utils.ColorUtils;
-
 import java.util.Collection;
-import java.util.List;
+import java.util.Optional;
 
+@BeanClass
 public class PlayerServiceImpl implements PlayerService {
 
     @InjectBean
@@ -28,7 +27,13 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player getPlayerById(Long id) {
-        return playerDao.getPlayerById(id).get();
+        Optional<Player> playerOptional = playerDao.getPlayerById(id);
+        if (!playerOptional.isEmpty()) {
+            return playerOptional.get();
+        } else {
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid id!"));
+            return null;
+        }
     }
 
     @Override
@@ -72,7 +77,6 @@ public class PlayerServiceImpl implements PlayerService {
         return playerDao.getGamesCountOfAllPlayers();
     }
 
-    //
     @Override
     public boolean isCorrectAgeFormat(String ageValue) {
         boolean correctAgeFormat;
@@ -130,10 +134,10 @@ public class PlayerServiceImpl implements PlayerService {
         Collection<Player> allPlayers = getAllPlayers();
         if (allPlayers != null) {
             for (Player player : allPlayers) {
-                    if (player.getEmail().equalsIgnoreCase(email)) {
-                        hasTheSameEmail = true;
-                        break;
-                    }
+                if (player.getEmail().equalsIgnoreCase(email)) {
+                    hasTheSameEmail = true;
+                    break;
+                }
             }
         }
         return hasTheSameEmail;
@@ -145,10 +149,10 @@ public class PlayerServiceImpl implements PlayerService {
         Collection<Player> allPlayers = getAllPlayers();
         if (allPlayers != null) {
             for (Player player : allPlayers) {
-                    if (player.getNickname().equalsIgnoreCase(nickname)) {
-                        hasTheSameNickname = true;
-                        break;
-                    }
+                if (player.getNickname().equalsIgnoreCase(nickname)) {
+                    hasTheSameNickname = true;
+                    break;
+                }
             }
         }
         return hasTheSameNickname;

@@ -11,12 +11,11 @@ import ua.com.alevel.persistance.entity.Player;
 import ua.com.alevel.service.GameService;
 import ua.com.alevel.service.PlayerService;
 import ua.com.alevel.utils.ColorUtils;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collection;
-import java.util.List;
+
 
 @Controller
 @BeanClass
@@ -72,8 +71,8 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println("If you want to attach game to player, please enter 11");
         System.out.println("If you want to find all players by game, please enter 12");
         System.out.println("If you want to find all games by player, please enter 13");
-        System.out.println("If you want to find players quantity for game, please enter 14");
-        System.out.println("If you want to find games quantity for player, please enter 15");
+        System.out.println("If you want to find players statistics of all games, please enter 14");
+        System.out.println("If you want to find games statistics of all players, please enter 15");
         System.out.println("If you want to delete game from player, please enter 16");
         System.out.println("--------------------------------------------------------");
 
@@ -479,8 +478,10 @@ public class GamePlayControllerImpl implements GamePlayController {
             System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter player ID"));
             Long playerId = Long.valueOf(reader.readLine());
             boolean existSuchPlayerId = playerService.existPlayerId(playerId);
+            System.out.println();
             if (existSuchPlayerId) {
                 gameService.addGameToPlayer(gameId, playerId);
+                System.out.println(ColorUtils.BLUE_TEXT.format("Congratulations! Game was successfully added to player."));
             }
         } else {
             System.out.println("Please check and try this menu again.");
@@ -495,6 +496,7 @@ public class GamePlayControllerImpl implements GamePlayController {
         boolean existSuchGameId = gameService.existGameId(gameId);
         if (existSuchGameId) {
             Collection<Player> playersList = playerService.getPlayersByGame(gameId);
+            System.out.println();
             if (playersList.isEmpty()) {
                 System.out.println("There are no players in this game");
             } else {
@@ -518,6 +520,7 @@ public class GamePlayControllerImpl implements GamePlayController {
         boolean existSuchPlayerId = playerService.existPlayerId(playerId);
         if (existSuchPlayerId) {
             Collection<Game> gamesList = gameService.getGamesByPlayer(playerId);
+            System.out.println();
             if (gamesList.isEmpty()) {
                 System.out.println("There are no games for this player");
             } else {
@@ -576,7 +579,13 @@ public class GamePlayControllerImpl implements GamePlayController {
             Long playerId = Long.valueOf(reader.readLine());
             boolean existSuchPlayerId = playerService.existPlayerId(playerId);
             if (existSuchPlayerId) {
-                gameService.deleteGameFromPlayer(gameId, playerId);
+                boolean hasPlayerThisGame = gameService.hasRecordsInGeneralTable(gameId, playerId);
+                if (hasPlayerThisGame) {
+                    gameService.deleteGameFromPlayer(gameId, playerId);
+                    System.out.println(ColorUtils.BLUE_TEXT.format("Congratulations! Game was deleted from player."));
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("Can't be deleted, this player doesn't have game with such id!"));
+                }
             } else {
                 System.out.println("Please check and try this menu again.");
             }

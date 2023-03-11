@@ -1,6 +1,5 @@
 package ua.com.alevel.persistance.entity;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public abstract class BaseEntity {

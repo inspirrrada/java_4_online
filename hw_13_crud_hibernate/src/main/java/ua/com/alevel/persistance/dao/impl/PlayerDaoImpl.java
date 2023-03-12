@@ -2,7 +2,6 @@ package ua.com.alevel.persistance.dao.impl;
 
 import ua.com.alevel.annotations.BeanClass;
 import ua.com.alevel.annotations.InjectBean;
-import ua.com.alevel.persistance.config.JdbcService;
 import ua.com.alevel.persistance.dao.PlayerDao;
 import ua.com.alevel.persistance.dto.PlayerDto;
 import ua.com.alevel.persistance.entity.Player;

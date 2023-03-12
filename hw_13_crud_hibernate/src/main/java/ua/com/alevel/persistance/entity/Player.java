@@ -1,17 +1,30 @@
 package ua.com.alevel.persistance.entity;
 
 
+import jakarta.persistence.*;
+
+import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "players")
 public class Player extends BaseEntity {
 
-    private int age;
+    @Column()
+    private Integer age;
+
+    @Column()
     private String email;
+
+    @Column()
     private String nickname;
+
+    @ManyToMany(mappedBy = "players", cascade = CascadeType.ALL)
     private Set<Game> games;
 
     public Player() {
         super();
+        games = new HashSet<>();
     }
 
     public int getAge() {

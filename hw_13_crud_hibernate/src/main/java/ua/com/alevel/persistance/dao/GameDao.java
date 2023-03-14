@@ -6,17 +6,12 @@ import ua.com.alevel.persistance.entity.Game;
 import java.util.Collection;
 import java.util.Optional;
 
-public interface GameDao {
+public interface GameDao extends BaseDao<Game> {
 
-    void addGame(Game game);
-    Optional<Game> getGameById(Long id);
-    Collection<Game> getAllGames();
-    void updateGameName(Long id, String name);
-    void updateGameType(Long id, boolean isCommandGame);
-    boolean deleteGame(Long id);
-    void addGameToPlayer(Long gameId, Long playerId);
-    Collection<Game> getGamesByPlayer(Long playerId);
-    Collection<GameDto> getPlayersCountOfAllGames();
+//    void updateGameName(Long id, String name);
+//    void updateGameType(Long id, boolean isCommandGame);
+    void attachGameToPlayer(Long gameId, Long playerId);
+    Collection<Game> findGamesByPlayer();
+    Collection<GameDto> findGameDto();
     boolean deleteGameFromPlayer(Long gameId, Long playerId);
-    boolean hasRecordsInGeneralTable(Long gameId, Long playerId);
 }

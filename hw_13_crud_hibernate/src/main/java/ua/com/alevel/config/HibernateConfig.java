@@ -6,11 +6,19 @@ import org.hibernate.cfg.Configuration;
 public class HibernateConfig {
 
     private final SessionFactory sessionFactory;
+    private static HibernateConfig instance;
 
-    public HibernateConfig() {
+    private HibernateConfig() {
         Configuration configuration = new org.hibernate.cfg.Configuration();
         configuration.configure("hibernate.cfg.xml");
         sessionFactory = configuration.buildSessionFactory();
+    }
+
+    public static HibernateConfig getInstance() {
+        if (instance == null) {
+            instance = new HibernateConfig();
+        }
+        return instance;
     }
 
     public SessionFactory getSessionFactory() {

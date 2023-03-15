@@ -136,35 +136,4 @@ public class GameDaoImpl implements GameDao {
         }
         return Collections.emptyList();
     }
-
-    @Override
-    public void attachGameToPlayer(Long gameId, Long playerId) {
-    }
-
-    @Override
-    public boolean deleteGameFromPlayer(Long gameId, Long playerId) {
-//        try (PreparedStatement preparedStatement = jdbcService.getConnection().prepareStatement(DELETE_PLAYER_FROM_GAME)) {
-//            preparedStatement.setLong(1, gameId);
-//            preparedStatement.setLong(2, playerId);
-//            preparedStatement.executeUpdate();
-//            return true;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        return false;
-    }
-//
-//
-//    public boolean hasRecordsInGeneralTable(Long gameId, Long playerId) {
-//        boolean hasRecords = false;
-//        try (ResultSet resultSet = jdbcService.getStatement().executeQuery(GET_INFO_FROM_GAMES_PLAYERS_TABLE.replaceFirst("'game_id'", String.valueOf(gameId)).replaceFirst("'player_id'", String.valueOf(playerId)))) {
-//            if (resultSet.next()) {
-//                hasRecords = true;
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return hasRecords;
-//    }
-
 }

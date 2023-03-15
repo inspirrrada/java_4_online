@@ -2,7 +2,7 @@ package ua.com.alevel.service.impl;
 
 import ua.com.alevel.annotations.BeanClass;
 import ua.com.alevel.annotations.InjectBean;
-import ua.com.alevel.persistance.dao.GameDao;
+import ua.com.alevel.dao.GameDao;
 import ua.com.alevel.persistance.dto.GameDto;
 import ua.com.alevel.persistance.entity.Game;
 import ua.com.alevel.service.GameService;

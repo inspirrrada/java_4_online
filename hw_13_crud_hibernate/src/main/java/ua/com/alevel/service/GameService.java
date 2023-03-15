@@ -6,7 +6,8 @@ import ua.com.alevel.persistance.entity.Game;
 import java.util.Collection;
 
 
-public interface GameService {
+public interface
+GameService {
 
     void addGame(Game game);
     Game getGameById(Long id);

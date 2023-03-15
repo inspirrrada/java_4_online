@@ -1,20 +1,16 @@
-package ua.com.alevel.persistance.dao.impl;
+package ua.com.alevel.dao.impl;
 
 import jakarta.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import ua.com.alevel.annotations.BeanClass;
-import ua.com.alevel.annotations.InjectBean;
+import org.hibernate.query.NativeQuery;
 import ua.com.alevel.config.HibernateConfig;
-import ua.com.alevel.persistance.dao.GameDao;
+import ua.com.alevel.dao.GameDao;
 import ua.com.alevel.persistance.dto.GameDto;
 import ua.com.alevel.persistance.entity.Game;
+import ua.com.alevel.persistance.entity.Player;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.*;
 
 public class GameDaoImpl implements GameDao {
@@ -103,90 +99,48 @@ public class GameDaoImpl implements GameDao {
         return Collections.emptyList();
     }
 
-
-//    private Game generateGameByResultSet(ResultSet resultSet) throws SQLException {
-//        Long id = resultSet.getLong("id");
-//        Date created = new Date(resultSet.getTimestamp("created").getTime());
-//        String gameName = resultSet.getString("name");
-//        boolean commandType = resultSet.getBoolean("command_type");
-//        Game game = new Game();
-//        game.setId(id);
-//        game.setCreated(created);
-//        game.setName(gameName);
-//        game.setCommandGame(commandType);
-//        return game;
-//    }
-//
-//
-//
     @Override
-    public void attachGameToPlayer(Long gameId, Long playerId) {
-
-    }
-
-    @Override
-    public Collection<Game> findGamesByPlayer() {
-        return null;
+    public Collection<Game> findGamesByPlayer(Long playerId) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from Player left join Player.games where Player.id = " + playerId);
+            Collection<Game> gameList = query.getResultList();
+            transaction.commit();
+            return gameList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
+        return Collections.emptyList();
     }
 
     @Override
     public Collection<GameDto> findGameDto() {
-        return null;
+        Transaction transaction = null;
+        try (Session session = sessionFactory.getCurrentSession()) {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery(
+                    "select new ua.com.alevel.persistance.dto.GameDto(Game, Game.id) from Game " +
+                    "left join Game.players group by Game.id");
+            Collection<GameDto> dtoList = query.getResultList();
+            transaction.commit();
+            return dtoList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
+        return Collections.emptyList();
     }
-//
-//
-//
-//    public void addGameToPlayer(Long gameId, Long playerId) {
-//        try (PreparedStatement preparedStatement = jdbcService.getConnection().prepareStatement(ADD_PLAYER_TO_GAME)) {
-//            preparedStatement.setLong(1, gameId);
-//            preparedStatement.setLong(2, playerId);
-//            preparedStatement.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//
-//    public Collection<Game> getGamesByPlayer(Long playerId) {
-//        Set<Game> allGames = new HashSet<>();
-//        try (ResultSet resultSet = jdbcService.getStatement().executeQuery(GET_ALL_GAMES_OF_PLAYER + playerId)) {
-//            while (resultSet.next()) {
-//                allGames.add(generateGameByResultSet(resultSet));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return allGames;
-//    }
-//
-//
-//    public Collection<GameDto> getPlayersCountOfAllGames() {
-//        List<GameDto> gameDtoList = new ArrayList<>();
-//        try (ResultSet resultSet = jdbcService.getStatement().executeQuery(GET_PLAYERS_COUNT_FOR_EVERY_GAME)) {
-//            while (resultSet.next()) {
-//                gameDtoList.add(generateGameDto(resultSet));
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return gameDtoList;
-//    }
-//
-//    private GameDto generateGameDto(ResultSet resultSet) {
-//        try {
-//            Long id = resultSet.getLong("id");
-//            String gameName = resultSet.getString("name");
-//            int playersCount = resultSet.getInt("players_count");
-//            Game game = new Game();
-//            game.setId(id);
-//            game.setName(gameName);
-//            return new GameDto(game, playersCount);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-//
+
+    @Override
+    public void attachGameToPlayer(Long gameId, Long playerId) {
+    }
+
     @Override
     public boolean deleteGameFromPlayer(Long gameId, Long playerId) {
 //        try (PreparedStatement preparedStatement = jdbcService.getConnection().prepareStatement(DELETE_PLAYER_FROM_GAME)) {

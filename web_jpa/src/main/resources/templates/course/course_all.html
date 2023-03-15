@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>All courses</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="cart mt-3">
+        <div class="card-header">
+            All courses
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Direction</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Show info</th>
+                    <th scope="col">Show students</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="course : ${courses}">
+                    <td th:text="${course.courseType}"/>
+                    <td th:text="${course.name}"/>
+                    <td th:text="${course.durationInMonths}"/>
+                    <td>
+                        <a type="button" class="btn btn-primary" th:href="@{'/courses/' + ${course.id}}">info</a>
+                    </td>
+                    <td>
+                        <a type="button" class="btn btn-primary" th:href="@{'/courses/' + ${course.id} + '/students'}">students</a>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

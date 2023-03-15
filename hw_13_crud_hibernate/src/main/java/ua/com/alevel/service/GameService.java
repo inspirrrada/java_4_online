@@ -6,21 +6,10 @@ import ua.com.alevel.persistance.entity.Game;
 import java.util.Collection;
 
 
-public interface
-GameService {
+public interface GameService extends BaseService<Game> {
 
-    void addGame(Game game);
-    Game getGameById(Long id);
-    Collection<Game> getAllGames();
-    void updateGameName(Long id, String name);
-    void updateGameType(Long id, boolean isCommandGame);
-    boolean deleteGame(Long id);
-    void addGameToPlayer(Long gameId, Long playerId);
-    Collection<Game> getGamesByPlayer(Long playerId);
-    Collection<GameDto> getPlayersCountOfAllGames();
+    Collection<Game> findGamesByPlayer(Long playerId);
+    Collection<GameDto> findGameDto();
+    void attachGameToPlayer(Long gameId, Long playerId);
     boolean deleteGameFromPlayer(Long gameId, Long playerId);
-    boolean hasTheSameGameName(String gameName);
-    boolean existGameId(Long gameId);
-    boolean isCorrectGameName(String gameName);
-    boolean hasRecordsInGeneralTable(Long gameId, Long playerId);
 }

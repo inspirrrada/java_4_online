@@ -7,8 +7,6 @@ import java.util.Collection;
 
 public interface GameDao extends BaseDao<Game> {
 
-    void attachGameToPlayer(Long gameId, Long playerId);
     Collection<Game> findGamesByPlayer(Long playerId);
     Collection<GameDto> findGameDto();
-    boolean deleteGameFromPlayer(Long gameId, Long playerId);
 }

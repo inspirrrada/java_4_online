@@ -51,6 +51,18 @@ public class Player extends BaseEntity {
         this.nickname = nickname;
     }
 
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Set<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(Set<Game> games) {
+        this.games = games;
+    }
+
     @Override
     public String toString() {
         return "\n{" +

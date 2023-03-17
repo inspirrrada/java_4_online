@@ -6,11 +6,13 @@ import ua.com.alevel.dao.GameDao;
 import ua.com.alevel.dao.PlayerDao;
 import ua.com.alevel.persistance.dto.GameDto;
 import ua.com.alevel.persistance.entity.Game;
+import ua.com.alevel.persistance.entity.Player;
 import ua.com.alevel.service.GameService;
 import ua.com.alevel.utils.ColorUtils;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 
 public class GameServiceImpl implements GameService {
 
@@ -48,40 +50,37 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public Collection<Game> findGamesByPlayer(Long playerId) {
-        return null;
+        return gameDao.findGamesByPlayer(playerId);
     }
 
     @Override
     public Collection<GameDto> findGameDto() {
-        return null;
+        return gameDao.findGameDto();
     }
 
     @Override
     public void attachGameToPlayer(Long gameId, Long playerId) {
-
+        Game game = gameDao.findById(gameId).get();
+        Player player = playerDao.findById(playerId).get();
+        Set<Player> players = game.getPlayers();
+        players.add(player);
+        gameDao.update(game);
+        Set<Game> games = player.getGames();
+        games.add(game);
+        playerDao.update(player);
     }
 
     @Override
-    public boolean deleteGameFromPlayer(Long gameId, Long playerId) {
-        return false;
-//        return gameDao.deleteGameFromPlayer(gameId, playerId);
+    public void deleteGameFromPlayer(Long gameId, Long playerId) {
+        Game game = gameDao.findById(gameId).get();
+        Player player = playerDao.findById(playerId).get();
+        Set<Player> players = game.getPlayers();
+        players.remove(player);
+        gameDao.update(game);
+        Set<Game> games = player.getGames();
+        games.remove(game);
+        playerDao.update(player);
     }
-
-
-
-//    public void addGameToPlayer(Long gameId, Long playerId) {
-//        gameDao.addGameToPlayer(gameId, playerId);
-//    }
-//
-//    public Collection<Game> getGamesByPlayer(Long playerId) {
-//        return gameDao.getGamesByPlayer(playerId);
-//    }
-//
-//    public Collection<GameDto> getPlayersCountOfAllGames() {
-//        return gameDao.getPlayersCountOfAllGames();
-//    }
-
-
 
     public boolean hasTheSameGameName(String gameName) {
         boolean hasTheSameGameName = false;
@@ -114,10 +113,4 @@ public class GameServiceImpl implements GameService {
         }
         return correctGameName;
     }
-
-//    public boolean hasRecordsInGeneralTable(Long gameId, Long playerId) {
-//        return gameDao.hasRecordsInGeneralTable(gameId, playerId);
-//    }
-
-
 }

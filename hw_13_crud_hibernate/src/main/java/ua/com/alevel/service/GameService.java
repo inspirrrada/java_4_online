@@ -11,5 +11,5 @@ public interface GameService extends BaseService<Game> {
     Collection<Game> findGamesByPlayer(Long playerId);
     Collection<GameDto> findGameDto();
     void attachGameToPlayer(Long gameId, Long playerId);
-    boolean deleteGameFromPlayer(Long gameId, Long playerId);
+    void deleteGameFromPlayer(Long gameId, Long playerId);
 }

@@ -8,6 +8,6 @@ public interface BaseService<E> {
     void create(E entity);
     void update(E entity);
     void delete(E entity);
-    Optional<E> findById(Long id);
+    E findById(Long id);
     Collection<E> findAll();
 }

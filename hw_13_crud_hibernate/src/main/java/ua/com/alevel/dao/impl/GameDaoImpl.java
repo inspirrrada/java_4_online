@@ -60,7 +60,6 @@ public class GameDaoImpl implements GameDao {
                 transaction.rollback();
             }
         }
-
     }
 
     @Override

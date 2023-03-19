@@ -2,8 +2,6 @@ package ua.com.alevel.service;
 
 import ua.com.alevel.persistance.dto.PlayerDto;
 import ua.com.alevel.persistance.entity.Player;
-import ua.com.alevel.utils.ColorUtils;
-
 import java.util.Collection;
 
 

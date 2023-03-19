@@ -1,7 +1,6 @@
 package ua.com.alevel.service;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public interface BaseService<E> {
 

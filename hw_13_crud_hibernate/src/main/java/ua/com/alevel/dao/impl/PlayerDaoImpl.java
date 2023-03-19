@@ -6,11 +6,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import ua.com.alevel.config.HibernateConfig;
 import ua.com.alevel.dao.PlayerDao;
-import ua.com.alevel.persistance.dto.GameDto;
 import ua.com.alevel.persistance.dto.PlayerDto;
-import ua.com.alevel.persistance.entity.Game;
 import ua.com.alevel.persistance.entity.Player;
-
 import java.util.*;
 
 public class PlayerDaoImpl implements PlayerDao {
@@ -140,23 +137,5 @@ public class PlayerDaoImpl implements PlayerDao {
             }
             return dtoList;
         }
-//
-//
-//        Transaction transaction = null;
-//        try (Session session = sessionFactory.getCurrentSession()) {
-//            transaction = session.beginTransaction();
-//            Query query = session.createQuery(
-//                    "select new ua.com.alevel.persistance.dto.PlayerDto(p, p.games.size) from Player p " +
-//                            "left join p.games group by p.id");
-//            Collection<PlayerDto> dtoList = query.getResultList();
-//            transaction.commit();
-//            return dtoList;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            if (transaction != null) {
-//                transaction.rollback();
-//            }
-//        }
-//        return Collections.emptyList();
     }
 }

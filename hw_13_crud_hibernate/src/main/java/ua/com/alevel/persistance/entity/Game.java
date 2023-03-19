@@ -1,7 +1,6 @@
 package ua.com.alevel.persistance.entity;
 
 import jakarta.persistence.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +20,7 @@ public class Game extends BaseEntity {
             joinColumns = @JoinColumn(name = "game_id"),
             inverseJoinColumns = @JoinColumn(name = "player_id")
     )
+
     private Set<Player> players;
 
     public Game() {

@@ -9,7 +9,6 @@ import ua.com.alevel.persistance.entity.Game;
 import ua.com.alevel.persistance.entity.Player;
 import ua.com.alevel.service.PlayerService;
 import ua.com.alevel.utils.ColorUtils;
-
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -18,7 +17,6 @@ public class PlayerServiceImpl implements PlayerService {
 
     private PlayerDao playerDao = new PlayerDaoImpl();
     private GameDao gameDao = new GameDaoImpl();
-
 
     @Override
     public void create(Player player) {
@@ -51,16 +49,6 @@ public class PlayerServiceImpl implements PlayerService {
                 }
             }
         }
-//        Game game = gameDao.findById(gameId).get();
-//        Player player = playerDao.findById(playerId).get();
-//
-//        players.remove(player);
-//        gameDao.update(game);
-//        Set<Game> games = player.getGames();
-//        games.remove(game);
-//        playerDao.update(player);
-
-//        return true;
         return playerDao.delete(player);
     }
 

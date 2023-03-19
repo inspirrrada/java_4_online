@@ -1,8 +1,5 @@
 package ua.com.alevel.service.impl;
 
-import jakarta.persistence.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import ua.com.alevel.dao.GameDao;
 import ua.com.alevel.dao.PlayerDao;
 import ua.com.alevel.dao.impl.GameDaoImpl;
@@ -12,8 +9,6 @@ import ua.com.alevel.persistance.entity.Game;
 import ua.com.alevel.persistance.entity.Player;
 import ua.com.alevel.service.GameService;
 import ua.com.alevel.utils.ColorUtils;
-
-import java.awt.*;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -92,15 +87,6 @@ public class GameServiceImpl implements GameService {
     public void deleteGameFromPlayer(Long gameId, Long playerId) {
         Game game = gameDao.findById(gameId).get();
         Player player = playerDao.findById(playerId).get();
-
-//
-//
-//        Set<Student> students = groupDao.findSetStudents(id);
-//        for (Student student : students) {
-//            studentDao.delete(student.getId());
-//        }
-//        groupDao.delete(id);
-
         Set<Player> playerSet = game.getPlayers();
         for (Player player1 : playerSet) {
             if (player1.getId().equals(player.getId())) {
@@ -108,12 +94,6 @@ public class GameServiceImpl implements GameService {
                 gameDao.update(game);
             }
         }
-//        Set<Player> players = game.getPlayers();
-//        players.remove(player);
-//        gameDao.update(game);
-//        Set<Game> games = player.getGames();
-//        games.remove(game);
-//        playerDao.update(player);
     }
 
     public boolean hasTheSameGameName(String gameName) {

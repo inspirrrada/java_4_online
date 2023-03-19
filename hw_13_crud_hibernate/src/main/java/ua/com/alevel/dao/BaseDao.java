@@ -1,7 +1,6 @@
 package ua.com.alevel.dao;
 
 import ua.com.alevel.persistance.entity.BaseEntity;
-
 import java.util.Collection;
 import java.util.Optional;
 

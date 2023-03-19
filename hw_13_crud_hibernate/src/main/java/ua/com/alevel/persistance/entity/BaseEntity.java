@@ -1,7 +1,6 @@
 package ua.com.alevel.persistance.entity;
 
 import jakarta.persistence.*;
-
 import java.util.Date;
 
 @MappedSuperclass

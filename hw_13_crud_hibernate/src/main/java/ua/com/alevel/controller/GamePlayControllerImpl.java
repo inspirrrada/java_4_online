@@ -9,7 +9,6 @@ import ua.com.alevel.service.PlayerService;
 import ua.com.alevel.service.impl.GameServiceImpl;
 import ua.com.alevel.service.impl.PlayerServiceImpl;
 import ua.com.alevel.utils.ColorUtils;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -41,36 +40,35 @@ public class GamePlayControllerImpl implements GamePlayController {
             System.out.println("Oops...Something went wrong:( Please try again later.");
             e.printStackTrace();
         }
-
     }
 
     private void menu() {
         System.out.println();
-        System.out.println("========================================================");
-        System.out.println("If you want to create new player, please enter 1");
-        System.out.println("If you want to find player, please enter 2");
-        System.out.println("If you want to update player, please enter 3");
-        System.out.println("If you want to delete player, please enter 4");
-        System.out.println("If you want to find all players, please enter 5");
-        System.out.println("--------------------------------------------------------");
+        System.out.println(" =====================================================================");
+        System.out.println("| If you want to create new player, please enter 1                     |");
+        System.out.println("| If you want to find player, please enter 2                           |");
+        System.out.println("| If you want to update player, please enter 3                         |");
+        System.out.println("| If you want to delete player, please enter 4                         |");
+        System.out.println("| If you want to find all players, please enter 5                      |");
+        System.out.println(" ---------------------------------------------------------------------");
 
-        System.out.println("If you want to enter new game, please enter 6");
-        System.out.println("If you want to find game, please enter 7");
-        System.out.println("If you want to update game, please enter 8");
-        System.out.println("If you want to delete game, please enter 9");
-        System.out.println("If you want to find all games, please enter 10");
-        System.out.println("--------------------------------------------------------");
+        System.out.println("| If you want to enter new game, please enter 6                        |");
+        System.out.println("| If you want to find game, please enter 7                             |");
+        System.out.println("| If you want to update game, please enter 8                           |");
+        System.out.println("| If you want to delete game, please enter 9                           |");
+        System.out.println("| If you want to find all games, please enter 10                       |");
+        System.out.println(" ---------------------------------------------------------------------");
 
-        System.out.println("If you want to attach game to player, please enter 11");
-        System.out.println("If you want to find all players by game, please enter 12");
-        System.out.println("If you want to find all games by player, please enter 13");
-        System.out.println("If you want to find players statistics of all games, please enter 14");
-        System.out.println("If you want to find games statistics of all players, please enter 15");
-        System.out.println("If you want to delete game from player, please enter 16");
-        System.out.println("--------------------------------------------------------");
+        System.out.println("| If you want to attach game to player, please enter 11                |");
+        System.out.println("| If you want to find all players by game, please enter 12             |");
+        System.out.println("| If you want to find all games by player, please enter 13             |");
+        System.out.println("| If you want to find players statistics of all games, please enter 14 |");
+        System.out.println("| If you want to find games statistics of all players, please enter 15 |");
+        System.out.println("| If you want to delete game from player, please enter 16");
+        System.out.println(" ----------------------------------------------------------------------");
 
-        System.out.println("If you want to close application, please enter 17");
-        System.out.println("========================================================");
+        System.out.println("| If you want to close application, please enter 17                    |");
+        System.out.println(" ======================================================================");
         System.out.println();
     }
 
@@ -273,7 +271,6 @@ public class GamePlayControllerImpl implements GamePlayController {
         } catch (NumberFormatException e) {
             System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
         }
-
     }
 
     private void deletePlayer(BufferedReader reader) throws IOException {
@@ -296,7 +293,6 @@ public class GamePlayControllerImpl implements GamePlayController {
         } catch (NumberFormatException e) {
             System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
         }
-
     }
 
     private void findAllPlayers() {
@@ -359,7 +355,6 @@ public class GamePlayControllerImpl implements GamePlayController {
         game.setCommandGame(isCommandGame);
         gameService.create(game);
         System.out.println(ColorUtils.BLUE_TEXT.format("\nCongratulations! Your game was recorded."));
-
     }
 
     private void findGameById(BufferedReader reader) throws IOException {
@@ -592,7 +587,6 @@ public class GamePlayControllerImpl implements GamePlayController {
         } else {
             int count = 1;
             System.out.println("Games statistics: ");
-            //System.out.println(ColorUtils.YELLOW_TEXT.format(gameStatistics.toString()));
             for (GameDto gameDto : gameStatistics) {
                 if (gameDto != null) {
                     System.out.println(ColorUtils.YELLOW_TEXT.format(count + ". " + ((GameDto) gameDto).toString()));
@@ -631,13 +625,8 @@ public class GamePlayControllerImpl implements GamePlayController {
                     Long playerId = Long.valueOf(reader.readLine());
                     boolean existSuchPlayerId = playerService.existPlayerId(playerId);
                     if (existSuchPlayerId) {
-//                boolean hasPlayerThisGame = gameService.hasRecordsInGeneralTable(gameId, playerId);
-//                if (hasPlayerThisGame) { //TODO
                         gameService.deleteGameFromPlayer(gameId, playerId);
                         System.out.println(ColorUtils.BLUE_TEXT.format("Congratulations! Game was deleted from player."));
-//                } else {
-//                    System.out.println(ColorUtils.RED_TEXT.format("Can't be deleted, this player doesn't have game with such id!"));
-//                }
                     } else {
                         System.out.println("Please check and try this menu again.");
                     }
@@ -650,8 +639,6 @@ public class GamePlayControllerImpl implements GamePlayController {
         } catch (NumberFormatException e) {
             System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
         }
-
-
     }
 
     public boolean isCorrectAgeFormat(String ageValue) {

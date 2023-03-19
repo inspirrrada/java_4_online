@@ -53,12 +53,23 @@ public class Game extends BaseEntity {
     }
 
     @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "\n{" +
                 "\"id\":" + "\"" + getId() + "\"" +
-                ",\"created\":" + "\"" + getCreated() + "\"" +
-                ",\"name\":" + "\"" + name + "\"" +
-                ",\"commandGame\":" + "\"" + commandGame + "\"" +
+                ", \"created\":" + "\"" + getCreated() + "\"" +
+                ", \"name\":" + "\"" + name + "\"" +
+                ", \"commandGame\":" + "\"" + commandGame + "\"" +
+                ", \"players qty\":" + "\"" + players.size() + "\"" +
                 "}";
     }
 }

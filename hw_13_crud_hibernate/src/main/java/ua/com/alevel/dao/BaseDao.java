@@ -9,7 +9,7 @@ public interface BaseDao<E extends BaseEntity> {
 
     void create(E entity);
     void update(E entity);
-    void delete(E entity);
+    boolean delete(E entity);
     Optional<E> findById(Long id);
     Collection<E> findAll();
 }

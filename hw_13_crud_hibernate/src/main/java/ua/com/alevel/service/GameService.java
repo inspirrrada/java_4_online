@@ -2,6 +2,7 @@ package ua.com.alevel.service;
 
 import ua.com.alevel.persistance.dto.GameDto;
 import ua.com.alevel.persistance.entity.Game;
+import ua.com.alevel.utils.ColorUtils;
 
 import java.util.Collection;
 
@@ -12,4 +13,8 @@ public interface GameService extends BaseService<Game> {
     Collection<GameDto> findGameDto();
     void attachGameToPlayer(Long gameId, Long playerId);
     void deleteGameFromPlayer(Long gameId, Long playerId);
+    boolean hasTheSameGameName(String gameName);
+    boolean isCorrectGameName(String gameName);
+    boolean existGameId(Long gameId);
+    boolean alreadyAttached(Long gameId, Long playerId);
 }

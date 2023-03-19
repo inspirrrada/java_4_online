@@ -1,21 +1,24 @@
 package ua.com.alevel.service.impl;
 
-import ua.com.alevel.annotations.BeanClass;
-import ua.com.alevel.annotations.InjectBean;
+import ua.com.alevel.dao.GameDao;
 import ua.com.alevel.dao.PlayerDao;
+import ua.com.alevel.dao.impl.GameDaoImpl;
+import ua.com.alevel.dao.impl.PlayerDaoImpl;
 import ua.com.alevel.persistance.dto.PlayerDto;
+import ua.com.alevel.persistance.entity.Game;
 import ua.com.alevel.persistance.entity.Player;
 import ua.com.alevel.service.PlayerService;
 import ua.com.alevel.utils.ColorUtils;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 
-@BeanClass
 public class PlayerServiceImpl implements PlayerService {
 
-    @InjectBean
-    private PlayerDao playerDao;
+    private PlayerDao playerDao = new PlayerDaoImpl();
+    private GameDao gameDao = new GameDaoImpl();
+
 
     @Override
     public void create(Player player) {
@@ -28,21 +31,46 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public void update(Player player) {
-        if (isAgePermissible(player.getAge()) &&
-                isCorrectEmail(player.getEmail()) && !hasTheSameEmail(player.getEmail()) &&
-                isCorrectNickname(player.getNickname()) && !hasTheSameNickname(player.getNickname())) {
+        if (isAgePermissible(player.getAge()) ||
+                (isCorrectEmail(player.getEmail()) && !hasTheSameEmail(player.getEmail())) ||
+                (isCorrectNickname(player.getNickname()) && !hasTheSameNickname(player.getNickname()))) {
             playerDao.update(player);
         }
     }
 
     @Override
-    public void delete(Player player) {
-        playerDao.delete(player);
+    public boolean delete(Player player) {
+        Set<Game> games = player.getGames();
+        for (Game game : games) {
+            Set<Player> players = game.getPlayers();
+            for (Player playerCurrent : players) {
+                if (playerCurrent.getId().equals(player.getId())) {
+                    players.remove(player);
+                    gameDao.update(game);
+                    break;
+                }
+            }
+        }
+//        Game game = gameDao.findById(gameId).get();
+//        Player player = playerDao.findById(playerId).get();
+//
+//        players.remove(player);
+//        gameDao.update(game);
+//        Set<Game> games = player.getGames();
+//        games.remove(game);
+//        playerDao.update(player);
+
+//        return true;
+        return playerDao.delete(player);
     }
 
     @Override
     public Player findById(Long id) {
-        return playerDao.findById(id).get();
+        Optional<Player> playerOptional = playerDao.findById(id);
+        if (playerOptional.isPresent()) {
+            return playerDao.findById(id).get();
+        }
+        return null;
     }
 
     @Override
@@ -58,18 +86,6 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Collection<PlayerDto> findPlayerDto() {
         return playerDao.findPlayerDto();
-    }
-
-    public boolean isCorrectAgeFormat(String ageValue) {
-        boolean correctAgeFormat;
-        //age has to be only from digits
-        if (ageValue.matches("\\d+")) {
-            correctAgeFormat = true;
-        } else {
-            System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Please enter number NOT string!"));
-            correctAgeFormat = false;
-        }
-        return correctAgeFormat;
     }
 
     public boolean isAgePermissible(int age) {

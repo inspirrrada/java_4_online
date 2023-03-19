@@ -7,7 +7,7 @@ public interface BaseService<E> {
 
     void create(E entity);
     void update(E entity);
-    void delete(E entity);
+    boolean delete(E entity);
     E findById(Long id);
     Collection<E> findAll();
 }

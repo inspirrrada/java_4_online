@@ -1,23 +1,27 @@
 package ua.com.alevel.service.impl;
 
-import ua.com.alevel.annotations.BeanClass;
-import ua.com.alevel.annotations.InjectBean;
+import jakarta.persistence.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import ua.com.alevel.dao.GameDao;
 import ua.com.alevel.dao.PlayerDao;
+import ua.com.alevel.dao.impl.GameDaoImpl;
+import ua.com.alevel.dao.impl.PlayerDaoImpl;
 import ua.com.alevel.persistance.dto.GameDto;
 import ua.com.alevel.persistance.entity.Game;
 import ua.com.alevel.persistance.entity.Player;
 import ua.com.alevel.service.GameService;
 import ua.com.alevel.utils.ColorUtils;
 
+import java.awt.*;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 
 public class GameServiceImpl implements GameService {
 
-    private GameDao gameDao;
-    private PlayerDao playerDao;
+    private GameDao gameDao = new GameDaoImpl();
+    private PlayerDao playerDao = new PlayerDaoImpl();
 
     @Override
     public void create(Game game) {
@@ -34,13 +38,17 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void delete(Game game) {
-        gameDao.delete(game);
+    public boolean delete(Game game) {
+        return gameDao.delete(game);
     }
 
     @Override
     public Game findById(Long id) {
-        return gameDao.findById(id).get();
+        Optional<Game> gameOptional = gameDao.findById(id);
+        if (gameOptional.isPresent()) {
+            return gameDao.findById(id).get();
+        }
+        return null;
     }
 
     @Override
@@ -65,21 +73,47 @@ public class GameServiceImpl implements GameService {
         Set<Player> players = game.getPlayers();
         players.add(player);
         gameDao.update(game);
-        Set<Game> games = player.getGames();
-        games.add(game);
-        playerDao.update(player);
+    }
+
+    @Override
+    public boolean alreadyAttached(Long gameId, Long playerId) {
+        Game game = gameDao.findById(gameId).get();
+        Player player = playerDao.findById(playerId).get();
+        Set<Player> players = game.getPlayers();
+        for (Player player1 : players) {
+            if (player1.getId().equals(player.getId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public void deleteGameFromPlayer(Long gameId, Long playerId) {
         Game game = gameDao.findById(gameId).get();
         Player player = playerDao.findById(playerId).get();
-        Set<Player> players = game.getPlayers();
-        players.remove(player);
-        gameDao.update(game);
-        Set<Game> games = player.getGames();
-        games.remove(game);
-        playerDao.update(player);
+
+//
+//
+//        Set<Student> students = groupDao.findSetStudents(id);
+//        for (Student student : students) {
+//            studentDao.delete(student.getId());
+//        }
+//        groupDao.delete(id);
+
+        Set<Player> playerSet = game.getPlayers();
+        for (Player player1 : playerSet) {
+            if (player1.getId().equals(player.getId())) {
+                playerSet.remove(player1);
+                gameDao.update(game);
+            }
+        }
+//        Set<Player> players = game.getPlayers();
+//        players.remove(player);
+//        gameDao.update(game);
+//        Set<Game> games = player.getGames();
+//        games.remove(game);
+//        playerDao.update(player);
     }
 
     public boolean hasTheSameGameName(String gameName) {
@@ -96,14 +130,6 @@ public class GameServiceImpl implements GameService {
         return hasTheSameGameName;
     }
 
-    public boolean existGameId(Long gameId) {
-        boolean existGameId = findById(gameId) != null;
-        if (!existGameId) {
-            System.out.println(ColorUtils.RED_TEXT.format("We can't find game with such id!"));
-        }
-        return existGameId;
-    }
-
     public boolean isCorrectGameName(String gameName) {
         boolean correctGameName = true;
         //name of game can't have only digits
@@ -112,5 +138,13 @@ public class GameServiceImpl implements GameService {
             correctGameName = false;
         }
         return correctGameName;
+    }
+
+    public boolean existGameId(Long gameId) {
+        boolean existGameId = findById(gameId) != null;
+        if (!existGameId) {
+            System.out.println(ColorUtils.RED_TEXT.format("We can't find game with such id!"));
+        }
+        return existGameId;
     }
 }

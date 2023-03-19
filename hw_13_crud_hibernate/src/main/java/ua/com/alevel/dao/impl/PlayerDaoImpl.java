@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import ua.com.alevel.config.HibernateConfig;
 import ua.com.alevel.dao.PlayerDao;
+import ua.com.alevel.persistance.dto.GameDto;
 import ua.com.alevel.persistance.dto.PlayerDto;
 import ua.com.alevel.persistance.entity.Game;
 import ua.com.alevel.persistance.entity.Player;
@@ -47,18 +48,24 @@ public class PlayerDaoImpl implements PlayerDao {
     }
 
     @Override
-    public void delete(Player player) {
+    public boolean delete(Player player) {
+        boolean successfullyDeleted;
         Transaction transaction = null;
         try (Session session = sessionFactory.getCurrentSession()) {
             transaction = session.beginTransaction();
-            session.delete(player);
+            Query query = session.createQuery("delete from Player p where p.id = :id ")
+                    .setParameter("id", player.getId());
+            query.executeUpdate();
             transaction.commit();
+            successfullyDeleted = true;
         } catch (Exception e) {
             e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
+            successfullyDeleted = false;
         }
+        return successfullyDeleted;
     }
 
     @Override
@@ -66,10 +73,17 @@ public class PlayerDaoImpl implements PlayerDao {
         Transaction transaction = null;
         try (Session session = sessionFactory.getCurrentSession()) {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from Player where Player.id = :id");
-            Player player = (Player) query.getResultList().get(0);
-            transaction.commit();
-            return Optional.of(player);
+            Query query = session.createQuery("from Player p where p.id = :id")
+                    .setParameter("id", id);
+            Player player;
+            if (query.getResultList().size() > 0) {
+                player = (Player) query.getResultList().get(0);
+                transaction.commit();
+                return Optional.of(player);
+            } else {
+                transaction.commit();
+                return Optional.empty();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             if (transaction != null) {
@@ -99,7 +113,8 @@ public class PlayerDaoImpl implements PlayerDao {
         Transaction transaction = null;
         try (Session session = sessionFactory.getCurrentSession()) {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from Game left join Game.players where Game.id = " + gameId);
+            Query query = session.createQuery("select g.players from Game g where g.id = :gameId")
+                    .setParameter("gameId", gameId);
             Collection<Player> playerList = query.getResultList();
             transaction.commit();
             return playerList;
@@ -114,21 +129,34 @@ public class PlayerDaoImpl implements PlayerDao {
 
     @Override
     public Collection<PlayerDto> findPlayerDto() {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.getCurrentSession()) {
-            transaction = session.beginTransaction();
-            Query query = session.createQuery(
-                    "select new ua.com.alevel.persistance.dto.PlayerDto(Player, count (Player .id)) from Player " +
-                            "left join Player.games group by Player.id");
-            Collection<PlayerDto> dtoList = query.getResultList();
-            transaction.commit();
-            return dtoList;
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (transaction != null) {
-                transaction.rollback();
+        Collection<Player> players = findAll();
+        Collection<PlayerDto> dtoList = new ArrayList<>();
+        if (players.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            for (Player player : players) {
+                PlayerDto dto = new PlayerDto(player, player.getGames().size());
+                dtoList.add(dto);
             }
+            return dtoList;
         }
-        return Collections.emptyList();
+//
+//
+//        Transaction transaction = null;
+//        try (Session session = sessionFactory.getCurrentSession()) {
+//            transaction = session.beginTransaction();
+//            Query query = session.createQuery(
+//                    "select new ua.com.alevel.persistance.dto.PlayerDto(p, p.games.size) from Player p " +
+//                            "left join p.games group by p.id");
+//            Collection<PlayerDto> dtoList = query.getResultList();
+//            transaction.commit();
+//            return dtoList;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            if (transaction != null) {
+//                transaction.rollback();
+//            }
+//        }
+//        return Collections.emptyList();
     }
 }

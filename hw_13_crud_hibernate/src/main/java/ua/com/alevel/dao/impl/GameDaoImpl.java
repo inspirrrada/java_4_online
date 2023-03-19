@@ -48,18 +48,24 @@ public class GameDaoImpl implements GameDao {
     }
 
     @Override
-    public void delete(Game game) {
+    public boolean delete(Game game) {
+        boolean successfullyDeleted;
         Transaction transaction = null;
         try (Session session = sessionFactory.getCurrentSession()) {
             transaction = session.beginTransaction();
-            session.delete(game);
+            Query query = session.createQuery("delete from Game g where g.id = :id ")
+                    .setParameter("id", game.getId());
+            query.executeUpdate();
             transaction.commit();
+            successfullyDeleted = true;
         } catch (Exception e) {
             e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
+            successfullyDeleted = false;
         }
+        return successfullyDeleted;
     }
 
     @Override
@@ -67,10 +73,17 @@ public class GameDaoImpl implements GameDao {
         Transaction transaction = null;
         try (Session session = sessionFactory.getCurrentSession()) {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from Game where Game.id = :id");
-            Game game = (Game) query.getResultList().get(0);
-            transaction.commit();
-            return Optional.of(game);
+            Query query = session.createQuery("from Game g where g.id = :id")
+                    .setParameter("id", id);
+            Game game;
+            if (query.getResultList().size() > 0) {
+                game = (Game) query.getResultList().get(0);
+                transaction.commit();
+                return Optional.of(game);
+            } else {
+                transaction.commit();
+                return Optional.empty();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             if (transaction != null) {
@@ -103,7 +116,8 @@ public class GameDaoImpl implements GameDao {
         Transaction transaction = null;
         try (Session session = sessionFactory.getCurrentSession()) {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from Player left join Player.games where Player.id = " + playerId);
+            Query query = session.createQuery("select p.games from Player p where p.id = :playerId")
+                    .setParameter("playerId", playerId);
             Collection<Game> gameList = query.getResultList();
             transaction.commit();
             return gameList;
@@ -118,21 +132,17 @@ public class GameDaoImpl implements GameDao {
 
     @Override
     public Collection<GameDto> findGameDto() {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.getCurrentSession()) {
-            transaction = session.beginTransaction();
-            Query query = session.createQuery(
-                    "select new ua.com.alevel.persistance.dto.GameDto(Game, Game.id) from Game " +
-                    "left join Game.players group by Game.id");
-            Collection<GameDto> dtoList = query.getResultList();
-            transaction.commit();
-            return dtoList;
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (transaction != null) {
-                transaction.rollback();
+        Collection<Game> games = findAll();
+        Collection<GameDto> dtoList = new ArrayList<>();
+        if (games.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            for (Game game : games) {
+                GameDto dto = new GameDto(game, game.getPlayers().size());
+                dtoList.add(dto);
             }
+            return dtoList;
         }
-        return Collections.emptyList();
     }
+
 }

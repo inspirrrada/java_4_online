@@ -1,15 +1,13 @@
 package ua.com.alevel.controller;
 
-import ua.com.alevel.annotations.BeanClass;
-import ua.com.alevel.annotations.Controller;
-import ua.com.alevel.annotations.InjectBean;
-import ua.com.alevel.annotations.Start;
 import ua.com.alevel.persistance.dto.GameDto;
 import ua.com.alevel.persistance.dto.PlayerDto;
 import ua.com.alevel.persistance.entity.Game;
 import ua.com.alevel.persistance.entity.Player;
 import ua.com.alevel.service.GameService;
 import ua.com.alevel.service.PlayerService;
+import ua.com.alevel.service.impl.GameServiceImpl;
+import ua.com.alevel.service.impl.PlayerServiceImpl;
 import ua.com.alevel.utils.ColorUtils;
 
 import java.io.BufferedReader;
@@ -18,17 +16,11 @@ import java.io.InputStreamReader;
 import java.util.Collection;
 
 
-@Controller
-@BeanClass
 public class GamePlayControllerImpl implements GamePlayController {
 
-    @InjectBean
-    private GameService gameService;
+    private GameService gameService = new GameServiceImpl();
+    private PlayerService playerService = new PlayerServiceImpl();
 
-    @InjectBean
-    private PlayerService playerService;
-
-    @Start
     @Override
     public void start() {
         System.out.println();
@@ -115,7 +107,7 @@ public class GamePlayControllerImpl implements GamePlayController {
         boolean isCorrectAgeFormat = false;
         while (!isCorrectAgeFormat) {
             ageValue = reader.readLine();
-            isCorrectAgeFormat = playerService.isCorrectAgeFormat(ageValue);
+            isCorrectAgeFormat = isCorrectAgeFormat(ageValue);
         }
         int age = Integer.parseInt(ageValue);
         boolean isAgePermissible = playerService.isAgePermissible(age);
@@ -165,7 +157,7 @@ public class GamePlayControllerImpl implements GamePlayController {
             player.setAge(age);
             player.setEmail(email);
             player.setNickname(nickname);
-            playerService.addPlayer(player);
+            playerService.create(player);
             System.out.println(ColorUtils.BLUE_TEXT.format("\nCongratulations! Your player was created."));
         }
     }
@@ -174,12 +166,17 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 2. FIND PLAYER BY ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter player ID:"));
-        Long playerId = Long.valueOf(reader.readLine());
-        Player player = playerService.getPlayerById(playerId);
-        if (player != null) {
-            System.out.println(ColorUtils.YELLOW_TEXT.format(player.toString()));
-        } else {
-            System.out.println("Please check and try this menu again.");
+        try {
+            Long playerId = Long.valueOf(reader.readLine());
+            Player player = playerService.findById(playerId);
+            if (player != null) {
+                System.out.println(ColorUtils.YELLOW_TEXT.format(player.toString()));
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("No such id!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
         }
     }
 
@@ -187,114 +184,125 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 3. UPDATE PLAYER BY ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter player ID"));
-        Long playerId = Long.valueOf(reader.readLine());
-        Player playerNew = playerService.getPlayerById(playerId);
+        try {
+            Long playerId = Long.valueOf(reader.readLine());
+            Player playerNew = playerService.findById(playerId);
 
-        if (playerNew != null) {
-            int ageOld = playerNew.getAge();
-            System.out.println("Great, please update details of player '" + playerNew.getNickname() + "' below.");
-            System.out.println("If you don't want to update some detail, press 0 and you go to the next. Updates for old values will not be saved.");
+            if (playerNew != null) {
+                int ageOld = playerNew.getAge();
+                System.out.println("Great, please update details of player '" + playerNew.getNickname() + "' below.");
+                System.out.println("If you don't want to update some detail, press 0 and you go to the next. Updates for old values will not be saved.");
 
-            //update age
-            System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter new age:"));
-            String ageValue = reader.readLine();
+                //update age
+                System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter new age:"));
+                String ageValue = reader.readLine();
 
-            //"0" means without changes
-            if (!ageValue.equals("0")) {
-                boolean isCorrectAgeFormat = playerService.isCorrectAgeFormat(ageValue);
-                if (isCorrectAgeFormat) {
-                    int age = Integer.parseInt(ageValue);
-                    boolean isAgePermissible = playerService.isAgePermissible(age);
-                    if (isAgePermissible) {
-                        if (age != ageOld) {
-                            playerNew.setAge(age);
-                            playerService.updatePlayerAge(playerId, age);
-                            System.out.println(ColorUtils.BLUE_TEXT.format("Age for player '" + playerNew.getNickname() + "' was updated successfully."));
+                //"0" means without changes
+                if (!ageValue.equals("0")) {
+                    boolean isCorrectAgeFormat = isCorrectAgeFormat(ageValue);
+                    if (isCorrectAgeFormat) {
+                        int age = Integer.parseInt(ageValue);
+                        boolean isAgePermissible = playerService.isAgePermissible(age);
+                        if (isAgePermissible) {
+                            if (age != ageOld) {
+                                playerNew.setAge(age);
+                                playerService.update(playerNew);
+                                System.out.println(ColorUtils.BLUE_TEXT.format("Age for player '" + playerNew.getNickname() + "' was updated successfully."));
+                            } else {
+                                System.out.println(ColorUtils.RED_TEXT.format("You entered old value, your changes weren't saved."));
+                            }
                         } else {
-                            System.out.println(ColorUtils.RED_TEXT.format("You entered old value, your changes weren't saved."));
+                            System.out.println(ColorUtils.RED_TEXT.format("New age is unacceptable, your changes weren't saved."));
                         }
                     } else {
-                        System.out.println(ColorUtils.RED_TEXT.format("New age is unacceptable, your changes weren't saved."));
+                        System.out.println("Your changes weren't saved.");
                     }
                 } else {
-                    System.out.println("Your changes weren't saved.");
+                    System.out.println("Age of player remains the same.");
                 }
-            } else {
-                System.out.println("Age of player remains the same.");
-            }
 
-            //update nickname
-            System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter new nickname:"));
-            String nickname = reader.readLine();
+                //update nickname
+                System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter new nickname:"));
+                String nickname = reader.readLine();
 
-            //"0" means without changes
-            if (!nickname.equals("0")) {
-                boolean correctNickname = playerService.isCorrectNickname(nickname);
-                if (!correctNickname) {
-                    System.out.println("Your changes of nickname weren't saved.");
-                } else {
-                    boolean hasTheSameNickname = playerService.hasTheSameNickname(nickname);
-                    if (!hasTheSameNickname) {
-                        playerNew.setNickname(nickname);
-                        playerService.updatePlayerNickname(playerId, nickname);
-                        System.out.println(ColorUtils.BLUE_TEXT.format("Nickname for player was updated successfully to the '" + nickname + "'."));
+                //"0" means without changes
+                if (!nickname.equals("0")) {
+                    boolean correctNickname = playerService.isCorrectNickname(nickname);
+                    if (!correctNickname) {
+                        System.out.println("Your changes of nickname weren't saved.");
                     } else {
-                        System.out.println(ColorUtils.RED_TEXT.format("This nickname is already registered. Your changes weren't saved."));
+                        boolean hasTheSameNickname = playerService.hasTheSameNickname(nickname);
+                        if (!hasTheSameNickname) {
+                            playerNew.setNickname(nickname);
+                            playerService.update(playerNew);
+                            System.out.println(ColorUtils.BLUE_TEXT.format("Nickname for player was updated successfully to the '" + nickname + "'."));
+                        } else {
+                            System.out.println(ColorUtils.RED_TEXT.format("This nickname is already registered. Your changes weren't saved."));
+                        }
                     }
-                }
-            } else {
-                System.out.println("Nickname of player remains the same.");
-            }
-
-            //update email
-            System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter new email:"));
-            String email = reader.readLine();
-
-            //"0" means without changes
-            if (!email.equals("0")) {
-                boolean correctEmail = playerService.isCorrectEmail(email);
-                if (!correctEmail) {
-                    System.out.println("Your changes of email weren't saved.");
                 } else {
-                    boolean hasTheSameEmail = playerService.hasTheSameEmail(email);
-                    if (!hasTheSameEmail) {
-                        playerNew.setEmail(email);
-                        playerService.updatePlayerEmail(playerId, email);
-                        System.out.println(ColorUtils.BLUE_TEXT.format("Email for player '" + playerNew.getNickname() + "' was updated successfully."));
+                    System.out.println("Nickname of player remains the same.");
+                }
+
+                //update email
+                System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter new email:"));
+                String email = reader.readLine();
+
+                //"0" means without changes
+                if (!email.equals("0")) {
+                    boolean correctEmail = playerService.isCorrectEmail(email);
+                    if (!correctEmail) {
+                        System.out.println("Your changes of email weren't saved.");
                     } else {
-                        System.out.println(ColorUtils.RED_TEXT.format("This email is already registered. Your changes weren't saved."));
+                        boolean hasTheSameEmail = playerService.hasTheSameEmail(email);
+                        if (!hasTheSameEmail) {
+                            playerNew.setEmail(email);
+                            playerService.update(playerNew);
+                            System.out.println(ColorUtils.BLUE_TEXT.format("Email for player '" + playerNew.getNickname() + "' was updated successfully."));
+                        } else {
+                            System.out.println(ColorUtils.RED_TEXT.format("This email is already registered. Your changes weren't saved."));
+                        }
                     }
+                } else {
+                    System.out.println("Email of player remains the same.");
                 }
             } else {
-                System.out.println("Email of player remains the same.");
+                System.out.println(ColorUtils.RED_TEXT.format("No such id!"));
+                System.out.println("Please check and try this menu again.");
             }
-        } else {
-            System.out.println("Please check and try this menu again.");
+        } catch (NumberFormatException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
         }
+
     }
 
     private void deletePlayer(BufferedReader reader) throws IOException {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 4. DELETE PLAYER BY ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter player ID:"));
-        Long playerId = Long.valueOf(reader.readLine());
-        boolean existSuchPlayerId = playerService.existPlayerId(playerId);
-        if (existSuchPlayerId) {
-            boolean wasDeletedEverywhere = playerService.deletePlayer(playerId);
-            if (wasDeletedEverywhere) {
-                System.out.println(ColorUtils.BLUE_TEXT.format("\nYour player was successfully deleted."));
+        try {
+            Long playerId = Long.valueOf(reader.readLine());
+            boolean existSuchPlayerId = playerService.existPlayerId(playerId);
+            if (existSuchPlayerId) {
+                boolean wasDeletedEverywhere = playerService.delete(playerService.findById(playerId));
+                if (wasDeletedEverywhere) {
+                    System.out.println(ColorUtils.BLUE_TEXT.format("\nYour player was successfully deleted."));
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("\nYour player can't be deleted in automatic mode. Please contact with support service."));
+                }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("\nYour player can't be deleted in automatic mode. Please contact with support service."));
+                System.out.println("Please check and try this menu again.");
             }
-        } else {
-            System.out.println("Please check and try this menu again.");
+        } catch (NumberFormatException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
         }
+
     }
 
     private void findAllPlayers() {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 5. FIND ALL PLAYERS"));
         System.out.println();
-        Collection<Player> allPlayers = playerService.getAllPlayers();
+        Collection<Player> allPlayers = playerService.findAll();
         if (allPlayers.isEmpty()) {
             System.out.println("There are no players.");
         } else {
@@ -349,7 +357,7 @@ public class GamePlayControllerImpl implements GamePlayController {
         Game game = new Game();
         game.setName(gameName);
         game.setCommandGame(isCommandGame);
-        gameService.addGame(game);
+        gameService.create(game);
         System.out.println(ColorUtils.BLUE_TEXT.format("\nCongratulations! Your game was recorded."));
 
     }
@@ -358,12 +366,17 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 7. FIND GAME BY ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter game ID:"));
-        Long gameId = Long.valueOf(reader.readLine());
-        Game game = gameService.getGameById(gameId);
-        if (game != null) {
-            System.out.println(ColorUtils.YELLOW_TEXT.format(game.toString()));
-        } else {
-            System.out.println("Please check and try this menu again.");
+        try {
+            Long gameId = Long.valueOf(reader.readLine());
+            Game game = gameService.findById(gameId);
+            if (game != null) {
+                System.out.println(ColorUtils.YELLOW_TEXT.format(game.toString()));
+            } else {
+                System.out.println(ColorUtils.RED_TEXT.format("No such id!"));
+                System.out.println("Please check and try this menu again.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
         }
     }
 
@@ -371,92 +384,102 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 8. UPDATE GAME BY ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter game ID"));
-        Long gameId = Long.valueOf(reader.readLine());
-        Game game = gameService.getGameById(gameId);
-        if (game != null) {
-            System.out.println("Great, please update details of game '" + game.getName() + "' below.");
-            System.out.println("If you don't want to update some detail, press 0 and you go to the next. Updates for old values will not be saved.");
-            //update name
-            System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter new name:"));
-            String gameName = reader.readLine();
-            //"0" means without changes
-            if (!gameName.equals("0")) {
-                boolean isCorrectGameName = gameService.isCorrectGameName(gameName);
-                if (isCorrectGameName) {
-                    boolean hasTheSameGameName = gameService.hasTheSameGameName(gameName);
-                    if (!hasTheSameGameName) {
-                        game.setName(gameName);
-                        gameService.updateGameName(gameId, gameName);
-                        System.out.println(ColorUtils.BLUE_TEXT.format("Name for game was updated to '" + game.getName() + "' successfully."));
-                    } else {
-                        System.out.println(ColorUtils.RED_TEXT.format("This game name is already registered. Your changes weren't saved."));
+        try {
+            Long gameId = Long.valueOf(reader.readLine());
+            Game game = gameService.findById(gameId);
+            if (game != null) {
+                System.out.println("Great, please update details of game '" + game.getName() + "' below.");
+                System.out.println("If you don't want to update some detail, press 0 and you go to the next. Updates for old values will not be saved.");
+                //update name
+                System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter new name:"));
+                String gameName = reader.readLine();
+                //"0" means without changes
+                if (!gameName.equals("0")) {
+                    boolean isCorrectGameName = gameService.isCorrectGameName(gameName);
+                    if (isCorrectGameName) {
+                        boolean hasTheSameGameName = gameService.hasTheSameGameName(gameName);
+                        if (!hasTheSameGameName) {
+                            game.setName(gameName);
+                            gameService.update(game);
+                            System.out.println(ColorUtils.BLUE_TEXT.format("Name for game was updated to '" + game.getName() + "' successfully."));
+                        } else {
+                            System.out.println(ColorUtils.RED_TEXT.format("This game name is already registered. Your changes weren't saved."));
+                        }
                     }
-                }
-            } else {
-                System.out.println("Name of game remains the same.");
-            }
-
-            //update gameType
-            System.out.print(ColorUtils.UNDERLINED.format("\nPlease enter new command type:"));
-            System.out.println(" enter below 'y' for command game or 'n' for single.");
-            String gameType = reader.readLine();
-            boolean isCommandGame = game.isCommandGame();
-            String gameTypeValue = "";
-            //"0" means without changes
-            if (!gameType.equals("0")) {
-                if (gameType.equalsIgnoreCase("Y") && !isCommandGame) {
-                    isCommandGame = true;
-                    game.setCommandGame(isCommandGame);
-                    if (game.isCommandGame()) {
-                        gameTypeValue = "command game";
-                    } else {
-                        gameTypeValue = "single game";
-                    }
-                    gameService.updateGameType(gameId, isCommandGame);
-                    System.out.println(ColorUtils.BLUE_TEXT.format("Type of game was updated successfully to the '" + gameTypeValue + "'."));
-                } else if (gameType.equalsIgnoreCase("N") && isCommandGame) {
-                    isCommandGame = false;
-                    game.setCommandGame(isCommandGame);
-                    if (game.isCommandGame()) {
-                        gameTypeValue = "command game";
-                    } else {
-                        gameTypeValue = "single game";
-                    }
-                    gameService.updateGameType(gameId, isCommandGame);
-                    System.out.println(ColorUtils.BLUE_TEXT.format("Type of game was updated successfully to the '" + gameTypeValue + "'."));
                 } else {
-                    System.out.println(ColorUtils.RED_TEXT.format("You entered wrong or old value! Your changes weren't saved."));
+                    System.out.println("Name of game remains the same.");
+                }
+
+                //update gameType
+                System.out.print(ColorUtils.UNDERLINED.format("\nPlease enter new command type:"));
+                System.out.println(" enter below 'y' for command game or 'n' for single.");
+                String gameType = reader.readLine();
+                boolean isCommandGame = game.isCommandGame();
+                String gameTypeValue = "";
+                //"0" means without changes
+                if (!gameType.equals("0")) {
+                    if (gameType.equalsIgnoreCase("Y") && !isCommandGame) {
+                        isCommandGame = true;
+                        game.setCommandGame(isCommandGame);
+                        if (game.isCommandGame()) {
+                            gameTypeValue = "command game";
+                        } else {
+                            gameTypeValue = "single game";
+                        }
+                        gameService.update(game);
+                        System.out.println(ColorUtils.BLUE_TEXT.format("Type of game was updated successfully to the '" + gameTypeValue + "'."));
+                    } else if (gameType.equalsIgnoreCase("N") && isCommandGame) {
+                        isCommandGame = false;
+                        game.setCommandGame(isCommandGame);
+                        if (game.isCommandGame()) {
+                            gameTypeValue = "command game";
+                        } else {
+                            gameTypeValue = "single game";
+                        }
+                        gameService.update(game);
+                        System.out.println(ColorUtils.BLUE_TEXT.format("Type of game was updated successfully to the '" + gameTypeValue + "'."));
+                    } else {
+                        System.out.println(ColorUtils.RED_TEXT.format("You entered wrong or old value! Your changes weren't saved."));
+                    }
+                } else {
+                    System.out.println("Type of game remains the same: " + gameTypeValue + ".");
                 }
             } else {
-                System.out.println("Type of game remains the same: " + gameTypeValue + ".");
+                System.out.println(ColorUtils.RED_TEXT.format("No such id!"));
+                System.out.println("Please check and try this menu again.");
             }
-        } else {
-            System.out.println("Please check and try this menu again.");
+        } catch (NumberFormatException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
         }
+
     }
 
     private void deleteGame(BufferedReader reader) throws IOException {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 9. DELETE GAME BY ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter game ID:"));
-        Long gameId = Long.valueOf(reader.readLine());
-        boolean existSuchGameId = gameService.existGameId(gameId);
-        if (existSuchGameId) {
-            boolean wasDeletedEverywhere = gameService.deleteGame(gameId);
-            if (wasDeletedEverywhere) {
-                System.out.println(ColorUtils.BLUE_TEXT.format("\nYour game was successfully deleted."));
+        try {
+            Long gameId = Long.valueOf(reader.readLine());
+            boolean existSuchGameId = gameService.existGameId(gameId);
+            if (existSuchGameId) {
+                boolean wasDeletedEverywhere = gameService.delete(gameService.findById(gameId));
+                if (wasDeletedEverywhere) {
+                    System.out.println(ColorUtils.BLUE_TEXT.format("\nYour game was successfully deleted."));
+                } else {
+                    System.out.println(ColorUtils.RED_TEXT.format("\nYour game can't be deleted in automatic mode. Please contact with support service."));
+                }
             } else {
-                System.out.println(ColorUtils.RED_TEXT.format("\nYour game can't be deleted in automatic mode. Please contact with support service."));
+                System.out.println("Please check and try this menu again.");
             }
-        } else {
-            System.out.println("Please check and try this menu again.");
+        } catch (NumberFormatException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
         }
     }
 
     private void findAllGames() {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 10. FIND ALL GAMES"));
         System.out.println();
-        Collection<Game> allGames = gameService.getAllGames();
+        Collection<Game> allGames = gameService.findAll();
         if (allGames.isEmpty()) {
             System.out.println("There are no games.");
         } else {
@@ -473,19 +496,34 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 11. ATTACH GAME TO PLAYER"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter game ID"));
-        Long gameId = Long.valueOf(reader.readLine());
-        boolean existSuchGameId = gameService.existGameId(gameId);
-        if (existSuchGameId) {
-            System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter player ID"));
-            Long playerId = Long.valueOf(reader.readLine());
-            boolean existSuchPlayerId = playerService.existPlayerId(playerId);
-            System.out.println();
-            if (existSuchPlayerId) {
-                gameService.addGameToPlayer(gameId, playerId);
-                System.out.println(ColorUtils.BLUE_TEXT.format("Congratulations! Game was successfully added to player."));
+        try {
+            Long gameId = Long.valueOf(reader.readLine());
+            boolean existSuchGameId = gameService.existGameId(gameId);
+            if (existSuchGameId) {
+                System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter player ID"));
+                try {
+                    Long playerId = Long.valueOf(reader.readLine());
+                    boolean existSuchPlayerId = playerService.existPlayerId(playerId);
+                    System.out.println();
+                    if (existSuchPlayerId) {
+                        boolean wasAlreadyAttached = gameService.alreadyAttached(gameId, playerId);
+                        if (!wasAlreadyAttached) {
+                            gameService.attachGameToPlayer(gameId, playerId);
+                            System.out.println(ColorUtils.BLUE_TEXT.format("Congratulations! Game was successfully added to player."));
+                        } else {
+                            System.out.println(ColorUtils.RED_TEXT.format("Already exist!"));
+                            System.out.println("Please check and try this menu again.");
+                        }
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
+                }
+
+            } else {
+                System.out.println("Please check and try this menu again.");
             }
-        } else {
-            System.out.println("Please check and try this menu again.");
+        } catch (NumberFormatException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
         }
     }
 
@@ -493,23 +531,27 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 12. FIND ALL PLAYERS BY GAME ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter game ID"));
-        Long gameId = Long.valueOf(reader.readLine());
-        boolean existSuchGameId = gameService.existGameId(gameId);
-        if (existSuchGameId) {
-            Collection<Player> playersList = playerService.getPlayersByGame(gameId);
-            System.out.println();
-            if (playersList.isEmpty()) {
-                System.out.println("There are no players in this game");
-            } else {
-                System.out.println("Players:");
-                int count = 1;
-                for (Player player : playersList) {
-                    System.out.println(ColorUtils.YELLOW_TEXT.format(count + ". " + player.toString()));
-                    count++;
+        try {
+            Long gameId = Long.valueOf(reader.readLine());
+            boolean existSuchGameId = gameService.existGameId(gameId);
+            if (existSuchGameId) {
+                Collection<Player> playersList = playerService.findPlayersByGame(gameId);
+                System.out.println();
+                if (playersList.isEmpty()) {
+                    System.out.println("There are no players in this game");
+                } else {
+                    System.out.println("Players:");
+                    int count = 1;
+                    for (Player player : playersList) {
+                        System.out.println(ColorUtils.YELLOW_TEXT.format(count + ". " + player.toString()));
+                        count++;
+                    }
                 }
+            } else {
+                System.out.println("Please check and try this menu again.");
             }
-        } else {
-            System.out.println("Please check and try this menu again.");
+        } catch (NumberFormatException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
         }
     }
 
@@ -517,38 +559,45 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 13. FIND ALL GAMES BY PLAYER ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter player ID"));
-        Long playerId = Long.valueOf(reader.readLine());
-        boolean existSuchPlayerId = playerService.existPlayerId(playerId);
-        if (existSuchPlayerId) {
-            Collection<Game> gamesList = gameService.getGamesByPlayer(playerId);
-            System.out.println();
-            if (gamesList.isEmpty()) {
-                System.out.println("There are no games for this player");
-            } else {
-                int count = 1;
-                System.out.println("Games:");
-                for (Game game : gamesList) {
-                    System.out.println(ColorUtils.YELLOW_TEXT.format(count + ". " + game.toString()));
-                    count++;
+        try {
+            Long playerId = Long.valueOf(reader.readLine());
+            boolean existSuchPlayerId = playerService.existPlayerId(playerId);
+            if (existSuchPlayerId) {
+                Collection<Game> gamesList = gameService.findGamesByPlayer(playerId);
+                System.out.println();
+                if (gamesList.isEmpty()) {
+                    System.out.println("There are no games for this player");
+                } else {
+                    int count = 1;
+                    System.out.println("Games:");
+                    for (Game game : gamesList) {
+                        System.out.println(ColorUtils.YELLOW_TEXT.format(count + ". " + game.toString()));
+                        count++;
+                    }
                 }
+            } else {
+                System.out.println("Please check and try this menu again.");
             }
-        } else {
-            System.out.println("Please check and try this menu again.");
+        } catch (NumberFormatException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
         }
     }
 
     private void findPlayersQtyByGame() {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 14. GET GAMES STATISTICS BY PLAYERS"));
         System.out.println();
-        Collection<GameDto> gameStatistics = gameService.getPlayersCountOfAllGames();
+        Collection<GameDto> gameStatistics = gameService.findGameDto();
         if (gameStatistics.isEmpty()) {
             System.out.println("There are no data in system.");
         } else {
             int count = 1;
             System.out.println("Games statistics: ");
+            //System.out.println(ColorUtils.YELLOW_TEXT.format(gameStatistics.toString()));
             for (GameDto gameDto : gameStatistics) {
-                System.out.println(ColorUtils.YELLOW_TEXT.format(count + ". " + gameDto.toString()));
-                count++;
+                if (gameDto != null) {
+                    System.out.println(ColorUtils.YELLOW_TEXT.format(count + ". " + ((GameDto) gameDto).toString()));
+                    count++;
+                }
             }
         }
     }
@@ -556,7 +605,7 @@ public class GamePlayControllerImpl implements GamePlayController {
     private void findGamesQtyByPlayer() {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 15. GET PLAYERS STATISTICS BY GAMES"));
         System.out.println();
-        Collection<PlayerDto> playerStatistics = playerService.getGamesCountOfAllPlayers();
+        Collection<PlayerDto> playerStatistics = playerService.findPlayerDto();
         if (playerStatistics.isEmpty()) {
             System.out.println("There are no data in system.");
         } else {
@@ -573,26 +622,48 @@ public class GamePlayControllerImpl implements GamePlayController {
         System.out.println(ColorUtils.REVERSE.format("\nMenu 14. DELETE GAME FROM PLAYER BY ID"));
         System.out.println();
         System.out.println(ColorUtils.UNDERLINED.format("Please enter game ID"));
-        Long gameId = Long.valueOf(reader.readLine());
-        boolean existSuchGameId = gameService.existGameId(gameId);
-        if (existSuchGameId) {
-            System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter player ID"));
-            Long playerId = Long.valueOf(reader.readLine());
-            boolean existSuchPlayerId = playerService.existPlayerId(playerId);
-            if (existSuchPlayerId) {
-                boolean hasPlayerThisGame = gameService.hasRecordsInGeneralTable(gameId, playerId);
-                if (hasPlayerThisGame) {
-                    gameService.deleteGameFromPlayer(gameId, playerId);
-                    System.out.println(ColorUtils.BLUE_TEXT.format("Congratulations! Game was deleted from player."));
-                } else {
-                    System.out.println(ColorUtils.RED_TEXT.format("Can't be deleted, this player doesn't have game with such id!"));
+        try {
+            Long gameId = Long.valueOf(reader.readLine());
+            boolean existSuchGameId = gameService.existGameId(gameId);
+            if (existSuchGameId) {
+                System.out.println(ColorUtils.UNDERLINED.format("\nPlease enter player ID"));
+                try {
+                    Long playerId = Long.valueOf(reader.readLine());
+                    boolean existSuchPlayerId = playerService.existPlayerId(playerId);
+                    if (existSuchPlayerId) {
+//                boolean hasPlayerThisGame = gameService.hasRecordsInGeneralTable(gameId, playerId);
+//                if (hasPlayerThisGame) { //TODO
+                        gameService.deleteGameFromPlayer(gameId, playerId);
+                        System.out.println(ColorUtils.BLUE_TEXT.format("Congratulations! Game was deleted from player."));
+//                } else {
+//                    System.out.println(ColorUtils.RED_TEXT.format("Can't be deleted, this player doesn't have game with such id!"));
+//                }
+                    } else {
+                        System.out.println("Please check and try this menu again.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
                 }
             } else {
                 System.out.println("Please check and try this menu again.");
             }
-        } else {
-            System.out.println("Please check and try this menu again.");
+        } catch (NumberFormatException e) {
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Id has to be only from digits"));
         }
+
+
+    }
+
+    public boolean isCorrectAgeFormat(String ageValue) {
+        boolean correctAgeFormat;
+        //age has to be only from digits
+        if (ageValue.matches("\\d+")) {
+            correctAgeFormat = true;
+        } else {
+            System.out.println(ColorUtils.RED_TEXT.format("Invalid value! Please enter number NOT string!"));
+            correctAgeFormat = false;
+        }
+        return correctAgeFormat;
     }
 
     private void stop() {

@@ -506,7 +506,7 @@ public class GamePlayControllerImpl implements GamePlayController {
                             gameService.attachGameToPlayer(gameId, playerId);
                             System.out.println(ColorUtils.BLUE_TEXT.format("Congratulations! Game was successfully added to player."));
                         } else {
-                            System.out.println(ColorUtils.RED_TEXT.format("Already exist!"));
+                            System.out.println(ColorUtils.RED_TEXT.format("Already attached!"));
                             System.out.println("Please check and try this menu again.");
                         }
                     }

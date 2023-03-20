@@ -50,6 +50,7 @@ public class GameDaoImpl implements GameDao {
         Transaction transaction = null;
         try (Session session = sessionFactory.getCurrentSession()) {
             transaction = session.beginTransaction();
+            //при звичайному session.delete() видаляються по кругу всі дані з БД, тому тут використано query
             Query query = session.createQuery("delete from Game g where g.id = :id ")
                     .setParameter("id", game.getId());
             query.executeUpdate();

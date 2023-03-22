@@ -28,7 +28,7 @@ public class CourseController {
         return "course/course_new";
     }
 
-    @PostMapping
+    @PostMapping("/new")
     public String newCourse(@ModelAttribute Course course) {
         courseService.create(course);
         return "redirect:/courses";

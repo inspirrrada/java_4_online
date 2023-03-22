@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>All students</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="cart mt-3">
+        <div class="card-header">
+            All students
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Photo</th>
+                    <th scope="col">First name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col">Show info</th>
+                    <th scope="col">Show students</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="student : ${students}">
+                    <td>
+                        <img th:text="${student.photoUrl}" alt="Student image" width="75" height="75">
+                    </td>
+                    <td th:text="${student.getFirstName()}"/>
+                    <td th:text="${student.getLastName()}"/>
+                    <td>
+                        <a type="button" class="btn btn-primary" th:href="@{'/students/' + ${student.id}}">info</a>
+                    </td>
+                    <td>
+                        <a type="button" class="btn btn-primary" th:href="@{'/students/' + ${student.id} + '/students'}">courses</a>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

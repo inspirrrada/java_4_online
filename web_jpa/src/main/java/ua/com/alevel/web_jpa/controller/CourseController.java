@@ -5,15 +5,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.web_jpa.persistance.entity.Course;
 import ua.com.alevel.web_jpa.service.CourseService;
+import ua.com.alevel.web_jpa.service.StudentService;
 
 @Controller
 @RequestMapping("/courses")
 public class CourseController {
 
     private final CourseService courseService;
+    private final StudentService studentService;
 
-    public CourseController(CourseService courseService) {
+    public CourseController(CourseService courseService, StudentService studentService) {
         this.courseService = courseService;
+        this.studentService = studentService;
     }
 
     @GetMapping
@@ -34,9 +37,9 @@ public class CourseController {
         return "redirect:/courses";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/students")
     public String findById(@PathVariable Long id, Model model) {
-        model.addAttribute("course", courseService.findAll());
-        return "course_course_all";
+        model.addAttribute("students", studentService.findAllByCourse(id));
+        return "student/student_all";
     }
 }

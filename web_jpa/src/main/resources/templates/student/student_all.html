@@ -28,13 +28,13 @@
                     <td>
                         <img th:text="${student.photoUrl}" alt="Student image" width="75" height="75">
                     </td>
-                    <td th:text="${student.getFirstName()}"/>
-                    <td th:text="${student.getLastName()}"/>
+                    <td th:text="${student.firstName}"/>
+                    <td th:text="${student.lastName}"/>
                     <td>
                         <a type="button" class="btn btn-primary" th:href="@{'/students/' + ${student.id}}">info</a>
                     </td>
                     <td>
-                        <a type="button" class="btn btn-primary" th:href="@{'/students/' + ${student.id} + '/students'}">courses</a>
+                        <a type="button" class="btn btn-primary" th:href="@{'/students/' + ${student.id} + '/courses'}">courses</a>
                     </td>
                 </tr>
                 </tbody>

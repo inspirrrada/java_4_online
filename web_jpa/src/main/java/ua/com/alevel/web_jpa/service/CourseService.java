@@ -8,5 +8,5 @@ import java.util.Collection;
 public interface CourseService extends BaseService<Course>{
 
     void attachStudentToCourse(Student student);
-    Collection<Course> findAllByStudent(Student student);
+    Collection<Course> findAllByStudent(Long studentId);
 }

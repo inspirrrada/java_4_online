@@ -2,13 +2,13 @@ package ua.com.alevel.web_jpa.dao.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.web_jpa.dao.CourseDao;
 import ua.com.alevel.web_jpa.persistance.entity.Course;
-import ua.com.alevel.web_jpa.persistance.entity.Student;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 @Transactional
@@ -41,13 +41,14 @@ public class CourseDaoImpl implements CourseDao {
 
     @Override
     public Collection<Course> findAll() {
-        return manager.createQuery("from Course").getResultList();
+        return manager.createQuery("select c from Course c").getResultList();
     }
 
     @Override
-    public Collection<Course> findAllByStudent(Student student) {
-        return manager.createQuery("from Course join Course.students as courses_by_student where courses_by_student.id = :studentId")
-                .setParameter("studentId", student.getId())
+    public Collection<Course> findAllByStudent(Long studentId) {
+        return manager.createQuery("from Course c join c.students as courses_by_student where courses_by_student.id = :studentId")
+                .setParameter("studentId", studentId)
                 .getResultList();
     }
+
 }

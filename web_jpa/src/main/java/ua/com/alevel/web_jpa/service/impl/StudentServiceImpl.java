@@ -1,6 +1,7 @@
 package ua.com.alevel.web_jpa.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.com.alevel.web_jpa.dao.StudentDao;
 import ua.com.alevel.web_jpa.persistance.entity.Course;
 import ua.com.alevel.web_jpa.persistance.entity.Student;
@@ -9,6 +10,7 @@ import ua.com.alevel.web_jpa.service.StudentService;
 import java.util.Collection;
 
 @Service
+@Transactional
 public class StudentServiceImpl implements StudentService {
 
     private final StudentDao studentDao;
@@ -43,7 +45,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Collection<Student> findAllByCourse(Course course) {
-        return studentDao.findAllByCourse(course);
+    public Collection<Student> findAllByCourse(Long courseId) {
+        return studentDao.findAllByCourse(courseId);
     }
 }

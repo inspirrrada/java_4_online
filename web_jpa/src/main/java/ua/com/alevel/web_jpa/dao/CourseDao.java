@@ -7,5 +7,5 @@ import java.util.Collection;
 
 public interface CourseDao extends BaseDao<Course> {
 
-    Collection<Course> findAllByStudent(Student student);
+    Collection<Course> findAllByStudent(Long studentId);
 }

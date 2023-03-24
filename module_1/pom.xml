@@ -53,7 +53,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>ua.com.alevel.Main</mainClass>
+                                    <mainClass>ua.com.alevel.FinManagerBackendApplication</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

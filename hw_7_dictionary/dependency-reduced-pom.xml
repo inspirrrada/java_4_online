@@ -28,7 +28,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>ua.com.alevel.Main</mainClass>
+                  <mainClass>ua.com.alevel.FinManagerBackendApplication</mainClass>
                 </transformer>
               </transformers>
             </configuration>

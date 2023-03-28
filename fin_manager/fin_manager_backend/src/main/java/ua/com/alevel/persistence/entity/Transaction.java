@@ -15,10 +15,10 @@ public class Transaction extends BaseEntity {
     @Column(precision = 7, scale = 2)
     private BigDecimal sum;
 
-    @ManyToOne //TODO?
+    @ManyToOne
     private User fromUser;
 
-    @ManyToOne //TODO?
+    @ManyToOne
     private User toUser;
 
     public Transaction() {

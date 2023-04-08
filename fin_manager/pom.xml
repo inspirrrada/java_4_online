@@ -19,6 +19,7 @@
 
     <modules>
         <module>fin_manager_backend</module>
+        <module>fin_manager_frontend</module>
     </modules>
 
     <properties>

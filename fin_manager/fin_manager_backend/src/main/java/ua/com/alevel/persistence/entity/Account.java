@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Table(name = "accounts")
 public class Account extends BaseEntity {
 
-    @Column(name = "account_number", nullable = false)
+    @Column(name = "account_number", nullable = false, unique = true)
     private String accountNumber;
 
     @Column(precision = 7, scale = 2)
@@ -20,6 +20,9 @@ public class Account extends BaseEntity {
 
     @ManyToOne
     private User user;
+
+    @Column(name = "active_status")
+    private Boolean isActive;
 
     public Account() {
         super();

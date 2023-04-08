@@ -1,10 +1,10 @@
 package ua.com.alevel.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,6 +20,12 @@ public class User extends BaseEntity {
 
     @Column
     private Integer age;
+
+    @Column(name = "accounts_qty")
+    private Integer accountsQty;
+
+    @OneToMany
+    private Set<Account> accounts;
 
     public User() {
         super();

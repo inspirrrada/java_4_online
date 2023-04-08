@@ -10,14 +10,14 @@ import lombok.Setter;
 @Table(name = "transactions_register")
 public class TransactionRegister extends BaseEntity {
 
-    @ManyToOne //TODO ???
+    @ManyToOne
     private Transaction transaction;
 
-    @ManyToOne //TODO ???
+    @ManyToOne
     private TransactionCategory transactionCategory;
 
-    @ManyToOne //TODO ???
-    private Account account;
+    @ManyToOne
+    private User user;
 
     @Column
     private String description;

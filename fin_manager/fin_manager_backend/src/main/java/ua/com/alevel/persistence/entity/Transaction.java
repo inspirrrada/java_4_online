@@ -16,10 +16,10 @@ public class Transaction extends BaseEntity {
     private BigDecimal sum;
 
     @ManyToOne
-    private User fromUser;
+    private Account fromAccount;
 
     @ManyToOne
-    private User toUser;
+    private Account toAccount;
 
     public Transaction() {
         super();

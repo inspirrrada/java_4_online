@@ -3,16 +3,14 @@ package ua.com.alevel.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ua.com.alevel.persistence.entity.Account;
-import ua.com.alevel.persistence.entity.Transaction;
-import ua.com.alevel.persistence.entity.TransactionCategory;
-import ua.com.alevel.persistence.entity.TransactionRegister;
+import ua.com.alevel.persistence.entity.*;
 import ua.com.alevel.persistence.repository.AccountRepository;
 import ua.com.alevel.persistence.repository.TransactionCategoryRepository;
 import ua.com.alevel.persistence.repository.TransactionRegisterRepository;
 import ua.com.alevel.persistence.repository.TransactionRepository;
 import ua.com.alevel.service.AccountService;
 import ua.com.alevel.service.TransactionService;
+import ua.com.alevel.service.UserService;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -27,6 +25,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
     private final TransactionRegisterRepository transactionRegisterRepository;
+    private final UserService userService;
 
     @Override
     public void create(Transaction transaction) {
@@ -46,13 +45,17 @@ public class TransactionServiceImpl implements TransactionService {
         transactionIncomeRecord.setTransaction(transaction);
         TransactionCategory incomeCategory = transactionCategoryRepository.findById(1L).get();
         transactionIncomeRecord.setTransactionCategory(incomeCategory);
-        transactionIncomeRecord.setUser(accountRepository.findByAccountId(accountFrom.getId()));
+        Long userFromId = accountRepository.findUserIdByAccountId(accountFrom.getId());
+        User userFrom = userService.findById(userFromId);
+        transactionIncomeRecord.setUser(userFrom);
         transactionRegisterRepository.save(transactionIncomeRecord);
         TransactionRegister transactionExpenseRecord = new TransactionRegister();
         TransactionCategory expenseCategory = transactionCategoryRepository.findById(2L).get();
-        transactionIncomeRecord.setTransactionCategory(expenseCategory);
+        transactionExpenseRecord.setTransactionCategory(expenseCategory);
         transactionExpenseRecord.setTransaction(transaction);
-        transactionExpenseRecord.setUser(accountRepository.findByAccountId(accountTo.getId()));
+        Long userToId = accountRepository.findUserIdByAccountId(accountTo.getId());
+        User userTo = userService.findById(userToId);
+        transactionExpenseRecord.setUser(userTo);
         transactionRegisterRepository.save(transactionExpenseRecord);
     }
 

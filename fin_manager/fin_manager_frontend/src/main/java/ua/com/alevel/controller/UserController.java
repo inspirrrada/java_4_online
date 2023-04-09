@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.api.AccountApiService;
+import ua.com.alevel.api.TransactionApiService;
 import ua.com.alevel.api.UserApiService;
 import ua.com.alevel.model.AccountModel;
 import ua.com.alevel.model.TransactionForm;
@@ -22,6 +23,7 @@ public class UserController {
 
     private final UserApiService userApiService;
     private final AccountApiService accountApiService;
+    private final TransactionApiService transactionApiService;
 
     @GetMapping
     public String findAll(Model model) {
@@ -65,13 +67,16 @@ public class UserController {
 //        return "pages/transaction_success";
 //    }
 
-    @PostMapping("/{id}/{accountId}/transaction")
+    @PostMapping("/{accountId}/transaction")
     public String transactionSubmit(@ModelAttribute("transaction") TransactionForm transactionForm, @PathVariable Long accountId) {
 //        @ModelAttribute("account") AccountModel accountFromModel,
         //System.out.println("accountId: " + accountId);
-        System.out.println(transactionForm.toString());
 
-//        AccountModel accountFromModel = accountApiService.findById(accountId).get();
+
+        String accountFromNumber = accountApiService.findById(accountId).get().getAccountNumber();
+        transactionForm.setFromAccountNumber(accountFromNumber);
+        System.out.println(transactionForm.toString());
+        transactionApiService.create2(transactionForm, accountId);
 //        System.out.println(accountFromModel);
 //        String accountNumber = transactionForm.getToAccount().getAccountNumber();
 //        AccountModel accountToModel = accountApiService.findByAccountNumber(accountNumber).get();

@@ -42,8 +42,10 @@ public class TransactionFacadeImpl implements TransactionFacade {
     @Override
     public void create(TransactionFormDTO dto) {
         Transaction transaction = new Transaction();
-        Account accountFrom = accountService.findByAccountNumber(dto.getFromAccountNumber());
-        Account accountTo = accountService.findByAccountNumber(dto.getToAccountNumber());
+        String fromAccountNumber = dto.getFromAccountNumber();
+        String toAccountNumber = dto.getToAccountNumber();
+        Account accountFrom = accountService.findByAccountNumber(fromAccountNumber);
+        Account accountTo = accountService.findByAccountNumber(toAccountNumber);
         transaction.setSum(dto.getSum());
         transaction.setFromAccount(accountFrom);
         transaction.setToAccount(accountTo);

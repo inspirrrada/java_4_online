@@ -12,13 +12,4 @@ public class TransactionForm {
     private BigDecimal sum;
     private String fromAccountNumber;
     private String toAccountNumber;
-
-    @Override
-    public String toString() {
-        return "TransactionForm{" +
-                ", sum=" + sum +
-                ", fromAccountNumber='" + fromAccountNumber + '\'' +
-                ", toAccountNumber='" + toAccountNumber + '\'' +
-                '}';
-    }
 }

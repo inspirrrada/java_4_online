@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.com.alevel.dto.AccountStatementDTO;
 import ua.com.alevel.dto.TransactionFormDTO;
 import ua.com.alevel.dto.UserDTO;
 import ua.com.alevel.dto.UserFinanceDTO;
@@ -52,5 +53,10 @@ public class UserController {
     public ResponseEntity<Boolean> create(@RequestBody TransactionFormDTO dto, @PathVariable Long accountId) {
         transactionFacade.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(true);
+    }
+
+    @GetMapping("/statement/{accountId}")
+    public ResponseEntity<Collection<AccountStatementDTO>> getStatement(@PathVariable Long accountId) {
+        return ResponseEntity.ok(transactionFacade.getStatement(accountId));
     }
 }

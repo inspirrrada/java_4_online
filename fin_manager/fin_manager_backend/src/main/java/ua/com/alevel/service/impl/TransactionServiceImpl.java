@@ -78,4 +78,20 @@ public class TransactionServiceImpl implements TransactionService {
     public Collection<Transaction> findAll() {
         return null;
     }
+
+    @Override
+    public Collection<Transaction> findAllByAccountId(Long accountId) {
+//        return transactionRepository.findAllByFromAccountIdOrToAccountId(accountId);
+        return transactionRepository.findAllByAccountId(accountId);
+    }
+
+    @Override
+    public TransactionRegister findRecordByTransactionIdAndUserId(Long transactionId, Long userId) {
+        return transactionRegisterRepository.findByTransactionIdAndUserId(transactionId, userId);
+    }
+
+    @Override
+    public Collection<TransactionRegister> findAllByTransactionId(Long transactionId) {
+        return null;
+    }
 }

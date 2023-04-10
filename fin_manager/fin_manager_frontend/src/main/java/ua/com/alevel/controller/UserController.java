@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.api.AccountApiService;
 import ua.com.alevel.api.TransactionApiService;
 import ua.com.alevel.api.UserApiService;
-import ua.com.alevel.model.AccountModel;
-import ua.com.alevel.model.TransactionForm;
-import ua.com.alevel.model.TransactionModel;
-import ua.com.alevel.model.UserFinanceModel;
+import ua.com.alevel.model.*;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -85,5 +84,11 @@ public class UserController {
         return "pages/transaction_success";
     }
 
+    @GetMapping("/statement/{accountId}")
+    public String getAccountStatement(@PathVariable Long accountId, Model model) {
+        Collection<AccountStatementModel> accountStatementModel = accountApiService.getAccountStatement(accountId);
+        model.addAttribute("statement", accountStatementModel); //TODO перевірка чи є Optional
+        return "pages/account_statement";
+    }
 
 }

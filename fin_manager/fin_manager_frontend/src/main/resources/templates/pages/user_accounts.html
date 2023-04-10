@@ -41,7 +41,7 @@
                         <a th:href="@{'/users/' + ${user.getId()} + '/' + ${account.getId()} + '/transaction'}" th:type="button" class="btn btn-light">Do transaction</a>
                     </td>
                     <td>
-                        <a th:href="@{'/users/' + ${user.getId()} + '/transaction'}" th:type="button" class="btn btn-light">View statement</a>
+                        <a th:href="@{'/users/statement/' + ${account.getId()}}" th:type="button" class="btn btn-light">View statement</a>
                     </td>
                 </tr>
                 </tbody>

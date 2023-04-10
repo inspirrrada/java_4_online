@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ua.com.alevel.api.AccountApiService;
 import ua.com.alevel.model.AccountModel;
+import ua.com.alevel.model.AccountStatementModel;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -79,5 +80,24 @@ public class AccountApiServiceImpl implements AccountApiService {
             return Optional.empty();
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Collection<AccountStatementModel> getAccountStatement(Long accountId) {
+        RestTemplate restTemplate = new RestTemplate();
+
+            ResponseEntity<AccountStatementModel[]> response = restTemplate.exchange(
+                    apiUrl + "/users/statement/" + accountId,
+                    HttpMethod.GET,
+                    null,
+                    AccountStatementModel[].class
+            );
+            if (response.getStatusCode().is2xxSuccessful()) {
+                AccountStatementModel[] accountModel = response.getBody();
+                if (accountModel != null) {
+                    return List.of(accountModel);
+                }
+            }
+        return Collections.emptyList();
     }
 }

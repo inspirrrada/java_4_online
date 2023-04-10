@@ -50,4 +50,9 @@ public class AccountServiceImpl implements AccountService {
     public Collection<Account> findAllByUser(Long userId) {
         return accountRepository.findAllByUser(userId);
     }
+
+    @Override
+    public Long findUserIdByAccountId(Long id) {
+        return accountRepository.findUserIdByAccountId(id);
+    }
 }

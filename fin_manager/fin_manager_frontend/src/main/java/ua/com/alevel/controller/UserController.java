@@ -11,7 +11,14 @@ import ua.com.alevel.api.TransactionApiService;
 import ua.com.alevel.api.UserApiService;
 import ua.com.alevel.model.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,8 +91,59 @@ public class UserController {
         return "pages/transaction_success";
     }
 
+    @GetMapping("/statement/{accountId}/filters")
+    public String getFilters(@PathVariable Long accountId, Model model) {
+//        Calendar calendar = Calendar.getInstance();
+//        DateFilters dateFilters = new DateFilters();
+//        dateFilters.setToDate(calendar.getTime());
+//        model.addAttribute("end", calendar.getTime());
+//        calendar.set(Calendar.YEAR, 0);
+//        dateFilters.setFromDate(calendar.getTime());
+//        model.addAttribute("start", calendar.getTime());
+        model.addAttribute("filters", new DateFilters());
+        return "pages/dates_filter";
+    }
+
+    @PostMapping("/statement/{accountId}/filters")
+    public String getFiltersValue(@PathVariable Long accountId, Model model,  @ModelAttribute("filters") DateFilters dateFilters) {
+//        Calendar calendar = Calendar.getInstance();
+//        DateFilters dateFilters = new DateFilters();
+//        dateFilters.setToDate(calendar.getTime());
+//        model.addAttribute("end", calendar.getTime());
+//        calendar.set(Calendar.YEAR, 0);
+//        dateFilters.setFromDate(calendar.getTime());
+//        model.addAttribute("start", calendar.getTime());
+        System.out.println("filters:  @PostMapping(\"/statement/{accountId}/filters\")" + dateFilters.getFromDate());
+        return "pages/account_statement";
+    }
+
     @GetMapping("/statement/{accountId}")
-    public String getAccountStatement(@PathVariable Long accountId, Model model) {
+    public String getAccountStatement(@PathVariable Long accountId, Model model, @ModelAttribute DateFilters dateFilters) {
+        System.out.println("filters @GetMapping(\"/statement/{accountId}\"):" + dateFilters.getFromDate());
+        ZoneOffset offset = OffsetDateTime.now().getOffset();
+       String dateTime = dateFilters.getFromDate() + " 00:00:000";
+        String dateTime2 = dateFilters.getToDate() + " 23:59:999";
+        Date date1 = null;
+        Date date2 = null;
+        try {
+            date1 = new SimpleDateFormat("yyyy-MM-dd HH:ss:mm").parse(dateTime);
+            date2 = new SimpleDateFormat("yyyy-MM-dd HH:ss:mm").parse(dateTime2);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        OffsetDateTime ofd = date1.toInstant().atOffset(offset);
+        ofd = ofd.withHour(0)
+                .withMinute(0)
+                .withSecond(0)
+                .withNano(000000000);
+        OffsetDateTime ofd2 = date2.toInstant().atOffset(offset);
+        ofd2 = ofd2.withHour(23)
+                .withMinute(59)
+                .withSecond(59)
+                .withNano(999999000);
+        System.out.println(ofd);
+        System.out.println(ofd2);
+//        System.out.println(OffsetDateTime.parse(dateFilters.getFromDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         Collection<AccountStatementModel> accountStatementModel = accountApiService.getAccountStatement(accountId);
         model.addAttribute("statement", accountStatementModel); //TODO перевірка чи є Optional
         return "pages/account_statement";

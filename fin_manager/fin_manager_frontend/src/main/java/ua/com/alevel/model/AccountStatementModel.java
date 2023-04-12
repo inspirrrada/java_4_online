@@ -11,6 +11,8 @@ import java.time.OffsetDateTime;
 public class AccountStatementModel {
 
     private OffsetDateTime date;
+    private OffsetDateTime startDate;
+    private OffsetDateTime endDate;
     private TransactionType transactionCategory;
     private String relatedUserFullName;
     private BigDecimal sum;

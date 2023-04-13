@@ -118,7 +118,7 @@ public class UserController {
     }
 
     @GetMapping("/statement/{accountId}")
-    public String getAccountStatement(@PathVariable Long accountId, Model model, @ModelAttribute DateFilters dateFilters) {
+    public String getAccountStatement(@PathVariable Long accountId, Model model, @ModelAttribute DateFilters dateFilters, @RequestParam(value = "fromDate", required = false) String fromDate, @RequestParam(value = "toDate", required = false) String toDate) {
         System.out.println("filters @GetMapping(\"/statement/{accountId}\"):" + dateFilters.getFromDate());
         ZoneOffset offset = OffsetDateTime.now().getOffset();
        String dateTime = dateFilters.getFromDate() + " 00:00:000";
@@ -143,8 +143,14 @@ public class UserController {
                 .withNano(999999000);
         System.out.println(ofd);
         System.out.println(ofd2);
+//        System.out.println("fromDate:" + fromDate);
+//        System.out.println("toDate:" + toDate);
 //        System.out.println(OffsetDateTime.parse(dateFilters.getFromDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        Collection<AccountStatementModel> accountStatementModel = accountApiService.getAccountStatement(accountId);
+        Collection<AccountStatementModel> accountStatementModel = accountApiService.getAccountStatement(accountId, fromDate, toDate);
+        for (AccountStatementModel statementModel : accountStatementModel) {
+            statementModel.setStartDate(ofd);
+            statementModel.setEndDate(ofd2);
+        }
         model.addAttribute("statement", accountStatementModel); //TODO перевірка чи є Optional
         return "pages/account_statement";
     }

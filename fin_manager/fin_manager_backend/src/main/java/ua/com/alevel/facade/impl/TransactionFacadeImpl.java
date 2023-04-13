@@ -13,6 +13,7 @@ import ua.com.alevel.service.AccountService;
 import ua.com.alevel.service.TransactionService;
 import ua.com.alevel.service.UserService;
 
+import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,11 +56,11 @@ public class TransactionFacadeImpl implements TransactionFacade {
     }
 
     @Override
-    public List<AccountStatementDTO> getStatement(Long accountId) {
+    public List<AccountStatementDTO> getStatement(Timestamp startDate, Timestamp endDate, Long accountId) {
         List<AccountStatementDTO> list = new ArrayList<>();
         Long userId = accountService.findUserIdByAccountId(accountId);
         User user = userService.findById(userId);
-        Collection<Transaction> accountTransactions = transactionService.findAllByAccountId(accountId);
+        Collection<Transaction> accountTransactions = transactionService.findAllByAccountId(startDate, endDate, accountId);
         for (Transaction accountTransaction : accountTransactions) {
             TransactionRegister record = transactionService.findRecordByTransactionIdAndUserId(accountTransaction.getId(), userId);
             AccountStatementDTO accountStatementDTO = new AccountStatementDTO(user, accountTransaction, record);

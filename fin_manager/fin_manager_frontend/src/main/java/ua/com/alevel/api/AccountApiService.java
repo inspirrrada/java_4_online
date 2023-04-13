@@ -12,5 +12,5 @@ public interface AccountApiService {
     Collection<AccountModel> findAll();
     Optional<AccountModel> findById(Long id);
     Optional<AccountModel> findByAccountNumber(String accountModel);
-    Collection<AccountStatementModel>  getAccountStatement(Long accountId);
+    Collection<AccountStatementModel>  getAccountStatement(Long accountId, String fromDate, String toDate);
 }

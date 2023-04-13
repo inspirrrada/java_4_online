@@ -10,8 +10,15 @@ import ua.com.alevel.dto.UserDTO;
 import ua.com.alevel.dto.UserFinanceDTO;
 import ua.com.alevel.facade.TransactionFacade;
 import ua.com.alevel.facade.UserFacade;
+import ua.com.alevel.persistence.entity.Transaction;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Collection;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/users")
@@ -55,8 +62,37 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(true);
     }
 
-    @GetMapping("/statement/{accountId}")
-    public ResponseEntity<Collection<AccountStatementDTO>> getStatement(@PathVariable Long accountId) {
-        return ResponseEntity.ok(transactionFacade.getStatement(accountId));
+    @GetMapping( value = "/statement/{accountId}")
+    public ResponseEntity<Collection<AccountStatementDTO>> getStatement(@PathVariable Long accountId, @RequestParam(value = "fromDate", required = false) String fromDate, @RequestParam(value = "toDate", required = false) String toDate) {
+        System.out.println("fromDate backend:" + fromDate);
+        System.out.println("toDate backend:" + toDate);
+        ZoneOffset offset = OffsetDateTime.now().getOffset();
+        String dateTime = fromDate + " 00:00:00.000000000";
+        String dateTime2 = toDate + " 23:59:59.999999999";
+        Timestamp fromDateT = Timestamp.valueOf(dateTime);
+        Timestamp toDateT = Timestamp.valueOf(dateTime2);
+        System.out.println("fromDateT: " + fromDateT);
+        System.out.println("toDateT: " + toDateT);
+//        Date date1 = null;
+//        Date date2 = null;
+//        try {
+//            date1 = new SimpleDateFormat("yyyy-MM-dd HH:ss:mm").parse(dateTime);
+//            date2 = new SimpleDateFormat("yyyy-MM-dd HH:ss:mm").parse(dateTime2);
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
+//        OffsetDateTime ofd = date1.toInstant().atOffset(offset);
+//        ofd = ofd.withHour(0)
+//                .withMinute(0)
+//                .withSecond(0)
+//                .withNano(000000000);
+//        OffsetDateTime ofd2 = date2.toInstant().atOffset(offset);
+//        ofd2 = ofd2.withHour(23)
+//                .withMinute(59)
+//                .withSecond(59)
+//                .withNano(999999000);
+//        System.out.println(ofd);
+//        System.out.println(ofd2);
+        return ResponseEntity.ok(transactionFacade.getStatement(fromDateT, toDateT, accountId));
     }
 }

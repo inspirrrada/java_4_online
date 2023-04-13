@@ -5,14 +5,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.alevel.api.AccountApiService;
 import ua.com.alevel.model.AccountModel;
 import ua.com.alevel.model.AccountStatementModel;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AccountApiServiceImpl implements AccountApiService {
@@ -83,14 +81,24 @@ public class AccountApiServiceImpl implements AccountApiService {
     }
 
     @Override
-    public Collection<AccountStatementModel> getAccountStatement(Long accountId) {
+    public Collection<AccountStatementModel> getAccountStatement(Long accountId, String fromDate, String toDate) {
         RestTemplate restTemplate = new RestTemplate();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("fromDate", fromDate);
+        params.put("toDate", toDate);
+        UriComponentsBuilder builder =
+                UriComponentsBuilder
+                        .fromHttpUrl(apiUrl + "/users/statement/" + accountId)
+                        .queryParam("fromDate", fromDate)
+                        .queryParam("toDate", toDate);
 
             ResponseEntity<AccountStatementModel[]> response = restTemplate.exchange(
-                    apiUrl + "/users/statement/" + accountId,
+//                    apiUrl + "/users/statement/" + accountId,
+                    builder.toUriString(),
                     HttpMethod.GET,
                     null,
                     AccountStatementModel[].class
+//                    params
             );
             if (response.getStatusCode().is2xxSuccessful()) {
                 AccountStatementModel[] accountModel = response.getBody();

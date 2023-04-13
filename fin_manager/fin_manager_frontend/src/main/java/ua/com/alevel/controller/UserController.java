@@ -1,7 +1,15 @@
 package ua.com.alevel.controller;
 
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,16 +19,14 @@ import ua.com.alevel.api.TransactionApiService;
 import ua.com.alevel.api.UserApiService;
 import ua.com.alevel.model.*;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = {"/users"})
@@ -118,7 +124,7 @@ public class UserController {
     }
 
     @GetMapping("/statement/{accountId}")
-    public String getAccountStatement(@PathVariable Long accountId, Model model, @ModelAttribute DateFilters dateFilters, @RequestParam(value = "fromDate", required = false) String fromDate, @RequestParam(value = "toDate", required = false) String toDate) {
+    public String getAccountStatement(@PathVariable Long accountId, Model model, @ModelAttribute DateFilters dateFilters, @RequestParam(value = "fromDate", required = false) String fromDate, @RequestParam(value = "toDate", required = false) String toDate, HttpSession session) {
         System.out.println("filters @GetMapping(\"/statement/{accountId}\"):" + dateFilters.getFromDate());
         ZoneOffset offset = OffsetDateTime.now().getOffset();
        String dateTime = dateFilters.getFromDate() + " 00:00:000";
@@ -147,12 +153,55 @@ public class UserController {
 //        System.out.println("toDate:" + toDate);
 //        System.out.println(OffsetDateTime.parse(dateFilters.getFromDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         Collection<AccountStatementModel> accountStatementModel = accountApiService.getAccountStatement(accountId, fromDate, toDate);
-        for (AccountStatementModel statementModel : accountStatementModel) {
-            statementModel.setStartDate(ofd);
-            statementModel.setEndDate(ofd2);
-        }
+//        for (AccountStatementModel statementModel : accountStatementModel) {
+//            statementModel.setStartDate(ofd);
+//            statementModel.setEndDate(ofd2);
+//        }
         model.addAttribute("statement", accountStatementModel); //TODO перевірка чи є Optional
+        session.setAttribute("statement", accountStatementModel);
+        System.out.println("accountStatementModel from statement: " + accountStatementModel);
         return "pages/account_statement";
+    }
+
+    @GetMapping("/download")
+    public void getFile(Model model, HttpSession session, HttpServletResponse response) {
+        System.out.println("accountStatementModel from download: " + model.getAttribute("statement"));
+        Collection<AccountStatementModel> accountStatementModel = new ArrayList<>();
+        if (session.getAttribute("statement") != null) {
+            accountStatementModel = (Collection<AccountStatementModel>) session.getAttribute("statement");
+            System.out.println(accountStatementModel.toString());
+        }
+
+        // set file name and content type
+        String filename = "Employee-List.csv";
+
+        response.setContentType("text/csv");
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + filename + "\"");
+
+        // create a csv writer
+        StatefulBeanToCsv<AccountStatementModel> writer =
+                null;
+        try {
+            writer = new StatefulBeanToCsvBuilder<AccountStatementModel>
+                    (response.getWriter())
+                    .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+                    .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+                    .withOrderedResults(false).build();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // write all employees to csv file
+        try {
+            writer.write((List<AccountStatementModel>) accountStatementModel);
+        } catch (CsvDataTypeMismatchException e) {
+            throw new RuntimeException(e);
+        } catch (CsvRequiredFieldEmptyException e) {
+            throw new RuntimeException(e);
+        }
+
+        //return "pages/transaction_success";
     }
 
 }

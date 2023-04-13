@@ -18,8 +18,8 @@ import java.time.OffsetDateTime;
 public class AccountStatementDTO {
 
     private OffsetDateTime date;
-    private OffsetDateTime startDate;
-    private OffsetDateTime endDate;
+//    private OffsetDateTime startDate;
+//    private OffsetDateTime endDate;
     private TransactionType transactionCategory;
     private String relatedUserFullName;
     private BigDecimal sum;

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .success {
+            width: 25em;
+        }
+        .success-h4 {
+            padding-left: 4em;
+        }
+    </style>
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content" class="row text-center">
+    <img th:src="@{/images/transaction-successful.png}" alt="Successful" class="success mx-auto d-block mb-5">
+    <br>
+    <br>
+    <br>
+    <h4 class="success-h4">Transaction successful</h4>
+    <br>
+    <br>
+    <a th:href="@{'/accounts/' + ${userId} + '/all'}" th:type="button" class="btn btn-outline-dark btn-back"><<  Back to account menu</a>
+</div>
+</body>
+</html>

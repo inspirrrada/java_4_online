@@ -9,6 +9,7 @@ import ua.com.alevel.api.TransactionApiService;
 import ua.com.alevel.model.AccountModel;
 import ua.com.alevel.model.TransactionFormModel;
 import ua.com.alevel.model.UserAccountsModel;
+import ua.com.alevel.model.UserModel;
 
 @Controller
 @RequestMapping("/transactions")
@@ -19,19 +20,17 @@ public class TransactionController {
     private final AccountApiService accountApiService;
 
     //+
-    @GetMapping("/{accountId}/new")
-    public String transactionForm(@PathVariable Long accountId, Model model) {
-//        UserAccountsModel userAccountsModel = accountApiService.findAllAccountsByUserId(id).get();
+    @GetMapping("/{userId}/{accountId}/new")
+    public String transactionForm(@PathVariable Long userId, @PathVariable Long accountId, Model model) {
         AccountModel accountModel = accountApiService.findById(accountId).get();
-//        model.addAttribute("user", userAccountsModel);
         model.addAttribute("account", accountModel);
         model.addAttribute("transaction", new TransactionFormModel());
         return "pages/transaction_form";
     }
 
     //+
-    @PostMapping("/{accountId}/new")
-    public String transactionSubmit(@ModelAttribute("transaction") TransactionFormModel transactionFormModel, @PathVariable Long accountId) {
+    @PostMapping("/{userId}/{accountId}/new")
+    public String transactionSubmit(@ModelAttribute("transaction") TransactionFormModel transactionFormModel, @PathVariable Long userId, @PathVariable Long accountId) {
 //        @ModelAttribute("account") AccountModel accountFromModel,
         //System.out.println("accountId: " + accountId);
 
@@ -39,12 +38,15 @@ public class TransactionController {
         String accountFromNumber = accountApiService.findById(accountId).get().getAccountNumber();
         transactionFormModel.setFromAccountNumber(accountFromNumber);
         System.out.println(transactionFormModel.toString());
-        transactionApiService.createTransaction(transactionFormModel, accountId);
+        String status = transactionApiService.createTransaction(transactionFormModel, userId, accountId);
 //        System.out.println(accountFromModel);
 //        String accountNumber = transactionForm.getToAccount().getAccountNumber();
 //        AccountModel accountToModel = accountApiService.findByAccountNumber(accountNumber).get();
 //        System.out.println(accountToModel);
         //TODO if all is ok - return success, if false - return fail
-        return "pages/transaction_status";
+        if (!status.equals("")) {
+            return "pages/transaction_success";
+        }
+        return "pages/transaction_failed";
     }
 }

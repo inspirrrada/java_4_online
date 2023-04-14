@@ -15,8 +15,8 @@ public class TransactionController {
     private final TransactionFacade transactionFacade;
 
     //+
-    @PostMapping("/{accountId}/new")
-    public ResponseEntity<Boolean> create(@RequestBody TransactionFormDTO dto, @PathVariable Long accountId) {
+    @PostMapping("/{userId}/{accountId}/new")
+    public ResponseEntity<Boolean> create(@RequestBody TransactionFormDTO dto, @PathVariable Long userId, @PathVariable Long accountId) {
         transactionFacade.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(true);
     }

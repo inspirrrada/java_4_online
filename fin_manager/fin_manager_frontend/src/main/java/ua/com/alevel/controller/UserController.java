@@ -76,23 +76,23 @@ public class UserController {
 //        return "pages/transaction_success";
 //    }
 
-    @PostMapping("/{accountId}/transaction")
-    public String transactionSubmit(@ModelAttribute("transaction") TransactionFormModel transactionFormModel, @PathVariable Long accountId) {
-//        @ModelAttribute("account") AccountModel accountFromModel,
-        //System.out.println("accountId: " + accountId);
-
-
-        String accountFromNumber = accountApiService.findById(accountId).get().getAccountNumber();
-        transactionFormModel.setFromAccountNumber(accountFromNumber);
-        System.out.println(transactionFormModel.toString());
-        transactionApiService.createTransaction(transactionFormModel, accountId);
-//        System.out.println(accountFromModel);
-//        String accountNumber = transactionForm.getToAccount().getAccountNumber();
-//        AccountModel accountToModel = accountApiService.findByAccountNumber(accountNumber).get();
-//        System.out.println(accountToModel);
-        //TODO if all is ok - return success, if false - return fail
-        return "transaction_status";
-    }
+//    @PostMapping("/{accountId}/transaction")
+//    public String transactionSubmit(@ModelAttribute("transaction") TransactionFormModel transactionFormModel, @PathVariable Long accountId) {
+////        @ModelAttribute("account") AccountModel accountFromModel,
+//        //System.out.println("accountId: " + accountId);
+//
+//
+//        String accountFromNumber = accountApiService.findById(accountId).get().getAccountNumber();
+//        transactionFormModel.setFromAccountNumber(accountFromNumber);
+//        System.out.println(transactionFormModel.toString());
+//        transactionApiService.createTransaction(transactionFormModel, accountId);
+////        System.out.println(accountFromModel);
+////        String accountNumber = transactionForm.getToAccount().getAccountNumber();
+////        AccountModel accountToModel = accountApiService.findByAccountNumber(accountNumber).get();
+////        System.out.println(accountToModel);
+//        //TODO if all is ok - return success, if false - return fail
+//        return "transaction_status";
+//    }
 
     @GetMapping("/statement/{accountId}/filters")
     public String getFilters(@PathVariable Long accountId, Model model) {

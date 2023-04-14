@@ -63,7 +63,7 @@ public class TransactionApiServiceImpl implements TransactionApiService {
 
     //+
     @Override
-    public String createTransaction(TransactionFormModel transactionFormModel, Long accountId) {
+    public String createTransaction(TransactionFormModel transactionFormModel, Long userId, Long accountId) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -77,7 +77,7 @@ public class TransactionApiServiceImpl implements TransactionApiService {
             ResponseEntity<Object> productCreateResponse =
                     restTemplate
                             .exchange(
-                                    apiUrl + "/transactions/" + accountId + "/new",
+                                    apiUrl + "/transactions/" + userId + "/" + accountId + "/new",
                                     HttpMethod.POST,
                                     request,
                                     Object.class);
@@ -87,7 +87,7 @@ public class TransactionApiServiceImpl implements TransactionApiService {
         } catch (HttpStatusCodeException e) {
             e.getMessage();
             e.printStackTrace();
+            return "error";
         }
-        return "success";
     }
 }

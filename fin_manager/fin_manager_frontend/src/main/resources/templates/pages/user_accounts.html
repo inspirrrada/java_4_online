@@ -46,7 +46,7 @@
                     <td th:text="${account.getAccountNumber()}"></td>
                     <td th:text="${account.getBalance()}"></td>
                     <td>
-                        <a th:href="@{'/transactions/' + ${account.getId()} + '/new'}" th:type="button" class="btn btn-light">Run</a>
+                        <a th:href="@{'/transactions/' + ${user.getId()} + '/' + ${account.getId()} + '/new'}" th:type="button" class="btn btn-light">Run</a>
                     </td>
                     <td>
 <!--                        <a th:href="@{'/users/statement/' + ${account.getId()}}" th:type="button" class="btn btn-light">View statement</a>-->

@@ -19,6 +19,7 @@ public class UserApiServiceImpl implements UserApiService {
     @Value("${finmanager.backend.api.url}")
     private String apiUrl;
 
+    //+
     @Override
     public Collection<UserModel> findAll() {
         RestTemplate restTemplate = new RestTemplate();

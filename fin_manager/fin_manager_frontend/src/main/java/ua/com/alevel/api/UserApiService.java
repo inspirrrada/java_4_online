@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface UserApiService {
 
+    //+
     Collection<UserModel> findAll();
     Optional<UserFinanceModel> findById(Long id);
 }

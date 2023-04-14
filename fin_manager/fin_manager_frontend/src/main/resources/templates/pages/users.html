@@ -6,6 +6,11 @@
       layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
+    <style>
+        .btn-back {
+            width: 6em;
+        }
+    </style>
     <title>User select</title>
 </head>
 <body>
@@ -149,6 +154,9 @@
 
 <!--//finish-->
 <div layout:fragment="content">
+    <a th:href="@{'/index'}" th:type="button" class="btn btn-outline-dark btn-back"><<  Back</a>
+    <br>
+    <br>
     <div class="card">
         <div class="card-header">
             All Users

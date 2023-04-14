@@ -18,6 +18,7 @@ public class UserFacadeImpl implements UserFacade {
 
     private final UserService userService;
 
+    //+
     @Override
     public List<UserDTO> findAll() {
         Collection<User> users = userService.findAll();

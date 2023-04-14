@@ -4,5 +4,4 @@ import ua.com.alevel.persistence.entity.User;
 
 public interface UserService extends BaseService<User> {
 
-//    Integer findAccountsQtyByUser(Long userId);
 }

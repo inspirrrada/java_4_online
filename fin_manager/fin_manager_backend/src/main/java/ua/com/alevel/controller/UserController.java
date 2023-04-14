@@ -28,6 +28,7 @@ public class UserController {
     private final UserFacade userFacade;
     private final TransactionFacade transactionFacade;
 
+    //+
     @GetMapping
     public ResponseEntity<Collection<UserDTO>> findAll() {
         return ResponseEntity.ok(userFacade.findAll());

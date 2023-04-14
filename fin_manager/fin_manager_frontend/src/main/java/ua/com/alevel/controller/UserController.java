@@ -37,6 +37,7 @@ public class UserController {
     private final AccountApiService accountApiService;
     private final TransactionApiService transactionApiService;
 
+    //+
     @GetMapping
     public String findAll(Model model) {
         model.addAttribute("users", userApiService.findAll());

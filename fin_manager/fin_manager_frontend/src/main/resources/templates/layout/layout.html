@@ -9,31 +9,54 @@
           integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
           crossorigin="anonymous">
     <style>
+        body {
+            background: #F8F9FA;
+        }
         .logo-span {
             padding-right: 15px;
             color: #006FBF;
             text-transform: uppercase;
         }
+        .col-navbar {
+            height: 0;
+        }
+        /*.navbar-logo {*/
+        /*    height: 9vh;*/
+        /*}*/
+        /*.section-body {*/
+        /*    padding-top: 8vh;*/
+        /*}*/
     </style>
     <title></title>
 </head>
 <body>
 
-<div class="container-fluid p-0 overflow-hidden">
-    <div class="row">
-        <div class="col-12">
-            <nav class="navbar bg-body-tertiary">
+<div class="container-fluid p-0 overflow-hidden vh-100 bg-image"
+style="background-image: url('/images/intro-bg.jpg');
+height: 100vh">
+    <div class="row justify-content-center align-items-stretch h-100">
+        <div class="col-10 align-items-start col-navbar">
+            <nav class="navbar navbar-logo">
                     <a class="navbar-brand" href="#">
-                        <img th:src="@{images/logo-transparent-png.png}" alt="logo" width="250">
+                        <img th:src="@{images/logo.png}" alt="logo" width="250">
                     </a>
                 <span class="navbar-text logo-span fs-3 text-blue">
         Your personal finance manager   </span>
             </nav>
+
         </div>
-        <div class="col-12">
-            <section layout:fragment="content"></section>
+
+        <div class="col-10 align-items-center">
+            <section class="section-body" layout:fragment="content"></section>
         </div>
     </div>
+
+
+<!--    <div class="row justify-content-md-center align-items-center">-->
+<!--        <div class="col-10">-->
+<!--            <section layout:fragment="content"></section>-->
+<!--        </div>-->
+<!--    </div>-->
 </div>
 
 

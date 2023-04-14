@@ -11,8 +11,16 @@
 <body>
 
 <div layout:fragment="content">
+    <a th:href="@{'/users'}" th:type="button" class="btn btn-outline-dark btn-back"><<  Back</a>
+    <br>
+    <br>
+    <br>
+    <h4 class="text-center">ACCOUNTS MENU</h4>
+    <br>
+    <br>
+    <br>
     <div class="card">
-        <div class="card-header">
+        <div class="card-header" th:text="${user.getFullName()}">
            Balance information
         </div>
         <div class="card-body">

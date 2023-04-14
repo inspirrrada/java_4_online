@@ -7,18 +7,14 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.dto.AccountStatementDTO;
 import ua.com.alevel.dto.TransactionFormDTO;
 import ua.com.alevel.dto.UserDTO;
-import ua.com.alevel.dto.UserFinanceDTO;
+import ua.com.alevel.dto.UserAccountsDTO;
 import ua.com.alevel.facade.TransactionFacade;
 import ua.com.alevel.facade.UserFacade;
-import ua.com.alevel.persistence.entity.Transaction;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Collection;
-import java.util.Date;
 
 @RestController
 @RequestMapping("/users")
@@ -34,10 +30,10 @@ public class UserController {
         return ResponseEntity.ok(userFacade.findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserFinanceDTO> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(userFacade.findById(id));
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<UserAccountsDTO> findById(@PathVariable Long id) {
+//        return ResponseEntity.ok(userFacade.findById(id));
+//    }
 
     @PostMapping("/new")
     public ResponseEntity<Boolean> create(@RequestBody UserDTO dto) {

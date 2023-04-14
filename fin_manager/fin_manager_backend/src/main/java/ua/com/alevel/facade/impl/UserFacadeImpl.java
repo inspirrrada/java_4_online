@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.dto.UserDTO;
-import ua.com.alevel.dto.UserFinanceDTO;
+import ua.com.alevel.dto.UserAccountsDTO;
 import ua.com.alevel.facade.UserFacade;
 import ua.com.alevel.persistence.entity.User;
 import ua.com.alevel.service.UserService;
@@ -28,16 +28,16 @@ public class UserFacadeImpl implements UserFacade {
         return Collections.emptyList();
     }
 
-    @Override
-    public UserFinanceDTO findById(Long id) {
-        return new UserFinanceDTO(userService.findById(id));
-    }
+//    @Override
+//    public UserAccountsDTO findById(Long id) {
+//        return new UserAccountsDTO(userService.findById(id));
+//    }
 
     @Override
     public void create(UserDTO dto) {
         User user = new User();
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
+        user.setFirstName(dto.getFullName().split("\\s")[0]);
+        user.setLastName(dto.getFullName().split("\\s")[1]);
         user.setAccountsQty(dto.getAccountsQty());
         userService.create(user);
     }
@@ -45,8 +45,8 @@ public class UserFacadeImpl implements UserFacade {
     @Override
     public void update(Long id, UserDTO dto) {
         User user = userService.findById(id);
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
+        user.setFirstName(dto.getFullName().split("\\s")[0]);
+        user.setLastName(dto.getFullName().split("\\s")[1]);
         user.setAccountsQty(dto.getAccountsQty());
         userService.update(user);
     }

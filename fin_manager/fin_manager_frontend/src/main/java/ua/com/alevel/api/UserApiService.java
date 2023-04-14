@@ -1,6 +1,6 @@
 package ua.com.alevel.api;
 
-import ua.com.alevel.model.UserFinanceModel;
+import ua.com.alevel.model.UserAccountsModel;
 import ua.com.alevel.model.UserModel;
 
 import java.util.Collection;
@@ -10,5 +10,5 @@ public interface UserApiService {
 
     //+
     Collection<UserModel> findAll();
-    Optional<UserFinanceModel> findById(Long id);
+//    Optional<UserAccountsModel> findById(Long id);
 }

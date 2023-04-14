@@ -11,13 +11,13 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class UserFinanceDTO extends UserDTO {
+public class UserAccountsDTO extends UserDTO {
 
     private Collection<AccountDTO> accounts;
 
-    public UserFinanceDTO() {}
+    public UserAccountsDTO() {}
 
-    public UserFinanceDTO(User user) {
+    public UserAccountsDTO(User user) {
         super(user);
         if (CollectionUtils.isNotEmpty(user.getAccounts())) {
             Set<Account> accountSet = user.getAccounts();

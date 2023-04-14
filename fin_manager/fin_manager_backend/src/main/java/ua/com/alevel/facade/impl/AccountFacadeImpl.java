@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.dto.AccountDTO;
+import ua.com.alevel.dto.UserAccountsDTO;
 import ua.com.alevel.dto.UserDTO;
 import ua.com.alevel.facade.AccountFacade;
 import ua.com.alevel.persistence.entity.Account;
 import ua.com.alevel.persistence.entity.User;
 import ua.com.alevel.service.AccountService;
+import ua.com.alevel.service.UserService;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -19,6 +21,7 @@ import java.util.List;
 public class AccountFacadeImpl implements AccountFacade {
 
     private final AccountService accountService;
+    private final UserService userService;
 
     @Override
     public List<AccountDTO> findAll() {
@@ -32,6 +35,13 @@ public class AccountFacadeImpl implements AccountFacade {
     @Override
     public AccountDTO findById(Long id) {
         return new AccountDTO(accountService.findById(id));
+    }
+
+    //+
+    @Override
+    public UserAccountsDTO findAllAccountsByUserId(Long id) {
+        User user = userService.findById(id);
+        return new UserAccountsDTO(user);
     }
 
     @Override

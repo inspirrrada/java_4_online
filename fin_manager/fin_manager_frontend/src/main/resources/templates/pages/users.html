@@ -157,9 +157,15 @@
     <a th:href="@{'/index'}" th:type="button" class="btn btn-outline-dark btn-back"><<  Back</a>
     <br>
     <br>
+    <br>
+    <h4 class="text-center">SELECT USER</h4>
+    <h4 class="text-center">with which you want to test application</h4>
+    <br>
+    <br>
+    <br>
     <div class="card">
         <div class="card-header">
-            All Users
+            Users list
         </div>
         <div class="card-body">
             <table class="table table-striped table-hover">
@@ -169,15 +175,15 @@
                         User
                     </th>
                     <th>
-                        Test mode
+                        Session
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="user : ${users}">
-                    <td th:text="${user.getFirstName() + ' ' + user.getLastName()}"></td>
+                    <td th:text="${user.getFullName()}"></td>
                     <td>
-                        <a th:href="@{'/users/' + ${user.getId()}}" th:type="button" class="btn btn-light">Test</a>
+                        <a th:href="@{'/accounts/' + ${user.getId()}}" th:type="button" class="btn btn-light">Start</a>
                     </td>
                 </tr>
                 </tbody>

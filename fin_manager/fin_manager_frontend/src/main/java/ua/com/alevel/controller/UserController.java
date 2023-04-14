@@ -5,14 +5,12 @@ import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.api.AccountApiService;
 import ua.com.alevel.api.TransactionApiService;
@@ -22,10 +20,8 @@ import ua.com.alevel.model.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -44,21 +40,21 @@ public class UserController {
         return "pages/users";
     }
 
-    @GetMapping("/{id}")
-    public String findUserAccounts(@PathVariable Long id, Model model) {
-        Optional<UserFinanceModel> userFinanceModelOptional = userApiService.findById(id);
-        if (userFinanceModelOptional.isPresent()) {
-            model.addAttribute("user", userFinanceModelOptional.get());
-            return "pages/user_accounts";
-        }
-        return "pages/404";
-    }
+//    @GetMapping("/{id}")
+//    public String findUserAccounts(@PathVariable Long id, Model model) {
+//        Optional<UserAccountsModel> userFinanceModelOptional = userApiService.findById(id);
+//        if (userFinanceModelOptional.isPresent()) {
+//            model.addAttribute("user", userFinanceModelOptional.get());
+//            return "pages/user_accounts";
+//        }
+//        return "pages/404";
+//    }
 
     @GetMapping("/{id}/{accountId}/transaction")
     public String transactionForm(@PathVariable Long id, @PathVariable Long accountId, Model model) {
-        UserFinanceModel userFinanceModel = userApiService.findById(id).get();
+        UserAccountsModel userAccountsModel = accountApiService.findAllAccountsByUserId(id).get();
         AccountModel accountModel = accountApiService.findById(accountId).get();
-        model.addAttribute("user", userFinanceModel);
+        model.addAttribute("user", userAccountsModel);
         model.addAttribute("account", accountModel);
         model.addAttribute("transaction", new TransactionForm()); //new TransactionModel());
         return "pages/transaction_form";

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.dto.AccountDTO;
+import ua.com.alevel.dto.UserAccountsDTO;
 import ua.com.alevel.facade.AccountFacade;
 
 import java.util.Collection;
@@ -21,10 +22,16 @@ public class AccountController {
         return ResponseEntity.ok(accountFacade.findAll());
     }
 
+    //+
     @GetMapping("/{id}")
-    public ResponseEntity<AccountDTO> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(accountFacade.findById(id));
+    public ResponseEntity<UserAccountsDTO> findAllAccountsByUserId(@PathVariable Long id) {
+        return ResponseEntity.ok(accountFacade.findAllAccountsByUserId(id));
     }
+
+//    @GetMapping("/{id}")
+//    public ResponseEntity<AccountDTO> findById(@PathVariable Long id) {
+//        return ResponseEntity.ok(accountFacade.findById(id));
+//    }
 
 //    @GetMapping("/{accountNumber}")
 //    public ResponseEntity<AccountDTO> findByAccountNumber(@PathVariable String accountNumber) {

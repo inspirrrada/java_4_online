@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ua.com.alevel.api.UserApiService;
-import ua.com.alevel.model.UserFinanceModel;
+import ua.com.alevel.model.UserAccountsModel;
 import ua.com.alevel.model.UserModel;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,26 +38,26 @@ public class UserApiServiceImpl implements UserApiService {
         return Collections.emptyList();
     }
 
-    @Override
-    public Optional<UserFinanceModel> findById(Long id) {
-        RestTemplate restTemplate = new RestTemplate();
-        try {
-            ResponseEntity<UserFinanceModel> response = restTemplate.exchange(
-                    apiUrl + "/users/" + id,
-                    HttpMethod.GET,
-                    null,
-                    UserFinanceModel.class
-            );
-            if (response.getStatusCode().is2xxSuccessful()) {
-                UserFinanceModel userFinanceModel = response.getBody();
-                if (userFinanceModel != null) {
-                    return Optional.of(userFinanceModel);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Optional.empty();
-        }
-        return Optional.empty();
-    }
+//    @Override
+//    public Optional<UserAccountsModel> findById(Long id) {
+//        RestTemplate restTemplate = new RestTemplate();
+//        try {
+//            ResponseEntity<UserAccountsModel> response = restTemplate.exchange(
+//                    apiUrl + "/users/" + id,
+//                    HttpMethod.GET,
+//                    null,
+//                    UserAccountsModel.class
+//            );
+//            if (response.getStatusCode().is2xxSuccessful()) {
+//                UserAccountsModel userAccountsModel = response.getBody();
+//                if (userAccountsModel != null) {
+//                    return Optional.of(userAccountsModel);
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return Optional.empty();
+//        }
+//        return Optional.empty();
+//    }
 }

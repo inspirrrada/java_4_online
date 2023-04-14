@@ -7,11 +7,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import ua.com.alevel.api.TransactionApiService;
 import ua.com.alevel.model.TransactionForm;
-import ua.com.alevel.model.UserFinanceModel;
-import ua.com.alevel.model.UserModel;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Service

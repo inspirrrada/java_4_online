@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ua.com.alevel.persistence.entity.Account;
 import ua.com.alevel.persistence.repository.AccountRepository;
 import ua.com.alevel.service.AccountService;
+import ua.com.alevel.service.UserService;
 
 import java.util.Collection;
 
@@ -15,6 +16,7 @@ import java.util.Collection;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
+    private final UserService userService;
 
     @Override
     public void create(Account account) {
@@ -46,10 +48,10 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.findByAccountNumber(accountNumber);
     }
 
-    @Override
-    public Collection<Account> findAllByUser(Long userId) {
-        return accountRepository.findAllByUser(userId);
-    }
+//    @Override
+//    public Collection<Account> findAllByUser(Long userId) {
+//        return accountRepository.findAllByUser(userId);
+//    }
 
     @Override
     public Long findUserIdByAccountId(Long id) {

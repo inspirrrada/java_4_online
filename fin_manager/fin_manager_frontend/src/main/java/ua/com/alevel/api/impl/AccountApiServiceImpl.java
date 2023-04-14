@@ -9,6 +9,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import ua.com.alevel.api.AccountApiService;
 import ua.com.alevel.model.AccountModel;
 import ua.com.alevel.model.AccountStatementModel;
+import ua.com.alevel.model.UserAccountsModel;
 
 import java.util.*;
 
@@ -108,4 +109,51 @@ public class AccountApiServiceImpl implements AccountApiService {
             }
         return Collections.emptyList();
     }
+
+    //+
+    @Override
+    public Optional<UserAccountsModel> findAllAccountsByUserId(Long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            ResponseEntity<UserAccountsModel> response = restTemplate.exchange(
+                    apiUrl + "/accounts/" + id,
+                    HttpMethod.GET,
+                    null,
+                    UserAccountsModel.class
+            );
+            if (response.getStatusCode().is2xxSuccessful()) {
+                UserAccountsModel userAccountsModel = response.getBody();
+                if (userAccountsModel != null) {
+                    return Optional.of(userAccountsModel);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
+        return Optional.empty();
+    }
+
+//    @Override
+//    public Optional<UserAccountsModel> findById(Long id) {
+//        RestTemplate restTemplate = new RestTemplate();
+//        try {
+//            ResponseEntity<UserAccountsModel> response = restTemplate.exchange(
+//                    apiUrl + "/users/" + id,
+//                    HttpMethod.GET,
+//                    null,
+//                    UserAccountsModel.class
+//            );
+//            if (response.getStatusCode().is2xxSuccessful()) {
+//                UserAccountsModel userAccountsModel = response.getBody();
+//                if (userAccountsModel != null) {
+//                    return Optional.of(userAccountsModel);
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return Optional.empty();
+//        }
+//        return Optional.empty();
+//    }
 }

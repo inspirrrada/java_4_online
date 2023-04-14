@@ -23,15 +23,15 @@ public class AccountController {
     }
 
     //+
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/all")
     public ResponseEntity<UserAccountsDTO> findAllAccountsByUserId(@PathVariable Long id) {
         return ResponseEntity.ok(accountFacade.findAllAccountsByUserId(id));
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<AccountDTO> findById(@PathVariable Long id) {
-//        return ResponseEntity.ok(accountFacade.findById(id));
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(accountFacade.findById(id));
+    }
 
 //    @GetMapping("/{accountNumber}")
 //    public ResponseEntity<AccountDTO> findByAccountNumber(@PathVariable String accountNumber) {

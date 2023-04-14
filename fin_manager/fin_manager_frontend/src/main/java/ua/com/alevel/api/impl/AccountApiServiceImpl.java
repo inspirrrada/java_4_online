@@ -116,7 +116,7 @@ public class AccountApiServiceImpl implements AccountApiService {
         RestTemplate restTemplate = new RestTemplate();
         try {
             ResponseEntity<UserAccountsModel> response = restTemplate.exchange(
-                    apiUrl + "/accounts/" + id,
+                    apiUrl + "/accounts/" + id + "/all",
                     HttpMethod.GET,
                     null,
                     UserAccountsModel.class

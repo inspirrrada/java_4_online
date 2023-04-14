@@ -34,7 +34,7 @@
                        Balance
                     </th>
                     <th>
-                        Start transaction
+                        Make transaction
                     </th>
                     <th>
                         Statement
@@ -46,11 +46,11 @@
                     <td th:text="${account.getAccountNumber()}"></td>
                     <td th:text="${account.getBalance()}"></td>
                     <td>
-                        <a th:href="@{'/users/' + ${user.getId()} + '/' + ${account.getId()} + '/transaction'}" th:type="button" class="btn btn-light">Do transaction</a>
+                        <a th:href="@{'/transactions/' + ${account.getId()} + '/new'}" th:type="button" class="btn btn-light">Run</a>
                     </td>
                     <td>
 <!--                        <a th:href="@{'/users/statement/' + ${account.getId()}}" th:type="button" class="btn btn-light">View statement</a>-->
-                        <a th:href="@{'/users/statement/' + ${account.getId()} + '/filters'}" th:type="button" class="btn btn-light">View statement</a>
+                        <a th:href="@{'/users/statement/' + ${account.getId()} + '/filters'}" th:type="button" class="btn btn-light">View</a>
                     </td>
                 </tr>
                 </tbody>

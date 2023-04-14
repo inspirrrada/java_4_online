@@ -53,11 +53,11 @@ public class UserController {
         return ResponseEntity.ok(true);
     }
 
-    @PostMapping("/{accountId}/transaction")
-    public ResponseEntity<Boolean> create(@RequestBody TransactionFormDTO dto, @PathVariable Long accountId) {
-        transactionFacade.create(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(true);
-    }
+//    @PostMapping("/{accountId}/transaction")
+//    public ResponseEntity<Boolean> create(@RequestBody TransactionFormDTO dto, @PathVariable Long accountId) {
+//        transactionFacade.create(dto);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(true);
+//    }
 
     @GetMapping( value = "/statement/{accountId}")
     public ResponseEntity<Collection<AccountStatementDTO>> getStatement(@PathVariable Long accountId, @RequestParam(value = "fromDate", required = false) String fromDate, @RequestParam(value = "toDate", required = false) String toDate) {

@@ -11,6 +11,7 @@ import java.util.Collection;
 public interface TransactionService extends BaseService<Transaction> {
 
     Collection<Transaction> findAllByAccountId(Timestamp startDate, Timestamp endDate, Long accountId);
+    //+
     TransactionRegister findRecordByTransactionIdAndUserId(Long transactionId, Long userId);
     Collection<TransactionRegister> findAllByTransactionId(Long transactionId);
 }

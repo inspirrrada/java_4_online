@@ -12,7 +12,7 @@
 
 <div layout:fragment="content">
     <div class="input-group">
-        <form th:action="@{'/users/' +  ${account.getId()} + '/transaction'}" th:object="${transaction}" th:method="POST">
+        <form th:action="@{'/transactions/' +  ${account.getId()} + '/new'}" th:object="${transaction}" th:method="POST">
                 <p>Account of sender:
                     <input disabled type="text" th:value="${account.getAccountNumber()}"/>
                 </p>

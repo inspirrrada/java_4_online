@@ -19,7 +19,7 @@ public class AccountController {
     private final AccountApiService accountApiService;
 
     //+
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/all")
     public String findUserAccounts(@PathVariable Long id, Model model) {
         Optional<UserAccountsModel> userAccountsModelOptional = accountApiService.findAllAccountsByUserId(id);
         if (userAccountsModelOptional.isPresent()) {

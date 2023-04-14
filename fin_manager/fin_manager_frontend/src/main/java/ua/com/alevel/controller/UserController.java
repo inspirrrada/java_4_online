@@ -50,16 +50,16 @@ public class UserController {
 //        return "pages/404";
 //    }
 
-    @GetMapping("/{id}/{accountId}/transaction")
-    public String transactionForm(@PathVariable Long id, @PathVariable Long accountId, Model model) {
-        UserAccountsModel userAccountsModel = accountApiService.findAllAccountsByUserId(id).get();
-        AccountModel accountModel = accountApiService.findById(accountId).get();
-        model.addAttribute("user", userAccountsModel);
-        model.addAttribute("account", accountModel);
-        model.addAttribute("transaction", new TransactionForm()); //new TransactionModel());
-        return "pages/transaction_form";
-
-    }
+//    @GetMapping("/{id}/{accountId}/transaction")
+//    public String transactionForm(@PathVariable Long id, @PathVariable Long accountId, Model model) {
+//        UserAccountsModel userAccountsModel = accountApiService.findAllAccountsByUserId(id).get();
+//        AccountModel accountModel = accountApiService.findById(accountId).get();
+//        model.addAttribute("user", userAccountsModel);
+//        model.addAttribute("account", accountModel);
+//        model.addAttribute("transaction", new TransactionFormModel()); //new TransactionModel());
+//        return "pages/transaction_form";
+//
+//    }
 
 //    @PostMapping("/{id}/{accountId}/transaction")
 //    public String transactionSubmit(@ModelAttribute("transaction") TransactionModel transactionModel, @PathVariable Long accountId) {
@@ -77,21 +77,21 @@ public class UserController {
 //    }
 
     @PostMapping("/{accountId}/transaction")
-    public String transactionSubmit(@ModelAttribute("transaction") TransactionForm transactionForm, @PathVariable Long accountId) {
+    public String transactionSubmit(@ModelAttribute("transaction") TransactionFormModel transactionFormModel, @PathVariable Long accountId) {
 //        @ModelAttribute("account") AccountModel accountFromModel,
         //System.out.println("accountId: " + accountId);
 
 
         String accountFromNumber = accountApiService.findById(accountId).get().getAccountNumber();
-        transactionForm.setFromAccountNumber(accountFromNumber);
-        System.out.println(transactionForm.toString());
-        transactionApiService.create2(transactionForm, accountId);
+        transactionFormModel.setFromAccountNumber(accountFromNumber);
+        System.out.println(transactionFormModel.toString());
+        transactionApiService.createTransaction(transactionFormModel, accountId);
 //        System.out.println(accountFromModel);
 //        String accountNumber = transactionForm.getToAccount().getAccountNumber();
 //        AccountModel accountToModel = accountApiService.findByAccountNumber(accountNumber).get();
 //        System.out.println(accountToModel);
         //TODO if all is ok - return success, if false - return fail
-        return "pages/transaction_success";
+        return "transaction_status";
     }
 
     @GetMapping("/statement/{accountId}/filters")

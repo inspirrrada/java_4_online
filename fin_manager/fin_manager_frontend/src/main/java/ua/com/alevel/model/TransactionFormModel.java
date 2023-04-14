@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ToString
-public class TransactionForm {
+public class TransactionFormModel {
 
     private BigDecimal sum;
     private String fromAccountNumber;

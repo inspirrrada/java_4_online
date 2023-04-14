@@ -1,12 +1,13 @@
 package ua.com.alevel.api;
 
-import ua.com.alevel.model.TransactionForm;
+import ua.com.alevel.model.TransactionFormModel;
 
 import java.util.Optional;
 
 public interface TransactionApiService {
 
-    Optional<TransactionForm> create(TransactionForm transactionForm, Long id, Long accountId);
-//String create(TransactionForm transactionForm, Long id, Long accountId);
-    String create2(TransactionForm transactionForm, Long accountId);
+//    Optional<TransactionFormModel> create(TransactionFormModel transactionForm, Long id, Long accountId);
+////String create(TransactionForm transactionForm, Long id, Long accountId);
+    //+
+    String createTransaction(TransactionFormModel transactionForm, Long accountId);
 }

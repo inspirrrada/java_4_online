@@ -6,7 +6,7 @@
       layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Finance Information</title>
+    <title>User accounts</title>
 </head>
 <body>
 
@@ -49,7 +49,6 @@
                         <a th:href="@{'/transactions/' + ${user.getId()} + '/' + ${account.getId()} + '/new'}" th:type="button" class="btn btn-light">Start</a>
                     </td>
                     <td>
-<!--                        <a th:href="@{'/users/statement/' + ${account.getId()}}" th:type="button" class="btn btn-light">View statement</a>-->
                         <a th:href="@{'/accounts/' + ${user.getId()} + '/' + ${account.getId()} + '/filters'}" th:type="button" class="btn btn-light">View</a>
                     </td>
                 </tr>

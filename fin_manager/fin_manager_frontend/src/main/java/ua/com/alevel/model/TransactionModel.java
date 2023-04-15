@@ -13,14 +13,4 @@ public class TransactionModel {
     private BigDecimal sum;
     private AccountModel fromAccount;
     private AccountModel toAccount;
-
-    @Override
-    public String toString() {
-        return "TransactionModel{" +
-                "id=" + id +
-                ", sum=" + sum +
-                ", fromAccount=" + fromAccount +
-                ", toAccount=" + toAccount +
-                '}';
-    }
 }

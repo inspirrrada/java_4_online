@@ -11,7 +11,7 @@
             width: 35em;
         }
     </style>
-    <title>Title</title>
+    <title>Date filters</title>
 </head>
 <body>
 
@@ -27,7 +27,6 @@
     <br>
     <div class="input-group d-flex justify-content-center">
         <form th:action="@{'/accounts/' + ${userId} + '/' + ${accountId} + '/statement'}" th:object="${filters}" th:method="GET" class="filters-form">
-            <!--    <form th:action="@{'/users/statement/' + ${accountId} + '/filters'}" th:object="${filters}" th:method="GET">-->
             <p>From:
                 <input type="date" class="form-control" th:field="*{fromDate}"/>
             </p>
@@ -39,8 +38,6 @@
             </div>
         </form>
     </div>
-
-<!--    <a th:href="@{'/users/statement/' + ${accountId}}" th:type="button" class="btn btn-light">View statement</a>-->
 
 </div>
 

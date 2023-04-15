@@ -19,10 +19,6 @@ import ua.com.alevel.model.DateFilters;
 import ua.com.alevel.model.UserAccountsModel;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.*;
 
 @Controller
@@ -32,7 +28,6 @@ public class AccountController {
 
     private final AccountApiService accountApiService;
 
-    //+
     @GetMapping("/{id}/all")
     public String findUserAccounts(@PathVariable Long id, Model model) {
         Optional<UserAccountsModel> userAccountsModelOptional = accountApiService.findAllAccountsByUserId(id);
@@ -44,21 +39,13 @@ public class AccountController {
     }
 
     @GetMapping("/{userId}/{accountId}/filters")
-    public String showAccountFiltersForm(@PathVariable Long userId, @PathVariable Long accountId, Model model) {
+    public String showAccountFiltersForm(Model model, @PathVariable String userId, @PathVariable String accountId) {
         model.addAttribute("filters", new DateFilters());
         return "pages/account_filters_form";
     }
 
     @PostMapping("/{userId}/{accountId}/filters")
-    public String getFiltersValue(@PathVariable Long accountId, Model model, @ModelAttribute("filters") DateFilters dateFilters, @PathVariable String userId) {
-//        Calendar calendar = Calendar.getInstance();
-//        DateFilters dateFilters = new DateFilters();
-//        dateFilters.setToDate(calendar.getTime());
-//        model.addAttribute("end", calendar.getTime());
-//        calendar.set(Calendar.YEAR, 0);
-//        dateFilters.setFromDate(calendar.getTime());
-//        model.addAttribute("start", calendar.getTime());
-        System.out.println("filters:  @PostMapping(\"/statement/{accountId}/filters\")" + dateFilters.getFromDate());
+    public String getFiltersValue(@ModelAttribute("filters") DateFilters dateFilters, @PathVariable String userId, @PathVariable String accountId) {
         return "pages/account_statement";
     }
 
@@ -83,14 +70,11 @@ public class AccountController {
             System.out.println(accountStatementModel.toString());
         }
 
-        // set file name and content type
         String filename = "Account_statement.csv";
-
         response.setContentType("text/csv");
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + filename + "\"");
 
-        // create a csv writer
         StatefulBeanToCsv<AccountStatementModel> writer =
                 null;
         try {
@@ -103,7 +87,6 @@ public class AccountController {
             throw new RuntimeException(e);
         }
 
-        // write all employees to csv file
         try {
             writer.write((List<AccountStatementModel>) accountStatementModel);
         } catch (CsvDataTypeMismatchException e) {
@@ -111,8 +94,5 @@ public class AccountController {
         } catch (CsvRequiredFieldEmptyException e) {
             throw new RuntimeException(e);
         }
-
-        //return "pages/transaction_success";
     }
-
 }

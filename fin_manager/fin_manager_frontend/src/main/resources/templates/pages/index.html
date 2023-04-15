@@ -5,23 +5,12 @@
       layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Finance manager</title>
+    <title>Home</title>
     <style>
         .btn {
             min-width: 250px;
             text-transform: uppercase;
             color: #002540;
-        }
-        .bg-index {
-            background-image:url('/images/financial.png');
-            background-size: cover;
-            height: 100vh
-        }
-        .col-centered {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
         }
         .row{ display: flex; align-items: center;}
         .home-img {
@@ -30,9 +19,6 @@
         .home-text {
             color: #33406D;
         }
-        /*style="background-image:url('../../static/images/index-bg.jpg');*/
-        /*background-size: cover;*/
-        /*height: 100vh")*/
     </style>
 </head>
 <body>
@@ -53,10 +39,6 @@
                 <a th:href="@{'/users'}" th:type="button" class="btn btn-lg btn-warning btn-start text-center home-text">GO TO TEST MODE</a>
             </div>
         </div>
-<!--        <div class="bg-image bg-index">-->
-<!--            <div class="d-flex justify-content-center align-items-center vh-100">-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
 
 </body>

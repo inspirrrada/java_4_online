@@ -94,12 +94,10 @@ public class AccountApiServiceImpl implements AccountApiService {
                         .queryParam("toDate", toDate);
 
             ResponseEntity<AccountStatementModel[]> response = restTemplate.exchange(
-//                    apiUrl + "/users/statement/" + accountId,
                     builder.toUriString(),
                     HttpMethod.GET,
                     null,
                     AccountStatementModel[].class
-//                    params
             );
             if (response.getStatusCode().is2xxSuccessful()) {
                 AccountStatementModel[] accountModel = response.getBody();
@@ -110,7 +108,6 @@ public class AccountApiServiceImpl implements AccountApiService {
         return Collections.emptyList();
     }
 
-    //+
     @Override
     public Optional<UserAccountsModel> findAllAccountsByUserId(Long id) {
         RestTemplate restTemplate = new RestTemplate();
@@ -133,27 +130,4 @@ public class AccountApiServiceImpl implements AccountApiService {
         }
         return Optional.empty();
     }
-
-//    @Override
-//    public Optional<UserAccountsModel> findById(Long id) {
-//        RestTemplate restTemplate = new RestTemplate();
-//        try {
-//            ResponseEntity<UserAccountsModel> response = restTemplate.exchange(
-//                    apiUrl + "/users/" + id,
-//                    HttpMethod.GET,
-//                    null,
-//                    UserAccountsModel.class
-//            );
-//            if (response.getStatusCode().is2xxSuccessful()) {
-//                UserAccountsModel userAccountsModel = response.getBody();
-//                if (userAccountsModel != null) {
-//                    return Optional.of(userAccountsModel);
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return Optional.empty();
-//        }
-//        return Optional.empty();
-//    }
 }

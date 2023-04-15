@@ -30,7 +30,7 @@ public class TransactionController {
         String accountFromNumber = accountApiService.findById(accountId).get().getAccountNumber();
         transactionFormModel.setFromAccountNumber(accountFromNumber);
         String status = transactionApiService.createTransaction(transactionFormModel, userId, accountId);
-        if (!status.equals("")) {
+        if (!status.equals("error")) {
             return "pages/transaction_success";
         }
         return "pages/transaction_failed";

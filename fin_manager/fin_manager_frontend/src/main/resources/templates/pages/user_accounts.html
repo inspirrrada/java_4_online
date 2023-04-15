@@ -50,7 +50,7 @@
                     </td>
                     <td>
 <!--                        <a th:href="@{'/users/statement/' + ${account.getId()}}" th:type="button" class="btn btn-light">View statement</a>-->
-                        <a th:href="@{'/users/statement/' + ${account.getId()} + '/filters'}" th:type="button" class="btn btn-light">View</a>
+                        <a th:href="@{'/accounts/' + ${user.getId()} + '/' + ${account.getId()} + '/filters'}" th:type="button" class="btn btn-light">View</a>
                     </td>
                 </tr>
                 </tbody>

@@ -94,71 +94,71 @@ public class UserController {
 //        return "transaction_status";
 //    }
 
-    @GetMapping("/statement/{accountId}/filters")
-    public String getFilters(@PathVariable Long accountId, Model model) {
-//        Calendar calendar = Calendar.getInstance();
-//        DateFilters dateFilters = new DateFilters();
-//        dateFilters.setToDate(calendar.getTime());
-//        model.addAttribute("end", calendar.getTime());
-//        calendar.set(Calendar.YEAR, 0);
-//        dateFilters.setFromDate(calendar.getTime());
-//        model.addAttribute("start", calendar.getTime());
-        model.addAttribute("filters", new DateFilters());
-        return "pages/dates_filter";
-    }
-
-    @PostMapping("/statement/{accountId}/filters")
-    public String getFiltersValue(@PathVariable Long accountId, Model model,  @ModelAttribute("filters") DateFilters dateFilters) {
-//        Calendar calendar = Calendar.getInstance();
-//        DateFilters dateFilters = new DateFilters();
-//        dateFilters.setToDate(calendar.getTime());
-//        model.addAttribute("end", calendar.getTime());
-//        calendar.set(Calendar.YEAR, 0);
-//        dateFilters.setFromDate(calendar.getTime());
-//        model.addAttribute("start", calendar.getTime());
-        System.out.println("filters:  @PostMapping(\"/statement/{accountId}/filters\")" + dateFilters.getFromDate());
-        return "pages/account_statement";
-    }
-
-    @GetMapping("/statement/{accountId}")
-    public String getAccountStatement(@PathVariable Long accountId, Model model, @ModelAttribute DateFilters dateFilters, @RequestParam(value = "fromDate", required = false) String fromDate, @RequestParam(value = "toDate", required = false) String toDate, HttpSession session) {
-        System.out.println("filters @GetMapping(\"/statement/{accountId}\"):" + dateFilters.getFromDate());
-        ZoneOffset offset = OffsetDateTime.now().getOffset();
-       String dateTime = dateFilters.getFromDate() + " 00:00:000";
-        String dateTime2 = dateFilters.getToDate() + " 23:59:999";
-        Date date1 = null;
-        Date date2 = null;
-        try {
-            date1 = new SimpleDateFormat("yyyy-MM-dd HH:ss:mm").parse(dateTime);
-            date2 = new SimpleDateFormat("yyyy-MM-dd HH:ss:mm").parse(dateTime2);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        OffsetDateTime ofd = date1.toInstant().atOffset(offset);
-        ofd = ofd.withHour(0)
-                .withMinute(0)
-                .withSecond(0)
-                .withNano(000000000);
-        OffsetDateTime ofd2 = date2.toInstant().atOffset(offset);
-        ofd2 = ofd2.withHour(23)
-                .withMinute(59)
-                .withSecond(59)
-                .withNano(999999000);
-        System.out.println(ofd);
-        System.out.println(ofd2);
-//        System.out.println("fromDate:" + fromDate);
-//        System.out.println("toDate:" + toDate);
-//        System.out.println(OffsetDateTime.parse(dateFilters.getFromDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        Collection<AccountStatementModel> accountStatementModel = accountApiService.getAccountStatement(accountId, fromDate, toDate);
-//        for (AccountStatementModel statementModel : accountStatementModel) {
-//            statementModel.setStartDate(ofd);
-//            statementModel.setEndDate(ofd2);
+//    @GetMapping("/statement/{accountId}/filters")
+//    public String getFilters(@PathVariable Long accountId, Model model) {
+////        Calendar calendar = Calendar.getInstance();
+////        DateFilters dateFilters = new DateFilters();
+////        dateFilters.setToDate(calendar.getTime());
+////        model.addAttribute("end", calendar.getTime());
+////        calendar.set(Calendar.YEAR, 0);
+////        dateFilters.setFromDate(calendar.getTime());
+////        model.addAttribute("start", calendar.getTime());
+//        model.addAttribute("filters", new DateFilters());
+//        return "filters_form";
+//    }
+//
+//    @PostMapping("/statement/{accountId}/filters")
+//    public String getFiltersValue(@PathVariable Long accountId, Model model,  @ModelAttribute("filters") DateFilters dateFilters) {
+////        Calendar calendar = Calendar.getInstance();
+////        DateFilters dateFilters = new DateFilters();
+////        dateFilters.setToDate(calendar.getTime());
+////        model.addAttribute("end", calendar.getTime());
+////        calendar.set(Calendar.YEAR, 0);
+////        dateFilters.setFromDate(calendar.getTime());
+////        model.addAttribute("start", calendar.getTime());
+//        System.out.println("filters:  @PostMapping(\"/statement/{accountId}/filters\")" + dateFilters.getFromDate());
+//        return "pages/account_statement";
+//    }
+//
+//    @GetMapping("/statement/{accountId}")
+//    public String getAccountStatement(@PathVariable Long accountId, Model model, @ModelAttribute DateFilters dateFilters, @RequestParam(value = "fromDate", required = false) String fromDate, @RequestParam(value = "toDate", required = false) String toDate, HttpSession session) {
+//        System.out.println("filters @GetMapping(\"/statement/{accountId}\"):" + dateFilters.getFromDate());
+//        ZoneOffset offset = OffsetDateTime.now().getOffset();
+//       String dateTime = dateFilters.getFromDate() + " 00:00:000";
+//        String dateTime2 = dateFilters.getToDate() + " 23:59:999";
+//        Date date1 = null;
+//        Date date2 = null;
+//        try {
+//            date1 = new SimpleDateFormat("yyyy-MM-dd HH:ss:mm").parse(dateTime);
+//            date2 = new SimpleDateFormat("yyyy-MM-dd HH:ss:mm").parse(dateTime2);
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
 //        }
-        model.addAttribute("statement", accountStatementModel); //TODO перевірка чи є Optional
-        session.setAttribute("statement", accountStatementModel);
-        System.out.println("accountStatementModel from statement: " + accountStatementModel);
-        return "pages/account_statement";
-    }
+//        OffsetDateTime ofd = date1.toInstant().atOffset(offset);
+//        ofd = ofd.withHour(0)
+//                .withMinute(0)
+//                .withSecond(0)
+//                .withNano(000000000);
+//        OffsetDateTime ofd2 = date2.toInstant().atOffset(offset);
+//        ofd2 = ofd2.withHour(23)
+//                .withMinute(59)
+//                .withSecond(59)
+//                .withNano(999999000);
+//        System.out.println(ofd);
+//        System.out.println(ofd2);
+////        System.out.println("fromDate:" + fromDate);
+////        System.out.println("toDate:" + toDate);
+////        System.out.println(OffsetDateTime.parse(dateFilters.getFromDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+//        Collection<AccountStatementModel> accountStatementModel = accountApiService.getAccountStatement(accountId, fromDate, toDate);
+////        for (AccountStatementModel statementModel : accountStatementModel) {
+////            statementModel.setStartDate(ofd);
+////            statementModel.setEndDate(ofd2);
+////        }
+//        model.addAttribute("statement", accountStatementModel); //TODO перевірка чи є Optional
+//        session.setAttribute("statement", accountStatementModel);
+//        System.out.println("accountStatementModel from statement: " + accountStatementModel);
+//        return "pages/account_statement";
+//    }
 
     @GetMapping("/download")
     public void getFile(Model model, HttpSession session, HttpServletResponse response) {

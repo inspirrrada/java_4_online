@@ -82,14 +82,14 @@ public class AccountApiServiceImpl implements AccountApiService {
     }
 
     @Override
-    public Collection<AccountStatementModel> getAccountStatement(Long accountId, String fromDate, String toDate) {
+    public Collection<AccountStatementModel> getAccountStatement(Long userId, Long accountId, String fromDate, String toDate) {
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> params = new HashMap<String, String>();
         params.put("fromDate", fromDate);
         params.put("toDate", toDate);
         UriComponentsBuilder builder =
                 UriComponentsBuilder
-                        .fromHttpUrl(apiUrl + "/users/statement/" + accountId)
+                        .fromHttpUrl(apiUrl + "/accounts/" + userId + "/" + accountId + "/statement")
                         .queryParam("fromDate", fromDate)
                         .queryParam("toDate", toDate);
 

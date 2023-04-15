@@ -12,7 +12,7 @@ public interface TransactionFacade {
     TransactionDTO findById(Long id);
     //+
     void create(TransactionFormDTO dto);
-    List<AccountStatementDTO>  getStatement(Timestamp startDate, Timestamp endDate, Long accountId);
+    List<AccountStatementDTO>  getAccountStatement(Timestamp startDate, Timestamp endDate, Long accountId);
 //    void update(Long id, UserDTO dto);
 //    void delete(Long id);
 }

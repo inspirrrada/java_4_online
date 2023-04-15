@@ -11,10 +11,16 @@
 <body>
 
 <div layout:fragment="content">
+    <a th:href="@{'/accounts/' + ${userId} + '/all'}" th:type="button" class="btn btn-outline-dark btn-back"><<  Back</a>
+    <br>
+    <br>
+    <br>
+    <h4 class="text-center">ACCOUNT STATEMENT</h4>
+    <br>
+    <br>
+    <br>
     <div class="card">
-        <div class="card-header">
-            Account statement
-        </div>
+        <div class="card-header" th:text="${'Account: ' + accountModel.getAccountNumber()}"> Account statement</div>
         <div class="card-body">
             <table class="table table-striped table-hover">
                 <thead>
@@ -35,14 +41,14 @@
                 </thead>
                 <tbody>
                 <tr th:each="record : ${statement}">
-                    <td th:text="${record.getDate()}"></td>
+                    <td th:text="${#temporals.format(record.getDate(), 'MM/dd/yyyy HH:mm:ss')}"></td>
                     <td th:text="${record.getTransactionCategory().toString()}"></td>
                     <td th:text="${record.getRelatedUserFullName()}"></td>
                     <td th:style="${record.getSum() < 0 ? 'color: red;' : 'color: green;'}" th:text="${record.getSum()}"></td>
                 </tr>
                 </tbody>
             </table>
-            <a th:href="@{'/users/download'}" th:type="button" class="btn btn-light">Download CSV</a>
+            <a th:href="@{'/users/download'}" th:type="button" class="btn btn-light active">Download CSV</a>
         </div>
     </div>
 </div>

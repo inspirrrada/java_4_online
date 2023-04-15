@@ -57,7 +57,7 @@ public class TransactionFacadeImpl implements TransactionFacade {
     }
 
     @Override
-    public List<AccountStatementDTO> getStatement(Timestamp startDate, Timestamp endDate, Long accountId) {
+    public List<AccountStatementDTO> getAccountStatement(Timestamp startDate, Timestamp endDate, Long accountId) {
         List<AccountStatementDTO> list = new ArrayList<>();
         Long userId = accountService.findUserIdByAccountId(accountId);
         User user = userService.findById(userId);

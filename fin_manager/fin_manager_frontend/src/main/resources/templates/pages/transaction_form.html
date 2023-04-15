@@ -6,26 +6,39 @@
       layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
+    <style>
+        .transaction-form {
+            width: 35em;
+        }
+    </style>
     <title>Title</title>
 </head>
 <body>
 
 <div layout:fragment="content">
-    <div class="input-group">
-        <form th:action="@{'/transactions/' +  ${userId} + '/' + ${account.getId()} + '/new'}" th:object="${transaction}" th:method="POST">
+    <a th:href="@{'/accounts/' + ${userId} + '/all'}" th:type="button" class="btn btn-outline-dark btn-back"><<  Back</a>
+    <br>
+    <br>
+    <br>
+    <h4 class="text-center">TRANSACTION FORM</h4>
+    <br>
+    <br>
+    <br>
+    <div class="input-group d-flex justify-content-center">
+        <form th:action="@{'/transactions/' +  ${userId} + '/' + ${account.getId()} + '/new'}" th:object="${transaction}" th:method="POST" class="transaction-form">
                 <p>Account of sender:
-                    <input disabled type="text" th:value="${account.getAccountNumber()}"/>
+                    <input disabled type="text" class="form-control" th:value="${account.getAccountNumber()}"/>
                 </p>
                 <p>Account of receiver:
-                    <input type="text" th:field="*{toAccountNumber}"/>
+                    <input type="text" class="form-control" th:field="*{toAccountNumber}"/>
                 </p>
                 <p>Sum:
-                    <input type="text" class="form-control" th:field="*{sum}"/>
+                    <input type="number" class="form-control" th:field="*{sum}"/>
                 </p>
-                <p>
-                    <input th:type="submit" value="Submit"/>
-                    <input type="reset" value="Reset"/>
-                </p>
+                <div class="text-center">
+                    <button th:type="submit" value="Submit" class="btn btn-primary active">Submit</button>
+                    <button th:type="reset" value="Reset" class="btn btn-warning">Reset</button>
+                </div>
         </form>
     </div>
 </div>

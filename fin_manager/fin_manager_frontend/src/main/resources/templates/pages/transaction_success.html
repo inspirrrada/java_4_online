@@ -10,9 +10,6 @@
         .success {
             width: 25em;
         }
-        .success-h4 {
-            padding-left: 4em;
-        }
     </style>
     <title>Title</title>
 </head>
@@ -22,10 +19,10 @@
     <br>
     <br>
     <br>
-    <h4 class="success-h4">Transaction successful</h4>
+    <h4>Transaction successful</h4>
     <br>
     <br>
-    <a th:href="@{'/accounts/' + ${userId} + '/all'}" th:type="button" class="btn btn-outline-dark btn-back"><<  Back to account menu</a>
+    <a th:href="@{'/accounts/' + ${userId} + '/all'}" th:type="button" class="success btn btn-outline-dark btn-back mx-auto d-block mt-5"><<  Back to account menu</a>
 </div>
 </body>
 </html>

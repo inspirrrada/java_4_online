@@ -16,7 +16,8 @@ public class TransactionDTO extends Transaction {
     private Account toAccount;
     private BigDecimal sum;
 
-    public TransactionDTO() {}
+    public TransactionDTO() {
+    }
 
     public TransactionDTO(Transaction transaction) {
         this.id = transaction.getId();

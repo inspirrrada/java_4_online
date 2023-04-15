@@ -12,11 +12,12 @@ public class UserDTO {
     private String fullName;
     private Integer accountsQty;
 
-    public UserDTO() {}
+    public UserDTO() {
+    }
 
     public UserDTO(User user) {
         this.id = user.getId();
         this.fullName = user.getFirstName() + " " + user.getLastName();
-        this.accountsQty =user.getAccountsQty();
+        this.accountsQty = user.getAccountsQty();
     }
 }

@@ -16,7 +16,6 @@ import java.util.Collection;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
-    private final UserService userService;
 
     @Override
     public void create(Account account) {
@@ -26,11 +25,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void update(Account account) {
         accountRepository.save(account);
-    }
-
-    @Override
-    public void delete(Long id) {
-        accountRepository.deleteById(id);
     }
 
     @Override
@@ -47,11 +41,6 @@ public class AccountServiceImpl implements AccountService {
     public Account findByAccountNumber(String accountNumber) {
         return accountRepository.findByAccountNumber(accountNumber);
     }
-
-//    @Override
-//    public Collection<Account> findAllByUser(Long userId) {
-//        return accountRepository.findAllByUser(userId);
-//    }
 
     @Override
     public Long findUserIdByAccountId(Long id) {

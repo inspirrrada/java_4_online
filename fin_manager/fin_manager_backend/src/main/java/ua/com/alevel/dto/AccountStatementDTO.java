@@ -8,23 +8,20 @@ import ua.com.alevel.persistence.entity.TransactionRegister;
 import ua.com.alevel.persistence.entity.User;
 import ua.com.alevel.persistence.type.TransactionType;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-
 
 @Getter
 @Setter
 public class AccountStatementDTO {
 
     private OffsetDateTime date;
-//    private OffsetDateTime startDate;
-//    private OffsetDateTime endDate;
     private TransactionType transactionCategory;
     private String relatedUserFullName;
     private BigDecimal sum;
 
-    public AccountStatementDTO() {}
+    public AccountStatementDTO() {
+    }
 
     public AccountStatementDTO(User user, Transaction transaction, TransactionRegister transactionRecord) {
         this.date = transaction.getCreated();

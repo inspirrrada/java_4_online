@@ -15,7 +15,8 @@ public class UserAccountsDTO extends UserDTO {
 
     private Collection<AccountDTO> accounts;
 
-    public UserAccountsDTO() {}
+    public UserAccountsDTO() {
+    }
 
     public UserAccountsDTO(User user) {
         super(user);
@@ -27,5 +28,4 @@ public class UserAccountsDTO extends UserDTO {
                     .toList();
         }
     }
-
 }

@@ -8,6 +8,5 @@ import java.util.Collection;
 @Repository
 public interface TransactionRegisterRepository extends BaseRepository<TransactionRegister> {
 
-    Collection<TransactionRegister> findAllByTransactionId(Long transactionId);
     TransactionRegister findByTransactionIdAndUserId(Long transactionId, Long userId);
 }

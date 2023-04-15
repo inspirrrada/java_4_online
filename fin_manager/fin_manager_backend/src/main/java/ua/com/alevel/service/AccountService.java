@@ -1,13 +1,22 @@
 package ua.com.alevel.service;
 
 import ua.com.alevel.persistence.entity.Account;
-import ua.com.alevel.service.BaseService;
+import ua.com.alevel.persistence.entity.User;
 
 import java.util.Collection;
 
-public interface AccountService extends BaseService<Account> {
+
+public interface AccountService {
+
+    void create(Account account);
+
+    void update(Account account);
+
+    Account findById(Long id);
+
+    Collection<Account> findAll();
 
     Account findByAccountNumber(String accountNumber);
-//    Collection<Account> findAllByUser(Long userId);
+
     Long findUserIdByAccountId(Long id);
 }

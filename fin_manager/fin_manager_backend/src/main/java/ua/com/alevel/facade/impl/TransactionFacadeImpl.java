@@ -14,7 +14,6 @@ import ua.com.alevel.service.TransactionService;
 import ua.com.alevel.service.UserService;
 
 import java.sql.Timestamp;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,7 +41,6 @@ public class TransactionFacadeImpl implements TransactionFacade {
         return new TransactionDTO(transactionService.findById(id));
     }
 
-    //+
     @Override
     public void create(TransactionFormDTO dto) {
         Transaction transaction = new Transaction();
@@ -72,6 +70,4 @@ public class TransactionFacadeImpl implements TransactionFacade {
         }
         return Collections.emptyList();
     }
-
-
 }

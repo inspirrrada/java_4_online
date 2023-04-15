@@ -1,17 +1,19 @@
 package ua.com.alevel.service;
 
-import ua.com.alevel.persistence.entity.Account;
-import ua.com.alevel.persistence.entity.Transaction;
-import ua.com.alevel.persistence.entity.TransactionRegister;
+import ua.com.alevel.persistence.entity.*;
 
 import java.sql.Timestamp;
-import java.time.OffsetDateTime;
 import java.util.Collection;
 
-public interface TransactionService extends BaseService<Transaction> {
+public interface TransactionService {
+
+    void create(Transaction transaction);
+
+    Transaction findById(Long id);
+
+    Collection<Transaction> findAll();
 
     Collection<Transaction> findAllByAccountId(Timestamp startDate, Timestamp endDate, Long accountId);
-    //+
+
     TransactionRegister findRecordByTransactionIdAndUserId(Long transactionId, Long userId);
-    Collection<TransactionRegister> findAllByTransactionId(Long transactionId);
 }

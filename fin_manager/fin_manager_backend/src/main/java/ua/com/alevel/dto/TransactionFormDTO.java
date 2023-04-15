@@ -2,7 +2,6 @@ package ua.com.alevel.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import ua.com.alevel.persistence.entity.Account;
 import ua.com.alevel.persistence.entity.Transaction;
 
 import java.math.BigDecimal;
@@ -15,7 +14,8 @@ public class TransactionFormDTO {
     private String fromAccountNumber;
     private String toAccountNumber;
 
-    public TransactionFormDTO() {}
+    public TransactionFormDTO() {
+    }
 
     public TransactionFormDTO(Transaction transaction) {
         this.sum = transaction.getSum();

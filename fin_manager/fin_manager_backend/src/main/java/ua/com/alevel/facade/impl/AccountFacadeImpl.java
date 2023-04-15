@@ -5,7 +5,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.dto.AccountDTO;
 import ua.com.alevel.dto.UserAccountsDTO;
-import ua.com.alevel.dto.UserDTO;
 import ua.com.alevel.facade.AccountFacade;
 import ua.com.alevel.persistence.entity.Account;
 import ua.com.alevel.persistence.entity.User;
@@ -37,7 +36,6 @@ public class AccountFacadeImpl implements AccountFacade {
         return new AccountDTO(accountService.findById(id));
     }
 
-    //+
     @Override
     public UserAccountsDTO findAllAccountsByUserId(Long id) {
         User user = userService.findById(id);
@@ -63,10 +61,5 @@ public class AccountFacadeImpl implements AccountFacade {
         account.setAccountNumber(dto.getAccountNumber());
         account.setBalance(dto.getBalance());
         accountService.update(account);
-    }
-
-    @Override
-    public void delete(Long id) {
-        accountService.delete(id);
     }
 }

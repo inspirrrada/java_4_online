@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.dto.UserDTO;
-import ua.com.alevel.dto.UserAccountsDTO;
 import ua.com.alevel.facade.UserFacade;
 import ua.com.alevel.persistence.entity.User;
 import ua.com.alevel.service.UserService;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +18,6 @@ public class UserFacadeImpl implements UserFacade {
 
     private final UserService userService;
 
-    //+
     @Override
     public List<UserDTO> findAll() {
         Collection<User> users = userService.findAll();
@@ -27,11 +26,6 @@ public class UserFacadeImpl implements UserFacade {
         }
         return Collections.emptyList();
     }
-
-//    @Override
-//    public UserAccountsDTO findById(Long id) {
-//        return new UserAccountsDTO(userService.findById(id));
-//    }
 
     @Override
     public void create(UserDTO dto) {
@@ -49,10 +43,5 @@ public class UserFacadeImpl implements UserFacade {
         user.setLastName(dto.getFullName().split("\\s")[1]);
         user.setAccountsQty(dto.getAccountsQty());
         userService.update(user);
-    }
-
-    @Override
-    public void delete(Long id) {
-        userService.delete(id);
     }
 }

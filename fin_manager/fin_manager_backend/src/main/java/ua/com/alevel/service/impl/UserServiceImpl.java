@@ -28,17 +28,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long id) {
-        userRepository.deleteById(id);
-    }
-
-    //+
-    @Override
     public User findById(Long id) {
         return userRepository.findById(id).get();
     }
 
-    //+
     @Override
     public Collection<User> findAll() {
         return userRepository.findAll();

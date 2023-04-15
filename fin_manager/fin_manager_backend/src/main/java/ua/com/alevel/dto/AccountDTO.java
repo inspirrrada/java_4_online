@@ -14,7 +14,8 @@ public class AccountDTO {
     private String accountNumber;
     private BigDecimal balance;
 
-    public AccountDTO() {}
+    public AccountDTO() {
+    }
 
     public AccountDTO(Account account) {
         this.id = account.getId();

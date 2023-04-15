@@ -14,7 +14,6 @@ import ua.com.alevel.service.UserService;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.OffsetDateTime;
 import java.util.Collection;
 
 @Service
@@ -63,24 +62,15 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void update(Transaction transaction) {
-
-    }
-
-    @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
     public Transaction findById(Long id) {
-        return null;
+        return transactionRepository.findById(id).get();
     }
 
     @Override
     public Collection<Transaction> findAll() {
-        return null;
+        return transactionRepository.findAll();
     }
+
 
     @Override
     public Collection<Transaction> findAllByAccountId(Timestamp startDate, Timestamp endDate, Long accountId) {
@@ -95,8 +85,4 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRegisterRepository.findByTransactionIdAndUserId(transactionId, userId);
     }
 
-    @Override
-    public Collection<TransactionRegister> findAllByTransactionId(Long transactionId) {
-        return null;
-    }
 }

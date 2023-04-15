@@ -14,10 +14,7 @@ import ua.com.alevel.service.TransactionService;
 import ua.com.alevel.service.UserService;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 @AllArgsConstructor

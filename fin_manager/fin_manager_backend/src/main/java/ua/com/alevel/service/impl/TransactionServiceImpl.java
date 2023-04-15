@@ -82,7 +82,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionRegister findRecordByTransactionIdAndUserId(Long transactionId, Long userId) {
-        return transactionRegisterRepository.findByTransactionIdAndUserId(transactionId, userId);
+        return transactionRegisterRepository.findRecordByTransactionIdAndUserId(transactionId, userId);
     }
 
 }

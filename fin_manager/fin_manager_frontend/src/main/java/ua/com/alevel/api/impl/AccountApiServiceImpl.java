@@ -29,9 +29,9 @@ public class AccountApiServiceImpl implements AccountApiService {
                 AccountModel[].class
         );
         if (response.getStatusCode().is2xxSuccessful()) {
-            AccountModel[] authorModels = response.getBody();
-            if (authorModels != null) {
-                return List.of(authorModels);
+            AccountModel[] accountModels = response.getBody();
+            if (accountModels != null) {
+                return List.of(accountModels);
             }
         }
         return Collections.emptyList();

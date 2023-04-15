@@ -160,45 +160,45 @@ public class UserController {
 //        return "pages/account_statement";
 //    }
 
-    @GetMapping("/download")
-    public void getFile(Model model, HttpSession session, HttpServletResponse response) {
-        System.out.println("accountStatementModel from download: " + model.getAttribute("statement"));
-        Collection<AccountStatementModel> accountStatementModel = new ArrayList<>();
-        if (session.getAttribute("statement") != null) {
-            accountStatementModel = (Collection<AccountStatementModel>) session.getAttribute("statement");
-            System.out.println(accountStatementModel.toString());
-        }
-
-        // set file name and content type
-        String filename = "Employee-List.csv";
-
-        response.setContentType("text/csv");
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + filename + "\"");
-
-        // create a csv writer
-        StatefulBeanToCsv<AccountStatementModel> writer =
-                null;
-        try {
-            writer = new StatefulBeanToCsvBuilder<AccountStatementModel>
-                    (response.getWriter())
-                    .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
-                    .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
-                    .withOrderedResults(false).build();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        // write all employees to csv file
-        try {
-            writer.write((List<AccountStatementModel>) accountStatementModel);
-        } catch (CsvDataTypeMismatchException e) {
-            throw new RuntimeException(e);
-        } catch (CsvRequiredFieldEmptyException e) {
-            throw new RuntimeException(e);
-        }
-
-        //return "pages/transaction_success";
-    }
+//    @GetMapping("/download")
+//    public void getFile(Model model, HttpSession session, HttpServletResponse response) {
+//        System.out.println("accountStatementModel from download: " + model.getAttribute("statement"));
+//        Collection<AccountStatementModel> accountStatementModel = new ArrayList<>();
+//        if (session.getAttribute("statement") != null) {
+//            accountStatementModel = (Collection<AccountStatementModel>) session.getAttribute("statement");
+//            System.out.println(accountStatementModel.toString());
+//        }
+//
+//        // set file name and content type
+//        String filename = "Employee-List.csv";
+//
+//        response.setContentType("text/csv");
+//        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+//                "attachment; filename=\"" + filename + "\"");
+//
+//        // create a csv writer
+//        StatefulBeanToCsv<AccountStatementModel> writer =
+//                null;
+//        try {
+//            writer = new StatefulBeanToCsvBuilder<AccountStatementModel>
+//                    (response.getWriter())
+//                    .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+//                    .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+//                    .withOrderedResults(false).build();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        // write all employees to csv file
+//        try {
+//            writer.write((List<AccountStatementModel>) accountStatementModel);
+//        } catch (CsvDataTypeMismatchException e) {
+//            throw new RuntimeException(e);
+//        } catch (CsvRequiredFieldEmptyException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        //return "pages/transaction_success";
+//    }
 
 }

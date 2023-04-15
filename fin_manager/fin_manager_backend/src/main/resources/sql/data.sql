@@ -87,7 +87,7 @@ insert into transactions values (30, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 8
 
 insert into transactions_register values(1, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 1, 2, 1);
 insert into transactions_register values(2, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 1, 1, 2);
-insert into transactions_register values(3, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 2, 2, 5);
+insert into transactions_register values(3, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 2, 2, 3);
 insert into transactions_register values(4, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 2, 1, 6);
 insert into transactions_register values(5, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 3, 2, 2);
 insert into transactions_register values(6, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), 3, 1, 3);

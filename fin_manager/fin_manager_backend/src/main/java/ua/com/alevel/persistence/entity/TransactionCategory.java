@@ -18,9 +18,6 @@ public class TransactionCategory extends BaseEntity {
     @Column(name = "income", nullable = false)
     private Boolean isIncome;
 
-    @Column(name = "expense", nullable = false)
-    private Boolean isExpense;
-
     public TransactionCategory() {
         super();
     }

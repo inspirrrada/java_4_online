@@ -19,9 +19,6 @@ public class TransactionRegister extends BaseEntity {
     @ManyToOne
     private User user;
 
-    @Column
-    private String description;
-
     public TransactionRegister() {
         super();
     }

@@ -35,7 +35,7 @@ public class AccountStatementDTO {
         this.relatedUserFullName = relatedUser.getFirstName() + " " + relatedUser.getLastName();
         TransactionCategory category = transactionRecord.getTransactionCategory();
         this.transactionCategory = category.getTransactionType();
-        if (category.getIsExpense()) {
+        if (!category.getIsIncome()) {
             this.sum = transaction.getSum().negate();
         } else {
             this.sum = transaction.getSum();

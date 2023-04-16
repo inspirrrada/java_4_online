@@ -1,6 +1,7 @@
 package ua.com.alevel.controller;
 
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,10 +46,18 @@ public class AccountController {
 
     @GetMapping(value = "/{userId}/{accountId}/statement")
     public ResponseEntity<Collection<AccountStatementDTO>> getAccountStatement(@PathVariable Long accountId, @RequestParam(value = "fromDate", required = false) String fromDate, @RequestParam(value = "toDate", required = false) String toDate) {
-        String dateTimeFrom = fromDate + " 00:00:00.000000000";
-        String dateTimeTo = toDate + " 23:59:59.999999999";
-        Timestamp fromDateValue = Timestamp.valueOf(dateTimeFrom);
-        Timestamp toDateValue = Timestamp.valueOf(dateTimeTo);
+        String dateTimeFrom = "";
+        String dateTimeTo = "";
+        Timestamp fromDateValue = null;
+        Timestamp toDateValue = null;
+        if (StringUtils.isNotEmpty(fromDate)) {
+            dateTimeFrom = fromDate + " 00:00:00.000000000";
+            fromDateValue = Timestamp.valueOf(dateTimeFrom);
+        }
+        if (StringUtils.isNotEmpty(toDate)) {
+            dateTimeTo = toDate + " 23:59:59.999999999";
+            toDateValue = Timestamp.valueOf(dateTimeTo);
+        }
         return ResponseEntity.ok(transactionFacade.getAccountStatement(fromDateValue, toDateValue, accountId));
     }
 }

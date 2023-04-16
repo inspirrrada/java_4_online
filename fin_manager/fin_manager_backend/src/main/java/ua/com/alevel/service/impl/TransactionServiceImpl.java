@@ -29,7 +29,6 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRegisterRepository transactionRegisterRepository;
     private final UserService userService;
 
-    //+
     @Override
     public void create(Transaction transaction) {
         transactionRepository.save(transaction);
@@ -76,7 +75,6 @@ public class TransactionServiceImpl implements TransactionService {
         } else {
             throw new NegativeSumOfTransactionException("Amount is less or equal 0!");
         }
-
     }
 
     @Override
@@ -92,10 +90,15 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Collection<Transaction> findAllByAccountId(Timestamp startDate, Timestamp endDate, Long accountId) {
-//        return transactionRepository.findAllByFromAccountIdOrToAccountId(accountId);
-        Collection<Transaction> test = transactionRepository.findTest(startDate, endDate);
-        System.out.println("test: " + test);
-        return transactionRepository.findAllByAccountId(startDate, endDate, accountId);
+        if (startDate != null && endDate != null) {
+            return transactionRepository.findAllByAccountIdBetweenDates(startDate, endDate, accountId);
+        } else if (endDate == null && startDate != null) {
+            return transactionRepository.findAllByAccountIdFromDate(startDate, accountId);
+        } else if (startDate == null && endDate != null ) {
+            return transactionRepository.findAllByAccountIdToDate(endDate, accountId);
+        } else {
+            return transactionRepository.findAllByAccountIdWithoutDates(accountId);
+        }
     }
 
     @Override

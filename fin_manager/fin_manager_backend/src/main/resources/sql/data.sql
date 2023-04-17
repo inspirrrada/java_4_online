@@ -3,15 +3,15 @@ insert into users values (2, '2023-01-01', '2023-01-01', 1, 31, 'Ron', ' Weasley
 insert into users values (3, '2023-01-01', '2023-01-01', 2, 29, 'Hermione', 'Granger');
 insert into users values (4, '2023-01-01', '2023-01-01', 3, 34, 'Draco', 'Malfoy');
 
-insert into accounts values (1, '2023-01-01', '2023-01-01', 'UA111', 1000.00, true, 1);
-insert into accounts values (2, '2023-01-02', '2023-01-02', 'UA112', 0.00, true, 1);
-insert into accounts values (3, '2023-01-05', '2023-01-05', 'UA113', 55.00, true, 1);
-insert into accounts values (4, '2023-01-01', '2023-01-01', 'UA211', 99.00, true, 2);
-insert into accounts values (5, '2023-01-01', '2023-01-01', 'UA311', 244.00, true, 3);
-insert into accounts values (6, '2023-01-05', '2023-01-05', 'UA312', 15.00, true, 3);
-insert into accounts values (7, '2023-01-01', '2023-01-01', 'UA611', 250.00, true, 4);
-insert into accounts values (8, '2023-01-10', '2023-01-10', 'UA612', 1000.00, true, 4);
-insert into accounts values (9, '2023-01-10', '2023-01-10', 'UA613', 0.00, true, 4);
+insert into accounts values (1, '2023-01-01', '2023-01-01', 'UA1', 1000.00, true, 1);
+insert into accounts values (2, '2023-01-02', '2023-01-02', 'UA2', 0.00, true, 1);
+insert into accounts values (3, '2023-01-05', '2023-01-05', 'UA3', 55.00, true, 1);
+insert into accounts values (4, '2023-01-01', '2023-01-01', 'UA4', 99.00, true, 2);
+insert into accounts values (5, '2023-01-01', '2023-01-01', 'UA5', 244.00, true, 3);
+insert into accounts values (6, '2023-01-05', '2023-01-05', 'UA6', 15.00, true, 3);
+insert into accounts values (7, '2023-01-01', '2023-01-01', 'UA7', 250.00, true, 4);
+insert into accounts values (8, '2023-01-10', '2023-01-10', 'UA8', 1000.00, true, 4);
+insert into accounts values (9, '2023-01-10', '2023-01-10', 'UA9', 0.00, true, 4);
 
 insert into users_accounts values (1, 1);
 insert into users_accounts values (1, 2);

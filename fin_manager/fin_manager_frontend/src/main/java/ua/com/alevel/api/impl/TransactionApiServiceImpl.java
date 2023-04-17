@@ -31,8 +31,6 @@ public class TransactionApiServiceImpl implements TransactionApiService {
                                     HttpMethod.POST,
                                     request,
                                     Object.class);
-
-            System.out.println(productCreateResponse);
             return productCreateResponse.getBody().toString();
         } catch (HttpStatusCodeException e) {
             e.getMessage();

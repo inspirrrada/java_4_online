@@ -51,23 +51,19 @@ public class AccountController {
 
     @GetMapping("/{userId}/{accountId}/statement")
     public String getAccountStatement(@PathVariable Long userId, @PathVariable Long accountId, Model model, @ModelAttribute DateFilters dateFilters, @RequestParam(value = "fromDate", required = false) String fromDate, @RequestParam(value = "toDate", required = false) String toDate, HttpSession session) {
-        System.out.println("filters @GetMapping(\"/statement/{accountId}\"):" + dateFilters.getFromDate());
         Collection<AccountStatementModel> accountStatementModel = accountApiService.getAccountStatement(userId, accountId, fromDate, toDate);
         model.addAttribute("statement", accountStatementModel); //TODO перевірка чи є Optional
         session.setAttribute("statement", accountStatementModel);
         AccountModel accountModel = accountApiService.findById(accountId).get(); ////TODO перевірка чи є Optional
         model.addAttribute("accountModel", accountModel);
-        System.out.println("accountStatementModel from statement: " + accountStatementModel);
         return "pages/account_statement";
     }
 
     @GetMapping("/download")
     public void getFile(Model model, HttpSession session, HttpServletResponse response) {
-        System.out.println("accountStatementModel from download: " + model.getAttribute("statement"));
         Collection<AccountStatementModel> accountStatementModel = new ArrayList<>();
         if (session.getAttribute("statement") != null) {
             accountStatementModel = (Collection<AccountStatementModel>) session.getAttribute("statement");
-            System.out.println(accountStatementModel.toString());
         }
 
         String filename = "Account_statement.csv";

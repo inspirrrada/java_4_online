@@ -10,7 +10,7 @@ import java.util.Collection;
 public interface TransactionRegisterRepository extends BaseRepository<TransactionRegister> {
 
     @Query(value = "select * from transactions_register where transaction_id = ?1 and user_id = ?2", nativeQuery = true)
-    TransactionRegister findRecordByTransactionIdAndUserId(Long transactionId, Long userId);
+    Collection<TransactionRegister> findRecordByTransactionIdAndUserId(Long transactionId, Long userId);
 
     @Query(value = "select * from transactions_register where transaction_id = ?1", nativeQuery = true)
     Collection<TransactionRegister> findRecordByTransactionId(Long transactionId);

@@ -58,7 +58,7 @@ public class TransactionFacadeImpl implements TransactionFacade {
         User user = userService.findById(userId);
         Collection<Transaction> accountTransactions = transactionService.findAllByAccountId(startDate, endDate, accountId);
         for (Transaction accountTransaction : accountTransactions) {
-            TransactionRegister record = transactionService.findRecordByTransactionIdAndUserId(accountTransaction.getId(), userId);
+            TransactionRegister record = transactionService.findRecordByTransactionIdAndUserId(accountTransaction.getId(), userId).stream().toList().get(0);
             AccountStatementDTO accountStatementDTO = new AccountStatementDTO(user, accountTransaction, record);
             list.add(accountStatementDTO);
         }

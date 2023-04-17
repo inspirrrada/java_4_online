@@ -15,5 +15,5 @@ public interface TransactionService {
 
     Collection<Transaction> findAllByAccountId(Timestamp startDate, Timestamp endDate, Long accountId);
 
-    TransactionRegister findRecordByTransactionIdAndUserId(Long transactionId, Long userId);
+    Collection<TransactionRegister> findRecordByTransactionIdAndUserId(Long transactionId, Long userId);
 }

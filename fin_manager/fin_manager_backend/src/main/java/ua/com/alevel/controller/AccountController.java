@@ -45,7 +45,7 @@ public class AccountController {
     }
 
     @GetMapping(value = "/{userId}/{accountId}/statement")
-    public ResponseEntity<Collection<AccountStatementDTO>> getAccountStatement(@PathVariable Long accountId, @RequestParam(value = "fromDate", required = false) String fromDate, @RequestParam(value = "toDate", required = false) String toDate) {
+    public ResponseEntity<Collection<AccountStatementDTO>> getAccountStatement(@PathVariable Long accountId, @RequestParam(value = "fromDate", required = false) String fromDate, @RequestParam(value = "toDate", required = false) String toDate, @PathVariable String userId) {
         String dateTimeFrom = "";
         String dateTimeTo = "";
         Timestamp fromDateValue = null;

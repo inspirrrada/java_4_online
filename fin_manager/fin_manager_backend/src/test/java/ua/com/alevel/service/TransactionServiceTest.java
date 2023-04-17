@@ -1,10 +1,10 @@
 package ua.com.alevel.service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -19,9 +19,7 @@ import ua.com.alevel.persistence.type.TransactionType;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
@@ -110,13 +108,6 @@ public class TransactionServiceTest {
         transactionCategoryRepository.save(incomeCategory);
     }
 
-    @BeforeAll
-    public void setUpCreate() {
-
-    }
-
-
-
     @Test
     @Order(1)
     public void shouldBeProcessTransactionWhenAccountReceiverDoesNotExistInSystem() {
@@ -128,7 +119,7 @@ public class TransactionServiceTest {
         transaction.setSum(new BigDecimal("10.00"));
 
         // given
-        Executable executable = () ->  transactionService.create(transaction); //1L
+        Executable executable = () -> transactionService.create(transaction); //1L
 
         // when
         Exception exception = assertThrows(AccountNotFoundException.class, executable);
@@ -147,7 +138,7 @@ public class TransactionServiceTest {
         transaction.setToAccount(account2);
         transaction.setSum(new BigDecimal("-10.00"));
 
-        Executable executable = () ->  transactionService.create(transaction); //2L
+        Executable executable = () -> transactionService.create(transaction); //2L
 
         // when
         Exception exception = assertThrows(NegativeSumOfTransactionException.class, executable);
@@ -166,7 +157,7 @@ public class TransactionServiceTest {
         transaction.setToAccount(account2);
         transaction.setSum(new BigDecimal("0.00"));
 
-        Executable executable = () ->  transactionService.create(transaction); //3L
+        Executable executable = () -> transactionService.create(transaction); //3L
 
         // when
         Exception exception = assertThrows(NegativeSumOfTransactionException.class, executable);
@@ -444,7 +435,4 @@ public class TransactionServiceTest {
         Collection<Transaction> accountTransactions = transactionService.findAllByAccountId(fromDateValue, toDateValue, account1.getId());
         Assertions.assertEquals(1, accountTransactions.size()); //1: test 15
     }
-
-
-
 }

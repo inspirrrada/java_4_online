@@ -1,7 +1,11 @@
 package ua.com.alevel;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
 public class LaptopStoreApplication {
     public static void main(String[] args) {
-        System.out.println("Hello world from laptop_store!");
+        SpringApplication.run(LaptopStoreApplication.class, args);
     }
 }

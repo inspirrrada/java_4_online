@@ -6,4 +6,6 @@ import ua.com.alevel.persistence.repository.BaseRepository;
 
 @Repository
 public interface PersonalRepository extends UserRepository<Personal> {
+
+    boolean existsByEmail(String email);
 }

@@ -10,35 +10,106 @@
 </head>
 <body>
 <div layout:fragment="main_content">
-    <div class="d-flex justify-content-center login-form">
-        <div class="p-0">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Login</h3>
-                </div>
-                <div class="card-body">
-                    <form action="#" th:action="@{/login}" method="post">
-                        <div class="form-group">
-                            <label for="username">Email address</label>
-                            <input type="email" class="form-control" id="username" aria-describedby="emailHelp" name="username" autofocus>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-                <div class="card-footer">
-                    <div>
-                        <p class="mb-0">Don't have an account?
-                            <a th:href="@{/registration}" class="text-white-50 fw-bold">Sign Up</a>
-                        </p>
-                    </div>
-                </div>
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">Sunglasses Boutique</a>
+            </div>
+            <div class="collapse navbar-collapse" id="custom-collapse">
+                <p class="nav navbar-nav navbar-right"> Find a pair for every mood</p>
             </div>
         </div>
+    </nav>
+
+    <div class="d-flex justify-content-center login-form">
+        <div class="p-0">
+<!--            <div class="card">-->
+<!--                <div class="card-header">-->
+<!--                    <h3>Login</h3>-->
+<!--                </div>-->
+<!--                <div class="card-body">-->
+<!--                    <form action="#" th:action="@{/login}" method="post">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="username">Email address</label>-->
+<!--                            <input type="email" class="form-control" id="username" aria-describedby="emailHelp" name="username" autofocus>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="password">Password</label>-->
+<!--                            <input type="password" class="form-control" id="password" name="password">-->
+<!--                        </div>-->
+<!--                        <button type="submit" class="btn btn-primary">Submit</button>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                <div class="card-footer">-->
+<!--                    <div>-->
+<!--                        <p class="mb-0">Don't have an account?-->
+<!--                            <a th:href="@{/registration}" class="text-white-50 fw-bold">Sign Up</a>-->
+<!--                        </p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+            <section class="module">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 col-sm-offset-1 mb-sm-40">
+                            <h4 class="font-alt">Login</h4>
+                            <hr class="divider-w mb-10">
+                            <form class="form" action="#" th:action="@{/login}" method="post">
+                                <div class="form-group">
+                                    <input class="form-control" id="username" type="text" name="username" placeholder="EMAIL"/>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" id="password" type="password" name="password" placeholder="PASSWORD"/>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-round btn-b">Login</button>
+                                </div>
+                                <div class="form-group">
+                                    <p class="mb-0">Don't have an account?
+                                        <a th:href="@{/registration}">Register</a>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+<!--                        <div class="col-sm-5">-->
+<!--                            <h4 class="font-alt">Register</h4>-->
+<!--                            <hr class="divider-w mb-10">-->
+<!--                            <form class="form">-->
+<!--                                <div class="form-group">-->
+<!--                                    <input class="form-control" id="E-mail" type="text" name="email" placeholder="Email"/>-->
+<!--                                </div>-->
+<!--                                <div class="form-group">-->
+<!--                                    <input class="form-control" id="username" type="text" name="username" placeholder="Username"/>-->
+<!--                                </div>-->
+<!--                                <div class="form-group">-->
+<!--                                    <input class="form-control" id="password" type="password" name="password" placeholder="Password"/>-->
+<!--                                </div>-->
+<!--                                <div class="form-group">-->
+<!--                                    <input class="form-control" id="re-password" type="password" name="re-password" placeholder="Re-enter Password"/>-->
+<!--                                </div>-->
+<!--                                <div class="form-group">-->
+<!--                                    <button class="btn btn-block btn-round btn-b">Register</button>-->
+<!--                                </div>-->
+<!--                            </form>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
+<!--    <footer class="footer bg-dark">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="col-sm-6">-->
+<!--                    <p class="copyright font-alt">&copy; 2023&nbsp;<a href="index.html">Vizapp</a>, All Rights Reserved</p>-->
+<!--                </div>-->
+<!--                <div class="col-sm-6">-->
+<!--                    <div class="footer-social-links"><a href="https://www.linkedin.com/in/oksana-vizitiv-a2169a192/"><i class="fa fa-linkedin"></i></a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </footer>-->
 </div>
 </body>
 </html>

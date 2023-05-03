@@ -2,20 +2,21 @@ package ua.com.alevel.persistence.entity.sunglasses;
 
 import lombok.Getter;
 import lombok.Setter;
+import ua.com.alevel.listener.SunglassesVisibleGenerationListener;
 import ua.com.alevel.persistence.entity.BaseEntity;
 import ua.com.alevel.persistence.entity.brand.Brand;
 import ua.com.alevel.persistence.type.SexType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "sunglasses")
+@EntityListeners({
+        SunglassesVisibleGenerationListener.class
+})
 public class Sunglasses extends BaseEntity {
 
     @Column(name = "model_code", nullable = false, unique = true)

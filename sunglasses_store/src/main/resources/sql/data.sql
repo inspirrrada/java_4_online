@@ -54,7 +54,7 @@ insert into sunglasses values (
         1, '2023-01-01', '2023-01-01', true,
         20,                  --bridge_width
         10,                  --color
-        'https://luxoptica.ua/upload/products/compiled/images/Soncezahisni_okuljari/RAY-BAN/4813d722-16f3-4293-82ad-7c2b310dbd36.jpg',
+        'https://luxoptica.ua/upload/products/compiled/images/Soncezahisni_okuljari/RAY-BAN/d21412b6-1645-41f7-be6e-03aab272aa4e.jpg',
         53,                  --lens_width
         '3565 001/51 53',    --model_code
         155,                 --price
@@ -66,6 +66,8 @@ insert into sunglasses values (
         1,                   --lens_category
         2,                   --lens_material
         4);                  --sex_category
+
+-- insert into brands_sunglasses(1, 1);
 
 
 

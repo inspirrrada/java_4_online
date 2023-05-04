@@ -10,10 +10,10 @@
 </head>
 <body>
 <div layout:fragment="main_content">
-  <nav class="navbar navbar-dark bg-dark navbar-fixed-top">
-    <a class="nav-item nav-link" th:href="@{/books}">Books</a>
-    <a class="nav-item nav-link" th:href="@{/login}" style="cursor: pointer !important;">Login</a>
-  </nav>
+<!--  <nav class="navbar navbar-dark bg-dark navbar-fixed-top">-->
+<!--    <a class="nav-item nav-link" th:href="@{/books}">Books</a>-->
+<!--    <a class="nav-item nav-link" th:href="@{/login}" style="cursor: pointer !important;">Login</a>-->
+<!--  </nav>-->
 
   <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
     <div class="container">
@@ -21,9 +21,13 @@
         <a class="navbar-brand" href="index.html">Sunglasses Boutique</a>
       </div>
       <div class="collapse navbar-collapse" id="custom-collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a class="nav-item nav-link" th:href="@{/sunglasses}">Sunglasses</a></li>
-          <li><a class="nav-item nav-link" th:href="@{/login}" style="cursor: pointer !important;">Login</a></li>
+        <ul class="nav navbar-nav navbar-right nav-menu">
+          <li class="nav-menu-point dropdown">
+            <a class="nav-item nav-link" th:href="@{/sunglasses}">Sunglasses</a>
+          </li>
+          <li class="nav-menu-point dropdown">
+            <a class="nav-item nav-link" th:href="@{/login}" style="cursor: pointer !important;">Login</a>
+          </li>
         </ul>
       </div>
     </div>

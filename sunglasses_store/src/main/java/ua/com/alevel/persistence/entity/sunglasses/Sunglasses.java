@@ -9,6 +9,7 @@ import ua.com.alevel.persistence.type.SexType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -22,7 +23,7 @@ public class Sunglasses extends BaseEntity {
     @Column(name = "model_code", nullable = false, unique = true)
     private String modelCode;
 
-    @Column(name = "color", nullable = false, unique = true)
+    @Column(name = "color", nullable = false)
     private String color;
 
     @Column(name = "lens_width")

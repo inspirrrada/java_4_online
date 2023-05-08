@@ -23,8 +23,8 @@ public class Sunglasses extends BaseEntity {
     @Column(name = "model_code", nullable = false, unique = true)
     private String modelCode;
 
-    @Column(name = "color", nullable = false)
-    private String color;
+    @ManyToOne
+    private Color color;
 
     @Column(name = "lens_width")
     private Integer lensWidth;

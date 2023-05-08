@@ -1,8 +1,15 @@
 package ua.com.alevel.persistence.type;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum FrameMaterialType {
 
-    WOOD,
-    METAL,
-    PLASTIC
+    WOOD("Wood"),
+    METAL("Metal"),
+    PLASTIC("Plastic");
+
+    private final String value;
 }

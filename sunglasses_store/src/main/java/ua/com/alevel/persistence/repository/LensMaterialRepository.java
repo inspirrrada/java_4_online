@@ -1,4 +1,11 @@
 package ua.com.alevel.persistence.repository;
 
-public interface LensMaterialRepository {
+import org.springframework.stereotype.Repository;
+import ua.com.alevel.persistence.entity.sunglasses.LensMaterial;
+import ua.com.alevel.persistence.type.LensMaterialType;
+
+@Repository
+public interface LensMaterialRepository extends BaseRepository<LensMaterial> {
+
+    LensMaterial findByLensMaterialType(LensMaterialType lensMaterialType);
 }

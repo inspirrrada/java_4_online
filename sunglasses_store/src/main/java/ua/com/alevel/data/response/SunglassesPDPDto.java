@@ -13,11 +13,12 @@ public class SunglassesPDPDto extends SunglassesPLPDto {
 
     private SexCategory sexCategory;
     private Brand brand;
+    private Color color;
     private FrameShape frameShape;
     private FrameMaterial frameMaterial;
     private LensCategory lensCategory;
     private LensMaterial lensMaterial;
-    private Integer lengthWidth;
+    private Integer lensWidth;
     private Integer templeLength;
     private Integer bridgeWidth;
 
@@ -25,11 +26,12 @@ public class SunglassesPDPDto extends SunglassesPLPDto {
         super(sunglasses);
         this.sexCategory = sunglasses.getSexCategory();
         this.brand = sunglasses.getBrand();
+        this.color = sunglasses.getColor();
         this.frameShape = sunglasses.getFrameShape();
         this.frameMaterial = sunglasses.getFrameMaterial();
         this.lensCategory = sunglasses.getLensCategory();
         this.lensMaterial = sunglasses.getLensMaterial();
-        this.lengthWidth = sunglasses.getLensWidth();
+        this.lensWidth = sunglasses.getLensWidth();
         this.templeLength = sunglasses.getTempleLength();
         this.bridgeWidth = sunglasses.getBridgeWidth();
     }

@@ -2,6 +2,7 @@ package ua.com.alevel.persistence.entity.sunglasses;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import ua.com.alevel.persistence.entity.BaseEntity;
 import ua.com.alevel.persistence.type.LensType;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 
 @Getter
 @Setter
+@ToString
 @Entity
 @Table(name = "lens_categories")
 public class LensCategory extends BaseEntity {
@@ -19,5 +21,10 @@ public class LensCategory extends BaseEntity {
 
     public LensCategory() {
         super();
+    }
+
+    @Override
+    public String toString() {
+        return lensType.toString();
     }
 }

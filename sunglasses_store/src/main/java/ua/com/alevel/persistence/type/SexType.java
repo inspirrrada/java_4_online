@@ -1,9 +1,16 @@
 package ua.com.alevel.persistence.type;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum SexType {
 
-    MEN,
-    WOMEN,
-    KIDS,
-    UNISEX
+    MEN("Men"),
+    WOMEN("Women"),
+    KIDS("Kids"),
+    UNISEX("Unisex");
+
+    private final String value;
 }

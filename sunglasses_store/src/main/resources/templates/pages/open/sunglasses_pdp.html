@@ -1,10 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/open_layout}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<div layout:fragment="open_content">
+    <section class="module">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 mb-sm-40"><a class="gallery" th:href="${sunglasses.getImageUrl()}"><img th:src="${sunglasses.getImageUrl()}" alt="Single Product Image"/></a>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h1 class="product-title font-alt" th:text="${sunglasses.getModelName()}">Sunglasses model</h1>
+                        </div>
+                    </div>
+                    <div class="row mb-20">
+                        <div class="col-sm-12">
+                            <div class="price font-alt"><span th:text="${'$' + sunglasses.getPrice()}" class="amount">Price</span></div>
+                        </div>
+                    </div>
+                    <div class="row mb-20">
+                        <div class="col-sm-12">
+                            <div class="description">
+<!--                                <p>The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words.</p>-->
+                                <table class="characteristics">
+                                    <tr>
+                                        <td class="column-name">Brand</td>
+                                        <td class="column-value">
+                                            <a th:href="@{'/sunglasses?brand=' + ${sunglasses.getBrand().getBrandName()}}" th:text="${sunglasses.getBrand().getBrandName().toUpperCase()}">Brand</a>
 
+                                        </td>
+
+                                        <td class="column-name">Lens material</td>
+                                        <td class="column-value">
+                                            <a th:href="@{'/sunglasses?lensMaterial=' + ${sunglasses.getLensMaterial()}}" th:text="${sunglasses.getLensMaterial().getLensMaterialType().getValue().toUpperCase()}">Lens material</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="column-name">Sex</td>
+                                        <td class="column-value">
+                                            <a th:href="@{'/sunglasses?sexCategory=' + ${sunglasses.getSexCategory()}}" th:text="${sunglasses.getSexCategory().getSexType().getValue().toUpperCase()}">Sex category</a>
+                                        </td>
+
+                                        <td class="column-name">Lens category</td>
+                                        <td class="column-value">
+                                            <a th:href="@{'/sunglasses?lensCategory=' + ${sunglasses.getLensCategory()}}" th:text="${sunglasses.getLensCategory().getLensType().getValue().toUpperCase()}">Lens category</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="column-name">Color</td>
+                                        <td class="column-value">
+                                            <a th:href="@{'/sunglasses?color=' + ${sunglasses.getColor()}}" th:text="${sunglasses.getColor().getColorType().getValue().toUpperCase()}">Color</a>
+                                        </td>
+
+                                        <td class="column-name">Lens width</td>
+                                        <td class="column-value">
+                                            <a th:href="@{'/sunglasses?lensWidth=' + ${sunglasses.getLensWidth()}}" th:text="${sunglasses.getLensWidth()}">Lens width</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="column-name">Frame shape</td>
+                                        <td class="column-value">
+                                            <a th:href="@{'/sunglasses?frameShape=' + ${sunglasses.getFrameShape()}}" th:text="${sunglasses.getFrameShape().getFrameShapeType().getValue().toUpperCase()}">Frame shape</a>
+                                        </td>
+
+                                        <td class="column-name">Bridge width</td>
+                                        <td class="column-value">
+                                            <a th:href="@{'/sunglasses?bridgeWidth=' + ${sunglasses.getBridgeWidth()}}" th:text="${sunglasses.getBridgeWidth()}">Bridge width</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="column-name">Frame material</td>
+                                        <td class="column-value">
+                                            <a th:href="@{'/sunglasses?frameMaterial=' + ${sunglasses.getFrameMaterial()}}" th:text="${sunglasses.getFrameMaterial().getFrameMaterialType().getValue().toUpperCase()}">Frame material</a>
+                                        </td>
+
+                                        <td class="column-name">Temple length</td>
+                                        <td class="column-value">
+                                            <a th:href="@{'/sunglasses?templeLength=' + ${sunglasses.getTempleLength()}}" th:text="${sunglasses.getTempleLength()}">Temple length</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <img th:src="@{https://i.ibb.co/7JshHLj/fotor-2023-5-7-6-45-50.png}" alt="Measurements schema"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-20">
+                        <div class="col-sm-4 mb-sm-20">
+                            <input class="form-control input-lg" type="number" name="" value="1" max="40" min="1" required="required"/>
+                        </div>
+                        <div class="col-sm-8"><a class="btn btn-lg btn-block btn-round btn-b" href="#">Add To Cart</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 </body>
 </html>

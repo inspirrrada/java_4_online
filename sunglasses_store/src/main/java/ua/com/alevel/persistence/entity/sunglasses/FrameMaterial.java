@@ -2,6 +2,7 @@ package ua.com.alevel.persistence.entity.sunglasses;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import ua.com.alevel.persistence.entity.BaseEntity;
 import ua.com.alevel.persistence.type.FrameMaterialType;
 
@@ -15,9 +16,14 @@ public class FrameMaterial extends BaseEntity {
 
     @Column(name = "frame_material", nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
-    private FrameMaterialType frameMaterial;
+    private FrameMaterialType frameMaterialType;
 
     public FrameMaterial() {
         super();
+    }
+
+    @Override
+    public String toString() {
+        return frameMaterialType.toString();
     }
 }

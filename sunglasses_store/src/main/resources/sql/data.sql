@@ -53,7 +53,6 @@ insert into brands values (5, '2023-01-01', '2023-01-01', true, 'LUXOPTICA');
 insert into sunglasses values (
         1, '2023-01-01', '2023-01-01', true,
         20,                  --bridge_width
-        10,                  --color
         'https://luxoptica.ua/upload/products/compiled/images/Soncezahisni_okuljari/RAY-BAN/d21412b6-1645-41f7-be6e-03aab272aa4e.jpg',
         53,                  --lens_width
         '3565 001/51 53',    --model_code
@@ -61,6 +60,7 @@ insert into sunglasses values (
         10,                  --quantity
         145,                 --temple_length
         1,                   --brand_id
+        10,                  --color
         2,                   --frame_material
         4,                   --frame_shape
         1,                   --lens_category
@@ -73,7 +73,6 @@ insert into sunglasses values (
 insert into sunglasses values (
                                   2, '2023-01-01', '2023-01-01', true,
                                   20,                  --bridge_width
-                                  10,                  --color
                                   'https://luxoptica.ua/upload/products/compiled/images/Soncezahisni_okuljari/RAY-BAN/d21412b6-1645-41f7-be6e-03aab272aa4e.jpg',
                                   53,                  --lens_width
                                   '3565 001/51 532',    --model_code
@@ -81,6 +80,7 @@ insert into sunglasses values (
                                   10,                  --quantity
                                   145,                 --temple_length
                                   1,                   --brand_id
+                                  10,                  --color
                                   2,                   --frame_material
                                   4,                   --frame_shape
                                   1,                   --lens_category
@@ -91,7 +91,6 @@ insert into sunglasses values (
 insert into sunglasses values (
                                   3, '2023-01-01', '2023-01-01', true,
                                   20,                  --bridge_width
-                                  10,                  --color
                                   'https://luxoptica.ua/upload/products/compiled/images/Soncezahisni_okuljari/RAY-BAN/d21412b6-1645-41f7-be6e-03aab272aa4e.jpg',
                                   53,                  --lens_width
                                   '3565 001/51 533',    --model_code
@@ -99,6 +98,7 @@ insert into sunglasses values (
                                   10,                  --quantity
                                   145,                 --temple_length
                                   1,                   --brand_id
+                                  10,                  --color
                                   2,                   --frame_material
                                   4,                   --frame_shape
                                   1,                   --lens_category
@@ -109,7 +109,6 @@ insert into sunglasses values (
 insert into sunglasses values (
                                   4, '2023-01-01', '2023-01-01', true,
                                   20,                  --bridge_width
-                                  10,                  --color
                                   'https://luxoptica.ua/upload/products/compiled/images/Soncezahisni_okuljari/RAY-BAN/d21412b6-1645-41f7-be6e-03aab272aa4e.jpg',
                                   53,                  --lens_width
                                   '3565 001/51 534',    --model_code
@@ -117,6 +116,7 @@ insert into sunglasses values (
                                   10,                  --quantity
                                   145,                 --temple_length
                                   1,                   --brand_id
+                                  10,                  --color
                                   2,                   --frame_material
                                   4,                   --frame_shape
                                   1,                   --lens_category
@@ -127,7 +127,6 @@ insert into sunglasses values (
 insert into sunglasses values (
                                   5, '2023-01-01', '2023-01-01', true,
                                   20,                  --bridge_width
-                                  10,                  --color
                                   'https://luxoptica.ua/upload/products/compiled/images/Soncezahisni_okuljari/RAY-BAN/d21412b6-1645-41f7-be6e-03aab272aa4e.jpg',
                                   53,                  --lens_width
                                   '3565 001/51 535',    --model_code
@@ -135,6 +134,7 @@ insert into sunglasses values (
                                   10,                  --quantity
                                   145,                 --temple_length
                                   1,                   --brand_id
+                                  10,                  --color
                                   2,                   --frame_material
                                   4,                   --frame_shape
                                   1,                   --lens_category
@@ -145,7 +145,6 @@ insert into sunglasses values (
 insert into sunglasses values (
                                   6, '2023-01-01', '2023-01-01', true,
                                   20,                  --bridge_width
-                                  10,                  --color
                                   'https://luxoptica.ua/upload/products/compiled/images/Soncezahisni_okuljari/RAY-BAN/d21412b6-1645-41f7-be6e-03aab272aa4e.jpg',
                                   53,                  --lens_width
                                   '3565 001/51 536',    --model_code
@@ -153,6 +152,7 @@ insert into sunglasses values (
                                   10,                  --quantity
                                   145,                 --temple_length
                                   1,                   --brand_id
+                                  10,                  --color
                                   2,                   --frame_material
                                   4,                   --frame_shape
                                   1,                   --lens_category
@@ -163,7 +163,6 @@ insert into sunglasses values (
 insert into sunglasses values (
                                   7, '2023-01-01', '2023-01-01', true,
                                   20,                  --bridge_width
-                                  10,                  --color
                                   'https://luxoptica.ua/upload/products/compiled/images/Soncezahisni_okuljari/RAY-BAN/d21412b6-1645-41f7-be6e-03aab272aa4e.jpg',
                                   53,                  --lens_width
                                   '3565 001/51 537',    --model_code
@@ -171,6 +170,7 @@ insert into sunglasses values (
                                   10,                  --quantity
                                   145,                 --temple_length
                                   1,                   --brand_id
+                                  10,                  --color
                                   2,                   --frame_material
                                   4,                   --frame_shape
                                   1,                   --lens_category
@@ -181,7 +181,6 @@ insert into sunglasses values (
 insert into sunglasses values (
                                   8, '2023-01-01', '2023-01-01', true,
                                   20,                  --bridge_width
-                                  10,                  --color
                                   'https://luxoptica.ua/upload/products/compiled/images/Soncezahisni_okuljari/RAY-BAN/d21412b6-1645-41f7-be6e-03aab272aa4e.jpg',
                                   53,                  --lens_width
                                   '3565 001/51 538',    --model_code
@@ -189,6 +188,7 @@ insert into sunglasses values (
                                   10,                  --quantity
                                   145,                 --temple_length
                                   1,                   --brand_id
+                                  10,                  --color
                                   2,                   --frame_material
                                   4,                   --frame_shape
                                   1,                   --lens_category

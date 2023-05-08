@@ -7,7 +7,7 @@ import ua.com.alevel.data.response.SunglassesPDPDto;
 import ua.com.alevel.data.response.SunglassesPLPDto;
 import ua.com.alevel.facade.sunglasses.SunglassesFacade;
 import ua.com.alevel.persistence.entity.sunglasses.Sunglasses;
-import ua.com.alevel.service.SunglassesService;
+import ua.com.alevel.service.*;
 
 import java.util.Collection;
 import java.util.Map;
@@ -17,9 +17,23 @@ import java.util.Optional;
 public class SunglassesFacadeImpl implements SunglassesFacade {
 
     private final SunglassesService sunglassesService;
+    private final BrandService brandService;
+    private final ColorService colorService;
+    private final FrameMaterialService frameMaterialService;
+    private final FrameShapeService frameShapeService;
+    private final LensCategoryService lensCategoryService;
+    private final LensMaterialService lensMaterialService;
+    private final SexCategoryService sexCategoryService;
 
-    public SunglassesFacadeImpl(SunglassesService sunglassesService) {
+    public SunglassesFacadeImpl(SunglassesService sunglassesService, BrandService brandService, ColorService colorService, FrameMaterialService frameMaterialService, FrameShapeService frameShapeService, LensCategoryService lensCategoryService, LensMaterialService lensMaterialService, SexCategoryService sexCategoryService) {
         this.sunglassesService = sunglassesService;
+        this.brandService = brandService;
+        this.colorService = colorService;
+        this.frameMaterialService = frameMaterialService;
+        this.frameShapeService = frameShapeService;
+        this.lensCategoryService = lensCategoryService;
+        this.lensMaterialService = lensMaterialService;
+        this.sexCategoryService = sexCategoryService;
     }
 
     @Override
@@ -38,18 +52,70 @@ public class SunglassesFacadeImpl implements SunglassesFacade {
         if (MapUtils.isNotEmpty(map)) {
             String[] brands = map.get("brand");
             if (brands != null) {
-                String brandId = brands[0];
+                String brandName = brands[0];
+                Long brandId = brandService.findByBrandName(brandName).getId();
                 return sunglassesService
-                        .findByBrand(Long.parseLong(brandId))
+                        .findByBrand(brandId)
+                        .stream()
+                        .map(SunglassesPLPDto::new)
+                        .toList();
+            }
+            String[] colors = map.get("color");
+            if (colors != null) {
+                String colorValue = colors[0];
+                Long colorId = colorService.findByColorValue(colorValue).getId();
+                return sunglassesService
+                        .findByColor(colorId)
+                        .stream()
+                        .map(SunglassesPLPDto::new)
+                        .toList();
+            }
+            String[] frameMaterials = map.get("frameMaterial");
+            if (frameMaterials != null) {
+                String frameMaterialValue = frameMaterials[0];
+                Long frameMaterialId = frameMaterialService.findByFrameMaterialValue(frameMaterialValue).getId();
+                return sunglassesService
+                        .findByFrameMaterial(frameMaterialId)
                         .stream()
                         .map(SunglassesPLPDto::new)
                         .toList();
             }
             String[] frameShapes = map.get("frameShape");
             if (frameShapes != null) {
-                String frameShapeId = frameShapes[0];
+                String frameShapeValue = frameShapes[0];
+                Long frameShapeId = frameShapeService.findByFrameShapeValue(frameShapeValue).getId();
                 return sunglassesService
-                        .findByFrameShape(Long.parseLong(frameShapeId))
+                        .findByFrameShape(frameShapeId)
+                        .stream()
+                        .map(SunglassesPLPDto::new)
+                        .toList();
+            }
+            String[] lensCategories = map.get("lensCategory");
+            if (lensCategories != null) {
+                String lensCategoryValue = lensCategories[0];
+                Long lensCategoryId = lensCategoryService.findByLensCategoryValue(lensCategoryValue).getId();
+                return sunglassesService
+                        .findByLensCategory(lensCategoryId)
+                        .stream()
+                        .map(SunglassesPLPDto::new)
+                        .toList();
+            }
+            String[] lensMaterials = map.get("lensMaterial");
+            if (lensMaterials != null) {
+                String lensMaterial = lensMaterials[0];
+                Long lensMaterialId = lensMaterialService.findByLensMaterialValue(lensMaterial).getId();
+                return sunglassesService
+                        .findByLensMaterial(lensMaterialId)
+                        .stream()
+                        .map(SunglassesPLPDto::new)
+                        .toList();
+            }
+            String[] sexCategories = map.get("sexCategory");
+            if (sexCategories != null) {
+                String sexCategoryValue = sexCategories[0];
+                Long sexCategoryId = sexCategoryService.findBySexCategoryValue(sexCategoryValue).getId();
+                return sunglassesService
+                        .findBySexCategory(sexCategoryId)
                         .stream()
                         .map(SunglassesPLPDto::new)
                         .toList();

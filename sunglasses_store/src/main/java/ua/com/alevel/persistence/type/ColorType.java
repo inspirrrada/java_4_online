@@ -1,16 +1,23 @@
 package ua.com.alevel.persistence.type;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum ColorType {
 
-    GREEN,
-    DARK_GREEN,
-    BLUE,
-    DARK_BLUE,
-    PINK,
-    BROWN,
-    BLACK,
-    PINK_GRADIENT_BLUE,
-    BLUE_GRADIENT_GREY,
-    CLEAR_GRADIENT_BROWN,
-    CLEAR_GRADIENT_BLUE
+    GREEN("Green"),
+    DARK_GREEN("Dark green"),
+    BLUE("Blue"),
+    DARK_BLUE("Dark blue"),
+    PINK("Pink"),
+    BROWN("Brown"),
+    BLACK("Black"),
+    PINK_GRADIENT_BLUE("Pink gradient blue"),
+    BLUE_GRADIENT_GREY("Blue gradient grey"),
+    CLEAR_GRADIENT_BROWN("Clear gradient brown"),
+    CLEAR_GRADIENT_BLUE("Clear gradient blue");
+
+    private final String value;
 }

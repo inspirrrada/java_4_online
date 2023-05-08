@@ -28,4 +28,9 @@ public class Brand extends BaseEntity {
         super();
         sunglasses = new HashSet<>();
     }
+
+    @Override
+    public String toString() {
+        return brandName;
+    }
 }

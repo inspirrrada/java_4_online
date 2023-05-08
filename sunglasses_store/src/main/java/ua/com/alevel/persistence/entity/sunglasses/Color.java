@@ -15,9 +15,14 @@ public class Color extends BaseEntity {
 
     @Column(unique = true)
     @Enumerated(EnumType.STRING)
-    private ColorType color;
+    private ColorType colorType;
 
     public Color() {
         super();
+    }
+
+    @Override
+    public String toString() {
+        return colorType.toString();
     }
 }

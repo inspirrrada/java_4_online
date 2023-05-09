@@ -18,7 +18,7 @@ public class SunglassesPLPDto {
 
     public SunglassesPLPDto(Sunglasses sunglasses) {
         this.id = sunglasses.getId();
-        this.modelName = (sunglasses.getBrand().toString() + " "  + sunglasses.getModelCode() + " " + sunglasses.getColor()).toUpperCase();
+        this.modelName = (sunglasses.getBrand().toString() + " "  + sunglasses.getModelCode() + " " + sunglasses.getColor().getColorType().getValue()).toUpperCase();
         System.out.println();
         this.imageUrl = sunglasses.getImageUrl();
         this.price = sunglasses.getPrice().toString();

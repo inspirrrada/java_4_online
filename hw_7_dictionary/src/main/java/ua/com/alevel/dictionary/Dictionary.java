@@ -156,4 +156,17 @@ public class Dictionary<K, V> {
         }
         return value;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dictionary<?, ?> that = (Dictionary<?, ?>) o;
+        return size == that.size;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(size);
+    }
 }

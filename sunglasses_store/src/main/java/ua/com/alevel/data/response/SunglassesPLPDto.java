@@ -12,7 +12,7 @@ public class SunglassesPLPDto {
 
     private Long id;
     private String modelName;
-    private String imageUrl;
+    private String imageUrl1;
     private String price;
     private Boolean visible;
 
@@ -20,7 +20,7 @@ public class SunglassesPLPDto {
         this.id = sunglasses.getId();
         this.modelName = (sunglasses.getBrand().toString() + " "  + sunglasses.getModelCode() + " " + sunglasses.getColor().getColorType().getValue()).toUpperCase();
         System.out.println();
-        this.imageUrl = sunglasses.getImageUrl();
+        this.imageUrl1 = sunglasses.getImageUrl1();
         this.price = sunglasses.getPrice().toString();
         this.visible = sunglasses.getVisible();
     }

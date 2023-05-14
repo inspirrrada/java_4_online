@@ -249,7 +249,7 @@ body {
 }
 
 img {
-    max-width: 100%;
+    max-width: 90%;
     height: auto;
 }
 
@@ -2805,10 +2805,14 @@ Google map
 .shop-item-image {
     position: relative;
     overflow: hidden;
+    min-height: 20em;
 }
 
 .shop-item-image img {
     width: 100%;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
 }
 
 .shop-item-detail,
@@ -2846,7 +2850,11 @@ Google map
     margin: 15px 0 5px;
 }
 
-/* Shop item hover */
+.shop-item-title a {
+    min-height: 36px;
+}
+
+    /* Shop item hover */
 .shop-item:hover .shop-item-image:after {
     background: rgba(245, 245, 245, 0.7);
 }
@@ -2883,7 +2891,7 @@ Google map
 
 .product-gallery li {
     display: inline-block;
-    width: 15%;
+    width: 25%;
     margin: 0 5px;
 }
 

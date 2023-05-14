@@ -21,6 +21,9 @@ public class SunglassesPDPDto extends SunglassesPLPDto {
     private Integer lensWidth;
     private Integer templeLength;
     private Integer bridgeWidth;
+    private String imageUrl2;
+    private String imageUrl3;
+    private String imageUrl4;
 
     public SunglassesPDPDto(Sunglasses sunglasses) {
         super(sunglasses);
@@ -34,5 +37,8 @@ public class SunglassesPDPDto extends SunglassesPLPDto {
         this.lensWidth = sunglasses.getLensWidth();
         this.templeLength = sunglasses.getTempleLength();
         this.bridgeWidth = sunglasses.getBridgeWidth();
+        this.imageUrl2 = sunglasses.getImageUrl2();
+        this.imageUrl3 = sunglasses.getImageUrl3();
+        this.imageUrl4 = sunglasses.getImageUrl4();
     }
 }

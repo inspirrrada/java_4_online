@@ -12,4 +12,9 @@ public class PersonalController {
     public String home() {
         return "pages/personal/home";
     }
+
+    @GetMapping("/account")
+    public String account() {
+        return "pages/personal/account";
+    }
 }

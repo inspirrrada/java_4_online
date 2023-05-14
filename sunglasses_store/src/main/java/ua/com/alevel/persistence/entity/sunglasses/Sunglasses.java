@@ -35,8 +35,17 @@ public class Sunglasses extends BaseEntity {
     @Column(name = "temple_length")
     private Integer templeLength;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "image_url1")
+    private String imageUrl1;
+
+    @Column(name = "image_url2")
+    private String imageUrl2;
+
+    @Column(name = "image_url3")
+    private String imageUrl3;
+
+    @Column(name = "image_url4")
+    private String imageUrl4;
 
     @Column(precision = 7, scale = 2)
     private BigDecimal price;

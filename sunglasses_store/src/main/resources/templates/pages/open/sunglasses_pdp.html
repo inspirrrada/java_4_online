@@ -13,8 +13,27 @@
     <section class="module">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 mb-sm-40" style="overflow: hidden"><a class="gallery" th:href="${sunglasses.getImageUrl()}">
-                    <img th:src="${sunglasses.getImageUrl()}" alt="Single Product Image"/></a>
+                <div class="col-sm-6 mb-sm-40" style="overflow: hidden">
+                    <a class="gallery" th:href="${sunglasses.getImageUrl1()}">
+                        <img id="#expandedImg" th:src="${sunglasses.getImageUrl1()}" alt="Single Product Image"/>
+                    </a>
+                    <ul class="product-gallery">
+                        <li>
+                            <a onclick="myFunction(this);" class="gallery" th:href="${sunglasses.getImageUrl2()}">
+                                <img onclick="myFunction(this);" th:src="${sunglasses.getImageUrl2()}" alt="Single Product"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="gallery" th:href="${sunglasses.getImageUrl3()}">
+                                <img onclick="myFunction(this);" th:src="${sunglasses.getImageUrl3()}" alt="Single Product"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="gallery" th:href="${sunglasses.getImageUrl4()}">
+                                <img onclick="myFunction(this);" th:src="${sunglasses.getImageUrl4()}" alt="Single Product"/>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="col-sm-6">
                     <div class="row">
@@ -31,7 +50,7 @@
                         <div class="col-sm-4 mb-sm-20">
                             <input class="form-control input-lg" type="number" name="" value="1" max="40" min="1" required="required"/>
                         </div>
-                        <div class="col-sm-8"><a class="btn btn-lg btn-block btn-round btn-b" href="#">Add To Cart</a></div>
+                        <div class="col-sm-8"><a class="btn btn-lg btn-block btn-round btn-b" href="#"><span class="bi bi-basket icon-basket"></span>Add To Cart</a></div>
                     </div>
                     <div class="row mb-20">
                         <div class="col-sm-12">
@@ -105,5 +124,23 @@
         </div>
     </section>
 </div>
+<script>
+    function myFunction(imgs) {
+        // Get the expanded image
+        var expandImg = document.getElementById("expandedImg");
+        console.log(expandImg);
+        // Get the image text
+        //var imgText = document.getElementById("imgtext");
+        // Use the same src in the expanded image as the image being clicked on from the grid
+        expandImg.parentElement.style.display = "none";
+        expandImg.src = imgs.src;
+        console.log(expandImg.src);
+        console.log(imgs.src);
+        // Use the value of the alt attribute of the clickable image as text inside the expanded image
+        //imgText.innerHTML = imgs.alt;
+        // Show the container element (hidden with CSS)
+        expandImg.parentElement.style.display = "flex";
+    }
+</script>
 </body>
 </html>

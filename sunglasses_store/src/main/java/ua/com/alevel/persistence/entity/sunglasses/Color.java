@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table (name = "colors")
 public class Color extends BaseEntity {
 
-    @Column(unique = true)
+    @Column(name="color", unique = true)
     @Enumerated(EnumType.STRING)
     private ColorType colorType;
 

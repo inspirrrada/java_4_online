@@ -9,7 +9,8 @@ public enum LensType {
 
     GRADIENT("Gradient"),
     MIRRORED("Mirrored"),
-    POLARIZED("Polarized");
+    POLARIZED("Polarized"),
+    ORDINARY("Ordinary");
 
     private final String value;
 }

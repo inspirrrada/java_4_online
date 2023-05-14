@@ -31,9 +31,10 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.4;
     font-weight: 400;
 }
+*/
 
 
-!* Forms common style *!
+/*!*!* Forms common style *!*!
 .form-control {
     font-family: "Roboto Condensed", sans-serif;
     text-transform: uppercase;
@@ -49,7 +50,7 @@ h1, h2, h3, h4, h5, h6 {
     border-color: #CACACA;
 }
 
-!* Forms size *!
+!*!* Forms size *!*!
 .input-lg,
 .form-horizontal .form-group-lg .form-control {
     height: 43px;
@@ -82,9 +83,9 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 2px;
 }
 
-!*--------------------------------------------------------------
+!*!*--------------------------------------------------------------
 	Buttons
---------------------------------------------------------------*!
+--------------------------------------------------------------*!*!
 .btn {
     border-radius: 0;
     font-family: "Roboto Condensed", sans-serif;
@@ -188,7 +189,7 @@ h1, h2, h3, h4, h5, h6 {
     color: #111;
 }
 
-!* Buttons size *!
+!*!* Buttons size *!*!
 .btn.btn-lg {
     padding: 12px 45px;
     font-size: 13px;
@@ -228,8 +229,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .image-button {
     margin: 0px 5px;
-}
-*/
+}*/
+
 
 
 /*--------------------------------------------------------------
@@ -2866,6 +2867,37 @@ Google map
     -ms-transform: translateY(50%);
     transform: translateY(50%);
 }
+
+.label-text {
+    text-transform: uppercase;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+}
+
+.account-form {
+    width: 50%;
+}
+
+.form-block {
+    display: flex;
+}
+
+.input-block {
+    width: 100%;
+    margin-right: 2.5em;
+    margin-left: 2.5em;
+}
+
+.input-block input {
+    width: 100%;
+}
+
+.text-center button {
+    background-color: black!important;
+    margin-top: 5em;
+}
+
+
 
 /* -------------------------------------------------------------------
 	Exclusive products

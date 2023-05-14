@@ -14,7 +14,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2">
-                    <h4 class="font-alt mb-0">Your personal account</h4>
+                    <h4 class="font-alt mb-0">Your account</h4>
                     <hr class="divider-w mt-10 mb-20">
                     <div role="tabpanel">
                         <ul class="nav nav-tabs font-alt" id="myTab"  role="tablist">
@@ -35,7 +35,46 @@
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">The European languages are members of the same family. Their separate existence is a myth.
+                            <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+                                <form th:action="@{'/personal/account'}" class="form-group" th:object="${personalInfo}" th:method="POST">
+                                    <div class="form-block">
+                                        <div class="input-block" style="display: none">
+                                            <label class="label-text" for="id">Id</label>
+                                            <input th:value="${personalInfo.getId()}" th:field="*{id}" class="form-control account-form" type="text" id="id" placeholder=""/>
+                                        </div>
+                                        <div class="input-block">
+                                            <label class="label-text" for="firstName">First name</label>
+                                            <input th:value="${personalInfo.getFirstName()}" th:field="*{firstName}" class="form-control account-form" type="text" id="firstName" placeholder=""/>
+                                        </div>
+                                        <div class="input-block">
+                                            <label class="label-text" for="email">Email</label>
+                                            <input th:value="${personalInfo.getEmail()}" th:field="*{email}" class="form-control account-form" type="email" id="email" placeholder=""/>
+                                        </div>
+                                    </div>
+                                    <div class="form-block">
+                                        <div class="input-block">
+                                            <label class="label-text" for="lastName">Last name</label>
+                                            <input th:value="${personalInfo.getLastName()}" th:field="*{lastName}" class="form-control account-form" type="text" id="lastName" placeholder=""/>
+                                        </div>
+                                        <div class="input-block">
+                                            <label class="label-text" for="phone">Phone number</label>
+                                            <input th:value="${personalInfo.getPhoneNumber()}" th:field="*{phoneNumber}" class="form-control account-form" type="tel" id="phone" placeholder=""/>
+                                        </div>
+                                    </div>
+                                    <div class="form-block">
+                                        <div class="input-block">
+                                            <label class="label-text" for="fatherName">Father name</label>
+                                            <input th:value="${personalInfo.getFatherName()}" th:field="*{fatherName}" class="form-control account-form" type="text" id="fatherName" placeholder=""/>
+                                        </div>
+                                        <div class="input-block">
+                                            <label class="label-text" for="birthDate">Birth date</label>
+                                            <input th:value="${personalInfo.getBirthDay()}" th:field="*{birthDay}" class="form-control account-form" type="date" id="birthDate" placeholder=""/>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button th:type="submit" value="Submit" class="btn btn-primary active">Save</button>
+                                    </div>
+                                </form>
                             </div>
                             <div class="tab-pane" id="password" role="tabpanel" aria-labelledby="password-tab">To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words.
                             </div>

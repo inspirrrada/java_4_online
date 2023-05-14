@@ -24,6 +24,9 @@ public class Personal extends User {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "father_name")
+    private String fatherName;
+
     @Transient
     private String fullName;
 

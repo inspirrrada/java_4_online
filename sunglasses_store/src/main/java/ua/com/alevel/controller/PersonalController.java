@@ -2,17 +2,18 @@ package ua.com.alevel.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
+import ua.com.alevel.data.response.PersonalAddressDto;
 import ua.com.alevel.data.response.PersonalInfoDto;
+import ua.com.alevel.data.response.PersonalPasswordDto;
 import ua.com.alevel.facade.user.PersonalFacade;
 import ua.com.alevel.persistence.entity.user.Personal;
 import ua.com.alevel.util.SecurityUtil;
 
 @Controller
 @RequestMapping(path = "/personal")
+@SessionAttributes
 public class PersonalController {
 
     private final PersonalFacade personalFacade;
@@ -30,16 +31,29 @@ public class PersonalController {
     public String getAccountInfo(Model model) {
         String email = SecurityUtil.getUsername();
         Personal personal = personalFacade.findByEmail(email);
+//        model.addAttribute("personal", personal);
         PersonalInfoDto personalInfoDto = new PersonalInfoDto(personal);
         model.addAttribute("personalInfo", personalInfoDto);
-        System.out.println("personalInfoDto before: " + personalInfoDto);
+        PersonalPasswordDto personalPasswordDto = new PersonalPasswordDto(personal);
+        model.addAttribute("personalPassword", personalPasswordDto);
+        PersonalAddressDto personalAddressDto = new PersonalAddressDto(personal);
+        model.addAttribute("personalAddress", personalAddressDto);
+//        System.out.println("personalInfoDto before: " + personalInfoDto);
+//        Personal personalUpdated = personal;
+//        PersonalPasswordDto personalPasswordDto = new PersonalPasswordDto(personal);
+//        model.addAttribute("personalUpdated", personal);
+//        model.addAttribute("personalPassword", personalPasswordDto);
+//        System.out.println("personalUpdated before: " + personalUpdated);
         return "pages/personal/account";
     }
 
     @PostMapping("/account")
-    public String changeAccountInfo(@ModelAttribute("personalInfo") PersonalInfoDto personalInfoDto) {
+    public String changeAccountInfo(WebRequest webRequest,
+                                    @ModelAttribute("personalInfo") PersonalInfoDto personalInfoDto,
+                                    @ModelAttribute("personalPassword") PersonalPasswordDto personalPasswordDto,
+                                    @ModelAttribute("personalAddress") PersonalAddressDto personalAddressDto) {
         System.out.println("personalInfoDto after: " + personalInfoDto);
-        boolean successChange = personalFacade.changeInfo(personalInfoDto);
+        boolean successChange = personalFacade.changeInfo(personalInfoDto, personalPasswordDto, personalAddressDto, webRequest);
         if (successChange) {
             return "pages/personal/saving_successful";
         } else {

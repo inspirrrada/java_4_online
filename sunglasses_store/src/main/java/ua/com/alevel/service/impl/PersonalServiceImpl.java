@@ -6,6 +6,8 @@ import ua.com.alevel.persistence.entity.user.Personal;
 import ua.com.alevel.persistence.repository.user.PersonalRepository;
 import ua.com.alevel.service.user.PersonalService;
 
+import java.util.Optional;
+
 @Service
 public class PersonalServiceImpl implements PersonalService {
 
@@ -21,23 +23,22 @@ public class PersonalServiceImpl implements PersonalService {
     }
 
     @Override
-    public void changeInfo(Personal personal) {
-        boolean existEmail = personalRepository.existsByEmail(personal.getEmail());
+    public Personal findById(Long id) {
+        return personalRepository.findById(id).get();
+    }
+
+    @Override
+    public void changeInfo(Personal personalUpdated) {
+        boolean existEmail = personalRepository.existsByEmail(personalUpdated.getEmail());
         if (existEmail) {
-            Personal personalByEmail = personalRepository.findByEmail(personal.getEmail()).get();
-            boolean isTheSameIdByEmail = personalByEmail.getId().equals(personal.getId());
-            if (!isTheSameIdByEmail) {
-                throw new EmailAlreadyRegisteredException("Such email is already registered in system!");
+            Personal personalByEmail = personalRepository.findByEmail(personalUpdated.getEmail()).get();
+            if (personalUpdated.getId().equals(personalByEmail.getId())) {
+                personalRepository.save(personalUpdated);
             } else {
-                personal.setPassword(personalByEmail.getPassword());
-                personal.setRoleType(personalByEmail.getRoleType());
-                personalRepository.save(personal);
+                throw new EmailAlreadyRegisteredException("Such email is already registered in system!");
             }
         } else {
-            Personal personalById = personalRepository.findById(personal.getId()).get();
-            personal.setPassword(personalById.getPassword());
-            personal.setRoleType(personalById.getRoleType());
-            personalRepository.save(personal);
+            personalRepository.save(personalUpdated);
         }
     }
 }

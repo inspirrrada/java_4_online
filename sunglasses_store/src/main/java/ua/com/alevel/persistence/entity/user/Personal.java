@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Getter
@@ -24,21 +25,21 @@ public class Personal extends User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "father_name")
-    private String fatherName;
-
     @Transient
     private String fullName;
 
     @TimeZoneStorage(TimeZoneStorageType.NATIVE)
     @Column(name = "birth_day")
-    private OffsetDateTime birthDay;
+    private LocalDate birthDay;
 
     @Transient
     private Integer age;
 
     @Column(name="phone_number")
     private Integer phoneNumber;
+
+    @Column
+    private String zip;
 
     @Column
     private String region;
@@ -58,5 +59,25 @@ public class Personal extends User {
     public Personal() {
         super();
         setRoleType(RoleType.ROLE_PERSONAL);
+    }
+
+    @Override
+    public String toString() {
+        return "Personal{" +
+                "id='" + getId() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", password='" + getPassword() + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", birthDay=" + birthDay +
+                ", age=" + age +
+                ", phoneNumber=" + phoneNumber +
+                ", region='" + region + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", building='" + building + '\'' +
+                ", apartment='" + apartment + '\'' +
+                '}';
     }
 }

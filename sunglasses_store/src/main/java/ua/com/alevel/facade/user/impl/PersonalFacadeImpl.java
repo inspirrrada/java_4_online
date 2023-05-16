@@ -75,8 +75,8 @@ public class PersonalFacadeImpl implements PersonalFacade {
 //            dateTimeTo = toDate + " 23:59:59.999999999";
 //            toDateValue = Timestamp.valueOf(dateTimeTo);
 //        }
-//        personal.setBirthDay(LocalDate.parse(dto.getBirthDay()));
-        personal.setBirthDay(dto.getBirthDay());
+        personal.setBirthDay(LocalDate.parse(dto.getBirthDay()));
+//        personal.setBirthDay(dto.getBirthDay());
     }
 
     private void updatePassword(Personal personal, PersonalPasswordDto dto) {

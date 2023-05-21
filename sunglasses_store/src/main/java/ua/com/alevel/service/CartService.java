@@ -1,0 +1,14 @@
+package ua.com.alevel.service;
+
+import ua.com.alevel.persistence.entity.cart.Cart;
+import ua.com.alevel.persistence.entity.cart.CartItem;
+import ua.com.alevel.persistence.entity.sunglasses.Sunglasses;
+import ua.com.alevel.persistence.entity.user.User;
+
+import java.util.Collection;
+
+public interface CartService {
+
+    Cart findByUser(User user);
+    Collection<CartItem> findAllByCart(Long cartId);
+}

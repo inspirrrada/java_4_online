@@ -2,17 +2,21 @@ package ua.com.alevel.persistence.entity.sunglasses;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import ua.com.alevel.listener.SunglassesVisibleGenerationListener;
 import ua.com.alevel.persistence.entity.BaseEntity;
 import ua.com.alevel.persistence.entity.brand.Brand;
+import ua.com.alevel.persistence.entity.cart.Cart;
 import ua.com.alevel.persistence.type.SexType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
+@ToString
 @Entity
 @Table(name = "sunglasses")
 @EntityListeners({
@@ -69,4 +73,7 @@ public class Sunglasses extends BaseEntity {
 
     @ManyToOne
     private LensCategory lensCategory;
+
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "sunglasses")
+//    private Set<Cart> carts;
 }

@@ -2,14 +2,12 @@ package ua.com.alevel.controller.open;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import ua.com.alevel.facade.sunglasses.BrandFacade;
 import ua.com.alevel.facade.sunglasses.SunglassesFacade;
 import ua.com.alevel.persistence.entity.brand.Brand;
+import ua.com.alevel.persistence.entity.sunglasses.Sunglasses;
 
 @Controller
 @RequestMapping("/sunglasses")
@@ -33,6 +31,13 @@ public class SunglassesController {
     public String pdp(Model model, @PathVariable Long id) {
         model.addAttribute("sunglasses", sunglassesFacade.findById(id));
         return "pages/open/sunglasses_pdp";
+    }
+
+    @GetMapping("/{id}/add-to-cart")
+    public String addToCartFromPdp(@PathVariable Long id) {
+        System.out.println("id: " + id);
+
+        return "pages/personal/add_to_cart_successful";
     }
 
 //    @GetMapping("/brand")

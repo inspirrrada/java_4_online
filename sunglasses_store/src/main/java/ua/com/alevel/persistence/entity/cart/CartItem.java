@@ -3,6 +3,7 @@ package ua.com.alevel.persistence.entity.cart;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ua.com.alevel.data.response.SunglassesCartDto;
 import ua.com.alevel.persistence.entity.BaseEntity;
 import ua.com.alevel.persistence.entity.sunglasses.Sunglasses;
 

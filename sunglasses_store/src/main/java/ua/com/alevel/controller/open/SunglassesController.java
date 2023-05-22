@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+import ua.com.alevel.data.response.SunglassesCartDto;
 import ua.com.alevel.facade.sunglasses.BrandFacade;
 import ua.com.alevel.facade.sunglasses.SunglassesFacade;
 import ua.com.alevel.persistence.entity.brand.Brand;
@@ -30,7 +31,14 @@ public class SunglassesController {
     @GetMapping("/{id}")
     public String pdp(Model model, @PathVariable Long id) {
         model.addAttribute("sunglasses", sunglassesFacade.findById(id));
+        model.addAttribute("sunglassesCartDto", new SunglassesCartDto());
         return "pages/open/sunglasses_pdp";
+    }
+
+    @PostMapping("/{id}")
+    public String pdp(@ModelAttribute("sunglassesCartDto") SunglassesCartDto sunglassesCartDto) {
+        System.out.println("sunglassesCartDto 2: " + sunglassesCartDto);
+        return "redirect:/cart/add/{id}";
     }
 
     @GetMapping("/{id}/add-to-cart")

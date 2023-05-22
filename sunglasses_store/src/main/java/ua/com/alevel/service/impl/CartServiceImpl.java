@@ -23,6 +23,11 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public Cart findById(Long id) {
+        return cartRepository.findById(id).get();
+    }
+
+    @Override
     public Cart findByUser(User user) {
         return cartRepository.findByUser(user);
     }
@@ -31,5 +36,10 @@ public class CartServiceImpl implements CartService {
     public Collection<CartItem> findAllByCart(Long cartId) {
         Cart cart = cartRepository.findById(cartId).get();
         return cartItemRepository.findAllByCart(cart);
+    }
+
+    @Override
+    public void updateCart(Collection<CartItem> cartItems) {
+        cartItemRepository.saveAll(cartItems);
     }
 }

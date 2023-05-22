@@ -3,11 +3,13 @@ package ua.com.alevel.data.response;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import ua.com.alevel.persistence.entity.sunglasses.Sunglasses;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class SunglassesPLPDto {
 
     private Long id;
@@ -23,4 +25,6 @@ public class SunglassesPLPDto {
         this.price = sunglasses.getPrice().toString();
         this.visible = sunglasses.getVisible();
     }
+
+
 }

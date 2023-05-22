@@ -1,8 +1,11 @@
 package ua.com.alevel.controller;
 
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
+import ua.com.alevel.data.response.CartFormDto;
 import ua.com.alevel.data.response.SunglassesCartDto;
 import ua.com.alevel.facade.CartFacade;
 import ua.com.alevel.facade.user.PersonalFacade;
@@ -16,7 +19,9 @@ import ua.com.alevel.service.SunglassesService;
 import ua.com.alevel.util.SecurityUtil;
 
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Controller
 @RequestMapping(path="/cart")
@@ -40,33 +45,73 @@ public class CartController {
     public String openCart(Model model) {
         String email = SecurityUtil.getUsername();
         Personal personal = personalFacade.findByEmail(email);
-        Collection<SunglassesCartDto> sunglassesCartDtoList = cartFacade.findAllByCart(personal.getId()).stream().toList();
+        List<SunglassesCartDto> sunglassesCartDtoList = cartFacade.findAllByCart(personal.getId()).stream().toList();
+        CartFormDto cartFormDto = new CartFormDto(sunglassesCartDtoList);
         model.addAttribute("cartList", sunglassesCartDtoList);
-        String s = sunglassesCartDtoList.stream().toList().get(0).getImageUrl1();
+        model.addAttribute("cartFormDto", cartFormDto);
+        System.out.println("cartFormDto: " + cartFormDto);
+        System.out.println("cartFormLiist: " + cartFormDto.getCartFormList());
+//        System.out.println("cartFormList[0].imageUrl: " + cartFormDto.getCartFormList().get(0).getImageUrl1());
+//        String s = sunglassesCartDtoList.stream().toList().get(0).getImageUrl1();
         return "pages/personal/cart";
     }
 
-    @GetMapping("/add/{id}")
-    public String addToCart(@PathVariable Long id) {
-//        System.out.println("id from cart: " + id);
+    @PostMapping
+    public String updateCart(@ModelAttribute("cartFormDto") CartFormDto cartFormDto) {
         String email = SecurityUtil.getUsername();
         Personal personal = personalFacade.findByEmail(email);
+        System.out.println("cartFormDto: " + cartFormDto);
+        cartFacade.updateCart(cartFormDto, personal.getId());
+        return "redirect:/cart";
+    }
+
+    @GetMapping("/add/{id}")
+    public String addToCart(@PathVariable Long id, WebRequest webRequest, @ModelAttribute("sunglassesCartDto") SunglassesCartDto sunglassesCartDto) {
+        System.out.println("Model Attr sunglassesCartDto " + sunglassesCartDto);
+        String email = SecurityUtil.getUsername();
+        Personal personal = personalFacade.findByEmail(email);
+        Cart cart = cartRepository.findById(personal.getId()).get();
         System.out.println("personal: " + personal);
 //        Cart cart = cartFacade.findByUser(personal);
 //        System.out.println("cart: " + cart);
         Sunglasses sunglassesCurrent = sunglassesService.findById(id).get();
         System.out.println("sunglassesCurrent: " + sunglassesCurrent);
-        CartItem cartItemNew = new CartItem();
-        cartItemNew.setSunglasses(sunglassesCurrent);
-        cartItemNew.setQuantity(5);
-        Cart cart = cartRepository.findById(personal.getId()).get();
-        cartItemNew.setCart(cart);
+        Collection<CartItem> cartItems = cartItemRepository.findAllByCart(cart);
+        AtomicBoolean alreadyExistInCart = new AtomicBoolean(false);
+        cartItems.forEach(v -> {
+            if (v.getSunglasses().getId() == id) {
+                alreadyExistInCart.set(true);
+            }
+        });
+        Integer qtyForCart = 1;
+        Map<String, String[]> map = webRequest.getParameterMap();
+        if (MapUtils.isNotEmpty(map)) {
+            String[] qtyArr = map.get("qty");
+            if (qtyArr != null) {
+                String qtyS = qtyArr[0];
+                qtyForCart = Integer.parseInt(qtyS);
+            }
+        }
+        CartItem cartItem = cartItemRepository.findByCartIdAndSunglasses(personal.getId(), sunglassesCurrent);
+        CartItem cartItemNew;
+        if (cartItem == null) {
+            cartItemNew = new CartItem();
+            cartItemNew.setSunglasses(sunglassesCurrent);
+            cartItemNew.setQuantity(qtyForCart);
+            cartItemNew.setCart(cart);
+            cartItemRepository.save(cartItemNew);
+        } else {
+            cartItem.setQuantity(cartItem.getQuantity() + qtyForCart);
+            cartItemRepository.save(cartItem);
+        }
+
+
+
 //        Set<CartItem> cartItems = cart.getCartItems();
 //        cartItems.add(cartItemNew);
-        System.out.println("cartItemNew: " + cartItemNew);
 //        System.out.println("cart: " + cart);
 //        cartRepository.save(cart);
-        cartItemRepository.save(cartItemNew);
+
 //        model.addAttribute("sunglassesList", sunglassesFacade.findAll(webRequest));
         return "pages/personal/add_to_cart_successful";
 //        return "pages/personal/cart";

@@ -9,6 +9,8 @@ import java.util.Collection;
 
 public interface CartService {
 
+    Cart findById(Long id);
     Cart findByUser(User user);
     Collection<CartItem> findAllByCart(Long cartId);
+    void updateCart(Collection<CartItem> cartItems);
 }

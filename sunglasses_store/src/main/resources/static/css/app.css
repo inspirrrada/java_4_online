@@ -2948,6 +2948,12 @@ Google map
     color: #111;
 }
 
+.input-price, .input-description {
+    border: none;
+    background: transparent;
+    font-size: 1.25em;
+}
+
 .star,
 .star-off {
     margin-bottom: 5px;

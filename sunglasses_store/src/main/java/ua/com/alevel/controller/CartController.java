@@ -18,6 +18,7 @@ import ua.com.alevel.persistence.repository.CartRepository;
 import ua.com.alevel.service.SunglassesService;
 import ua.com.alevel.util.SecurityUtil;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,14 @@ public class CartController {
         model.addAttribute("cartList", sunglassesCartDtoList);
         model.addAttribute("cartFormDto", cartFormDto);
         System.out.println("cartFormDto: " + cartFormDto);
-        System.out.println("cartFormLiist: " + cartFormDto.getCartFormList());
+        System.out.println("cartFormList: " + cartFormDto.getCartFormList());
+        int totalQty = sunglassesCartDtoList.stream().mapToInt(SunglassesCartDto::getQty).sum();
+        model.addAttribute("totalQty", totalQty);
+        BigDecimal sum = BigDecimal.ZERO;
+        for (SunglassesCartDto sunglassesCartDto : sunglassesCartDtoList) {
+            sum = sum.add(sunglassesCartDto.getTotalPrice());
+        }
+        model.addAttribute("totalAmount", sum);
 //        System.out.println("cartFormList[0].imageUrl: " + cartFormDto.getCartFormList().get(0).getImageUrl1());
 //        String s = sunglassesCartDtoList.stream().toList().get(0).getImageUrl1();
         return "pages/personal/cart";

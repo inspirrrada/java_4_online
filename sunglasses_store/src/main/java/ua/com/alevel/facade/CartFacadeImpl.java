@@ -53,6 +53,11 @@ public class CartFacadeImpl implements CartFacade {
                     cartItem.setCart(findById(cartId));
                     cartItem.setSunglasses(sunglassesService.findById(v.getId()).get());
                     cartItem.setQuantity(v.getQty());
+                    if (v.isShouldBeRemoved()) {
+                        cartItem.setActive(false);
+                    } else {
+                        cartItem.setActive(true);
+                    }
                     cartItems.add(cartItem);
                 });
              cartService.updateCart(cartItems);

@@ -40,6 +40,13 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void updateCart(Collection<CartItem> cartItems) {
-        cartItemRepository.saveAll(cartItems);
+        cartItems.forEach(v -> {
+            if (!v.getActive()) {
+                cartItemRepository.delete(v);
+            } else {
+                cartItemRepository.save(v);
+            }
+        });
+//        cartItemRepository.saveAll(cartItems);
     }
 }

@@ -33,4 +33,5 @@ public class CartItem extends BaseEntity {
     private Sunglasses sunglasses;
 
     private Integer quantity;
+    private Boolean active;
 }

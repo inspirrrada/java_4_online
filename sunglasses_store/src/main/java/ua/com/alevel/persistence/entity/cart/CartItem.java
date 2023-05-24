@@ -17,7 +17,7 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
-@Table(name = "cart_item_register")
+@Table(name = "cart_items")
 public class CartItem extends BaseEntity {
 
     @ManyToOne

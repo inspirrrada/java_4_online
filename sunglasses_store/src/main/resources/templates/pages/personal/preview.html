@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/personal_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="personal_content">
+  <section class="module">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+          <h1 class="module-title font-alt">Order details</h1>
+        </div>
+      </div>
+      <hr class="divider-w pt-20">
+      <div class="row">
+        <div class="col-sm-12">
+          <table class="table table-striped table-border checkout-table">
+            <tbody>
+            <tr>
+              <th class="hidden-xs">Item</th>
+              <th>Description</th>
+              <th class="hidden-xs">Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+            <tr th:each="sunglassesItem : ${sunglassesCartDtoList}">
+              <td class="hidden-xs"><a th:href="${sunglassesItem.getImageUrl1()}"><img th:src="${sunglassesItem.getImageUrl1()}" alt="Sunglasses Photo"/></a></td>
+              <td>
+                <h5 class="product-title font-alt" th:value="${sunglassesItem.getModelName()}" th:text="${sunglassesItem.getModelName()}"></h5>
+              </td>
+              <td class="hidden-xs">
+                <h5 class="product-title font-alt" th:text="'$' + ${sunglassesItem.getPrice()}">
+                    Price
+                </h5>
+              </td>
+              <td>
+                  <h5 class="product-title font-alt" th:text="${sunglassesItem.qty}"></h5>
+              </td>
+              <td>
+                <h5 class="product-title font-alt" th:text="${sunglassesItem.getTotalPrice()}"></h5>
+              </td>
+            </tr>
+<!--            <tr>-->
+<!--              <td class="hidden-xs"><a href="#"><img src="assets/images/shop/product-13.jpg" alt="Men’s Casual Pack"/></a></td>-->
+<!--              <td>-->
+<!--                <h5 class="product-title font-alt">Men’s Casual Pack</h5>-->
+<!--              </td>-->
+<!--              <td class="hidden-xs">-->
+<!--                <h5 class="product-title font-alt">£20.00</h5>-->
+<!--              </td>-->
+<!--              <td>-->
+<!--                <input class="form-control" type="number" name="" value="1" max="50" min="1"/>-->
+<!--              </td>-->
+<!--              <td>-->
+<!--                <h5 class="product-title font-alt">£20.00</h5>-->
+<!--              </td>-->
+<!--              <td class="pr-remove">-->
+<!--&lt;!&ndash;                <a href="#" title="Remove"><i class="fa fa-times"></i></a>&ndash;&gt;-->
+<!--                <input type="checkbox" title="Remove">-->
+<!--              </td>-->
+<!--            </tr>-->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <hr class="divider-w">
+      <div class="row mt-70">
+        <div class="col-sm-5 col-sm-offset-7">
+          <div class="shop-Cart-totalbox">
+            <h4 class="font-alt">Cart Totals</h4>
+            <table class="table table-striped table-border checkout-table">
+              <tbody>
+              <tr>
+                <th>Total quantity :</th>
+                <td th:text="${totalQty}">£40.00</td>
+              </tr>
+              <tr class="shop-Cart-totalprice">
+                <th>Total amount:</th>
+                <td th:text="${totalAmount}">£42.00</td>
+              </tr>
+              </tbody>
+            </table>
+            <div>
+              <form th:action="@{'/order/success'}" class="form-group" th:object="${orderDetails}" th:method="POST">
+                <div class="col-sm-8 col-sm-offset-2">
+                  <h4 class="font-alt mb-0">Contact info</h4>
+                  <hr class="divider-w mt-10 mb-20">
+                  <div>
+                    <div class="preview-block" style="display: none">
+                      <label class="label-text" for="info-id">Id</label>
+                      <input th:value="${orderDetails.getId()}" class="form-control account-form" type="text" id="info-id" placeholder=""/>
+                    </div>
+                    <div class="preview-block">
+                      <span >Receiver</span>
+                      <p th:text="${orderDetails.getContactFirstName()} + ' text ' + ${orderDetails.getContactLastName()}"></p>
+                    </div>
+                  </div>
+                  <div class="form-block">
+                    <div class="preview-block">
+                      <label class="label-text" for="phone">Phone number</label>
+                      <input th:value="${orderDetails.getContactPhoneNumber()} + ', ' + ${orderDetails.getReservePhoneNumber()}" class="form-control account-form" type="tel" id="phone" placeholder=""/>
+                    </div>
+                  </div>
+                </div>
+                <div class="address-info collapse" id="collapseExample">
+                  <h4 class="font-alt mb-0">Delivery info</h4>
+                  <hr class="divider-w mt-10 mb-20">
+                  <div>
+                    <div class="form-block">
+                      <div class="preview-block">
+                        <label class="label-text" for="address">Address</label>
+                        <input th:value="${orderDetails.getDeliveryRegion()} + ', ' + ${orderDetails.getDeliveryRegion()} + ' region, ' + 'city ' + ${orderDetails.getDeliveryCity()}" class="form-control account-form" type="text" id="address" placeholder=""/>
+                      </div>
+                      <div class="preview-block">
+                        <label class="label-text" for="street"></label>
+                        <input th:value="${orderDetails.getDeliveryStreet()} + 'street, b.' + ${orderDetails.getDeliveryBuilding()} + ' / ' + ${orderDetails.getDeliveryApartment()}" class="form-control account-form" type="text" id="street" placeholder=""/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h4 class="font-alt mb-0">Payment method</h4>
+                  <hr class="divider-w mt-10 mb-20">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                    <label class="form-check-label" for="inlineRadio1">Advance payment to a bank account</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                    <label class="form-check-label" for="inlineRadio2">Сash on delivery</label>
+                  </div>
+                </div>
+                <div>
+                  <h4 class="font-alt mb-0">Order notes</h4>
+                  <hr class="divider-w mt-10 mb-20">
+                  <textarea class="form-control" rows="7" cols="40"></textarea>
+                </div>
+
+                <a class="btn btn-lg btn-block btn-round btn-d" th:href="@{'/order/details'}">Back and Edit</a>
+                <button type="submit" class="btn btn-lg btn-block btn-round btn-d" >Next</button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

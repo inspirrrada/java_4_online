@@ -30,6 +30,6 @@ public class Cart extends BaseEntity {
 //            joinColumns = @JoinColumn(name = "cart_id"),
 //            inverseJoinColumns = @JoinColumn(name = "sunglasses_id")
 //    )
-    @OneToMany
-    private Set<CartItem> cartItems;
+//    @OneToMany
+//    private Set<CartItem> cartItems;
 }

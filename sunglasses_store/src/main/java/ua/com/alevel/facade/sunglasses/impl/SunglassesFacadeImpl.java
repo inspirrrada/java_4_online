@@ -3,11 +3,13 @@ package ua.com.alevel.facade.sunglasses.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
 import org.apache.commons.collections4.MapUtils;
-import ua.com.alevel.data.response.SunglassesPDPDto;
-import ua.com.alevel.data.response.SunglassesPLPDto;
+import ua.com.alevel.dto.sunglasses.SunglassesPDPDto;
+import ua.com.alevel.dto.sunglasses.SunglassesPLPDto;
 import ua.com.alevel.facade.sunglasses.SunglassesFacade;
 import ua.com.alevel.persistence.entity.sunglasses.Sunglasses;
-import ua.com.alevel.service.*;
+import ua.com.alevel.service.sunglasses.SunglassesService;
+import ua.com.alevel.service.sunglasses.brand.BrandService;
+import ua.com.alevel.service.sunglasses.features.*;
 
 import java.util.Collection;
 import java.util.Map;

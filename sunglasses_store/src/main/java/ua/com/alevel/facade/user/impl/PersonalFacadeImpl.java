@@ -1,20 +1,18 @@
 package ua.com.alevel.facade.user.impl;
 
 import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.WebRequest;
-import ua.com.alevel.data.response.PersonalAddressDto;
-import ua.com.alevel.data.response.PersonalInfoDto;
-import ua.com.alevel.data.response.PersonalPasswordDto;
+import ua.com.alevel.dto.user.PersonalAddressDto;
+import ua.com.alevel.dto.user.PersonalInfoDto;
+import ua.com.alevel.dto.user.PersonalPasswordDto;
 import ua.com.alevel.exceptions.PasswordEnteredDoesNotMatchWithCurrentUserPasswordException;
 import ua.com.alevel.exceptions.PasswordNewAndPasswordNewRepeatAreDifferentException;
 import ua.com.alevel.facade.user.PersonalFacade;
 import ua.com.alevel.persistence.entity.user.Personal;
 import ua.com.alevel.service.user.PersonalService;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Map;
 

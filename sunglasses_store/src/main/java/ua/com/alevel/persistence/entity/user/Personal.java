@@ -4,14 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.TimeZoneStorage;
 import org.hibernate.annotations.TimeZoneStorageType;
-import ua.com.alevel.persistence.type.RoleType;
+import ua.com.alevel.persistence.type.user.RoleType;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -59,25 +58,5 @@ public class Personal extends User {
     public Personal() {
         super();
         setRoleType(RoleType.ROLE_PERSONAL);
-    }
-
-    @Override
-    public String toString() {
-        return "Personal{" +
-                "id='" + getId() + '\'' +
-                ", email='" + getEmail() + '\'' +
-                ", password='" + getPassword() + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", birthDay=" + birthDay +
-                ", age=" + age +
-                ", phoneNumber=" + phoneNumber +
-                ", region='" + region + '\'' +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", building='" + building + '\'' +
-                ", apartment='" + apartment + '\'' +
-                '}';
     }
 }

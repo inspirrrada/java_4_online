@@ -4,10 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import ua.com.alevel.persistence.entity.BaseEntity;
-import ua.com.alevel.persistence.entity.cart.CartItem;
 import ua.com.alevel.persistence.entity.user.User;
-import ua.com.alevel.persistence.type.OrderStatusType;
-import ua.com.alevel.persistence.type.PaymentsType;
+import ua.com.alevel.persistence.type.order.OrderStatusType;
+import ua.com.alevel.persistence.type.order.PaymentMethodType;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -59,7 +58,7 @@ public class Order extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name="payment_method")
-    private PaymentsType paymentMethod;
+    private PaymentMethodType paymentMethod;
 
     @Enumerated(EnumType.STRING)
     @Column(name="order_status")

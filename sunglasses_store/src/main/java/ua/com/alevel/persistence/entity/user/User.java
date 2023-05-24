@@ -4,11 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import ua.com.alevel.persistence.entity.BaseEntity;
 import ua.com.alevel.persistence.entity.cart.Cart;
-import ua.com.alevel.persistence.entity.order.Order;
-import ua.com.alevel.persistence.type.RoleType;
-
+import ua.com.alevel.persistence.type.user.RoleType;
 import javax.persistence.*;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -29,9 +26,6 @@ public class User extends BaseEntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Cart cart;
-
-    @OneToMany
-    private Set<Order> orders;
 
     private Boolean enabled;
 

@@ -5,14 +5,11 @@ import lombok.Setter;
 import lombok.ToString;
 import ua.com.alevel.listener.SunglassesVisibleGenerationListener;
 import ua.com.alevel.persistence.entity.BaseEntity;
-import ua.com.alevel.persistence.entity.brand.Brand;
-import ua.com.alevel.persistence.entity.cart.Cart;
-import ua.com.alevel.persistence.type.SexType;
+import ua.com.alevel.persistence.entity.sunglasses.brand.Brand;
+import ua.com.alevel.persistence.entity.sunglasses.features.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Objects;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -26,9 +23,6 @@ public class Sunglasses extends BaseEntity {
 
     @Column(name = "model_code", nullable = false, unique = true)
     private String modelCode;
-
-    @ManyToOne
-    private Color color;
 
     @Column(name = "lens_width")
     private Integer lensWidth;
@@ -60,6 +54,9 @@ public class Sunglasses extends BaseEntity {
     private Brand brand;
 
     @ManyToOne
+    private Color color;
+
+    @ManyToOne
     private SexCategory sexCategory;
 
     @ManyToOne
@@ -73,7 +70,4 @@ public class Sunglasses extends BaseEntity {
 
     @ManyToOne
     private LensCategory lensCategory;
-
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "sunglasses")
-//    private Set<Cart> carts;
 }

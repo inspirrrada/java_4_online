@@ -10,8 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static ua.com.alevel.persistence.type.RoleType.ROLE_ADMIN;
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -32,10 +30,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .authorizeRequests()
                 .antMatchers("/css/**", "/js/**","/registration", "/sunglasses/**", "/").permitAll()
-                .antMatchers("/home/**", "/cart/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_PERSONAL')")
+                .antMatchers("/home/**", "/cart/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_PERSONAL')")
                 .antMatchers("/personal/**").access("hasRole('ROLE_PERSONAL')")
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/manager/**").access("hasRole('ROLE_MANAGER')")
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/home").permitAll()
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login");

@@ -31,6 +31,21 @@ public class PersonalFacadeImpl implements PersonalFacade {
     }
 
     @Override
+    public PersonalInfoDto findPersonalInfo(Personal personal) {
+        return new PersonalInfoDto(personal);
+    }
+
+    @Override
+    public PersonalPasswordDto findPersonalPassword(Personal personal) {
+        return new PersonalPasswordDto(personal);
+    }
+
+    @Override
+    public PersonalAddressDto findPersonalAddress(Personal personal) {
+        return new PersonalAddressDto(personal);
+    }
+
+    @Override
     public boolean changeInfo(PersonalInfoDto infoDto,
                               PersonalPasswordDto passwordDto,
                               PersonalAddressDto addressDto, WebRequest webRequest) {
@@ -61,20 +76,9 @@ public class PersonalFacadeImpl implements PersonalFacade {
         personal.setFirstName(dto.getFirstName());
         personal.setLastName(dto.getLastName());
         personal.setPhoneNumber(dto.getPhoneNumber());
-//        String birthDayS = dto.getBirthDay();
-//        String dateTimeTo = "";
-//        Timestamp fromDateValue = null;
-//        Timestamp toDateValue = null;
-//        if (StringUtils.isNotEmpty(fromDate)) {
-//            dateTimeFrom = fromDate + " 00:00:00.000000000";
-//            fromDateValue = Timestamp.valueOf(dateTimeFrom);
-//        }
-//        if (StringUtils.isNotEmpty(toDate)) {
-//            dateTimeTo = toDate + " 23:59:59.999999999";
-//            toDateValue = Timestamp.valueOf(dateTimeTo);
-//        }
-        personal.setBirthDay(LocalDate.parse(dto.getBirthDay()));
-//        personal.setBirthDay(dto.getBirthDay());
+        if (dto.getBirthDay() != null && !dto.getBirthDay().equals("")) {
+            personal.setBirthDay(LocalDate.parse(dto.getBirthDay()));
+        }
     }
 
     private void updatePassword(Personal personal, PersonalPasswordDto dto) {

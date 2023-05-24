@@ -4,12 +4,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import ua.com.alevel.persistence.entity.user.Personal;
+import ua.com.alevel.persistence.repository.user.PersonalRepository;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class SecurityUtil {
-
-    private SecurityUtil() { }
 
     public static String getUsername() {
         Authentication authentication = getAuthentication();

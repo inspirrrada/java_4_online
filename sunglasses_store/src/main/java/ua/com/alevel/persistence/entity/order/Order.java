@@ -9,6 +9,7 @@ import ua.com.alevel.persistence.type.order.OrderStatusType;
 import ua.com.alevel.persistence.type.order.PaymentMethodType;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Getter
@@ -66,4 +67,7 @@ public class Order extends BaseEntity {
 
     @Column(name="order_notes")
     private String orderNotes;
+
+    @Column(precision = 7, scale = 2, name="total_amount")
+    private BigDecimal totalAmount;
 }

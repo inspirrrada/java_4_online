@@ -6,10 +6,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import ua.com.alevel.dto.user.PersonalAddressDto;
 import ua.com.alevel.dto.user.PersonalInfoDto;
+import ua.com.alevel.dto.user.PersonalOrdersDto;
 import ua.com.alevel.dto.user.PersonalPasswordDto;
+import ua.com.alevel.facade.order.OrderFacade;
 import ua.com.alevel.facade.user.PersonalFacade;
 import ua.com.alevel.persistence.entity.user.Personal;
 import ua.com.alevel.util.SecurityUtil;
+
+import java.util.Set;
 
 @Controller
 @RequestMapping(path = "/personal")
@@ -17,9 +21,11 @@ import ua.com.alevel.util.SecurityUtil;
 public class PersonalController {
 
     private final PersonalFacade personalFacade;
+    private final OrderFacade orderFacade;
 
-    public PersonalController(PersonalFacade personalFacade) {
+    public PersonalController(PersonalFacade personalFacade, OrderFacade orderFacade) {
         this.personalFacade = personalFacade;
+        this.orderFacade = orderFacade;
     }
 
     @GetMapping("/home")
@@ -29,21 +35,15 @@ public class PersonalController {
 
     @GetMapping("/account")
     public String getAccountInfo(Model model) {
-        String email = SecurityUtil.getUsername();
-        Personal personal = personalFacade.findByEmail(email);
-//        model.addAttribute("personal", personal);
-        PersonalInfoDto personalInfoDto = new PersonalInfoDto(personal);
+        Personal currentUser = personalFacade.findByEmail(SecurityUtil.getUsername());
+        PersonalInfoDto personalInfoDto = personalFacade.findPersonalInfo(currentUser);
         model.addAttribute("personalInfo", personalInfoDto);
-        PersonalPasswordDto personalPasswordDto = new PersonalPasswordDto(personal);
+        PersonalPasswordDto personalPasswordDto = personalFacade.findPersonalPassword(currentUser);
         model.addAttribute("personalPassword", personalPasswordDto);
-        PersonalAddressDto personalAddressDto = new PersonalAddressDto(personal);
+        PersonalAddressDto personalAddressDto = personalFacade.findPersonalAddress(currentUser);
         model.addAttribute("personalAddress", personalAddressDto);
-//        System.out.println("personalInfoDto before: " + personalInfoDto);
-//        Personal personalUpdated = personal;
-//        PersonalPasswordDto personalPasswordDto = new PersonalPasswordDto(personal);
-//        model.addAttribute("personalUpdated", personal);
-//        model.addAttribute("personalPassword", personalPasswordDto);
-//        System.out.println("personalUpdated before: " + personalUpdated);
+        Set<PersonalOrdersDto> personalOrders = orderFacade.findAllOrdersByUser(currentUser);
+        model.addAttribute("personalOrders", personalOrders);
         return "pages/personal/account";
     }
 

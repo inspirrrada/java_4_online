@@ -1,4 +1,4 @@
-package ua.com.alevel.dto.order;
+package ua.com.alevel.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
-public class OrdersHistoryDto {
+public class PersonalOrdersDto {
 
     private Long id;
     private OffsetDateTime created;
@@ -20,10 +20,11 @@ public class OrdersHistoryDto {
     private OrderStatusType status;
     private BigDecimal totalAmount;
 
-    public OrdersHistoryDto(Order order) {
+    public PersonalOrdersDto(Order order) {
         this.id = order.getId();
         this.created = order.getCreated();
         this.number = order.getNumber();
         this.status = order.getOrderStatus();
+        this.totalAmount = order.getTotalAmount();
     }
 }

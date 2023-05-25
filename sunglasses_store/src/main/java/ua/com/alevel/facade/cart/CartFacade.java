@@ -11,6 +11,6 @@ public interface CartFacade {
 
     Cart findById(Long id);
     Cart findByUser(User user);
-    Collection<SunglassesCartDto> findAllByCart(Long cartId);
+    CartFormDto findAllByCart(Long cartId);
     void updateCart(CartFormDto cartFormDto, Long cartId);
 }

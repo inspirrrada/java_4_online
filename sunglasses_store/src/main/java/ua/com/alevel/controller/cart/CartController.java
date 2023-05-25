@@ -44,21 +44,18 @@ public class CartController {
 
     @GetMapping
     public String openCart(Model model) {
-        String email = SecurityUtil.getUsername();
-        Personal personal = personalFacade.findByEmail(email);
-        List<SunglassesCartDto> sunglassesCartDtoList = cartFacade.findAllByCart(personal.getId()).stream().toList();
-        CartFormDto cartFormDto = new CartFormDto(sunglassesCartDtoList);
-        model.addAttribute("cartList", sunglassesCartDtoList);
+        Personal currentUser = personalFacade.findByEmail(SecurityUtil.getUsername());
+//        List<SunglassesCartDto> sunglassesCartDtoList = cartFacade.findAllByCart(currentUser.getId()).stream().toList();
+        CartFormDto cartFormDto = cartFacade.findAllByCart(currentUser.getId());
         model.addAttribute("cartFormDto", cartFormDto);
-        System.out.println("cartFormDto: " + cartFormDto);
-        System.out.println("cartFormList: " + cartFormDto.getCartFormList());
-        int totalQty = sunglassesCartDtoList.stream().mapToInt(SunglassesCartDto::getQty).sum();
-        model.addAttribute("totalQty", totalQty);
-        BigDecimal sum = BigDecimal.ZERO;
-        for (SunglassesCartDto sunglassesCartDto : sunglassesCartDtoList) {
-            sum = sum.add(sunglassesCartDto.getTotalPrice());
-        }
-        model.addAttribute("totalAmount", sum);
+        model.addAttribute("cartList", cartFormDto.getCartFormList());
+//        int totalQty = sunglassesCartDtoList.stream().mapToInt(SunglassesCartDto::getQty).sum();
+//        model.addAttribute("totalQty", totalQty);
+//        BigDecimal sum = BigDecimal.ZERO;
+//        for (SunglassesCartDto sunglassesCartDto : sunglassesCartDtoList) {
+//            sum = sum.add(sunglassesCartDto.getTotalPrice());
+//        }
+//        model.addAttribute("totalAmount", sum);
 //        System.out.println("cartFormList[0].imageUrl: " + cartFormDto.getCartFormList().get(0).getImageUrl1());
 //        String s = sunglassesCartDtoList.stream().toList().get(0).getImageUrl1();
         return "pages/personal/cart";
@@ -66,20 +63,17 @@ public class CartController {
 
     @PostMapping
     public String updateCart(@ModelAttribute("cartFormDto") CartFormDto cartFormDto) {
-        String email = SecurityUtil.getUsername();
-        Personal personal = personalFacade.findByEmail(email);
-        System.out.println("cartFormDto: " + cartFormDto);
-        cartFacade.updateCart(cartFormDto, personal.getId());
+        Personal currentUser = personalFacade.findByEmail(SecurityUtil.getUsername());
+        cartFacade.updateCart(cartFormDto, currentUser.getId());
         return "redirect:/cart";
     }
 
     @GetMapping("/add/{id}")
-    public String addToCart(@PathVariable Long id, WebRequest webRequest, @ModelAttribute("sunglassesCartDto") SunglassesCartDto sunglassesCartDto) {
-        System.out.println("Model Attr sunglassesCartDto " + sunglassesCartDto);
-        String email = SecurityUtil.getUsername();
-        Personal personal = personalFacade.findByEmail(email);
-        Cart cart = cartRepository.findById(personal.getId()).get();
-        System.out.println("personal: " + personal);
+    public String addToCart(@PathVariable Long id,
+                            WebRequest webRequest,
+                            @ModelAttribute("sunglassesCartDto") SunglassesCartDto sunglassesCartDto) {
+        Personal currentUser = personalFacade.findByEmail(SecurityUtil.getUsername());
+        Cart cart = cartFacade.findById(currentUser.getId());
 //        Cart cart = cartFacade.findByUser(personal);
 //        System.out.println("cart: " + cart);
         Sunglasses sunglassesCurrent = sunglassesService.findById(id).get();
@@ -100,7 +94,7 @@ public class CartController {
                 qtyForCart = Integer.parseInt(qtyS);
             }
         }
-        CartItem cartItem = cartItemRepository.findByCartIdAndSunglasses(personal.getId(), sunglassesCurrent);
+        CartItem cartItem = cartItemRepository.findByCartIdAndSunglasses(currentUser.getId(), sunglassesCurrent);
         CartItem cartItemNew;
         if (cartItem == null) {
             cartItemNew = new CartItem();

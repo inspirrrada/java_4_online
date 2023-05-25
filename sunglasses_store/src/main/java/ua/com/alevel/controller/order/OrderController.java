@@ -73,7 +73,7 @@ public class OrderController {
 
     @PostMapping("/preview")
     public String showOrderItems(Model model, @ModelAttribute("orderDetails") OrderDetailsDto orderDetailsDto) {
-        System.out.println("orderDetailsDto in preview page: " + orderDetailsDto);
+     /*   System.out.println("orderDetailsDto in preview page: " + orderDetailsDto);
 //        orderFacade.saveOrderDetails(OrderDetailsDto orderDetailsDto);
         String email = SecurityUtil.getUsername();
         Personal personal = personalFacade.findByEmail(email);
@@ -86,7 +86,7 @@ public class OrderController {
         for (SunglassesCartDto sunglassesCartDto : sunglassesCartDtoList) {
             sum = sum.add(sunglassesCartDto.getTotalPrice());
         }
-        model.addAttribute("totalAmount", sum);
+        model.addAttribute("totalAmount", sum);*/
         return "pages/personal/preview";
     }
 

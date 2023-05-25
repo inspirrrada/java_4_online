@@ -20,7 +20,7 @@ public class CartFacadeImpl implements CartFacade {
     private final CartService cartService;
     private final SunglassesService sunglassesService;
 
-    public CartFacadeImpl(CartService cartService, SunglassesRepository sunglassesRepository, SunglassesService sunglassesService) {
+    public CartFacadeImpl(CartService cartService, SunglassesService sunglassesService) {
         this.cartService = cartService;
         this.sunglassesService = sunglassesService;
     }
@@ -36,12 +36,12 @@ public class CartFacadeImpl implements CartFacade {
     }
 
     @Override
-            public Collection<SunglassesCartDto> findAllByCart(Long cartId) {
+    public CartFormDto findAllByCart(Long cartId) {
         Collection<CartItem> cartItems = cartService.findAllByCart(cartId);
-        return cartItems
+        return new CartFormDto(cartItems
                 .stream()
                 .map(SunglassesCartDto::new)
-                .toList();
+                .toList());
     }
 
     @Override
@@ -49,7 +49,7 @@ public class CartFacadeImpl implements CartFacade {
         Collection<SunglassesCartDto> cartFormList = cartFormDto.getCartFormList();
         Collection<CartItem> cartItems = new ArrayList<>();
                 cartFormList.stream().forEach(v -> {
-                    CartItem cartItem = new CartItem();
+                    /*CartItem cartItem = new CartItem();
                     cartItem.setId(v.getCartItemId());
                     cartItem.setCart(findById(cartId));
                     cartItem.setSunglasses(sunglassesService.findById(v.getId()).get());
@@ -58,9 +58,24 @@ public class CartFacadeImpl implements CartFacade {
                         cartItem.setActive(false);
                     } else {
                         cartItem.setActive(true);
-                    }
+                    }*/
+                    CartItem cartItem = convertSunglassesCartDtoToCartItem(v, cartId);
                     cartItems.add(cartItem);
                 });
              cartService.updateCart(cartItems);
+    }
+
+    private CartItem convertSunglassesCartDtoToCartItem(SunglassesCartDto sunglassesCartDto, Long cartId) {
+        CartItem cartItem = new CartItem();
+        cartItem.setId(sunglassesCartDto.getCartItemId());
+        cartItem.setCart(findById(cartId));
+        cartItem.setSunglasses(sunglassesService.findById(sunglassesCartDto.getId()).get());
+        cartItem.setQuantity(sunglassesCartDto.getQty());
+        if (sunglassesCartDto.isShouldBeRemoved()) {
+            cartItem.setActive(false);
+        } else {
+            cartItem.setActive(true);
+        }
+        return cartItem;
     }
 }

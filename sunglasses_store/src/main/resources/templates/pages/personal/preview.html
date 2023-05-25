@@ -78,11 +78,11 @@
               <tbody>
               <tr>
                 <th>Total quantity :</th>
-                <td th:text="${totalQty}">£40.00</td>
+                <td th:text="${cartFormDto.getTotalQty()}">£40.00</td>
               </tr>
               <tr class="shop-Cart-totalprice">
                 <th>Total amount:</th>
-                <td th:text="${totalAmount}">£42.00</td>
+                <td th:text="${cartFormDto.getTotalAmount()}">£42.00</td>
               </tr>
               </tbody>
             </table>

@@ -70,13 +70,17 @@ public class CartController {
 
     @GetMapping("/add/{id}")
     public String addToCart(@PathVariable Long id,
-                            WebRequest webRequest,
-                            @ModelAttribute("sunglassesCartDto") SunglassesCartDto sunglassesCartDto) {
+                            WebRequest webRequest) {
         Personal currentUser = personalFacade.findByEmail(SecurityUtil.getUsername());
         Cart cart = cartFacade.findById(currentUser.getId());
+        cartFacade.addToCart(id, webRequest, cart);
+
+
+
+
 //        Cart cart = cartFacade.findByUser(personal);
 //        System.out.println("cart: " + cart);
-        Sunglasses sunglassesCurrent = sunglassesService.findById(id).get();
+       /* Sunglasses sunglassesCurrent = sunglassesService.findById(id).get();
         System.out.println("sunglassesCurrent: " + sunglassesCurrent);
         Collection<CartItem> cartItems = cartItemRepository.findAllByCart(cart);
         AtomicBoolean alreadyExistInCart = new AtomicBoolean(false);
@@ -105,7 +109,7 @@ public class CartController {
         } else {
             cartItem.setQuantity(cartItem.getQuantity() + qtyForCart);
             cartItemRepository.save(cartItem);
-        }
+        }*/
 
 
 

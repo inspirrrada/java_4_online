@@ -13,4 +13,5 @@ public interface CartItemRepository extends BaseRepository<CartItem> {
 
     List<CartItem> findAllByCart(Cart cart);
     CartItem findByCartIdAndSunglasses(Long cartId, Sunglasses sunglasses);
+    CartItem findByCartIdAndSunglassesId(Long cartId, Long SunglassesId);
 }

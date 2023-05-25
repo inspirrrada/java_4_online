@@ -13,4 +13,5 @@ public interface CartService {
     Cart findByUser(User user);
     Collection<CartItem> findAllByCart(Long cartId);
     void updateCart(Collection<CartItem> cartItems);
+    void addToCart(Long id, Cart cart, int qty);
 }

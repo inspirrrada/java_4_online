@@ -3,22 +3,27 @@ package ua.com.alevel.service.cart.impl;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.persistence.entity.cart.Cart;
 import ua.com.alevel.persistence.entity.cart.CartItem;
+import ua.com.alevel.persistence.entity.sunglasses.Sunglasses;
 import ua.com.alevel.persistence.entity.user.User;
 import ua.com.alevel.persistence.repository.cart.CartItemRepository;
 import ua.com.alevel.persistence.repository.cart.CartRepository;
 import ua.com.alevel.service.cart.CartService;
+import ua.com.alevel.service.sunglasses.SunglassesService;
 
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+    private final SunglassesService sunglassesService;
 
-    public CartServiceImpl(CartRepository cartRepository, CartItemRepository cartItemRepository) {
+    public CartServiceImpl(CartRepository cartRepository, CartItemRepository cartItemRepository, SunglassesService sunglassesService) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
+        this.sunglassesService = sunglassesService;
     }
 
     @Override
@@ -47,5 +52,33 @@ public class CartServiceImpl implements CartService {
             }
         });
 //        cartItemRepository.saveAll(cartItems);
+    }
+
+    @Override
+    public void addToCart(Long id, Cart cart, int qty) {
+//        Sunglasses sunglassesCurrent = sunglassesService.findById(id).get();
+//        System.out.println("sunglassesCurrent: " + sunglassesCurrent);
+//        Collection<CartItem> cartItems = cartItemRepository.findAllByCart(cart);
+//        AtomicBoolean alreadyExistInCart = new AtomicBoolean(false);
+//        cartItems.forEach(v -> {
+//            if (v.getSunglasses().getId() == id) {
+//                alreadyExistInCart.set(true);
+//            }
+//        });
+
+//        CartItem cartItem = cartItemRepository.findByCartIdAndSunglasses(currentUser.getId(), sunglassesCurrent);
+        CartItem cartItem = cartItemRepository.findByCartIdAndSunglassesId(cart.getId(), id);
+        CartItem cartItemNew;
+        if (cartItem == null) {
+            cartItemNew = new CartItem();
+            Sunglasses sunglassesCurrent = sunglassesService.findById(id).get();
+            cartItemNew.setSunglasses(sunglassesCurrent);
+            cartItemNew.setQuantity(qty);
+            cartItemNew.setCart(cart);
+            cartItemRepository.save(cartItemNew);
+        } else {
+            cartItem.setQuantity(cartItem.getQuantity() + qty);
+            cartItemRepository.save(cartItem);
+        }
     }
 }

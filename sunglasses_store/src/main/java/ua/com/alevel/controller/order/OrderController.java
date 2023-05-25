@@ -6,12 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.dto.cart.CartFormDto;
 import ua.com.alevel.dto.order.OrderDetailsDto;
 import ua.com.alevel.dto.order.OrderFullInfoDto;
-import ua.com.alevel.dto.cart.SunglassesCartDto;
 import ua.com.alevel.facade.cart.CartFacade;
 import ua.com.alevel.facade.order.OrderFacade;
 import ua.com.alevel.facade.user.PersonalFacade;
-import ua.com.alevel.persistence.entity.cart.Cart;
-import ua.com.alevel.persistence.entity.cart.CartItem;
 import ua.com.alevel.persistence.entity.order.Order;
 import ua.com.alevel.persistence.entity.order.OrderItem;
 import ua.com.alevel.persistence.entity.user.Personal;
@@ -19,7 +16,6 @@ import ua.com.alevel.persistence.repository.cart.CartItemRepository;
 import ua.com.alevel.persistence.repository.cart.CartRepository;
 import ua.com.alevel.persistence.repository.order.OrderItemRepository;
 import ua.com.alevel.persistence.repository.order.OrderRepository;
-import ua.com.alevel.persistence.type.order.OrderStatusType;
 import ua.com.alevel.util.SecurityUtil;
 
 import java.math.BigDecimal;
@@ -131,7 +127,7 @@ public class OrderController {
 
         cartItemRepository.deleteAll(cartItems);*/
 
-        return "pages/personal/order_successful";
+        return "pages/personal/order_new_success";
     }
 
     @GetMapping("/info/{id}")

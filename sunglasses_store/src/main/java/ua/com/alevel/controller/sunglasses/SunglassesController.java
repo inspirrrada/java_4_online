@@ -43,7 +43,7 @@ public class SunglassesController {
     public String addToCartFromPdp(@PathVariable Long id) {
         System.out.println("id: " + id);
 
-        return "pages/personal/add_to_cart_successful";
+        return "add_success";
     }
 
 //    @GetMapping("/brand")

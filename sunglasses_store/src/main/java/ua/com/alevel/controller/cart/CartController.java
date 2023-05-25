@@ -47,7 +47,7 @@ public class CartController {
         Personal currentUser = personalFacade.findByEmail(SecurityUtil.getUsername());
         Cart cart = cartFacade.findById(currentUser.getId());
         cartFacade.addToCart(id, webRequest, cart);
-        return "pages/personal/add_to_cart_successful";
+        return "pages/personal/add_success";
     }
 
 }

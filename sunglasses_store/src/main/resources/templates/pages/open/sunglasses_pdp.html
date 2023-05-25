@@ -49,8 +49,8 @@
                     <div class="row mb-20">
                         <form th:action="@{'/cart/add/' + ${sunglasses.getId()}}" class="form-group" th:object="${sunglassesCartDto}">
                         <div class="col-sm-4 mb-sm-20">
-                            <input class="form-control input-lg" th:value="${sunglassesCartDto.qty}" th:field="*{qty}" type="number" name="" value="1" max="40" min="1" required="required"/>
-                        </div><div class="col-sm-8"><button class="btn btn-lg btn-block btn-round btn-b"  th:type="submit"><span class="bi bi-basket icon-basket"></span>Add To Cart</button></div>
+                            <input class="form-control input-lg"  th:value="1" th:field="*{qty}" type="number" name="" value="1" max="40" th:min="1" placeholder="Enter quantity" required="required"/>
+                        </div><div class="col-sm-8"><button class="btn btn-lg btn-block btn-round btn-b button"  th:type="submit"><span class="bi bi-basket icon-basket"></span>Add To Cart</button></div>
                         </form>
                     </div>
                     <div class="row mb-20">

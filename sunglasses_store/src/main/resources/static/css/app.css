@@ -494,6 +494,7 @@ h1 {
     border-top: 1px solid darkgray;
     /*#eaeaea*/
     margin: 0;
+    margin-bottom: 20px;
 }
 
 .divider-d {
@@ -613,7 +614,7 @@ h1 {
 }
 
 .pt-20 {
-    padding-top: 20px !important;
+    /*padding-top: 20px !important;*/
 }
 
 .pt-30 {
@@ -891,6 +892,30 @@ h1 {
     display: inline-block;
     color: #fff;
     margin: 0 5px 0 0;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: end;
+}
+
+.shop-cart-total {
+    display: flex;
+    justify-content: end;
+}
+
+.preview-text {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.preview-div {
+    width: 50%;
+}
+
+
+.checkout-table img {
+    transform: scale(1.8);
 }
 
 /* Landing Page */
@@ -1206,11 +1231,15 @@ blockquote {
     text-shadow: none !important;
 }
 
+.module-title-heading {
+    width: 100%;
+}
+
 .module-title {
     position: relative;
     letter-spacing: 4px;
     text-align: center;
-    font-weight: 400;
+    font-weight: bold;
     font-size: 30px;
     color: #111;
     margin: 0 0 70px;

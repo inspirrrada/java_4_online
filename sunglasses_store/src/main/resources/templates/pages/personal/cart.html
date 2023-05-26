@@ -13,7 +13,7 @@
   <section class="module">
     <div class="container">
       <div class="row">
-        <div class="col-sm-6 col-sm-offset-3" style="text-align: center">
+        <div class="col-sm-6 col-sm-offset-3 module-title-heading" style="text-align: center">
           <h1 class="module-title font-alt">Checkout</h1>
         </div>
       </div>
@@ -32,22 +32,20 @@
               <th>Remove</th>
             </tr>
             <tr th:each="cartFormItem, i : ${cartFormDto.cartFormList}">
-              <td class="hidden-xs"><a th:href="${cartFormItem.getImageUrl1()}"><img th:src="${cartFormItem.getImageUrl1()}" alt="Sunglasses Photo"/></a></td>
+              <td class="hidden-xs" style="text-align: center"><a th:href="${cartFormItem.getImageUrl1()}"><img th:src="${cartFormItem.getImageUrl1()}" alt="Sunglasses Photo"/></a></td>
               <td>
-<!--                <h5 class="product-title font-alt" th:text="${cartFormItem.getModelName()}" th:value="${cartFormItem.getModelName()}" th:field="*{cartFormList[__${i.index}__].modelName}">Sunglasses Name</h5>-->
-                  <input class="product-title font-alt input-description" th:value="${cartFormItem.getModelName()}" th:field="*{cartFormList[__${i.index}__].modelName}" />
+                <h5 class="product-title font-alt" th:text="${cartFormItem.getModelName()}">Sunglasses Name</h5>
+                  <input type="hidden" class="product-title font-alt input-description" th:value="${cartFormItem.getModelName()}" th:field="*{cartFormList[__${i.index}__].modelName}" />
               </td>
               <td class="hidden-xs">
-<!--                <h5 class="product-title font-alt" th:text="'$' + ${cartFormItem.getPrice()}" th:value="'$' + ${cartFormItem.getPrice()}" th:field="*{cartFormList[__${i.index}__].price}">-->
-<!--                    Price-->
-<!--                </h5>-->
-                  <input class="product-title font-alt input-price" th:value="'$' + ${cartFormItem.getPrice()}" th:field="*{cartFormList[__${i.index}__].price}"/>
+                  <input type="hidden" class="product-title font-alt input-price" th:value="${cartFormItem.getPrice()}" th:field="*{cartFormList[__${i.index}__].price}"/>
+                  <h5 class="product-title font-alt" th:text="${cartFormItem.getPrice()} + '$'"/>
               </td>
               <td>
                 <input class="form-control" th:value="${cartFormItem.qty}" th:field="*{cartFormList[__${i.index}__].qty}" type="number" name="" value="1" max="50" min="1"/>
               </td>
               <td>
-                <h5 class="product-title font-alt" th:text="${cartFormItem.getTotalPrice()}" th:value="${cartFormItem.getTotalPrice()}"></h5>
+                <h5 class="product-title font-alt" th:text="${cartFormItem.getTotalPrice()} + '$'" th:value="${cartFormItem.getTotalPrice()}"></h5>
               </td>
               <td class="pr-remove">
 <!--                <a href="#" title="Remove">-->
@@ -82,19 +80,19 @@
           </form>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-3">
+      <div class="row" style="margin-bottom: 20px">
+        <div class="col-sm-4">
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
         </div>
-        <div class="col-sm-3 col-sm-offset-3">
+        <div class="col-sm-4 col-sm-offset-3">
           <div class="form-group">
             <button th:form="cart" class="btn btn-block btn-round btn-d pull-right" type="submit" style="display: flex">Update Cart</button>
           </div>
         </div>
       </div>
       <hr class="divider-w">
-      <div class="row mt-70">
+      <div class="row mt-70 cart-total">
         <div class="col-sm-5 col-sm-offset-7">
           <div class="shop-Cart-totalbox">
             <h4 class="font-alt">Cart Totals</h4>
@@ -106,11 +104,11 @@
               </tr>
               <tr class="shop-Cart-totalprice">
                 <th>Total amount:</th>
-                <td th:text="${cartFormDto.getTotalAmount()}">£42.00</td>
+                <td th:text="${cartFormDto.getTotalAmount()} + '$'"></td>
               </tr>
               </tbody>
             </table>
-            <a class="btn btn-lg btn-block btn-round btn-d" th:href="@{'/order/details'}">Proceed to Checkout</a>
+            <a class="btn btn-lg btn-block btn-round btn-d" th:href="@{'/order/details'}" style="width: 100%">Proceed to Checkout</a>
           </div>
         </div>
       </div>

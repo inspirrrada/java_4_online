@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/personal_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="personal_content">
+  <section class="module">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-3 module-title-heading" style="text-align: center">
+          <h1 class="module-title font-alt">Checkout</h1>
+        </div>
+      </div>
+      <hr class="divider-w pt-20">
+      <div class="row">
+        <div class="col-sm-12">
+          <form th:id="cart" th:action="@{'/cart'}" class="form-group" th:object="${cartFormDto}" th:method="POST">
+          <table class="table table-striped table-border checkout-table">
+            <tbody>
+            <tr>
+              <th class="hidden-xs">Item</th>
+              <th>Description</th>
+              <th class="hidden-xs">Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+              <th>Remove</th>
+            </tr>
+            <tr th:each="cartFormItem, i : ${cartFormDto.cartFormList}">
+              <td class="hidden-xs" style="text-align: center"><a th:href="${cartFormItem.getImageUrl1()}"><img th:src="${cartFormItem.getImageUrl1()}" alt="Sunglasses Photo"/></a></td>
+              <td>
+                <h5 class="product-title font-alt" th:text="${cartFormItem.getModelName()}">Sunglasses Name</h5>
+                  <input type="hidden" class="product-title font-alt input-description" th:value="${cartFormItem.getModelName()}" th:field="*{cartFormList[__${i.index}__].modelName}" />
+              </td>
+              <td class="hidden-xs">
+                  <input type="hidden" class="product-title font-alt input-price" th:value="${cartFormItem.getPrice()}" th:field="*{cartFormList[__${i.index}__].price}"/>
+                  <h5 class="product-title font-alt" th:text="${cartFormItem.getPrice()} + '$'"/>
+              </td>
+              <td>
+                <input class="form-control" th:value="${cartFormItem.qty}" th:field="*{cartFormList[__${i.index}__].qty}" type="number" name="" value="1" max="50" min="1"/>
+              </td>
+              <td>
+                <h5 class="product-title font-alt" th:text="${cartFormItem.getTotalPrice()} + '$'" th:value="${cartFormItem.getTotalPrice()}"></h5>
+              </td>
+              <td class="pr-remove">
+<!--                <a href="#" title="Remove">-->
+<!--                  <i class="fa fa-times"></i>-->
+<!--                </a>-->
+                <input type="checkbox" title="Remove" th:field="*{cartFormList[__${i.index}__].shouldBeRemoved}">
+              </td>
+                <input type="hidden" th:value="${cartFormItem.getCartItemId()}" th:field="*{cartFormList[__${i.index}__].cartItemId}">
+                <input type="hidden" th:value="${cartFormItem.getId()}" th:field="*{cartFormList[__${i.index}__].id}">
+            </tr>
+<!--            <tr>-->
+<!--              <td class="hidden-xs"><a href="#"><img src="assets/images/shop/product-13.jpg" alt="Men’s Casual Pack"/></a></td>-->
+<!--              <td>-->
+<!--                <h5 class="product-title font-alt">Men’s Casual Pack</h5>-->
+<!--              </td>-->
+<!--              <td class="hidden-xs">-->
+<!--                <h5 class="product-title font-alt">£20.00</h5>-->
+<!--              </td>-->
+<!--              <td>-->
+<!--                <input class="form-control" type="number" name="" value="1" max="50" min="1"/>-->
+<!--              </td>-->
+<!--              <td>-->
+<!--                <h5 class="product-title font-alt">£20.00</h5>-->
+<!--              </td>-->
+<!--              <td class="pr-remove">-->
+<!--&lt;!&ndash;                <a href="#" title="Remove"><i class="fa fa-times"></i></a>&ndash;&gt;-->
+<!--                <input type="checkbox" title="Remove">-->
+<!--              </td>-->
+<!--            </tr>-->
+            </tbody>
+          </table>
+          </form>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom: 20px">
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4 col-sm-offset-3">
+          <div class="form-group">
+            <button th:form="cart" class="btn btn-block btn-round btn-d pull-right" type="submit" style="display: flex">Update Cart</button>
+          </div>
+        </div>
+      </div>
+      <hr class="divider-w">
+      <div class="row mt-70 cart-total">
+        <div class="col-sm-5 col-sm-offset-7">
+          <div class="shop-Cart-totalbox">
+            <h4 class="font-alt">Cart Totals</h4>
+            <table class="table table-striped table-border checkout-table">
+              <tbody>
+              <tr>
+                <th>Total quantity :</th>
+                <td th:text="${cartFormDto.getTotalQty()}">£40.00</td>
+              </tr>
+              <tr class="shop-Cart-totalprice">
+                <th>Total amount:</th>
+                <td th:text="${cartFormDto.getTotalAmount()} + '$'"></td>
+              </tr>
+              </tbody>
+            </table>
+            <a class="btn btn-lg btn-block btn-round btn-d" th:href="@{'/order/details'}" style="width: 100%">Proceed to Checkout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

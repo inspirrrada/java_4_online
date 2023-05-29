@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div layout:fragment="main_content">
+<!--  <nav class="navbar navbar-dark bg-dark navbar-fixed-top">-->
+<!--    <a class="nav-item nav-link" th:href="@{/books}">Books</a>-->
+<!--    <a class="nav-item nav-link" th:href="@{/login}" style="cursor: pointer !important;">Login</a>-->
+<!--  </nav>-->
+
+  <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" th:href="@{'/index'}">
+          <img th:src="@{https://i.ibb.co/CMRK8M2/sun-bout-low-resolution-logo-color-on-transparent-background-1.png}" width="180" alt="SUNBOUT Find a pair for every mood">
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="custom-collapse">
+        <ul class="nav navbar-nav navbar-right nav-menu">
+          <li class="nav-menu-point dropdown">
+            <a class="nav-item nav-link" th:href="@{/sunglasses}">Sunglasses</a>
+          </li>
+          <li class="nav-menu-point dropdown">
+            <a class="nav-item nav-link" th:href="@{/login}" style="cursor: pointer !important;">Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section layout:fragment="open_content"></section>
+</div>
+</body>
+</html>

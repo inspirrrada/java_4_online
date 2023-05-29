@@ -1716,6 +1716,19 @@ General Styles - Owlcarousel
     background-image: url("https://i.ibb.co/Yb5Dx9K/pexels-victor-freitas-772666.jpg");
 }
 
+.contact-page-header {
+    background-image: url("https://i.ibb.co/tmzYLgd/pexels-ollie-hoolachan-1066380-1.jpg");
+}
+
+.contact {
+    font-size: 15px;
+    text-align: center;
+}
+
+.module .contact-block {
+    padding: 120px 0!important;
+}
+
 .main-menu {
     width: 100%;
     display: flex;

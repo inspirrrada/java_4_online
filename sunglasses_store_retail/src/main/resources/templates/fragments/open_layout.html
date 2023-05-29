@@ -23,13 +23,49 @@
         </a>
       </div>
       <div class="collapse navbar-collapse" id="custom-collapse">
-        <ul class="nav navbar-nav navbar-right nav-menu">
-          <li class="nav-menu-point dropdown">
-            <a class="nav-item nav-link" th:href="@{/sunglasses}">Sunglasses</a>
+        <ul class="main-menu nav navbar-nav navbar-right nav-menu">
+          <li>
+            <ul class="main-menu nav navbar-nav navbar-right nav-menu">
+              <li class="nav-menu-point dropdown">
+                <a class="nav-item nav-link" th:href="@{/store/about}">About us</a>
+              </li>
+              <li class="nav-menu-point dropdown">
+                <a class="nav-item nav-link" th:href="@{/sunglasses}">Catalogue</a>
+              </li>
+              <li class="nav-menu-point dropdown">
+                <a class="nav-item nav-link" th:href="@{/store/terms}">Terms of order</a>
+              </li>
+              <li class="nav-menu-point dropdown">
+                <a class="nav-item nav-link" th:href="@{/store/contact}">Contact us</a>
+              </li>
+            </ul>
           </li>
-          <li class="nav-menu-point dropdown">
-            <a class="nav-item nav-link" th:href="@{/login}" style="cursor: pointer !important;">Login</a>
+          <li>
+            <ul class="main-menu nav navbar-nav navbar-right nav-menu">
+              <li class="nav-menu-point dropdown">
+                <a class="nav-item nav-link" th:href="@{/login}" style="cursor: pointer !important;">Login</a>
+              </li>
+            </ul>
           </li>
+
+
+
+
+<!--          <li class="nav-menu-point dropdown">-->
+<!--            <a class="nav-item nav-link" th:href="@{/sunglasses}">About us</a>-->
+<!--          </li>-->
+<!--          <li class="nav-menu-point dropdown">-->
+<!--            <a class="nav-item nav-link" th:href="@{/sunglasses}">Catalogue</a>-->
+<!--          </li>-->
+<!--          <li class="nav-menu-point dropdown">-->
+<!--            <a class="nav-item nav-link" th:href="@{/sunglasses}">Terms of order</a>-->
+<!--          </li>-->
+<!--          <li class="nav-menu-point dropdown">-->
+<!--            <a class="nav-item nav-link" th:href="@{/sunglasses}">Contact us</a>-->
+<!--          </li>-->
+<!--          <li class="nav-menu-point dropdown">-->
+<!--            <a class="nav-item nav-link" th:href="@{/login}" style="cursor: pointer !important;">Login</a>-->
+<!--          </li>-->
         </ul>
       </div>
     </div>

@@ -452,10 +452,26 @@ h1 {
 .module,
 .module-small {
     position: relative;
-    padding: 45px 0;
+    padding: 70px 0;
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: cover;
+}
+
+.module-sub {
+    padding: 40px 0;
+}
+
+.module h2 {
+    padding-bottom: 1em;
+}
+
+.about {
+    text-align: center;
+}
+
+.about-div {
+    font-size: 15px;
 }
 
 /* Module header */
@@ -1693,6 +1709,18 @@ General Styles - Owlcarousel
 
 .navbar-collapse {
     float: right;
+    width: 100%;
+}
+
+.about-page-header {
+    background-image: url("https://i.ibb.co/Yb5Dx9K/pexels-victor-freitas-772666.jpg");
+}
+
+.main-menu {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10em;
 }
 
 .navbar>.container {

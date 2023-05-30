@@ -2019,6 +2019,13 @@ Google map
     margin: 0 0 10px;
 }
 
+.admin-menu {
+    font-size: 15px;
+    font-weight: bold;
+    border: 1px solid;
+    margin-left: 15px;
+}
+
 /* Content box */
 .content-box {
     margin: 20px 0;

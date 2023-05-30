@@ -55,9 +55,6 @@
                     <li>
                         <ul class="main-menu nav navbar-nav navbar-right nav-menu">
                             <li class="nav-menu-point dropdown">
-                                <a class="nav-item nav-link" th:href="@{/admin/orders}">Admin</a>
-                            </li>
-                            <li class="nav-menu-point dropdown">
                                 <a class="nav-item nav-link" th:href="@{/store/about}">About us</a>
                             </li>
                             <li class="nav-menu-point dropdown">
@@ -73,6 +70,80 @@
                     </li>
                     <li>
                         <ul class="main-menu nav navbar-nav navbar-right nav-menu">
+                            <li class="nav-menu-point dropdown">
+                                <a class="nav-item nav-link" th:href="@{/cart}">
+                                    <img th:src="@{https://i.ibb.co/27qMy9D/icons8-shopping-bag-50.png}" width="30" title="Cart"/>
+                                </a>
+                            </li>
+                            <li class="nav-menu-point dropdown">
+                                <a class="nav-item nav-link" th:href="@{/personal/account}" style="cursor: pointer !important;">
+                                    <img th:src="@{https://i.ibb.co/vqZLs0m/icons8-customer-50.png}" width="30" title="My account"/>
+                                </a>
+                            </li>
+                            <li class="nav-menu-point dropdown">
+                                <a class="nav-link" onclick="document.forms['logoutForm'].submit()" style="cursor: pointer !important;">
+                                    <img th:src="@{https://i.ibb.co/dB1WNY8/icons8-logout-rounded-50-1.png}" width="30" title="Logout"/>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+
+                    <!--          <li class="nav-menu-point dropdown">-->
+                    <!--            <a class="nav-item nav-link" th:href="@{/sunglasses}">About us</a>-->
+                    <!--          </li>-->
+                    <!--          <li class="nav-menu-point dropdown">-->
+                    <!--            <a class="nav-item nav-link" th:href="@{/sunglasses}">Catalogue</a>-->
+                    <!--          </li>-->
+                    <!--          <li class="nav-menu-point dropdown">-->
+                    <!--            <a class="nav-item nav-link" th:href="@{/sunglasses}">Terms of order</a>-->
+                    <!--          </li>-->
+                    <!--          <li class="nav-menu-point dropdown">-->
+                    <!--            <a class="nav-item nav-link" th:href="@{/sunglasses}">Contact us</a>-->
+                    <!--          </li>-->
+                    <!--          <li class="nav-menu-point dropdown">-->
+                    <!--            <a class="nav-item nav-link" th:href="@{/login}" style="cursor: pointer !important;">Login</a>-->
+                    <!--          </li>-->
+                </ul>
+            </div>
+
+
+            <!--            <div class="collapse navbar-collapse" id="custom-collapse">
+                            <ul class="nav navbar-nav navbar-right nav-menu">
+                                <li class="nav-menu-point dropdown">
+                                    <a class="nav-item nav-link" th:href="@{/sunglasses}">Sunglasses</a>
+                                </li>
+                                <li class="nav-menu-point dropdown">
+                                    <a class="nav-item nav-link" th:href="@{/personal/account}" style="cursor: pointer !important;">Your account</a>
+                                </li>
+                                <li class="nav-menu-point dropdown">
+                                    <a class="nav-item nav-link" th:href="@{/cart}">Cart</a>
+                                </li>
+                            </ul>
+                        </div>-->
+        </div>
+    </nav>
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <h1 class="navbar-brand">Admin</h1>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="main-menu nav navbar-nav navbar-right nav-menu" style="justify-content: center">
+                    <li>
+                        <ul class="main-menu nav navbar-nav navbar-right nav-menu">
+                            <li class="nav-menu-point dropdown admin-menu">
+                                <a class="nav-item nav-link" th:href="@{/admin/chart}">Chart</a>
+                            </li>
+                            <li class="nav-menu-point dropdown admin-menu">
+                                <a class="nav-item nav-link" th:href="@{/admin/orders}">Orders</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="main-menu nav navbar-nav navbar-right nav-menu" style="visibility: hidden">
                             <li class="nav-menu-point dropdown">
                                 <a class="nav-item nav-link" th:href="@{/cart}">
                                     <img th:src="@{https://i.ibb.co/27qMy9D/icons8-shopping-bag-50.png}" width="30" title="Cart"/>

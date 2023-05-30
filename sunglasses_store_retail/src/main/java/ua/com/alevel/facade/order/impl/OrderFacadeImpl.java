@@ -116,6 +116,7 @@ public class OrderFacadeImpl implements OrderFacade {
         orderStatusDto.setNumber(order.getNumber());
         orderStatusDto.setStatus(order.getOrderStatus());
         orderStatusDto.setTotalAmount(order.getTotalAmount());
+        System.out.println("totalAmount: " + order.getTotalAmount());
         User user = findUserByOrderId(order);
         orderStatusDto.setUserEmail(user.getEmail());
         return orderStatusDto;

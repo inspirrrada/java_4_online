@@ -1,6 +1,7 @@
 package ua.com.alevel.service.order.impl;
 
 import org.springframework.stereotype.Service;
+import ua.com.alevel.dto.cart.SunglassesCartDto;
 import ua.com.alevel.persistence.entity.cart.Cart;
 import ua.com.alevel.persistence.entity.cart.CartItem;
 import ua.com.alevel.persistence.entity.order.Order;
@@ -11,6 +12,7 @@ import ua.com.alevel.persistence.repository.order.OrderItemRepository;
 import ua.com.alevel.persistence.repository.order.OrderRepository;
 import ua.com.alevel.service.order.OrderService;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -62,6 +64,12 @@ public class OrderServiceImpl implements OrderService {
             orderItemRepository.save(orderItem);
         });
         order.setOrderItems(orderItems);
+        BigDecimal sum = BigDecimal.ZERO;
+        for (OrderItem orderItem : orderItems) {
+            BigDecimal totalPrice = orderItem.getPrice().multiply(new BigDecimal(orderItem.getQuantity()));
+            sum = sum.add(totalPrice);
+        }
+       order.setTotalAmount(sum);
         cartItemRepository.deleteAll(cartItems);
     }
 

@@ -37,7 +37,7 @@
                         <p th:text="${orderDto.getTotalAmount()}"></p>
                     </td>
                     <td>
-                        <!--                    <p th:text=""></p>-->
+                        <a th:href="@{'/order/info/' + ${orderDto.getId()}}" th:text="Show">Show</a>
                     </td>
                     <td>
                         <!--                    <a th:href="" th:text="Show">Show</a>-->

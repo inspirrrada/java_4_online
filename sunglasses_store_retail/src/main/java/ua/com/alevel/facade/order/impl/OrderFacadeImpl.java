@@ -1,12 +1,18 @@
 package ua.com.alevel.facade.order.impl;
 
 import org.springframework.stereotype.Service;
+import ua.com.alevel.dto.cart.CartFormDto;
+import ua.com.alevel.dto.cart.SunglassesCartDto;
 import ua.com.alevel.dto.order.OrderDetailsDto;
 import ua.com.alevel.dto.order.OrderStatusDto;
+import ua.com.alevel.dto.order.OrderSummaryDto;
+import ua.com.alevel.dto.order.SunglassesOrderDto;
 import ua.com.alevel.dto.user.PersonalOrdersDto;
 import ua.com.alevel.facade.order.OrderFacade;
 import ua.com.alevel.persistence.entity.cart.Cart;
+import ua.com.alevel.persistence.entity.cart.CartItem;
 import ua.com.alevel.persistence.entity.order.Order;
+import ua.com.alevel.persistence.entity.order.OrderItem;
 import ua.com.alevel.persistence.entity.user.Personal;
 import ua.com.alevel.persistence.entity.user.User;
 import ua.com.alevel.persistence.type.order.OrderStatusType;
@@ -15,10 +21,7 @@ import ua.com.alevel.service.order.OrderService;
 import ua.com.alevel.service.user.PersonalService;
 import ua.com.alevel.service.user.UserService;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class OrderFacadeImpl implements OrderFacade {
@@ -64,6 +67,11 @@ public class OrderFacadeImpl implements OrderFacade {
     }
 
     @Override
+    public OrderDetailsDto showOrderDetails(Order order) {
+        return new OrderDetailsDto(order);
+    }
+
+    @Override
     public void createNewOrder(OrderDetailsDto orderDetailsDto, Personal personal) {
         Order order = convertOrderDetailsDtoToOrder(orderDetailsDto);
         order.setUser(personal);
@@ -89,6 +97,20 @@ public class OrderFacadeImpl implements OrderFacade {
         Long userId = orderService.findUserIdByOrderId(orderId);
         User user = userService.findById(userId);
         return user;
+    }
+
+    @Override
+    public Order findById(Long id) {
+        return orderService.findById(id);
+    }
+
+    @Override
+    public OrderSummaryDto findAllByOrder(Long orderId) {
+        Collection<OrderItem> orderItems = orderService.findAllByOrder(orderId);
+        return new OrderSummaryDto(orderItems
+                .stream()
+                .map(SunglassesOrderDto::new)
+                .toList());
     }
 
     private Order convertOrderDetailsDtoToOrder(OrderDetailsDto orderDetailsDto) {

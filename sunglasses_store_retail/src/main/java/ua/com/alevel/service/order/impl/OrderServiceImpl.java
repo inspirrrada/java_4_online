@@ -73,6 +73,17 @@ public class OrderServiceImpl implements OrderService {
         cartItemRepository.deleteAll(cartItems);
     }
 
+    @Override
+    public Order findById(Long id) {
+        return orderRepository.findById(id).get();
+    }
+
+    @Override
+    public Collection<OrderItem> findAllByOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).get();
+        return orderItemRepository.findAllByOrder(order);
+    }
+
     private OrderItem convertCartItemToOrderItem(CartItem cartItem) {
         OrderItem orderItem = new OrderItem();
         orderItem.setQuantity(cartItem.getQuantity());

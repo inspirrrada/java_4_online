@@ -5,21 +5,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.com.alevel.dto.cart.CartFormDto;
 import ua.com.alevel.dto.order.OrderDetailsDto;
-import ua.com.alevel.dto.order.OrderFullInfoDto;
+import ua.com.alevel.dto.order.OrderSummaryDto;
 import ua.com.alevel.facade.cart.CartFacade;
 import ua.com.alevel.facade.order.OrderFacade;
 import ua.com.alevel.facade.user.PersonalFacade;
 import ua.com.alevel.persistence.entity.order.Order;
-import ua.com.alevel.persistence.entity.order.OrderItem;
 import ua.com.alevel.persistence.entity.user.Personal;
 import ua.com.alevel.persistence.repository.cart.CartItemRepository;
 import ua.com.alevel.persistence.repository.cart.CartRepository;
 import ua.com.alevel.persistence.repository.order.OrderItemRepository;
 import ua.com.alevel.persistence.repository.order.OrderRepository;
 import ua.com.alevel.util.SecurityUtil;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 @Controller
 @RequestMapping("/order")
@@ -132,19 +128,24 @@ public class OrderController {
 
     @GetMapping("/info/{id}")
     public String showOrderInfo(@PathVariable Long id, Model model) {
-        Order order = orderRepository.findById(id).get();
-        model.addAttribute("orderInfo", new OrderFullInfoDto(order));
         String email = SecurityUtil.getUsername();
-        Personal personal = personalFacade.findByEmail(email);
-        List<OrderItem> sunglassesOrderedList = orderItemRepository.findAllByOrder(order); //convert to SunglassesOrderDto
-        model.addAttribute("sunglassesOrderedList", sunglassesOrderedList);
-        int totalQty = sunglassesOrderedList.stream().mapToInt(OrderItem::getQuantity).sum();
-        model.addAttribute("totalQty", totalQty);
-        BigDecimal sum = BigDecimal.ZERO;
-        for (OrderItem orderItem : sunglassesOrderedList) {
-            sum = sum.add(orderItem.getPrice().multiply(new BigDecimal(orderItem.getQuantity())));
-        }
-        model.addAttribute("totalAmount", sum);
+//        Personal currentUser = personalFacade.findByEmail(email);
+        Order order = orderFacade.findById(id);
+
+        OrderSummaryDto orderSummaryDto = orderFacade.findAllByOrder(id);
+        model.addAttribute("orderSummaryDto", orderSummaryDto);
+        model.addAttribute("sunglassesOrderList", orderSummaryDto.getSunglassesOrderDtoList());
+        OrderDetailsDto orderDetailsDto = orderFacade.showOrderDetails(order);
+        model.addAttribute("orderDetailsSaved", orderDetailsDto);
+
+//        List<OrderItem> sunglassesOrderedList = orderItemRepository.findAllByOrder(order); //convert to SunglassesOrderDto
+//        int totalQty = sunglassesOrderedList.stream().mapToInt(OrderItem::getQuantity).sum();
+//        model.addAttribute("totalQty", totalQty);
+//        BigDecimal sum = BigDecimal.ZERO;
+//        for (OrderItem orderItem : sunglassesOrderedList) {
+//            sum = sum.add(orderItem.getPrice().multiply(new BigDecimal(orderItem.getQuantity())));
+//        }
+//        model.addAttribute("totalAmount", sum);
         return "pages/personal/info";
     }
 

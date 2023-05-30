@@ -13,8 +13,8 @@
   <section class="module">
     <div class="container">
       <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
-          <h1 class="module-title font-alt">Order details</h1>
+        <div class="col-sm-6 col-sm-offset-3" style="width: 100%">
+          <h1 class="module-title font-alt">Order info</h1>
         </div>
       </div>
       <hr class="divider-w pt-20">
@@ -29,7 +29,7 @@
               <th>Quantity</th>
               <th>Total</th>
             </tr>
-            <tr th:each="sunglassesItem : ${sunglassesOrderedList}">
+            <tr th:each="sunglassesItem : ${sunglassesOrderList}">
               <td class="hidden-xs"><a th:href="${sunglassesItem.getImageUrl1()}"><img th:src="${sunglassesItem.getImageUrl1()}" alt="Sunglasses Photo"/></a></td>
               <td>
                 <h5 class="product-title font-alt" th:value="${sunglassesItem.getModelName()}" th:text="${sunglassesItem.getModelName()}"></h5>
@@ -70,86 +70,73 @@
         </div>
       </div>
       <hr class="divider-w">
-      <div class="row mt-70">
+      <div class="row mt-20 shop-cart-total">
         <div class="col-sm-5 col-sm-offset-7">
           <div class="shop-Cart-totalbox">
-            <h4 class="font-alt">Cart Totals</h4>
+            <h4 class="font-alt">Order Totals</h4>
             <table class="table table-striped table-border checkout-table">
               <tbody>
               <tr>
                 <th>Total quantity :</th>
-                <td th:text="${totalQty}">£40.00</td>
+                <td th:text="${orderSummaryDto.getTotalQty()}">£40.00</td>
               </tr>
               <tr class="shop-Cart-totalprice">
                 <th>Total amount:</th>
-                <td th:text="${totalAmount}">£42.00</td>
+                <td th:text="${orderSummaryDto.getTotalAmount()}">£42.00</td>
               </tr>
               </tbody>
             </table>
-            <div>
-              <form th:action="@{'/order/success'}" class="form-group" th:object="${orderDetails}" th:method="POST">
-                <div class="col-sm-8 col-sm-offset-2">
-                  <h4 class="font-alt mb-0">Contact info</h4>
-                  <hr class="divider-w mt-10 mb-20">
-                  <div>
-                    <div class="preview-block" style="display: none">
-                      <label class="label-text" for="info-id">Id</label>
-                      <input th:value="${orderDetails.getId()}" class="form-control account-form" type="text" id="info-id" placeholder=""/>
-                    </div>
-                    <div class="preview-block">
-                      <span >Receiver</span>
-                      <p th:text="${orderDetails.getContactFirstName()} + ' text ' + ${orderDetails.getContactLastName()}"></p>
-                    </div>
-                  </div>
-                  <div class="form-block">
-                    <div class="preview-block">
-                      <label class="label-text" for="phone">Phone number</label>
-                      <input th:value="${orderDetails.getContactPhoneNumber()} + ', ' + ${orderDetails.getReservePhoneNumber()}" class="form-control account-form" type="tel" id="phone" placeholder=""/>
-                    </div>
-                  </div>
-                </div>
-                <div class="address-info collapse" id="collapseExample">
-                  <h4 class="font-alt mb-0">Delivery info</h4>
-                  <hr class="divider-w mt-10 mb-20">
-                  <div>
-                    <div class="form-block">
-                      <div class="preview-block">
-                        <label class="label-text" for="address">Address</label>
-                        <input th:value="${orderDetails.getDeliveryRegion()} + ', ' + ${orderDetails.getDeliveryRegion()} + ' region, ' + 'city ' + ${orderDetails.getDeliveryCity()}" class="form-control account-form" type="text" id="address" placeholder=""/>
-                      </div>
-                      <div class="preview-block">
-                        <label class="label-text" for="street"></label>
-                        <input th:value="${orderDetails.getDeliveryStreet()} + 'street, b.' + ${orderDetails.getDeliveryBuilding()} + ' / ' + ${orderDetails.getDeliveryApartment()}" class="form-control account-form" type="text" id="street" placeholder=""/>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <h4 class="font-alt mb-0">Payment method</h4>
-                  <hr class="divider-w mt-10 mb-20">
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                    <label class="form-check-label" for="inlineRadio1">Advance payment to a bank account</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                    <label class="form-check-label" for="inlineRadio2">Сash on delivery</label>
-                  </div>
-                </div>
-                <div>
-                  <h4 class="font-alt mb-0">Order notes</h4>
-                  <hr class="divider-w mt-10 mb-20">
-                  <textarea class="form-control" rows="7" cols="40"></textarea>
-                </div>
-
-                <a class="btn btn-lg btn-block btn-round btn-d" th:href="@{'/order/details'}">Back and Edit</a>
-                <button type="submit" class="btn btn-lg btn-block btn-round btn-d" >Next</button>
-
-              </form>
-            </div>
           </div>
         </div>
       </div>
+      <div class="row mt-20">
+          <div class="form-block" th:object="${orderDetailsSaved}">
+            <div class="contact-info-block preview-div">
+              <h4 class="font-alt mb-0">Contact info</h4>
+              <hr class="divider-w mt-10 mb-20">
+              <div>
+                <div class="preview-block" style="display: none">
+                  <label class="label-text" for="info-id">Id</label>
+                  <input th:value="${orderDetailsSaved.getId()}" class="form-control account-form" type="text" id="info-id" placeholder=""/>
+                </div>
+                <div class="preview-block">
+                  <span >Receiver</span>
+                  <p class="preview-text" th:text="${orderDetailsSaved.getContactFirstName()} + ' ' + ${orderDetailsSaved.getContactLastName()}"></p>
+                </div>
+              </div>
+              <div class="preview-block">
+                <span>Phone number</span>
+                <p class="preview-text" th:text="${orderDetailsSaved.getContactPhoneNumber()} + ', ' + ${orderDetailsSaved.getReservePhoneNumber()}"></p>
+              </div>
+            </div>
+            <div class="address-info preview-div collapse" id="collapseExample">
+              <h4 class="font-alt mb-0">Delivery info</h4>
+              <hr class="divider-w mt-10 mb-20">
+              <div class="preview-block">
+                <span class="label-text" for="address">Address</span>
+                <p class="preview-text" th:text="${orderDetailsSaved.getDeliveryRegion()} + ', ' + ${orderDetailsSaved.getDeliveryRegion()} + ' region, ' + ' city ' + ${orderDetailsSaved.getDeliveryCity()}"></p>
+                <p class="preview-text" th:text="${orderDetailsSaved.getDeliveryStreet()} + ' street, b.' + ${orderDetailsSaved.getDeliveryBuilding()} + ' / ' + ${orderDetailsSaved.getDeliveryApartment()}"></p>
+              </div>
+            </div>
+          </div>
+          <div class="form-block mt-50 mb-50">
+            <div class="payment-block preview-div">
+              <h4 class="font-alt mb-0">Payment method</h4>
+              <hr class="divider-w mt-10 mb-20">
+              <div class="form-check form-check-inline">
+                <p class="preview-text" th:text="${orderDetailsSaved.getPaymentMethod()}"></p>
+              </div>
+            </div>
+            <div class="notes-block preview-div">
+              <h4 class="font-alt mb-0">Order notes</h4>
+              <hr class="divider-w mt-10 mb-20">
+              <p class="preview-text" th:text="${orderDetailsSaved.getNotes()}"></p>
+            </div>
+          </div>
+          <div style="text-align: center">
+            <a class="btn btn-lg btn-block btn-round btn-d" onclick="history.go(-1)">Back</a>
+          </div>
+        </div>
     </div>
   </section>
 </div>

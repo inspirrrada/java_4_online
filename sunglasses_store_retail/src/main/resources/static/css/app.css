@@ -1720,6 +1720,19 @@ General Styles - Owlcarousel
     background-image: url("https://i.ibb.co/tmzYLgd/pexels-ollie-hoolachan-1066380-1.jpg");
 }
 
+.terms-page-header {
+    background-image: url("https://i.ibb.co/C09YZGp/1674685739161.jpg");
+}
+
+.alt-features-item {
+    font-size: 15px;
+}
+
+.features-img {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 .contact {
     font-size: 15px;
     text-align: center;
@@ -1986,7 +1999,7 @@ Google map
 
 .alt-features-item {
     position: relative;
-    padding-left: 55px;
+    /*padding-left: 55px;*/
     margin: 65px 0 0 0;
 }
 
@@ -2002,7 +2015,7 @@ Google map
 }
 
 .alt-features-title {
-    font-size: 13px;
+    font-size: 20px;
     margin: 0 0 10px;
 }
 
@@ -3347,7 +3360,7 @@ Google map
     }
     .alt-features-item {
         padding-left: 0;
-        margin: 0 0 30px;
+        /*margin: 0 0 30px;*/
         text-align: center;
     }
     .alt-features-icon {

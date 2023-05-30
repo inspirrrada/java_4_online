@@ -30,7 +30,7 @@ public class PersonalController {
 
     @GetMapping("/home")
     public String home() {
-        return "redirect:/index";
+        return "pages/personal/home";
     }
 
     @GetMapping("/account")

@@ -35,6 +35,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public Long findUserIdByOrderId(Long orderId) {
+        return orderRepository.findUserIdByOrderId(orderId);
+    }
+
+    @Override
     public void createNewOrder(Order order, Cart cart) {
         orderRepository.save(order);
         order.setNumber("SB-000" + order.getId());

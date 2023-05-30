@@ -2,6 +2,7 @@ package ua.com.alevel.facade.order.impl;
 
 import org.springframework.stereotype.Service;
 import ua.com.alevel.dto.order.OrderDetailsDto;
+import ua.com.alevel.dto.order.OrderStatusDto;
 import ua.com.alevel.dto.user.PersonalOrdersDto;
 import ua.com.alevel.facade.order.OrderFacade;
 import ua.com.alevel.persistence.entity.cart.Cart;
@@ -12,20 +13,23 @@ import ua.com.alevel.persistence.type.order.OrderStatusType;
 import ua.com.alevel.service.cart.CartService;
 import ua.com.alevel.service.order.OrderService;
 import ua.com.alevel.service.user.PersonalService;
+import ua.com.alevel.service.user.UserService;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
 public class OrderFacadeImpl implements OrderFacade {
 
     private final OrderService orderService;
-    private final PersonalService personalService;
+    private final UserService userService;
     private final CartService cartService;
 
-    public OrderFacadeImpl(OrderService orderService, PersonalService personalService, CartService cartService) {
+    public OrderFacadeImpl(OrderService orderService, PersonalService personalService, UserService userService, CartService cartService) {
         this.orderService = orderService;
-        this.personalService = personalService;
+        this.userService = userService;
         this.cartService = cartService;
     }
 
@@ -67,6 +71,26 @@ public class OrderFacadeImpl implements OrderFacade {
         orderService.createNewOrder(order, cart);
     }
 
+    @Override
+    public List<OrderStatusDto> getOrdersInfoForAdmin() {
+        List<Order> orders = orderService.findAll();
+        System.out.println("order: " + orders);
+        List<OrderStatusDto> orderStatusDtoList = new ArrayList<>();
+        orders.forEach(v -> {
+            OrderStatusDto orderStatusDto = convertOrderToOrderStatusDto((Order)v);
+            orderStatusDtoList.add(orderStatusDto);
+        });
+        return orderStatusDtoList;
+    }
+
+    @Override
+    public User findUserByOrderId(Order order) {
+        Long orderId = order.getId();
+        Long userId = orderService.findUserIdByOrderId(orderId);
+        User user = userService.findById(userId);
+        return user;
+    }
+
     private Order convertOrderDetailsDtoToOrder(OrderDetailsDto orderDetailsDto) {
         Order order = new Order();
         order.setContactFirstName(orderDetailsDto.getContactFirstName());
@@ -83,5 +107,17 @@ public class OrderFacadeImpl implements OrderFacade {
         order.setOrderNotes(orderDetailsDto.getNotes());
         order.setPaymentMethod(orderDetailsDto.getPaymentMethod());
         return order;
+    }
+
+    private OrderStatusDto convertOrderToOrderStatusDto(Order order) {
+        OrderStatusDto orderStatusDto = new OrderStatusDto();
+        orderStatusDto.setId(order.getId());
+        orderStatusDto.setCreated(order.getCreated());
+        orderStatusDto.setNumber(order.getNumber());
+        orderStatusDto.setStatus(order.getOrderStatus());
+        orderStatusDto.setTotalAmount(order.getTotalAmount());
+        User user = findUserByOrderId(order);
+        orderStatusDto.setUserEmail(user.getEmail());
+        return orderStatusDto;
     }
 }

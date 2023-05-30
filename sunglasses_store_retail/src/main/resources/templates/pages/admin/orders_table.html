@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/admin_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="admin_content">
+    <div class="container">
+        <div class="row">
+            <h1>All orders</h1>
+            <table class="table table-striped table-border checkout-table">
+                <tbody>
+                <tr>
+                    <th class="hidden-xs">Date</th>
+                    <th>Username</th>
+                    <th>Order #</th>
+                    <th class="hidden-xs">Total amount</th>
+                    <th>Details</th>
+                    <th>Status</th>
+                </tr>
+                <tr th:each="orderDto : ${orderStatusDtoList}">
+                    <td class="hidden-xs">
+                        <p th:text="${orderDto.getCreated()}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${orderDto.getUserEmail()}"></p>
+                    </td>
+                    <td class="hidden-xs">
+                        <p th:text="${orderDto.getNumber()}"></p>
+                    </td>
+                    <td class="hidden-xs">
+                        <p th:text="${orderDto.getTotalAmount()}"></p>
+                    </td>
+                    <td>
+                        <!--                    <p th:text=""></p>-->
+                    </td>
+                    <td>
+                        <!--                    <a th:href="" th:text="Show">Show</a>-->
+                    </td>
+                </tr>
+                <!--            <tr>-->
+                <!--              <td class="hidden-xs"><a href="#"><img src="assets/images/shop/product-13.jpg" alt="Men’s Casual Pack"/></a></td>-->
+                <!--              <td>-->
+                <!--                <h5 class="product-title font-alt">Men’s Casual Pack</h5>-->
+                <!--              </td>-->
+                <!--              <td class="hidden-xs">-->
+                <!--                <h5 class="product-title font-alt">£20.00</h5>-->
+                <!--              </td>-->
+                <!--              <td>-->
+                <!--                <input class="form-control" type="number" name="" value="1" max="50" min="1"/>-->
+                <!--              </td>-->
+                <!--              <td>-->
+                <!--                <h5 class="product-title font-alt">£20.00</h5>-->
+                <!--              </td>-->
+                <!--              <td class="pr-remove">-->
+                <!--&lt;!&ndash;                <a href="#" title="Remove"><i class="fa fa-times"></i></a>&ndash;&gt;-->
+                <!--                <input type="checkbox" title="Remove">-->
+                <!--              </td>-->
+                <!--            </tr>-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

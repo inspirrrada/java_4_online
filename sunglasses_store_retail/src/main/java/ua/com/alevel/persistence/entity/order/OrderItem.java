@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "order_items")
 public class OrderItem extends BaseEntity {

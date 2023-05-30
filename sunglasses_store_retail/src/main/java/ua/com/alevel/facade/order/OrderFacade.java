@@ -1,6 +1,8 @@
 package ua.com.alevel.facade.order;
 
+import org.springframework.data.repository.query.Param;
 import ua.com.alevel.dto.order.OrderDetailsDto;
+import ua.com.alevel.dto.order.OrderStatusDto;
 import ua.com.alevel.dto.user.PersonalOrdersDto;
 import ua.com.alevel.persistence.entity.order.Order;
 import ua.com.alevel.persistence.entity.user.Personal;
@@ -15,4 +17,6 @@ public interface OrderFacade {
     Set<PersonalOrdersDto> findAllOrdersByUser(User user);
     OrderDetailsDto showOrderDetails(Personal personal);
     void createNewOrder(OrderDetailsDto orderDetailsDto, Personal personal);
+    List<OrderStatusDto> getOrdersInfoForAdmin();
+    User findUserByOrderId(Order order);
 }

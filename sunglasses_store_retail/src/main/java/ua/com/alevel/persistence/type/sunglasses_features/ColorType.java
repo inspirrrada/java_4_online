@@ -18,7 +18,13 @@ public enum ColorType {
     BLUE_GRADIENT_GREY("Blue gradient grey"),
     CLEAR_GRADIENT_BROWN("Clear gradient brown"),
     CLEAR_GRADIENT_BLUE("Clear gradient blue"),
-    DARK_GREY("Dark grey");
+    DARK_GREY("Dark grey"),
+    GREY("Grey"),
+    YELLOW("Yellow"),
+    GRADIENT_GREEN("Gradient green"),
+    GRADIENT_SMOKE("Gradient smoke"),
+    GREY_PINK("Grey/Pink"),
+    ORANGE("Orange");
 
     private final String value;
 }

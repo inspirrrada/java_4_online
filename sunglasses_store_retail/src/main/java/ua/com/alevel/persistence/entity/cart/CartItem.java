@@ -20,12 +20,6 @@ public class CartItem extends BaseEntity {
     @ManyToOne
     private Cart cart;
 
-    //    @ManyToMany
-//    @JoinTable(
-//            name = "carts_sunglasses",
-//            joinColumns = @JoinColumn(name = "cart_id"),
-//            inverseJoinColumns = @JoinColumn(name = "sunglasses_id")
-//    )
     @ManyToOne
     private Sunglasses sunglasses;
 

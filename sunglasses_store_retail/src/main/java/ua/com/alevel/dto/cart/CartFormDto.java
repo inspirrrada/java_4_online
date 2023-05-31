@@ -1,7 +1,6 @@
 package ua.com.alevel.dto.cart;
 
 import lombok.*;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString
-@Data
 public class CartFormDto {
 
     private List<SunglassesCartDto> cartFormList;

@@ -14,13 +14,11 @@ import ua.com.alevel.service.user.PersonalService;
 public class RegistrationServiceImpl implements RegistrationService {
 
     private final PersonalService personalService;
-//    private final PersonalRepository personalRepository;
     private final CartRepository cartRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public RegistrationServiceImpl(PersonalService personalService, PersonalRepository personalRepository, CartRepository cartRepository, BCryptPasswordEncoder passwordEncoder) {
+    public RegistrationServiceImpl(PersonalService personalService, CartRepository cartRepository, BCryptPasswordEncoder passwordEncoder) {
         this.personalService = personalService;
-//        this.personalRepository = personalRepository;
         this.cartRepository = cartRepository;
         this.passwordEncoder = passwordEncoder;
     }

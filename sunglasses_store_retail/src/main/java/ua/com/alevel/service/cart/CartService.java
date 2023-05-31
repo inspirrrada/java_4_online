@@ -2,7 +2,6 @@ package ua.com.alevel.service.cart;
 
 import ua.com.alevel.persistence.entity.cart.Cart;
 import ua.com.alevel.persistence.entity.cart.CartItem;
-import ua.com.alevel.persistence.entity.sunglasses.Sunglasses;
 import ua.com.alevel.persistence.entity.user.User;
 
 import java.util.Collection;

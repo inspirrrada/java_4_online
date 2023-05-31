@@ -1,8 +1,6 @@
 package ua.com.alevel.dto.order;
 
 import lombok.*;
-import ua.com.alevel.dto.cart.SunglassesCartDto;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -10,7 +8,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString
-@Data
 public class OrderSummaryDto {
 
     private List<SunglassesOrderDto> sunglassesOrderDtoList;

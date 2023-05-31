@@ -13,10 +13,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class SunglassesOrderDto extends SunglassesPLPDto {
 
-//    private Long id;
-//    private String modelName;
-//    private String imageUrl1;
-//    private String price;
     private Long cartItemId;
     private Integer qty;
     private boolean shouldBeRemoved;
@@ -28,18 +24,5 @@ public class SunglassesOrderDto extends SunglassesPLPDto {
         this.qty = orderItem.getQuantity();
         this.shouldBeRemoved = false;
         this.totalPrice = orderItem.getSunglasses().getPrice().multiply(new BigDecimal(this.qty));
-    }
-
-    @Override
-    public String toString() {
-        return "SunglassesCartDto{" +
-                "id=" + cartItemId +
-                ", qty=" + qty +
-                ", shouldBeRemoved=" + shouldBeRemoved +
-                ", id super=" + getId() +
-                ", modelName=" + getModelName() +
-                ", imageUrl=" + getImageUrl1() +
-                ", price=" + getPrice() +
-                "} " + super.toString();
     }
 }

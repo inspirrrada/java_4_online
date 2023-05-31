@@ -4,8 +4,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import ua.com.alevel.persistence.entity.user.Personal;
-import ua.com.alevel.persistence.repository.user.PersonalRepository;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -17,26 +15,8 @@ public final class SecurityUtil {
         return user.getUsername();
     }
 
-//    public static boolean hasRole(String role) {
-//        Authentication authentication = getAuthentication();
-//        AtomicBoolean hasRole = new AtomicBoolean(false);
-//        authentication.getAuthorities().forEach(authority -> {
-//            if (authority.getAuthority().equalsIgnoreCase(role)) {
-//                hasRole.set(true);
-//            }
-//        });
-//        return hasRole.get();
-//    }
-
     public static boolean hasRole(String role) {
         Authentication authentication = getAuthentication();
-//        boolean result = false;
-//        for (GrantedAuthority authority : authentication.getAuthorities()) {
-//            if (authority.getAuthority().equalsIgnoreCase(role)) {
-//                result = true;
-//            }
-//        }
-//        return result;
         AtomicBoolean result = new AtomicBoolean(false);
         authentication.getAuthorities().forEach(authority -> {
             if (authority.getAuthority().equalsIgnoreCase(role)) {

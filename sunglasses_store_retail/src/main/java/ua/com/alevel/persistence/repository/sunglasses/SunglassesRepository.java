@@ -22,9 +22,6 @@ public interface SunglassesRepository extends BaseRepository<Sunglasses> {
     List<Sunglasses> findByTempleLength(Integer templeLength);
     List<Sunglasses> findByBridgeWidth(Integer bridgeWidth);
     List<Sunglasses> findByLensWidth(Integer lensWidth);
-//    @Query("from Sunglasses s join s.carts carts_sunglasses where carts_sunglasses.id = :cartId")
-//    List<Sunglasses> findByCart(Long cartId);
-
     List<Sunglasses> findAllByModelCodeIn(List<String> modelCodes);
 
     @Query("select s.modelCode from Sunglasses s where s.quantity = 0")

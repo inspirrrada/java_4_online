@@ -11,14 +11,12 @@ import ua.com.alevel.persistence.entity.cart.Cart;
 import ua.com.alevel.persistence.entity.user.Personal;
 import ua.com.alevel.util.SecurityUtil;
 
-
 @Controller
 @RequestMapping(path="/cart")
 public class CartController {
 
     private final PersonalFacade personalFacade;
     private final CartFacade cartFacade;
-
 
     public CartController(PersonalFacade personalFacade, CartFacade cartFacade) {
         this.personalFacade = personalFacade;
@@ -49,5 +47,4 @@ public class CartController {
         cartFacade.addToCart(id, webRequest, cart);
         return "pages/personal/add_success";
     }
-
 }

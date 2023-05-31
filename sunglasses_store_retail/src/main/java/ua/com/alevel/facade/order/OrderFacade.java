@@ -1,7 +1,5 @@
 package ua.com.alevel.facade.order;
 
-import org.springframework.data.repository.query.Param;
-import ua.com.alevel.dto.cart.CartFormDto;
 import ua.com.alevel.dto.order.OrderDetailsDto;
 import ua.com.alevel.dto.order.OrderStatusDto;
 import ua.com.alevel.dto.order.OrderSummaryDto;
@@ -10,7 +8,6 @@ import ua.com.alevel.dto.user.PersonalOrdersDto;
 import ua.com.alevel.persistence.entity.order.Order;
 import ua.com.alevel.persistence.entity.user.Personal;
 import ua.com.alevel.persistence.entity.user.User;
-
 import java.util.List;
 import java.util.Set;
 

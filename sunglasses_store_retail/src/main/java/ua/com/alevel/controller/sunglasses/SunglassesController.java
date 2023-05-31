@@ -35,22 +35,11 @@ public class SunglassesController {
 
     @PostMapping("/{id}")
     public String pdp(@ModelAttribute("sunglassesCartDto") SunglassesCartDto sunglassesCartDto) {
-        System.out.println("sunglassesCartDto 2: " + sunglassesCartDto);
         return "redirect:/cart/add/{id}";
     }
 
     @GetMapping("/{id}/add-to-cart")
     public String addToCartFromPdp(@PathVariable Long id) {
-        System.out.println("id: " + id);
-
-        return "add_success";
+        return "pages/personal/add_success";
     }
-
-//    @GetMapping("/brand")
-//    public String showByBrand(@RequestParam(value = "brand", required = false) String brandName) {
-//        Brand brand = brandFacade.findByBrandName(brandName);
-//        System.out.println("brandName: " + brandName);
-//        System.out.println("brand: " + brand.toString());
-//        return "";
-//    }
 }

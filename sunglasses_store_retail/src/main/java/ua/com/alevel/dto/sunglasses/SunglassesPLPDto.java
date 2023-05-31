@@ -25,6 +25,4 @@ public class SunglassesPLPDto {
         this.price = sunglasses.getPrice().toString();
         this.visible = sunglasses.getVisible();
     }
-
-
 }

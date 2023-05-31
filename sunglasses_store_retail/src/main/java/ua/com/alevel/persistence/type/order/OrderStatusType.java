@@ -2,7 +2,6 @@ package ua.com.alevel.persistence.type.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
 @AllArgsConstructor

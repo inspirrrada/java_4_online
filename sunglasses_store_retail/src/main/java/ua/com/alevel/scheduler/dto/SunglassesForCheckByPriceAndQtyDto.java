@@ -16,6 +16,4 @@ public class SunglassesForCheckByPriceAndQtyDto {
     private String modelCode;
     private BigDecimal price;
     private Integer quantity;
-
-
 }

@@ -3,11 +3,7 @@ package ua.com.alevel.dto.user;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import ua.com.alevel.persistence.entity.user.Personal;
-
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
 
 @Getter
 @Setter

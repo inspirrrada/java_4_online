@@ -1,7 +1,6 @@
 package ua.com.alevel.service.order.impl;
 
 import org.springframework.stereotype.Service;
-import ua.com.alevel.dto.cart.SunglassesCartDto;
 import ua.com.alevel.dto.order.OrderStatusDto;
 import ua.com.alevel.persistence.entity.cart.Cart;
 import ua.com.alevel.persistence.entity.cart.CartItem;
@@ -51,11 +50,6 @@ public class OrderServiceImpl implements OrderService {
         Collection<CartItem> cartItems = cartItemRepository.findAllByCart(cart);
         Set<OrderItem> orderItems = new HashSet<>();
         cartItems.stream().forEach(v -> {
-           /* OrderItem orderItem = new OrderItem();
-            +orderItem.setOrder(order);
-            orderItem.setQuantity(v.getQuantity());
-            orderItem.setSunglasses(v.getSunglasses());
-            orderItem.setPrice(v.getSunglasses().getPrice());*/
             OrderItem orderItem = convertCartItemToOrderItem(v);
             orderItem.setOrder(order);
             orderItems.add(orderItem);
@@ -67,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
             BigDecimal totalPrice = orderItem.getPrice().multiply(new BigDecimal(orderItem.getQuantity()));
             sum = sum.add(totalPrice);
         }
-       order.setTotalAmount(sum);
+        order.setTotalAmount(sum);
         cartItemRepository.deleteAll(cartItems);
     }
 
@@ -84,14 +78,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrdersStatuses(Collection<OrderStatusDto> orderStatusDtoList) {
-//        Collection<Order> orderUpdated = new ArrayList<>();
         orderStatusDtoList.forEach(v-> {
             Order order = orderRepository.findById(v.getId()).get();
             order.setOrderStatus(v.getOrderStatusType());
-//            orderUpdated.add(order);
             orderRepository.save(order);
         });
-//        orderRepository.saveAll(orderUpdated);
     }
 
     private OrderItem convertCartItemToOrderItem(CartItem cartItem) {

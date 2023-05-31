@@ -1,6 +1,5 @@
 package ua.com.alevel.service.user;
 
-import ua.com.alevel.persistence.entity.user.Personal;
 import ua.com.alevel.persistence.entity.user.User;
 
 public interface UserService {

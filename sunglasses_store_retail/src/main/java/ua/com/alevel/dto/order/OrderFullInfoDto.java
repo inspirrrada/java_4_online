@@ -3,11 +3,9 @@ package ua.com.alevel.dto.order;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ua.com.alevel.dto.cart.SunglassesCartDto;
 import ua.com.alevel.persistence.entity.order.Order;
 import ua.com.alevel.persistence.entity.order.OrderItem;
 import ua.com.alevel.persistence.type.order.OrderStatusType;
-
 import java.math.BigDecimal;
 
 @Getter

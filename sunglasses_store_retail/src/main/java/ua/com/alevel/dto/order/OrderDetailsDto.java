@@ -29,7 +29,6 @@ public class OrderDetailsDto {
     private PaymentMethodType paymentMethod;
 
     public OrderDetailsDto(Personal personal) {
-//        this.id = personal.getId();
         this.contactFirstName = personal.getFirstName();
         this.contactLastName = personal.getLastName();
         this.contactPhoneNumber = personal.getPhoneNumber();

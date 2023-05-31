@@ -12,7 +12,6 @@ import ua.com.alevel.facade.order.OrderFacade;
 import ua.com.alevel.facade.user.PersonalFacade;
 import ua.com.alevel.persistence.entity.user.Personal;
 import ua.com.alevel.util.SecurityUtil;
-
 import java.util.Set;
 
 @Controller
@@ -52,7 +51,6 @@ public class PersonalController {
                                     @ModelAttribute("personalInfo") PersonalInfoDto personalInfoDto,
                                     @ModelAttribute("personalPassword") PersonalPasswordDto personalPasswordDto,
                                     @ModelAttribute("personalAddress") PersonalAddressDto personalAddressDto) {
-        System.out.println("personalInfoDto after: " + personalInfoDto);
         boolean successChange = personalFacade.changeInfo(personalInfoDto, personalPasswordDto, personalAddressDto, webRequest);
         if (successChange) {
             return "pages/personal/saving_successful";

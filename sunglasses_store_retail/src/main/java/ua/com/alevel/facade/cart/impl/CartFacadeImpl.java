@@ -8,18 +8,12 @@ import ua.com.alevel.dto.cart.SunglassesCartDto;
 import ua.com.alevel.facade.cart.CartFacade;
 import ua.com.alevel.persistence.entity.cart.Cart;
 import ua.com.alevel.persistence.entity.cart.CartItem;
-import ua.com.alevel.persistence.entity.sunglasses.Sunglasses;
-import ua.com.alevel.persistence.entity.user.Personal;
 import ua.com.alevel.persistence.entity.user.User;
-import ua.com.alevel.persistence.repository.sunglasses.SunglassesRepository;
 import ua.com.alevel.service.cart.CartService;
 import ua.com.alevel.service.sunglasses.SunglassesService;
-import ua.com.alevel.util.SecurityUtil;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 public class CartFacadeImpl implements CartFacade {
@@ -56,16 +50,6 @@ public class CartFacadeImpl implements CartFacade {
         Collection<SunglassesCartDto> cartFormList = cartFormDto.getCartFormList();
         Collection<CartItem> cartItems = new ArrayList<>();
                 cartFormList.stream().forEach(v -> {
-                    /*CartItem cartItem = new CartItem();
-                    cartItem.setId(v.getCartItemId());
-                    cartItem.setCart(findById(cartId));
-                    cartItem.setSunglasses(sunglassesService.findById(v.getId()).get());
-                    cartItem.setQuantity(v.getQty());
-                    if (v.isShouldBeRemoved()) {
-                        cartItem.setActive(false);
-                    } else {
-                        cartItem.setActive(true);
-                    }*/
                     CartItem cartItem = convertSunglassesCartDtoToCartItem(v, cartId);
                     cartItems.add(cartItem);
                 });
@@ -84,29 +68,6 @@ public class CartFacadeImpl implements CartFacade {
             }
         }
         cartService.addToCart(id, cart, qtyForCart);
-
-//        Sunglasses sunglassesCurrent = sunglassesService.findById(id).get();
-//        System.out.println("sunglassesCurrent: " + sunglassesCurrent);
-//        Collection<CartItem> cartItems = cartItemRepository.findAllByCart(cart);
-//        AtomicBoolean alreadyExistInCart = new AtomicBoolean(false);
-//        cartItems.forEach(v -> {
-//            if (v.getSunglasses().getId() == id) {
-//                alreadyExistInCart.set(true);
-//            }
-//        });
-//
-//        CartItem cartItem = cartItemRepository.findByCartIdAndSunglasses(currentUser.getId(), sunglassesCurrent);
-//        CartItem cartItemNew;
-//        if (cartItem == null) {
-//            cartItemNew = new CartItem();
-//            cartItemNew.setSunglasses(sunglassesCurrent);
-//            cartItemNew.setQuantity(qtyForCart);
-//            cartItemNew.setCart(cart);
-//            cartItemRepository.save(cartItemNew);
-//        } else {
-//            cartItem.setQuantity(cartItem.getQuantity() + qtyForCart);
-//            cartItemRepository.save(cartItem);
-//        }
     }
 
     private CartItem convertSunglassesCartDtoToCartItem(SunglassesCartDto sunglassesCartDto, Long cartId) {

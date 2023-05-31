@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ua.com.alevel.persistence.entity.user.Personal;
 
-import java.time.OffsetDateTime;
-
 @Getter
 @Setter
 @NoArgsConstructor

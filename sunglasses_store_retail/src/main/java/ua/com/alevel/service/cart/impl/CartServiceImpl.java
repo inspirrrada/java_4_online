@@ -11,7 +11,6 @@ import ua.com.alevel.service.cart.CartService;
 import ua.com.alevel.service.sunglasses.SunglassesService;
 
 import java.util.Collection;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -51,22 +50,10 @@ public class CartServiceImpl implements CartService {
                 cartItemRepository.save(v);
             }
         });
-//        cartItemRepository.saveAll(cartItems);
     }
 
     @Override
     public void addToCart(Long id, Cart cart, int qty) {
-//        Sunglasses sunglassesCurrent = sunglassesService.findById(id).get();
-//        System.out.println("sunglassesCurrent: " + sunglassesCurrent);
-//        Collection<CartItem> cartItems = cartItemRepository.findAllByCart(cart);
-//        AtomicBoolean alreadyExistInCart = new AtomicBoolean(false);
-//        cartItems.forEach(v -> {
-//            if (v.getSunglasses().getId() == id) {
-//                alreadyExistInCart.set(true);
-//            }
-//        });
-
-//        CartItem cartItem = cartItemRepository.findByCartIdAndSunglasses(currentUser.getId(), sunglassesCurrent);
         CartItem cartItem = cartItemRepository.findByCartIdAndSunglassesId(cart.getId(), id);
         CartItem cartItemNew;
         if (cartItem == null) {

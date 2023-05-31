@@ -1,13 +1,10 @@
 package ua.com.alevel.facade.order.impl;
 
 import org.springframework.stereotype.Service;
-import ua.com.alevel.dto.cart.CartFormDto;
-import ua.com.alevel.dto.cart.SunglassesCartDto;
 import ua.com.alevel.dto.order.*;
 import ua.com.alevel.dto.user.PersonalOrdersDto;
 import ua.com.alevel.facade.order.OrderFacade;
 import ua.com.alevel.persistence.entity.cart.Cart;
-import ua.com.alevel.persistence.entity.cart.CartItem;
 import ua.com.alevel.persistence.entity.order.Order;
 import ua.com.alevel.persistence.entity.order.OrderItem;
 import ua.com.alevel.persistence.entity.user.Personal;
@@ -17,7 +14,6 @@ import ua.com.alevel.service.cart.CartService;
 import ua.com.alevel.service.order.OrderService;
 import ua.com.alevel.service.user.PersonalService;
 import ua.com.alevel.service.user.UserService;
-
 import java.util.*;
 
 @Service
@@ -27,7 +23,7 @@ public class OrderFacadeImpl implements OrderFacade {
     private final UserService userService;
     private final CartService cartService;
 
-    public OrderFacadeImpl(OrderService orderService, PersonalService personalService, UserService userService, CartService cartService) {
+    public OrderFacadeImpl(OrderService orderService, UserService userService, CartService cartService) {
         this.orderService = orderService;
         this.userService = userService;
         this.cartService = cartService;
@@ -35,16 +31,6 @@ public class OrderFacadeImpl implements OrderFacade {
 
     @Override
     public boolean saveOrderDetails(OrderDetailsDto orderDetailsDto) {
-//        Long id = orderDetailsDto.getId();
-//        Order order = new Order();
-//        order.setContactFirstName(or);
-//        try {
-//            orderService.saveOrder(personalCurrent);
-//            return true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
         return true;
     }
 
@@ -79,7 +65,6 @@ public class OrderFacadeImpl implements OrderFacade {
     @Override
     public List<OrderStatusDto> getOrdersInfoForAdmin() {
         List<Order> orders = orderService.findAll();
-        System.out.println("order: " + orders);
         List<OrderStatusDto> orderStatusDtoList = new ArrayList<>();
         orders.forEach(v -> {
             OrderStatusDto orderStatusDto = convertOrderToOrderStatusDto((Order)v);
@@ -114,7 +99,9 @@ public class OrderFacadeImpl implements OrderFacade {
     public List<OrderStatusDto> findAllOrderStatusDto() {
         List<OrderStatusDto> orderStatusDtoList = new ArrayList<>();
         orderService.findAll().forEach(v-> {
-            OrderStatusDto orderStatusDto = new OrderStatusDto(v);
+            Long userId = orderService.findUserIdByOrderId(v.getId());
+            User user = userService.findById(userId);
+            OrderStatusDto orderStatusDto = new OrderStatusDto(v, user);
             orderStatusDtoList.add(orderStatusDto);
         });
         return orderStatusDtoList;
@@ -151,7 +138,6 @@ public class OrderFacadeImpl implements OrderFacade {
         orderStatusDto.setNumber(order.getNumber());
         orderStatusDto.setStatus(order.getOrderStatus());
         orderStatusDto.setTotalAmount(order.getTotalAmount());
-        System.out.println("totalAmount: " + order.getTotalAmount());
         User user = findUserByOrderId(order);
         orderStatusDto.setUserEmail(user.getEmail());
         return orderStatusDto;

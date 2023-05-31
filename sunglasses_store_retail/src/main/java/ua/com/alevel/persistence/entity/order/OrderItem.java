@@ -2,11 +2,8 @@ package ua.com.alevel.persistence.entity.order;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import ua.com.alevel.persistence.entity.BaseEntity;
-import ua.com.alevel.persistence.entity.cart.Cart;
 import ua.com.alevel.persistence.entity.sunglasses.Sunglasses;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;

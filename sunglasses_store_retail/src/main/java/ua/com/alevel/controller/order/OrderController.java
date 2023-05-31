@@ -25,128 +25,45 @@ public class OrderController {
     private final OrderFacade orderFacade;
     private final CartFacade cartFacade;
     private final PersonalFacade personalFacade;
-    private final CartRepository cartRepository;
-    private final CartItemRepository cartItemRepository;
-    private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
 
-    public OrderController(OrderFacade orderFacade, CartFacade cartFacade, PersonalFacade personalFacade, CartRepository cartRepository, CartItemRepository cartItemRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository) {
+    public OrderController(OrderFacade orderFacade, CartFacade cartFacade, PersonalFacade personalFacade) {
         this.orderFacade = orderFacade;
         this.cartFacade = cartFacade;
         this.personalFacade = personalFacade;
-        this.cartRepository = cartRepository;
-        this.cartItemRepository = cartItemRepository;
-        this.orderRepository = orderRepository;
-        this.orderItemRepository = orderItemRepository;
     }
 
     @GetMapping("/details")
     public String showOrderDetails(Model model) {
         Personal currentUser = personalFacade.findByEmail(SecurityUtil.getUsername());
-
-//        OrderDetailsDto orderDetailsDto = new OrderDetailsDto(personal);
         OrderDetailsDto orderDetailsDto = orderFacade.showOrderDetails(currentUser);
         model.addAttribute("orderDetails", orderDetailsDto);
-
         return "pages/personal/details";
     }
 
-//    @PostMapping("/details")
-//    public String updateOrderDetails(@ModelAttribute("orderDetails") OrderDetailsDto orderDetailsDto) {
-//        System.out.println("orderDetailsDto in details page: " + orderDetailsDto);
-//        return "pages/personal/details";
-//    }
-
-//    @PostMapping("/details")
-//    public String saveOrderDetails(@ModelAttribute("orderDetails") OrderDetailsDto orderDetailsDto) {
-//        System.out.println("orderDetailsDto in details page after return: " + orderDetailsDto);
-//       return "pages/personal/details";
-//    }
-
-
     @PostMapping("/preview")
     public String showOrderItems(Model model, @ModelAttribute("orderDetails") OrderDetailsDto orderDetailsDto) {
-        System.out.println("orderDetailsDto in preview page: " + orderDetailsDto);
-//        orderFacade.saveOrderDetails(OrderDetailsDto orderDetailsDto);
         Personal currentUser = personalFacade.findByEmail(SecurityUtil.getUsername());
         CartFormDto cartFormDto = cartFacade.findAllByCart(currentUser.getId());
         model.addAttribute("cartFormDto", cartFormDto);
         model.addAttribute("sunglassesCartDtoList", cartFormDto.getCartFormList());
-//        System.out.println("sunglassesCartDtoList from orderController: " + sunglassesCartDtoList);
-//        int totalQty = sunglassesCartDtoList.stream().mapToInt(SunglassesCartDto::getQty).sum();
-//        model.addAttribute("totalQty", totalQty);
-//        BigDecimal sum = BigDecimal.ZERO;
-//        for (SunglassesCartDto sunglassesCartDto : sunglassesCartDtoList) {
-//            sum = sum.add(sunglassesCartDto.getTotalPrice());
-//        }
-//        model.addAttribute("totalAmount", sum);
         return "pages/personal/preview";
     }
 
     @PostMapping("/success")
     public String createNewOrder(@ModelAttribute("orderDetails") OrderDetailsDto orderDetailsDto) {
-        System.out.println("orderDetailsDto create new order: " + orderDetailsDto);
         Personal currentUser = personalFacade.findByEmail(SecurityUtil.getUsername());
-
         orderFacade.createNewOrder(orderDetailsDto, currentUser);
-
-//        Cart cart = cartRepository.findById(personal.getId()).get();
-        /*Order order = new Order();
-        order.setNumber("SB-000" + order.getId());
-        order.setUser(personal);
-        order.setContactFirstName(orderDetailsDto.getContactFirstName());
-        order.setContactLastName(orderDetailsDto.getContactLastName());
-        order.setContactPhoneNumber(orderDetailsDto.getContactPhoneNumber());
-        order.setReservePhoneNumber(orderDetailsDto.getReservePhoneNumber());
-        order.setDeliveryZip(orderDetailsDto.getDeliveryZip());
-        order.setDeliveryRegion(orderDetailsDto.getDeliveryRegion());
-        order.setDeliveryCity(orderDetailsDto.getDeliveryCity());
-        order.setDeliveryStreet(orderDetailsDto.getDeliveryStreet());
-        order.setDeliveryBuilding(orderDetailsDto.getDeliveryBuilding());
-        order.setDeliveryApartment(orderDetailsDto.getDeliveryApartment());
-        order.setOrderStatus(OrderStatusType.CREATED);
-//        order.setOrderNotes(orderDetailsDto);
-        order.setPaymentMethod(orderDetailsDto.getPaymentMethod());*/
-       /* orderRepository.save(order);
-        Collection<CartItem> cartItems = cartItemRepository.findAllByCart(cart);
-        Set<OrderItem> orderItems = new HashSet<>();
-        cartItems.stream().forEach(v -> {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setQuantity(v.getQuantity());
-            orderItem.setSunglasses(v.getSunglasses());
-            orderItem.setPrice(v.getSunglasses().getPrice());
-            orderItems.add(orderItem);
-            orderItemRepository.save(orderItem);
-        });
-        order.setOrderItems(orderItems);
-
-        cartItemRepository.deleteAll(cartItems);*/
-
         return "pages/personal/order_new_success";
     }
 
     @GetMapping("/info/{id}")
     public String showOrderInfo(@PathVariable Long id, Model model) {
-        String email = SecurityUtil.getUsername();
-//        Personal currentUser = personalFacade.findByEmail(email);
         Order order = orderFacade.findById(id);
-
         OrderSummaryDto orderSummaryDto = orderFacade.findAllByOrder(id);
         model.addAttribute("orderSummaryDto", orderSummaryDto);
         model.addAttribute("sunglassesOrderList", orderSummaryDto.getSunglassesOrderDtoList());
         OrderDetailsDto orderDetailsDto = orderFacade.showOrderDetails(order);
         model.addAttribute("orderDetailsSaved", orderDetailsDto);
-
-//        List<OrderItem> sunglassesOrderedList = orderItemRepository.findAllByOrder(order); //convert to SunglassesOrderDto
-//        int totalQty = sunglassesOrderedList.stream().mapToInt(OrderItem::getQuantity).sum();
-//        model.addAttribute("totalQty", totalQty);
-//        BigDecimal sum = BigDecimal.ZERO;
-//        for (OrderItem orderItem : sunglassesOrderedList) {
-//            sum = sum.add(orderItem.getPrice().multiply(new BigDecimal(orderItem.getQuantity())));
-//        }
-//        model.addAttribute("totalAmount", sum);
         return "pages/personal/info";
     }
-
 }

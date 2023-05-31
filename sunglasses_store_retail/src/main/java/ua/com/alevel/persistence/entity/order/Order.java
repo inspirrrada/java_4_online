@@ -2,12 +2,10 @@ package ua.com.alevel.persistence.entity.order;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import ua.com.alevel.persistence.entity.BaseEntity;
 import ua.com.alevel.persistence.entity.user.User;
 import ua.com.alevel.persistence.type.order.OrderStatusType;
 import ua.com.alevel.persistence.type.order.PaymentMethodType;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Set;

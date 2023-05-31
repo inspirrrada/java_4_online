@@ -3,10 +3,7 @@ package ua.com.alevel.facade.order.impl;
 import org.springframework.stereotype.Service;
 import ua.com.alevel.dto.cart.CartFormDto;
 import ua.com.alevel.dto.cart.SunglassesCartDto;
-import ua.com.alevel.dto.order.OrderDetailsDto;
-import ua.com.alevel.dto.order.OrderStatusDto;
-import ua.com.alevel.dto.order.OrderSummaryDto;
-import ua.com.alevel.dto.order.SunglassesOrderDto;
+import ua.com.alevel.dto.order.*;
 import ua.com.alevel.dto.user.PersonalOrdersDto;
 import ua.com.alevel.facade.order.OrderFacade;
 import ua.com.alevel.persistence.entity.cart.Cart;
@@ -111,6 +108,22 @@ public class OrderFacadeImpl implements OrderFacade {
                 .stream()
                 .map(SunglassesOrderDto::new)
                 .toList());
+    }
+
+    @Override
+    public List<OrderStatusDto> findAllOrderStatusDto() {
+        List<OrderStatusDto> orderStatusDtoList = new ArrayList<>();
+        orderService.findAll().forEach(v-> {
+            OrderStatusDto orderStatusDto = new OrderStatusDto(v);
+            orderStatusDtoList.add(orderStatusDto);
+        });
+        return orderStatusDtoList;
+    }
+
+    @Override
+    public void updateOrdersStatuses(StatusFormDto statusFormDto) {
+        Collection<OrderStatusDto> orderStatusDtoList = statusFormDto.getOrderStatusDtoList();
+        orderService.updateOrdersStatuses(orderStatusDtoList);
     }
 
     private Order convertOrderDetailsDtoToOrder(OrderDetailsDto orderDetailsDto) {

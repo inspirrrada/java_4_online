@@ -5,6 +5,7 @@ import ua.com.alevel.dto.cart.CartFormDto;
 import ua.com.alevel.dto.order.OrderDetailsDto;
 import ua.com.alevel.dto.order.OrderStatusDto;
 import ua.com.alevel.dto.order.OrderSummaryDto;
+import ua.com.alevel.dto.order.StatusFormDto;
 import ua.com.alevel.dto.user.PersonalOrdersDto;
 import ua.com.alevel.persistence.entity.order.Order;
 import ua.com.alevel.persistence.entity.user.Personal;
@@ -24,4 +25,6 @@ public interface OrderFacade {
     User findUserByOrderId(Order order);
     Order findById(Long id);
     OrderSummaryDto findAllByOrder(Long orderId);
+    List<OrderStatusDto> findAllOrderStatusDto();
+    void updateOrdersStatuses(StatusFormDto statusFormDto);
 }

@@ -13,7 +13,7 @@
     <div class="container">
         <div class="row">
             <h1>All orders</h1>
-            <table class="table table-striped table-border checkout-table">
+            <table class="table table-striped table-border checkout-table" th:object="${statusFormDto}">
                 <tbody>
                 <tr>
                     <th class="hidden-xs">Date</th>
@@ -23,7 +23,8 @@
                     <th>Details</th>
                     <th>Status</th>
                 </tr>
-                <tr th:each="orderDto : ${orderStatusDtoList}">
+                <tr th:each="orderDto, i : ${statusFormDto.getOrderStatusDtoList()}">
+                    <form th:id="status" th:action="@{'/admin/orders'}"  method='POST'>
                     <td class="hidden-xs">
                         <p th:text="${orderDto.getCreated()}"></p>
                     </td>
@@ -40,8 +41,22 @@
                         <a th:href="@{'/order/info/' + ${orderDto.getId()}}" th:text="Show">Show</a>
                     </td>
                     <td>
-                        <!--                    <a th:href="" th:text="Show">Show</a>-->
+                        <select name="status" th:field="*{orderStatusDtoList[__${i.index}__].orderStatusType}">
+                            <option th:value="${orderDto.getStatus()}" th:text="${orderDto.getStatus()}"></option>
+                            <option th:each="orderStatus : ${T(ua.com.alevel.persistence.type.order.OrderStatusType).values()}"
+                                    th:if="${orderStatus} != ${orderDto.getStatus()}"
+                                    th:value="${orderStatus}" th:text="${orderStatus}"></option>
+<!--orderStatus-->
+<!--                                    th:value="${status}" th:text="${status}"></option>-->
+                        </select>
+<!--                        <div th:each="status : ${T(ua.com.alevel.persistence.type.order.OrderStatusType).values()}">-->
+<!--                            <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                <input type="radio" th:field="*{orderStatusType}" th:value="${status}" class="custom-control-input">-->
+<!--                                <label class="custom-control-label" th:for="${#ids.prev('orderStatusType')}" th:text="${status}">Order status</label>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </td>
+                    </form>
                 </tr>
                 <!--            <tr>-->
                 <!--              <td class="hidden-xs"><a href="#"><img src="assets/images/shop/product-13.jpg" alt="Men’s Casual Pack"/></a></td>-->
@@ -64,6 +79,7 @@
                 <!--            </tr>-->
                 </tbody>
             </table>
+                <button th:form="status" type="submit" class="btn btn-lg btn-block btn-round btn-d">Save</button>
         </div>
     </div>
 </div>

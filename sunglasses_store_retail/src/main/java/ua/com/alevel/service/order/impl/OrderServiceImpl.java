@@ -2,6 +2,7 @@ package ua.com.alevel.service.order.impl;
 
 import org.springframework.stereotype.Service;
 import ua.com.alevel.dto.cart.SunglassesCartDto;
+import ua.com.alevel.dto.order.OrderStatusDto;
 import ua.com.alevel.persistence.entity.cart.Cart;
 import ua.com.alevel.persistence.entity.cart.CartItem;
 import ua.com.alevel.persistence.entity.order.Order;
@@ -13,10 +14,7 @@ import ua.com.alevel.persistence.repository.order.OrderRepository;
 import ua.com.alevel.service.order.OrderService;
 
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -82,6 +80,18 @@ public class OrderServiceImpl implements OrderService {
     public Collection<OrderItem> findAllByOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).get();
         return orderItemRepository.findAllByOrder(order);
+    }
+
+    @Override
+    public void updateOrdersStatuses(Collection<OrderStatusDto> orderStatusDtoList) {
+//        Collection<Order> orderUpdated = new ArrayList<>();
+        orderStatusDtoList.forEach(v-> {
+            Order order = orderRepository.findById(v.getId()).get();
+            order.setOrderStatus(v.getOrderStatusType());
+//            orderUpdated.add(order);
+            orderRepository.save(order);
+        });
+//        orderRepository.saveAll(orderUpdated);
     }
 
     private OrderItem convertCartItemToOrderItem(CartItem cartItem) {

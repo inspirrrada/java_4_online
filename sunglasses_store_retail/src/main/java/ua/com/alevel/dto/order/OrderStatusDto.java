@@ -1,9 +1,6 @@
 package ua.com.alevel.dto.order;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import ua.com.alevel.dto.user.PersonalOrdersDto;
 import ua.com.alevel.persistence.entity.order.Order;
 import ua.com.alevel.persistence.entity.user.Personal;
@@ -15,16 +12,25 @@ import java.time.OffsetDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @ToString
 public class OrderStatusDto extends PersonalOrdersDto {
 
     private Long id;
     private String userEmail;
+    private OrderStatusType orderStatusType;
 
-    public OrderStatusDto(Order order, Personal personal) {
+//    public OrderStatusDto(Order order, Personal personal) {
+//        super(order);
+//        this.id = order.getId();
+//        this.userEmail = personal.getEmail();
+//    }
+
+    public OrderStatusDto(Order order) {
         super(order);
         this.id = order.getId();
-        this.userEmail = personal.getEmail();
+        this.orderStatusType = order.getOrderStatus();
+    }
+
+    public OrderStatusDto() {
     }
 }

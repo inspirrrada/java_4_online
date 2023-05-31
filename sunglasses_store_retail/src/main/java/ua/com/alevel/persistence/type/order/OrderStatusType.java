@@ -2,12 +2,13 @@ package ua.com.alevel.persistence.type.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @AllArgsConstructor
 public enum OrderStatusType {
 
-    CREATED("Advance payment to a bank account"),
+    CREATED("Created"),
     ACCEPTED_FOR_PROCESSING("Accepted for processing"),
     PAYED("Payed"),
     SHIPPED("Shipped"),

@@ -31,10 +31,10 @@ public class Order extends BaseEntity {
     private String contactLastName;
 
     @Column(name="contact_phone_number")
-    private Integer contactPhoneNumber;
+    private String contactPhoneNumber;
 
     @Column(name="reserve_phone_number")
-    private Integer reservePhoneNumber;
+    private String reservePhoneNumber;
 
     @Column(name="delivery_region")
     private String deliveryRegion;

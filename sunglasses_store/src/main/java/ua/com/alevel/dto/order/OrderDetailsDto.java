@@ -17,8 +17,8 @@ public class OrderDetailsDto {
     private Long id;
     private String contactFirstName;
     private String contactLastName;
-    private Integer contactPhoneNumber;
-    private Integer reservePhoneNumber;
+    private String contactPhoneNumber;
+    private String reservePhoneNumber;
     private String deliveryZip;
     private String deliveryRegion;
     private String deliveryCity;

@@ -25,22 +25,22 @@
                             </div>
                             <div class="input-block">
                                 <label class="label-text" for="firstName">First name</label>
-                                <input th:value="${orderDetails.getContactFirstName()}" th:field="*{contactFirstName}" class="form-control account-form" type="text" id="firstName" placeholder=""/>
+                                <input th:required="required" th:value="${orderDetails.getContactFirstName()}" th:field="*{contactFirstName}" class="form-control account-form" type="text" id="firstName" placeholder=""/>
                             </div>
                             <div class="input-block">
                                 <label class="label-text" for="lastName">Last name</label>
-                                <input th:value="${orderDetails.getContactLastName()}" th:field="*{contactLastName}" class="form-control account-form" type="text" id="lastName" placeholder=""/>
+                                <input th:required="required" required="required" th:value="${orderDetails.getContactLastName()}" th:field="*{contactLastName}" class="form-control account-form" type="text" id="lastName" placeholder=""/>
                             </div>
                         </div>
                             </div>
                             <div class="form-block">
                                 <div class="input-block">
                                     <label class="label-text" for="phone">Phone number</label>
-                                    <input th:value="${orderDetails.getContactPhoneNumber()}" th:field="*{contactPhoneNumber}" class="form-control account-form" type="tel" id="phone" placeholder=""/>
+                                    <input th:required="required" th:value="${orderDetails.getContactPhoneNumber()}" th:field="*{contactPhoneNumber}" class="form-control account-form" type="number" id="phone" placeholder=""/>
                                 </div>
                                 <div class="input-block">
                                     <label class="label-text" for="phone-reserv">Reserve phone number</label>
-                                    <input th:field="*{contactPhoneNumber}" class="form-control account-form" type="tel" id="phone-reserv" placeholder=""/>
+                                    <input th:required="required" th:field="*{reservePhoneNumber}" class="form-control account-form" type="number" id="phone-reserv" placeholder=""/>
                                 </div>
                             </div>
                     </div>
@@ -51,31 +51,31 @@
                                 <div class="form-block">
                                     <div class="input-block">
                                         <label class="label-text" for="region">Region</label>
-                                        <input th:value="${orderDetails.getDeliveryRegion()}" th:field="*{deliveryRegion}" class="form-control account-form" type="text" id="region" placeholder=""/>
+                                        <input th:required="required" th:value="${orderDetails.getDeliveryRegion()}" th:field="*{deliveryRegion}" class="form-control account-form" type="text" id="region" placeholder=""/>
                                     </div>
                                     <div class="input-block">
                                         <label class="label-text" for="street">Street</label>
-                                        <input th:value="${orderDetails.getDeliveryStreet()}" th:field="*{deliveryStreet}" class="form-control account-form" type="text" id="street" placeholder=""/>
+                                        <input th:required="required" th:value="${orderDetails.getDeliveryStreet()}" th:field="*{deliveryStreet}" class="form-control account-form" type="text" id="street" placeholder=""/>
                                     </div>
                                 </div>
                                 <div class="form-block">
                                     <div class="input-block">
                                         <label class="label-text" for="city">City</label>
-                                        <input th:value="${orderDetails.getDeliveryCity()}" th:field="*{deliveryCity}" class="form-control account-form" type="text" id="city" placeholder=""/>
+                                        <input th:required="required" th:value="${orderDetails.getDeliveryCity()}" th:field="*{deliveryCity}" class="form-control account-form" type="text" id="city" placeholder=""/>
                                     </div>
                                     <div class="input-block">
                                         <label class="label-text" for="building">Building</label>
-                                        <input th:value="${orderDetails.getDeliveryBuilding()}" th:field="*{deliveryBuilding}" class="form-control account-form" type="text" id="building" placeholder=""/>
+                                        <input th:required="required" th:value="${orderDetails.getDeliveryBuilding()}" th:field="*{deliveryBuilding}" class="form-control account-form" type="text" id="building" placeholder=""/>
                                     </div>
                                 </div>
                                 <div class="form-block">
                                     <div class="input-block">
                                         <label class="label-text" for="zip">Zip code</label>
-                                        <input th:value="${orderDetails.getDeliveryZip()}" th:field="*{deliveryZip}" class="form-control account-form" type="text" id="zip" placeholder=""/>
+                                        <input th:required="required" th:value="${orderDetails.getDeliveryZip()}" th:field="*{deliveryZip}" class="form-control account-form" type="text" id="zip" placeholder=""/>
                                     </div>
                                     <div class="input-block">
                                         <label class="label-text" for="apartment">Apartment</label>
-                                        <input th:value="${orderDetails.getDeliveryApartment()}" th:field="*{deliveryApartment}" class="form-control account-form" type="text" id="apartment" placeholder=""/>
+                                        <input th:required="required" th:value="${orderDetails.getDeliveryApartment()}" th:field="*{deliveryApartment}" class="form-control account-form" type="text" id="apartment" placeholder=""/>
                                     </div>
                                 </div>
                         </div>
@@ -90,8 +90,8 @@
                         <div class="form-check form-check-inline">
                             <div th:each="method : ${T(ua.com.alevel.persistence.type.order.PaymentMethodType).values()}">
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" th:field="*{paymentMethod}" th:value="${method}" class="custom-control-input">
-                                    <label class="custom-control-label" th:for="${#ids.prev('paymentMethod')}" th:text="${method}">Payment method</label>
+                                    <input th:required="required" type="radio" th:field="*{paymentMethod}" th:value="${method}" class="custom-control-input">
+                                    <label class="custom-control-label" th:for="${#ids.prev('paymentMethod')}" th:text="${method.value}">Payment method</label>
                                 </div>
                             </div>
 
@@ -105,7 +105,7 @@
                         <textarea th:field="*{notes}" class="form-control" rows="7" cols="50"></textarea>
                     </div>
 
-                    <a class="btn btn-lg btn-block btn-round btn-d" th:href="@{'/cart'}">Back and Edit</a>
+                    <a class="btn btn-lg btn-block btn-round btn-d"th:href="@{'/cart'}">Back and Edit</a>
                     <button type="submit" class="btn btn-lg btn-block btn-round btn-d" >Next</button>
 <!--                    th:href="@{'/order/preview'}"-->
                 </form>

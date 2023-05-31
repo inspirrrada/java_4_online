@@ -19,7 +19,7 @@ public class AdminController {
 
     @GetMapping("/home")
     public String home() {
-        return "pages/admin/home";
+        return "redirect:/admin/orders_table";
     }
 
     @GetMapping("/orders")
@@ -32,6 +32,7 @@ public class AdminController {
 
     @PostMapping("/orders")
     public String changeOrderStatus(@ModelAttribute("statusFormDto") StatusFormDto statusFormDto){
+        System.out.println("statusFormDto: " + statusFormDto);
         orderFacade.updateOrdersStatuses(statusFormDto);
         return "redirect:/admin/orders";
     }

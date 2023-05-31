@@ -13,7 +13,7 @@
     <section class="module">
         <div class="container">
             <div class="row">
-                <div class="col-sm-8 col-sm-offset-2">
+                <div class="col-sm-12 col-sm-offset-2">
                     <h4 class="font-alt mb-0">Your account</h4>
                     <hr class="divider-w mt-10 mb-20">
                     <div role="tabpanel">
@@ -54,7 +54,7 @@
                                     <div class="form-block">
                                         <div class="input-block">
                                             <label class="label-text" for="phone">Phone number</label>
-                                            <input th:value="${personalInfo.getPhoneNumber()}" th:field="*{phoneNumber}" class="form-control account-form" type="tel" id="phone" placeholder=""/>
+                                            <input th:value="${personalInfo.getPhoneNumber()}" th:field="*{phoneNumber}" class="form-control account-form" type="number" id="phone" placeholder=""/>
                                         </div>
                                         <div class="input-block">
                                             <label class="label-text" for="birthDate">Birth date</label>
@@ -154,7 +154,7 @@
                                     </tr>
                                     <tr th:each="order : ${personalOrders}">
                                         <td class="hidden-xs">
-                                            <p th:text="${order.getCreated()}"></p>
+                                            <p th:text="${#temporals.format(order.getCreated(), 'MM/dd/yyyy HH:mm:ss')}"></p>
                                         </td>
                                         <td>
                                             <p th:text="${order.getNumber()}"></p>

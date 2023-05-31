@@ -35,7 +35,7 @@ public class Personal extends User {
     private Integer age;
 
     @Column(name="phone_number")
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     @Column
     private String zip;

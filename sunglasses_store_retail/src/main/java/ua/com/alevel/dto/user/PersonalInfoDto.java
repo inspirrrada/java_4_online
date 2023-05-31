@@ -13,7 +13,7 @@ public class PersonalInfoDto {
     private Long id;
     private String firstName;
     private String lastName;
-    private Integer phoneNumber;
+    private String phoneNumber;
     private String birthDay;
 
     public PersonalInfoDto(Personal personal) {

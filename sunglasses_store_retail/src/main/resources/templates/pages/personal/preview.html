@@ -125,7 +125,7 @@
               <h4 class="font-alt mb-0">Payment method</h4>
               <hr class="divider-w mt-10 mb-20">
               <div class="form-check form-check-inline">
-                <p class="preview-text" th:text="${orderDetails.getPaymentMethod()}"></p>
+                <p class="preview-text" th:text="${orderDetails.getPaymentMethod().value}"></p>
               </div>
             </div>
             <div class="notes-block preview-div">

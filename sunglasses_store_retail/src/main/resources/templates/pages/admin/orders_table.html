@@ -23,10 +23,10 @@
                     <th>Details</th>
                     <th>Status</th>
                 </tr>
-                <tr th:each="orderDto, i : ${statusFormDto.getOrderStatusDtoList()}">
+                <tr th:each="orderDto, i : ${statusFormDto.orderStatusDtoList}">
                     <form th:id="status" th:action="@{'/admin/orders'}"  method='POST'>
                     <td class="hidden-xs">
-                        <p th:text="${orderDto.getCreated()}"></p>
+                        <p th:text="${#temporals.format(orderDto.getCreated(), 'MM/dd/yyyy HH:mm:ss')}"></p>
                     </td>
                     <td>
                         <p th:text="${orderDto.getUserEmail()}"></p>
